@@ -1,0 +1,73 @@
+:root{
+  --mainColor: rgb(30, 83, 0);
+  --secondaryColor: rgb(220, 226, 24);
+
+}
+.app{
+  width: 100vw;
+  height: 100vh;
+  padding: none;
+  margin: none;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+.preventSelect {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none; 
+}
+.header{
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(56, 56, 56);
+  padding: 5px;
+}
+.Container{
+  all: unset;
+  width: fill;
+  height: fill;
+  display: flex;
+  margin: none;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  overflow-y: auto;
+
+  padding-top: 50px;
+
+  background-color:rgb(2, 145, 138); /*visual purposes*/
+}
+.nav_link {
+  text-decoration: none;
+  color: black;
+}
+.nav_link .pfp{
+  width: fill;
+  height: fill;
+  background-size: 'cover';
+  background-position: 'center';
+  background-repeat: 'no-repeat';
+
+  background-color: rgb(202, 202, 202);
+}
+.pfpContainer{
+  width: fit-content;
+  height: fit-content;
+}
+h1{
+  color: white;
+}
+
+
+.noScrollBar::-webkit-scrollbar {
+  display: none;
+}
+
+.noScrollBar {
+-ms-overflow-style: none;
+scrollbar-width: none;
+}

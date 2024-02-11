@@ -1,0 +1,26 @@
+
+.settings_container{
+    flex:3;
+    height: fill;
+}
+.settings_navigate_container .nav_link{
+    padding: 2px;
+    padding-left: 5px;
+    border-bottom: 1px solid black;
+}
+.settings_navigate_container .nav_link:hover{
+    backdrop-filter: invert(0.3);
+}
+.settings_navigate_container .nav_link:active{
+    backdrop-filter: invert(0.2);
+}
+
+.settings_navigate_container{
+    flex: 0.5;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    height: fill;
+    padding: 5px;
+    padding-right: 10px;
+}
