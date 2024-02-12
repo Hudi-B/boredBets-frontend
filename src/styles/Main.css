@@ -17,12 +17,7 @@
   -ms-user-select: none;
   user-select: none; 
 }
-.header{
-  display: flex;
-  justify-content: space-between;
-  background-color: rgb(56, 56, 56);
-  padding: 5px;
-}
+
 .Container{
   all: unset;
   width: fill;

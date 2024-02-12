@@ -2,6 +2,7 @@ import {Link, useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import LoginPopup from './SigninupPopup';
 import SearchBar from './SearchBar';
+import '../styles/Header.css';
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,18 +27,19 @@ useEffect(() => {
   }
 }, [location.pathname]);
 
-  const changeLogin = () => {
-    setIsLoggedIn(!isLoggedIn);
-  }
-
   return (
     <div className='header'>
-      <Link to={`/`} className="nav_link">
-        <h1 style={{color:"white"}}>BoredBets</h1>
-      </Link>
-      {needSearchBar ? <SearchBar/> : null}
-      {/*<button style={{width: 100}} onClick={changeLogin}>loggedIn</button>*/}
-
+      <div className='left'>
+        <Link to={`/`} className="nav_link">
+          <h1>BoredBets</h1>
+        </Link>
+        <Link to={`/community`} className="nav_link">
+          <p>Community</p>
+        </Link>
+        <Link to={`/races`} className="nav_link">
+          <p>Races</p>
+        </Link>
+      </div>
       {
         onUserPage ? 
           isLoggedIn ? 
@@ -46,8 +48,8 @@ useEffect(() => {
             </Link>
             :
             <div className="login_register_containter">
-              <LoginPopup login={true} trigger={<button>LOGIN</button>}/>
-              <LoginPopup login={false} trigger={<button>REGISTER</button>}/>
+              <LoginPopup login={true} trigger={<button className="login">LOGIN</button>}/>
+              <LoginPopup login={false} trigger={<button className="register" >REGISTER</button>}/>
             </div>
          : null
       }

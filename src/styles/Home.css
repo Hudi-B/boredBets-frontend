@@ -1,15 +1,11 @@
-.Container *{
-}
 
 .Container .welcome{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100%;
     width: 100%;
-    margin-top: 400px;
-    margin-bottom: 100px;
+    margin-bottom: 200px;
 }
 .welcome h1{
     font-size: 60px;
@@ -35,22 +31,16 @@
     width: 400px;
 }
 .promo .box.left{
-
     padding: 30px;
-
-
 }
 
 .promo .box p{
     margin-bottom: 3px;
-
 }
 
 
 .box {
-
   }
-  
   p {
     font-family: Arial, sans-serif;
     font-size: 14px;
