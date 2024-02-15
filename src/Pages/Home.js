@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import '../styles/Home.css';
 
 export default function App() {
-  
   return (
     <div className="Container noScrollBar">
       <div className='welcome preventSelect'>

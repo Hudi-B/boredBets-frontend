@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(rgb(76, 76, 76), rgb(35, 35, 35));
+    background: rgb(54, 54, 54);
     padding-inline: 10px;
     min-height: 65px;
     color: white;
@@ -29,7 +29,6 @@
 }
 
 .header button{
-    all:unset;
 }
 .header button.login:hover{
     text-decoration:underline;

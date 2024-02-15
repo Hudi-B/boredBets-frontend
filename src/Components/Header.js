@@ -4,6 +4,8 @@ import LoginPopup from './SigninupPopup';
 import SearchBar from './SearchBar';
 import '../styles/Header.css';
 
+import Button from '@mui/material/Button';
+
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [onUserPage, setOnUserPage] = useState(true);
@@ -39,7 +41,11 @@ useEffect(() => {
         <Link to={`/races`} className="nav_link">
           <p>Races</p>
         </Link>
+        <Link to={`/admin`} className="nav_link">
+          <p>AdminPage</p>
+        </Link>
       </div>
+
       {
         onUserPage ? 
           isLoggedIn ? 

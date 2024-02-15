@@ -10,6 +10,8 @@ import Community from './Pages/Community';
 import UserPage from './Pages/UserPage';
 import Races from './Pages/Races';
 
+import Admin from './Pages/Admin';
+
 
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
         <Route path="*" element={<Home/>} />
         <Route exact path="/community" element={<Community/>} />
         <Route exact path="/races" element={<Races/>} />
+
+        <Route exact path="/admin" element={<Admin/>} />
 
         <Route exact path="/mypage" element={<UserPage/>} />
       </Routes>
