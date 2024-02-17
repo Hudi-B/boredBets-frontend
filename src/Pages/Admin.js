@@ -1,14 +1,7 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import TextField from '@mui/material/TextField';
-import Slider from '@mui/material/Slider';
-import Button from '@mui/material/Button';
 import NewHorse from '../Components/AdminComponents/NewHorse';
 import NewJockey from '../Components/AdminComponents/NewJockey';
 import NewTrack from '../Components/AdminComponents/NewTrack';

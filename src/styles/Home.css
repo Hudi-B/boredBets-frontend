@@ -51,32 +51,3 @@
     margin-top: 40px;
   }
   
-  /* Add a gradient background to the first paragraph */
-  p:first-child {
-    background: linear-gradient(to right, #00b4db, #0083b0);
-    color: white;
-    padding: 10px;
-    border-radius: 20px;
-    padding: 10px;
-  }
-  
-  /* Add a pulse animation to the last paragraph */
-  div p:nth-last-child(-n+2) {
-    text-align: center;
-    animation: pulse 2s infinite;
-    color: #0083b0;
-    font-weight: bold;
-  }
-  
-  /* Define the pulse animation */
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }

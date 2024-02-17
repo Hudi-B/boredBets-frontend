@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import LoginPopup from './SigninupPopup';
 import SearchBar from './SearchBar';
 import '../styles/Header.css';
+import Register from './MuiPopup';
 
 import Button from '@mui/material/Button';
 
@@ -54,6 +55,8 @@ useEffect(() => {
             </Link>
             :
             <div className="login_register_containter">
+              <Register login={true} />
+              <Register login={false} />
               <LoginPopup login={true} trigger={<button className="login">LOGIN</button>}/>
               <LoginPopup login={false} trigger={<button className="register" >REGISTER</button>}/>
             </div>
