@@ -10,7 +10,7 @@ import Switch from '@mui/material/Switch';
 import FormLabel from '@mui/material/FormLabel';
 import axios from 'axios';
 
-export default function GenerateJockey() {
+export default function GenerateRace() {
     const [alert, setAlert] = React.useState(false);
     const [quantity, setQuantity] = React.useState(0);
 
@@ -19,7 +19,7 @@ export default function GenerateJockey() {
             setAlert(true);
         }else{
             setAlert(false);
-            axios.post('https://localhost:7090/api/Horse/GenerateJockey', quantity)
+            axios.post('https://localhost:7090/api/Horse/GenerateRace', quantity)
             .then((response) => {
                 console.log(response);
             })

@@ -4,3 +4,6 @@
     margin-bottom: 10px;
     border-bottom: 5px solid rgb(113, 113, 113);
 }
+span.listItem{
+    flex: 1;
+}

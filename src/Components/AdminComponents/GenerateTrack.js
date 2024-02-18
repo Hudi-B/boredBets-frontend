@@ -10,7 +10,7 @@ import Switch from '@mui/material/Switch';
 import FormLabel from '@mui/material/FormLabel';
 import axios from 'axios';
 
-export default function NewHorse() {
+export default function GenerateTrack() {
     const [alert, setAlert] = React.useState(false);
     const [quantity, setQuantity] = React.useState(0);
 

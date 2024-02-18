@@ -60,7 +60,8 @@ export default function NewHorse() {
                     value={formState.age}
                     onChange={(event, newValue) => setFormState(prevState => ({ ...prevState, age: newValue }))}
                 />
-<FormControlLabel control={<Switch onChange={handleChange} name="stallion" />} label="Stallion" />                <Button variant="contained" onClick={handleSubmit}>Send</Button>
+<FormControlLabel control={<Switch onChange={handleChange} name="stallion" />} label="Stallion" />
+                <Button variant="contained" onClick={handleSubmit}>Send</Button>
             </FormGroup>
         </>
     );

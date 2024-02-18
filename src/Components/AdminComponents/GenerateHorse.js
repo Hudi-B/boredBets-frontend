@@ -12,7 +12,6 @@ import axios from 'axios';
 
 export default function NewHorse() {
     const [alert, setAlert] = React.useState(false);
-
     const [quantity, setQuantity] = React.useState();
 
     const handleSubmit = () => {
