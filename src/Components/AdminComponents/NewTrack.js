@@ -56,7 +56,6 @@ export default function NewTrack() {
 
     return (
         <>
-            <div className='title'>New track</div>
             <FormGroup spacing={2}>
                 <TextField id="outlined-basic" label="Name" variant="outlined" name="name" onChange={handleChange} />
                 {alertOnName?

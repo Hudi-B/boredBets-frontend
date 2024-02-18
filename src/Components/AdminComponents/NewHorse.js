@@ -42,7 +42,6 @@ export default function NewHorse() {
 
     return (
         <>
-            <div className='title'>New horse</div>
             <FormGroup spacing={2}>
                 <TextField id="outlined-basic" label="Name" variant="outlined" name="name" value={formState.name} onChange={handleChange} />
                 {alert?
