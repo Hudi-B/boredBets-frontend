@@ -15,9 +15,6 @@ export default function App() {
         <p className='mt-2 mb-2'>Join today and discover the thrill of gambling on horse races.</p>
         <p>BoredBets:</p><p> Where dreams come true.</p>
         </div>
-        <div className='box right'>
-
-        </div>
       </div>
     </div>
   );

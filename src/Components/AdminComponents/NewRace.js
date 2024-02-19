@@ -70,7 +70,7 @@ export default function NewRace() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
 
         <InputLabel id="demo-simple-select-label">Track:</InputLabel>
-        <List dense fullWidth sx={{ paddingTop: '0', maxHeight: '200px', overflow: 'auto' }}>
+        <List dense sx={{ paddingTop: '0', maxHeight: '200px', overflow: 'auto' }}>
             <ListSubheader sx={{ marginTop: 'none', backgroundColor: 'gray', color: 'white' }}>
             <Box display="flex" justifyContent="space-between">
                 <span className='listItem'>Name</span>
@@ -138,7 +138,6 @@ export default function NewRace() {
             label="Race time in minutes"
             type="number"
             name="raceTime"
-            fullWidth
             value={raceTime}
             sx={{marginTop: '10px', marginBottom: '10px'}}
             onChange={(event) => {setRaceTime(Number(event.target.value));}}
@@ -151,8 +150,7 @@ export default function NewRace() {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={weather}
-            fullWidth
-                onChange={(event) => setWeather(event.target.value )}
+            onChange={(event) => setWeather(event.target.value )}
             >
             <MenuItem value={"Clear"}>Clear</MenuItem>
             <MenuItem value={"Rain"}>Rain</MenuItem>
@@ -160,7 +158,7 @@ export default function NewRace() {
             <MenuItem value={"Snow"}>Snow</MenuItem>
         </Select>
 
-        <Button fullWidth sx={{marginTop: '10px'}} variant="contained" onClick={handleSubmit}>Send</Button>
+        <Button sx={{marginTop: '10px'}} variant="contained" onClick={handleSubmit}>Send</Button>
     </LocalizationProvider>
   );
 }
