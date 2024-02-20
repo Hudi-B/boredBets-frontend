@@ -5,14 +5,15 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-import NewHorse from '../Components/AdminComponents/NewHorse';
-import NewJockey from '../Components/AdminComponents/NewJockey';
-import NewTrack from '../Components/AdminComponents/NewTrack';
-import NewRace from '../Components/AdminComponents/NewRace';
-import GenerateHorse from '../Components/AdminComponents/GenerateHorse';
-import GenerateJockey from '../Components/AdminComponents/GenerateJockey';
-import GenerateTrack from '../Components/AdminComponents/GenerateTrack';
-import GenerateRace from '../Components/AdminComponents/GenerateRace';
+import NewHorse from '../Components/Manual/AdminComponents/NewHorse';
+import NewJockey from '../Components/Manual/AdminComponents/NewJockey';
+import NewTrack from '../Components/Manual/AdminComponents/NewTrack';
+import NewRace from '../Components/Manual/AdminComponents/NewRace';
+
+import GenerateHorse from '../Components/Generate/AdminComponents/GenerateHorse';
+import GenerateJockey from '../Components/Generate/AdminComponents/GenerateJockey';
+import GenerateTrack from '../Components/Generate/AdminComponents/GenerateTrack';
+import GenerateRace from '../Components/Generate/AdminComponents/GenerateRace';
 
 
 
