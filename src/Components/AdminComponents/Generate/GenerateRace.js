@@ -1,14 +1,13 @@
 import * as React from 'react';
 import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
-import Slider from '@mui/material/Slider';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import Switch from '@mui/material/Switch';
 import FormLabel from '@mui/material/FormLabel';
 import axios from 'axios';
+import config from '../../../config';
+
 
 export default function GenerateRace() {
     const [alert, setAlert] = React.useState(false);
@@ -19,7 +18,7 @@ export default function GenerateRace() {
             setAlert(true);
         }else{
             setAlert(false);
-            axios.post('https://localhost:7090/api/Horse/GenerateRace', quantity)
+            axios.post(`${config.apiUrl}Horse/GenerateRace`, quantity)
             .then((response) => {
                 console.log(response);
             })

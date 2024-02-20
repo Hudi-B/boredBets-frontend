@@ -1,8 +1,8 @@
 import * as React from 'react';
 import axios from 'axios';
 import { Button, Box, Checkbox, Dialog, DialogContent, FormControlLabel, TextField } from '@mui/material';
-
 import '../styles/MuiPopup.css';
+import config from '../config';
 
 export default function RegisterPopup({login}) {
   const [open, setOpen] = React.useState(false);  
@@ -55,7 +55,7 @@ const handleLogin = async () => {
     if (alerts.email || alerts.password) return;
 
     try {
-        const response = await axios.get(`https://localhost:7090/api/User/UserLogin?Email=${formState.email}&Password=${formState.password}`);
+        const response = await axios.get(`${config.apiUrl}User/UserLogin?Email=${formState.email}&Password=${formState.password}`);
         console.log(response);
     } catch (error) {
         alert("Invalid Email or Password");
@@ -65,7 +65,6 @@ const handleLogin = async () => {
 const handleRegister = async () => {
     const { email, password } = formState;
 
-    // Regular expression for email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isEmailValid = emailRegex.test(email);
     const isPasswordValid = password.length >= 4;

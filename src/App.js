@@ -1,7 +1,4 @@
 import {BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
-import { useState } from 'react';
-
-
 import './styles/Main.css';
 
 import Header from './Components/Header'

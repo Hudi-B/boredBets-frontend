@@ -11,6 +11,8 @@ import AlertTitle from '@mui/material/AlertTitle';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios';
+import config from '../../../config';
+
 
 export default function NewTrack() {
     const [alertOnName, setAlertOnName] = React.useState(false);
@@ -43,7 +45,7 @@ export default function NewTrack() {
             setAlertOnCountry(false);
         }
         if (!alertOnName && !alertOnCountry) {
-            axios.post('https://localhost:7090/api/Track/TrackPost', formState)
+            axios.post(`${config.apiUrl}Track/TrackPost`, formState)
             .then((response) => {
                 console.log(response);
             })

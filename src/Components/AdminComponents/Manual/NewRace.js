@@ -14,7 +14,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Button from '@mui/material/Button';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
 import dayjs from 'dayjs';
-import config from '../../config';
+import config from '../../../config';
 
 import ListItemButton from '@mui/material/ListItemButton';
 
@@ -27,7 +27,7 @@ export default function NewRace() {
   const [tracks, setTracks] = React.useState([]);
 
   React.useEffect(() => {
-    axios.get(`${config.apiUrl}/Track/AllTrack`)
+    axios.get(`${config.apiUrl}Track/AllTrack`)
     .then((response) => {
         const updatedTracks = response.data.map(track => {
             return {...track, selected: false};
@@ -57,7 +57,7 @@ export default function NewRace() {
         raceTime: raceTime,
         weather: weather,
     }
-    axios.post(`https://localhost:7090/api/Race/RacePost?TrackId=${selectedTrackID}`, formState)
+    axios.post(`${config.apiUrl}Race/RacePost?TrackId=${selectedTrackID}`, formState)
     .then((response) => {
         console.log(response);
     })

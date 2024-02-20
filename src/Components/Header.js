@@ -1,11 +1,7 @@
 import {Link, useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import LoginPopup from './SigninupPopup';
-import SearchBar from './SearchBar';
 import '../styles/Header.css';
 import Register from './MuiPopup';
-
-import Button from '@mui/material/Button';
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -57,8 +53,6 @@ useEffect(() => {
             <div className="login_register_containter">
               <Register login={true} />
               <Register login={false} />
-              <LoginPopup login={true} trigger={<button className="login">LOGIN</button>}/>
-              <LoginPopup login={false} trigger={<button className="register" >REGISTER</button>}/>
             </div>
          : null
       }

@@ -1,13 +1,13 @@
 import * as React from 'react';
 import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Slider from '@mui/material/Slider';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import axios from 'axios';
+import config from '../../../config';
+
 
 export default function NewHorse() {
     const [alert, setAlert] = React.useState(false);
@@ -29,7 +29,7 @@ export default function NewHorse() {
             setAlert(true);
         }else{
             setAlert(false);
-            axios.post('https://localhost:7090/api/Jockey/JockeyPost', formState)
+            axios.post(`${config.apiUrl}Jockey/JockeyPost`, formState)
             .then((response) => {
                 console.log(response);
             })
