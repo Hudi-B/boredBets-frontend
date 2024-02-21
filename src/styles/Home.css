@@ -40,7 +40,6 @@
 
 
 .box {
-  }
   p {
     font-family: Arial, sans-serif;
     font-size: 14px;
@@ -50,4 +49,31 @@
   .mt-5 {
     margin-top: 40px;
   }
+}
   
+.fiveRecentRaces{
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(93, 0, 255);
+  padding: 20px;
+  border-radius: 30px;
+  width: 500px;
+  gap: 10px;
+}
+.slideItem{
+    display: flex;
+    border: 2px solid rgb(255, 255, 255);
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #6bc9a5;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    width: fill;
+}
+.slideItem p{
+    all: unset;
+}

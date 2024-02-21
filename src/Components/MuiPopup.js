@@ -13,12 +13,6 @@ export default function RegisterPopup({thisIsA}) {
     email: '',
     password: '',
 });
-
-React.useEffect(() => {
-    console.log(onLogin);
-})
-
-
   const handleClickOpen = () => {
     setOpen(true);
     setOnLogin(thisIsA==="Login");
@@ -90,7 +84,6 @@ const handleRegister = async () => {
         console.log(response);
     } catch (error) {
         alert("There seems to be a problem. Please try again later.");
-        console.error(error);
     }
 };
 
