@@ -2,6 +2,7 @@ import {Link, useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import '../styles/Header.css';
 import Register from './MuiPopup';
+import Button from './MuiPopup';
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,8 +52,8 @@ useEffect(() => {
             </Link>
             :
             <div className="login_register_containter">
-              <Register login={true} />
-              <Register login={false} />
+              <Register thisIsA={'Login'} />
+              <Register thisIsA={'Register'} />
             </div>
          : null
       }

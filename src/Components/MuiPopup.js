@@ -4,18 +4,24 @@ import { Button, Box, Checkbox, Dialog, DialogContent, FormControlLabel, TextFie
 import '../styles/MuiPopup.css';
 import config from '../config';
 
-export default function RegisterPopup({login}) {
+export default function RegisterPopup({thisIsA}) {
   const [open, setOpen] = React.useState(false);  
   const [alertOnEmail, setAlertOnEmail] = React.useState(false);
   const [alertOnPass, setAlertOnPass] = React.useState(false);
-  const [onLogin, setOnLogin] = React.useState(login);
+  const [onLogin, setOnLogin] = React.useState();
   const [formState, setFormState] = React.useState({
     email: '',
     password: '',
 });
 
+React.useEffect(() => {
+    console.log(onLogin);
+})
+
+
   const handleClickOpen = () => {
     setOpen(true);
+    setOnLogin(thisIsA==="Login");
   };
 
   const handleClose = () => {
@@ -95,8 +101,8 @@ const ForgotPassword = () => {
 
 return (
     <React.Fragment>
-        <Button variant='contained' onClick={handleClickOpen}>
-            {onLogin ? 'Login' : 'Register'}
+        <Button variant={thisIsA==="Login" ? "outlined" : "contained"} onClick={handleClickOpen}>
+            {thisIsA}
         </Button>
         <Dialog
             open={open}
@@ -108,14 +114,11 @@ return (
                 <div>
                     logo
                 </div>
-
-                
-
                 <Box sx={{marginBottom: 15}}>
                     <Box display="flex" justifyContent="center">
-                        <Button variant='string' disabled onClick={() => setOnLogin(true)}> Sign in</Button>
+                        <Button variant='string' onClick={() => setOnLogin(true)}> Sign in</Button>
                         <Box mx={1} />
-                        <Button variant='string' disabled onClick={() => setOnLogin(false)}> Sign up</Button>
+                        <Button variant='string' onClick={() => setOnLogin(false)}> Sign up</Button>
                     </Box>
 
                     <TextField 
