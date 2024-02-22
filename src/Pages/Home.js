@@ -2,30 +2,27 @@ import {useState, useEffect} from 'react';
 import '../styles/Home.css';
 import axios from 'axios';
 import config from '../config';
+import moment from 'moment';
+
 
 export default function App() {
   const [recentRaces, setRecentRaces] = useState([]);
   const [comingRaces, setComingRaces] = useState([]);
 
   useEffect(() => {
-    if (recentRaces.length === 0) {   //last 5 races get method
       axios.get(`${config.apiUrl}Race/GetFiveAlreadyHappenedRaces` ) 
       .then((response) => {
         setRecentRaces(response.data);
-        console.log(response.data);
       }).catch((err) => {
         console.log();
       });
-    }
-    if(comingRaces.length === 0){   //next 5 races get method
       axios.get(`${config.apiUrl}Race/GetFutureFiveRaces`)
       .then((response) => {
         setComingRaces(response.data);
       }).catch((err) => {
         console.log();
       });
-    }
-  })
+  }, [])
   return (
     <div className="Container noScrollBar">
       <div className='welcome preventSelect'>
@@ -41,14 +38,15 @@ export default function App() {
         </div>
       </div>
       <div className='fiveRecentRaces'>
+        <h3 className='text-center'>Recent races</h3>
           {recentRaces.map((race) => {
             return (
             <div key={race.id} className='slideItem'>
-            <p>{race.country}</p>
-            <p>{race.length}m</p>
-            <p>{race.oval?'Oval':'Straight'}</p>
-            <p>{race.raceScheduled}</p>
-          </div>
+              <p>{race.country}</p>
+              <p>{race.length}m</p>
+              <p>{race.oval?'Oval':'Straight'}</p>
+              <p>{moment(race.raceScheduled).format('yyyy. MMM. Do.  hh:mm')}</p>
+            </div>
           )})}
         </div>
     </div>
