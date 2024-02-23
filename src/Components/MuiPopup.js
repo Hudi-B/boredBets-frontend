@@ -80,7 +80,7 @@ const handleRegister = async () => {
     if (alerts.email || alerts.password) return;
 
     try {
-        const response = await axios.post('https://localhost:7090/api/User/UserRegister', formState);
+        const response = await axios.post(`${config.apiUrl}User/UserRegister`, formState);
         console.log(response);
     } catch (error) {
         alert("There seems to be a problem. Please try again later.");

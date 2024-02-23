@@ -10,13 +10,13 @@ export default function App() {
   const [comingRaces, setComingRaces] = useState([]);
 
   useEffect(() => {
-      axios.get(`${config.apiUrl}Race/GetFiveAlreadyHappenedRaces` ) 
+      axios.get(`${config.apiUrl}Race/GetFivePreviousRaces` ) 
       .then((response) => {
         setRecentRaces(response.data);
       }).catch((err) => {
         console.log();
       });
-      axios.get(`${config.apiUrl}Race/GetFutureFiveRaces`)
+      axios.get(`${config.apiUrl}Race/GetFiveFutureRaces`)
       .then((response) => {
         setComingRaces(response.data);
       }).catch((err) => {
