@@ -1,8 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import { Button, Box, Checkbox, Dialog, DialogContent, FormControlLabel, TextField } from '@mui/material';
-import '../styles/MuiPopup.css';
-import config from '../config';
+import config from '../../config';
 
 export default function RegisterPopup({thisIsA}) {
   const [open, setOpen] = React.useState(false);  
@@ -103,55 +102,62 @@ return (
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-            <DialogContent className='registerPopup'>
-                <div>
-                    logo
-                </div>
-                <Box sx={{marginBottom: 15}}>
-                    <Box display="flex" justifyContent="center">
-                        <Button variant='string' onClick={() => setOnLogin(true)}> Sign in</Button>
-                        <Box mx={1} />
-                        <Button variant='string' onClick={() => setOnLogin(false)}> Sign up</Button>
+            <DialogContent sx={{
+                backgroundColor: 'rgb(130, 130, 130)',
+                width: '450px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-around',
+                height: '600px',
+                padding:'40px'}}>
+                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                        logo
                     </Box>
+                    <Box sx={{marginBottom: 15}}>
+                        <Box display="flex" justifyContent="center">
+                            <Button variant='string' onClick={() => setOnLogin(true)}> Sign in</Button>
+                            <Box mx={1} />
+                            <Button variant='string' onClick={() => setOnLogin(false)}> Sign up</Button>
+                        </Box>
 
-                    <TextField 
-                        id="outlined-basic" 
-                        label="Email" 
-                        variant="outlined" 
-                        name="email" 
-                        value={formState.name} 
-                        onChange={handleChange} 
-                        fullWidth
-                        margin='normal'
-                        helperText={alertOnEmail ? 'Please enter a valid Email' : ''}
-                    />
-                    <Box display="flex" spacing={1} alignItems="flex-start" > 
                         <TextField 
-                            className='popupPassword'
                             id="outlined-basic" 
-                            label="Password" 
+                            label="Email" 
                             variant="outlined" 
-                            name="password" 
-                            value={formState.password} 
+                            name="email" 
+                            value={formState.name} 
                             onChange={handleChange} 
-                            sx={{ flexGrow: 1, marginRight: 1 }}
-                            helperText={alertOnPass ? 'Please enter your password' : ''}
+                            fullWidth
+                            margin='normal'
+                            helperText={alertOnEmail ? 'Please enter a valid Email' : ''}
                         />
-                        <Button variant='contained' sx={{ height: 55, width: 55 }} className='doitButton' onClick={onLogin ? handleLogin : handleRegister}>
-                            Go
-                        </Button>
+                        <Box display="flex" spacing={1} alignItems="flex-start" > 
+                            <TextField 
+                                className='popupPassword'
+                                id="outlined-basic" 
+                                label="Password" 
+                                variant="outlined" 
+                                name="password" 
+                                value={formState.password} 
+                                onChange={handleChange} 
+                                sx={{ flexGrow: 1, marginRight: 1 }}
+                                helperText={alertOnPass ? 'Please enter your password' : ''}
+                            />
+                            <Button variant='contained' sx={{ height: 55, width: 55 }} className='doitButton' onClick={onLogin ? handleLogin : handleRegister}>
+                                Go
+                            </Button>
+                        </Box>
+                        <Box display="flex" justifyContent="space-between">
+                        {onLogin ? (
+                            <>
+                            <FormControlLabel control={<Checkbox />} label="Remember me" />
+                            <Button variant='string' onClick={ForgotPassword} size='small' sx={{ textTransform: 'none' }}>
+                                forgot password
+                            </Button>
+                            </>
+                        ) : null}
+                        </Box>
                     </Box>
-                    <Box display="flex" justifyContent="space-between">
-                    {onLogin ? (
-                        <>
-                        <FormControlLabel control={<Checkbox />} label="Remember me" />
-                        <Button variant='string' onClick={ForgotPassword} size='small' sx={{ textTransform: 'none' }}>
-                            forgot password
-                        </Button>
-                        </>
-                    ) : null}
-                    </Box>
-                </Box>
             </DialogContent>
         </Dialog>
     </React.Fragment>

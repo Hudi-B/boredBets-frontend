@@ -1,41 +1,23 @@
 :root{
-  --mainColor: rgb(30, 83, 0);
-  --secondaryColor: rgb(220, 226, 24);
+}
 
-}
-.app{
-  width: 100vw;
-  height: 100vh;
-  padding: none;
-  margin: none;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-}
 .preventSelect {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none; 
 }
 
-.Container{
-  all: unset;
-  width: fill;
-  height: fill;
-  display: flex;
-  margin: none;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  
-  overflow-y: auto;
-
-  padding-top: 50px;
-
-  background-color:rgb(2, 145, 138); /*visual purposes*/
+.noScrollBar {
+-ms-overflow-style: none;
+scrollbar-width: none;
 }
+
+.noScrollBar::-webkit-scrollbar {
+  display: none;
+}
+
+
+
 .nav_link {
   text-decoration: none;
   color: black;
@@ -53,16 +35,4 @@
   width: fit-content;
   height: fit-content;
 }
-h1{
-  color: white;
-}
 
-
-.noScrollBar::-webkit-scrollbar {
-  display: none;
-}
-
-.noScrollBar {
--ms-overflow-style: none;
-scrollbar-width: none;
-}
