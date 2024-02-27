@@ -1,7 +1,7 @@
-import {Link, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Register from './MuiPopup';
-import Button from './MuiPopup';
+import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -46,16 +46,16 @@ useEffect(() => {
           gap: '15px',
           height: 'fill',
           flexWrap: 'nowrap'}}>
-            <Link to={`/`} className="nav_link">
+            <Link href="/" underline='none' sx={{cursor: 'pointer'}}>
               <Typography variant='h4' color={'rgb(220, 220, 220)'}>BoredBets</Typography>
             </Link>
-            <Link to={`/community`} className="nav_link">
+            <Link href="/community" underline='none' sx={{cursor: 'pointer'}}>
               <Typography variant='h7' color={'rgb(200, 100, 100)'}>Community</Typography>
             </Link>
-            <Link to={`/races`} className="nav_link">
+            <Link href="/races" underline='none' sx={{cursor: 'pointer'}}>
               <Typography variant='h7' color={'rgb(200, 100, 100)'}>Races</Typography>
             </Link>
-            <Link to={`/admin`} className="nav_link">
+            <Link href="/admin" underline='none' sx={{cursor: 'pointer'}}>
               <Typography variant='h7' color={'rgb(200, 100, 100)'}>AdminPage</Typography>
             </Link>
         </Box>
@@ -63,7 +63,7 @@ useEffect(() => {
       {
         onUserPage ? 
           isLoggedIn ? 
-            <Link to={`/mypage`} className="nav_link pfpContainer">{/*should also include user.id*/}
+            <Link href="/mypage" underline='none' sx={{cursor: 'pointer'}}>{/*should also include user.id*/}
               <img src={process.env.PUBLIC_URL + pfpImage} className='pfp rounded-circle' alt='why' />
             </Link>
             :
