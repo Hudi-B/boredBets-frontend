@@ -1,9 +1,0 @@
-.registerPopup{
-    background-color: rgb(130, 130, 130);
-    width: 450px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    height: 600px;
-    padding :40px;
-}

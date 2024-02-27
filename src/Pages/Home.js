@@ -1,21 +1,52 @@
-import '../styles/Home.css';
+import {useState, useEffect} from 'react';
+import axios from 'axios';
+import config from '../config';
+import moment from 'moment';
+import Box from '@mui/material/Box';
+import { Typography } from '@mui/material';
+
 
 export default function App() {
+  const [recentRaces, setRecentRaces] = useState([]);
+  const [comingRaces, setComingRaces] = useState([]);
+
+  useEffect(() => {
+      axios.get(`${config.apiUrl}Race/GetFivePreviousRaces` ) 
+      .then((response) => {
+        setRecentRaces(response.data);
+      }).catch((err) => {
+        console.log();
+      });
+      axios.get(`${config.apiUrl}Race/GetFiveFutureRaces`)
+      .then((response) => {
+        setComingRaces(response.data);
+      }).catch((err) => {
+        console.log();
+      });
+  }, [])
   return (
-    <div className="Container noScrollBar">
-      <div className='welcome preventSelect'>
-        <h3>Don’t let boredom get you down.</h3>
-        <h1>Bet on boredBets</h1>
-      </div>
-      <div className='promo'>
-        <div className='box left'>
-        <p>Some people dream of success, while others wake up and bet on it.</p>
-        <p>Whether you want to have fun, learn, or compete, BoredBets has it all.</p>
-        <p className='mt-2 mb-2'>Join today and discover the thrill of gambling on horse races.</p>
-        <p>BoredBets:</p><p> Where dreams come true.</p>
-        </div>
-      </div>
-    </div>
+    <Box sx={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '10px',
+      margin: '0px',
+      overflowY: 'auto',
+      paddingTop: '50px',
+      backgroundColor: 'rgb(2, 145, 138)'}} className="noScrollBar">
+        <Box sx={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'}} className='preventSelect'>
+            <Typography variant='h3' textAlign={'center'}>Don’t let boredom get you down.</Typography>
+            <Typography variant='h2' textAlign={'center'} fontWeight={'800'}>Bet on boredBets</Typography>
+        </Box>
+    </Box>
   );
 }
 

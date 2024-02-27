@@ -1,7 +1,8 @@
 import {BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 import * as React from 'react';
+import {Box} from '@mui/material';
 import './styles/Main.css';
-import Header from './Components/Header'
+import Header from './Components/UI/Header'
 import Home from './Pages/Home';
 import Community from './Pages/Community';
 import UserPage from './Pages/UserPage';
@@ -11,10 +12,18 @@ import Admin from './Pages/Admin';
 
 
 function App() {
-  const [youAdmin , setYouAdmin] = React.useState(false);
+  const [youAdmin , setYouAdmin] = React.useState(true);
 
   return (
-  <div className='app'>
+  <Box sx={{
+    width: '100vw',
+    height: '100vh',
+    padding: 'none',
+    margin: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'auto',
+  }}>
     <Router>
       <Header />
       <Routes>
@@ -26,7 +35,7 @@ function App() {
         <Route exact path="/mypage" element={<UserPage/>} />
       </Routes>
     </Router>
-  </div>
+  </Box>
   );
 }
 
