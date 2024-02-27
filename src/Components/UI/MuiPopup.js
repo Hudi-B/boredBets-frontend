@@ -1,7 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import { Button, Box, Checkbox, Dialog, DialogContent, FormControlLabel, TextField } from '@mui/material';
-import config from '../../config';
+import { apiUrl } from '../../boredLocal';
 
 export default function RegisterPopup({thisIsA}) {
   const [open, setOpen] = React.useState(false);  
@@ -54,7 +54,7 @@ const handleLogin = async () => {
     if (alerts.email || alerts.password) return;
 
     try {
-        const response = await axios.get(`${config.apiUrl}User/UserLogin?Email=${formState.email}&Password=${formState.password}`);
+        const response = await axios.get(`${apiUrl}User/UserLogin?Email=${formState.email}&Password=${formState.password}`);
         console.log(response);
     } catch (error) {
         alert("Invalid Email or Password");
@@ -79,7 +79,7 @@ const handleRegister = async () => {
     if (alerts.email || alerts.password) return;
 
     try {
-        const response = await axios.post(`${config.apiUrl}User/UserRegister`, formState);
+        const response = await axios.post(`${apiUrl}User/UserRegister`, formState);
         console.log(response);
     } catch (error) {
         alert("There seems to be a problem. Please try again later.");

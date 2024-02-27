@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import axios from 'axios';
-import config from '../../../boredLocal';
+import { apiUrl } from '../../../boredLocal';
 
 
 export default function NewHorse() {
@@ -29,7 +29,7 @@ export default function NewHorse() {
             setAlert(true);
         }else{
             setAlert(false);
-            axios.post(`${config.apiUrl}Jockey/JockeyPost`, formState)
+            axios.post(`${apiUrl}Jockey/JockeyPost`, formState)
             .then((response) => {
                 console.log(response);
             })

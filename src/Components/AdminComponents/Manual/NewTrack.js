@@ -11,7 +11,7 @@ import AlertTitle from '@mui/material/AlertTitle';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios';
-import config from '../../../boredLocal';
+import { apiUrl } from '../../../boredLocal';
 
 
 export default function NewTrack() {
@@ -45,7 +45,7 @@ export default function NewTrack() {
             setAlertOnCountry(false);
         }
         if (!alertOnName && !alertOnCountry) {
-            axios.post(`${config.apiUrl}Track/TrackPost`, formState)
+            axios.post(`${apiUrl}Track/TrackPost`, formState)
             .then((response) => {
                 console.log(response);
             })

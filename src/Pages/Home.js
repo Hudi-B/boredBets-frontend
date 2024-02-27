@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-import config from '../config';
+import { apiUrl } from '../boredLocal';
 import moment from 'moment';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
@@ -11,13 +11,13 @@ export default function App() {
   const [comingRaces, setComingRaces] = useState([]);
 
   useEffect(() => {
-      axios.get(`${config.apiUrl}Race/GetFivePreviousRaces` ) 
+      axios.get(`${apiUrl}Race/GetFivePreviousRaces` ) 
       .then((response) => {
         setRecentRaces(response.data);
       }).catch((err) => {
         console.log();
       });
-      axios.get(`${config.apiUrl}Race/GetFiveFutureRaces`)
+      axios.get(`${apiUrl}Race/GetFiveFutureRaces`)
       .then((response) => {
         setComingRaces(response.data);
       }).catch((err) => {

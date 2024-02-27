@@ -6,7 +6,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import FormLabel from '@mui/material/FormLabel';
 import axios from 'axios';
-import config from '../../../boredLocal';
+import { apiUrl } from '../../../boredLocal';
 
 
 export default function GenerateJockey() {
@@ -18,7 +18,7 @@ export default function GenerateJockey() {
             setAlert(true);
         }else{
             setAlert(false);
-            axios.post(`${config.apiUrl}Horse/GenerateJockey`, quantity)
+            axios.post(`${apiUrl}Horse/GenerateJockey`, quantity)
             .then((response) => {
                 console.log(response);
             })
