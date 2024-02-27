@@ -8,7 +8,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Switch from '@mui/material/Switch';
 import axios from 'axios';
-import config from '../../../config';
+import config from '../../../boredLocal';
 
 
 export default function NewHorse() {

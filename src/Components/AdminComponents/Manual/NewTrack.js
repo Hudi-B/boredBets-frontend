@@ -11,7 +11,7 @@ import AlertTitle from '@mui/material/AlertTitle';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios';
-import config from '../../../config';
+import config from '../../../boredLocal';
 
 
 export default function NewTrack() {

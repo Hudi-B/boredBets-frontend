@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../config';
+import config from '../boredLocal';
 import { useEffect } from 'react';
 export default function App() {
 

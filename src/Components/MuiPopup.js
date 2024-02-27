@@ -2,7 +2,7 @@ import * as React from 'react';
 import axios from 'axios';
 import { Button, Box, Checkbox, Dialog, DialogContent, FormControlLabel, TextField } from '@mui/material';
 import '../styles/MuiPopup.css';
-import config from '../config';
+import config from '../boredLocal';
 
 export default function RegisterPopup({thisIsA}) {
   const [open, setOpen] = React.useState(false);  

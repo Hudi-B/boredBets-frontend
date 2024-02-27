@@ -14,7 +14,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Button from '@mui/material/Button';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
 import dayjs from 'dayjs';
-import config from '../../../config';
+import config from '../../../boredLocal';
 
 import ListItemButton from '@mui/material/ListItemButton';
 

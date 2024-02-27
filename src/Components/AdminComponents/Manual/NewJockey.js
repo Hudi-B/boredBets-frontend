@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import axios from 'axios';
-import config from '../../../config';
+import config from '../../../boredLocal';
 
 
 export default function NewHorse() {
