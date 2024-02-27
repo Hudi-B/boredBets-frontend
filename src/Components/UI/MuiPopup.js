@@ -1,7 +1,9 @@
 import * as React from 'react';
 import axios from 'axios';
 import { Button, Box, Checkbox, Dialog, DialogContent, FormControlLabel, TextField } from '@mui/material';
-import { apiUrl } from '../../boredLocal';
+import { apiUrl, setCookieToken } from '../../boredLocal';
+import { useDispatch } from 'react-redux';
+import {login} from '../../auth/authSlice';
 
 export default function RegisterPopup({thisIsA}) {
   const [open, setOpen] = React.useState(false);  
@@ -12,26 +14,28 @@ export default function RegisterPopup({thisIsA}) {
     email: '',
     password: '',
 });
-  const handleClickOpen = () => {
-    setOpen(true);
-    setOnLogin(thisIsA==="Login");
-  };
+    const dispatch = useDispatch();
 
-  const handleClose = () => {
-    setFormState({email: '', password: ''});
-    setOpen(false);
-  };
+    const handleClickOpen = () => {
+        setOpen(true);
+        setOnLogin(thisIsA==="Login");
+    };
+
+    const handleClose = () => {
+        setFormState({email: '', password: ''});
+        setOpen(false);
+    };
 
 
 
 
-const handleChange = (event) => {
-    const { name, value, checked, type } = event.target;
-    setFormState(prevState => ({
-        ...prevState,
-        [name]: type === 'checkbox' ? checked : value,
-    }));
-};
+    const handleChange = (event) => {
+        const { name, value, checked, type } = event.target;
+        setFormState(prevState => ({
+            ...prevState,
+            [name]: type === 'checkbox' ? checked : value,
+        }));
+    };
 
 
 
@@ -51,12 +55,16 @@ const handleLogin = async () => {
     setAlertOnEmail(alerts.email);
     setAlertOnPass(alerts.password);
 
-    if (alerts.email || alerts.password) return;
+    //if (alerts.email || alerts.password) return;
 
     try {
-        const response = await axios.get(`${apiUrl}User/UserLogin?Email=${formState.email}&Password=${formState.password}`);
-        console.log(response);
+        const response = await axios.get(`${apiUrl}User/UserLogin?email=${formState.email}&password=${formState.password}`);
+        setCookieToken(true, response.data.accessToken);
+        setCookieToken(false, response.data.refreshToken);
+        dispatch(login(response.data.userId, response.data.isAdmin)); 
+        window.location.reload();
     } catch (error) {
+        console.log(error);
         alert("Invalid Email or Password");
     }
 };
@@ -81,6 +89,7 @@ const handleRegister = async () => {
     try {
         const response = await axios.post(`${apiUrl}User/UserRegister`, formState);
         console.log(response);
+
     } catch (error) {
         alert("There seems to be a problem. Please try again later.");
     }

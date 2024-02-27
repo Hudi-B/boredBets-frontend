@@ -1,12 +1,5 @@
 import * as React from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import TextField from '@mui/material/TextField';
-import Slider from '@mui/material/Slider';
-import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import Switch from '@mui/material/Switch';
+import {Switch, AlertTitle, Alert, Button, Slider, TextField, FormControlLabel, FormGroup, Box} from '@mui/material';
 import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
 
@@ -52,7 +45,7 @@ export default function NewHorse() {
                         The horse should have a name atleast.
                     </Alert> 
                 :null}
-                <div className='mt-2'>Age:</div>
+                <Box marginTop={2}>Age:</Box>
                 <Slider
                     max={6}
                     min={2}

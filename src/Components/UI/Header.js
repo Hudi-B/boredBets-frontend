@@ -1,17 +1,16 @@
 import {useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Register from './MuiPopup';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import {Box, Link, Typography} from '@mui/material';
+import { useSelector } from 'react-redux';
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [onUserPage, setOnUserPage] = useState(true);
   const [needSearchBar, setNeedSearchBar] = useState(false);
   const [pfpImage, setPfpImage] = useState('./stock_pfp.png');
-
-const location = useLocation();
+  const userData = useSelector((state) => state.auth);
+  const location = useLocation();
 
 useEffect(() => {
   let url = location.pathname;
@@ -27,6 +26,9 @@ useEffect(() => {
     setNeedSearchBar(false);
   }
 }, [location.pathname]);
+
+
+
 
   return (
     <Box sx={{
@@ -63,7 +65,7 @@ useEffect(() => {
       {
         onUserPage ? 
           isLoggedIn ? 
-            <Link href="/mypage" underline='none' sx={{cursor: 'pointer'}}>{/*should also include user.id*/}
+            <Link href='/mypage' underline='none' sx={{cursor: 'pointer'}}>{/*should also include user.id*/}
               <img src={process.env.PUBLIC_URL + pfpImage} className='pfp rounded-circle' alt='why' />
             </Link>
             :
