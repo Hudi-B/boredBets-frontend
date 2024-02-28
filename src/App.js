@@ -22,8 +22,10 @@ import { useDispatch } from 'react-redux';
 
 function App() {
   const userData = useSelector((state) => state.auth);
-  console.log(userData);
   const dispatch = useDispatch();
+
+  //jwtDecode(Cookies.get('refreshToken'));
+  // change to use refresh token
 
     useEffect(() => {
       const accessToken = Cookies.get('accessToken');
@@ -35,8 +37,7 @@ function App() {
         axios.get(apiUrl+`user/getByUserId?Id=${userId}`)
         .then((response) => {
           const user = response.data[0];
-          console.log(user.admin);
-          dispatch(login(user.id,user.admin)); 
+          dispatch(login(user));
         })
       }
     }, []);

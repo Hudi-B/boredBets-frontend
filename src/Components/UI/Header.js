@@ -3,12 +3,10 @@ import { useEffect, useState } from 'react';
 import Register from './MuiPopup';
 import {Box, Link, Typography} from '@mui/material';
 import { useSelector } from 'react-redux';
+import UserIcon from './userIcon';
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [onUserPage, setOnUserPage] = useState(true);
-  const [needSearchBar, setNeedSearchBar] = useState(false);
-  const [pfpImage, setPfpImage] = useState('./stock_pfp.png');
   const userData = useSelector((state) => state.auth);
   const location = useLocation();
 
@@ -18,12 +16,6 @@ useEffect(() => {
     setOnUserPage(false);
   } else {
     setOnUserPage(true);
-  }
-
-  if (url.includes("community") || url.includes("races")) {
-    setNeedSearchBar(true);
-  } else {
-    setNeedSearchBar(false);
   }
 }, [location.pathname]);
 
@@ -57,17 +49,17 @@ useEffect(() => {
             <Link href="/races" underline='none' sx={{cursor: 'pointer'}}>
               <Typography variant='h7' color={'rgb(200, 100, 100)'}>Races</Typography>
             </Link>
-            <Link href="/admin" underline='none' sx={{cursor: 'pointer'}}>
-              <Typography variant='h7' color={'rgb(200, 100, 100)'}>AdminPage</Typography>
-            </Link>
+            {userData.isAdmin &&
+              <Link href="/admin" underline='none' sx={{cursor: 'pointer'}}>
+                <Typography variant='h7' color={'rgb(200, 100, 100)'}>AdminPage</Typography>
+              </Link>
+             }
         </Box>
 
       {
         onUserPage ? 
-          isLoggedIn ? 
-            <Link href='/mypage' underline='none' sx={{cursor: 'pointer'}}>{/*should also include user.id*/}
-              <img src={process.env.PUBLIC_URL + pfpImage} className='pfp rounded-circle' alt='why' />
-            </Link>
+          userData.isLoggedIn ? 
+            <UserIcon />
             :
             <Box sx={{
               display: 'flex',

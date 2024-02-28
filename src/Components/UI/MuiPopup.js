@@ -62,7 +62,6 @@ const handleLogin = async () => {
         setCookieToken(true, response.data.accessToken);
         setCookieToken(false, response.data.refreshToken);
         dispatch(login(response.data.userId, response.data.isAdmin)); 
-        window.location.reload();
     } catch (error) {
         console.log(error);
         alert("Invalid Email or Password");
