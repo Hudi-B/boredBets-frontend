@@ -13,19 +13,33 @@ import Races from './Pages/Races';
 import Admin from './Pages/Admin';
 import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import axios from 'axios';
 import { apiUrl } from './boredLocal';
+import axios from 'axios';
+import { login } from './auth/authSlice';
+import { useDispatch } from 'react-redux';
+
 
 
 function App() {
   const userData = useSelector((state) => state.auth);
+  console.log(userData);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-  const userId = jwtDecode(Cookies.get('accessToken')).UserId;
-  if (userId) {
-    axios.get(apiUrl+`user/getByUserId?Id=${userId}`)
-  }
-  }, []);
+    useEffect(() => {
+      const accessToken = Cookies.get('accessToken');
+      var userId;
+      if (accessToken) {
+        userId = jwtDecode(accessToken).UserId;
+      }
+      if (userId) {
+        axios.get(apiUrl+`user/getByUserId?Id=${userId}`)
+        .then((response) => {
+          const user = response.data[0];
+          console.log(user.admin);
+          dispatch(login(user.id,user.admin)); 
+        })
+      }
+    }, []);
 
   return (
   <Box sx={{
