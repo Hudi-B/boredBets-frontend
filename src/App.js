@@ -15,10 +15,8 @@ import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { apiUrl } from './boredLocal';
 import axios from 'axios';
-import { login } from './auth/authSlice';
+import { logout, login } from './auth/authSlice';
 import { useDispatch } from 'react-redux';
-
-
 
 function App() {
   const userData = useSelector((state) => state.auth);
@@ -28,17 +26,21 @@ function App() {
   // change to use refresh token
 
     useEffect(() => {
-      const accessToken = Cookies.get('accessToken');
-      var userId;
-      if (accessToken && accessToken!=='undefined') {
-        userId = jwtDecode(accessToken).UserId;
-      }
-      if (userId) {
-        axios.get(apiUrl+`user/getByUserId?Id=${userId}`)
-        .then((response) => {
-          const user = response.data[0];
-          dispatch(login(user));
-        })
+      if (Cookies.get('accessToken')) { 
+        const accessToken = Cookies.get('accessToken');
+        var userId;
+        if (accessToken && accessToken!=='undefined') {
+          userId = jwtDecode(accessToken).UserId;
+        }
+        if (userId) {
+          axios.get(apiUrl+`user/getByUserId?Id=${userId}`)
+          .then((response) => {
+            const user = response.data[0];
+            dispatch(login(user));
+          })
+        }
+      }else {
+        dispatch(logout());
       }
     }, []);
 

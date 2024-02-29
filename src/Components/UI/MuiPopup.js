@@ -98,7 +98,6 @@ const initiateLogin = async () => {
     const response = await axios.post(`${apiUrl}User/UserLogin`, {email: formState.email, password: formState.password});
     setCookieToken(true, response.data.accessToken);
     setCookieToken(false, response.data.refreshToken);
-    console.log(response.data);
     dispatch(login(response.data));
 }
 
