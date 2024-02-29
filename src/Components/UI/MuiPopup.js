@@ -9,6 +9,7 @@ export default function RegisterPopup({thisIsA}) {
   const [open, setOpen] = React.useState(false);  
   const [alertOnEmail, setAlertOnEmail] = React.useState(false);
   const [alertOnPass, setAlertOnPass] = React.useState(false);
+  const [rememberMe, setRememberMe] = React.useState(false);
   const [onLogin, setOnLogin] = React.useState();
   const [formState, setFormState] = React.useState({
     email: '',
@@ -57,10 +58,7 @@ const handleLogin = async () => {
     //if (alerts.email || alerts.password) return;
 
     try {
-        const response = await axios.get(`${apiUrl}User/UserLogin?email=${formState.email}&password=${formState.password}`);
-        setCookieToken(true, response.data.accessToken);
-        setCookieToken(false, response.data.refreshToken);
-        dispatch(login(response.data.userId, response.data.isAdmin)); 
+        initiateLogin();
     } catch (error) {
         console.log(error);
         alert("Invalid Email or Password");
@@ -87,12 +85,22 @@ const handleRegister = async () => {
     try {
         const response = await axios.post(`${apiUrl}User/UserRegister`, formState);
         console.log(response);
+        initiateLogin();
 
     } catch (error) {
+        console.log(error);
         alert("There seems to be a problem. Please try again later.");
     }
 };
 
+const initiateLogin = async () => {
+    console.log(formState);
+    const response = await axios.post(`${apiUrl}User/UserLogin`, {email: formState.email, password: formState.password});
+    setCookieToken(true, response.data.accessToken);
+    setCookieToken(false, response.data.refreshToken);
+    console.log(response.data);
+    dispatch(login(response.data));
+}
 
 const ForgotPassword = () => {
     // another dialog in here asking for the users email, then sending a post request with that email to the api
@@ -158,7 +166,7 @@ return (
                         <Box display="flex" justifyContent="space-between">
                         {onLogin ? (
                             <>
-                            <FormControlLabel control={<Checkbox />} label="Remember me" />
+                            <FormControlLabel control={<Checkbox onClick={() => {setRememberMe(!rememberMe) }} />} label="Remember me" />
                             <Button variant='string' onClick={ForgotPassword} size='small' sx={{ textTransform: 'none' }}>
                                 forgot password
                             </Button>

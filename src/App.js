@@ -30,7 +30,7 @@ function App() {
     useEffect(() => {
       const accessToken = Cookies.get('accessToken');
       var userId;
-      if (accessToken) {
+      if (accessToken && accessToken!=='undefined') {
         userId = jwtDecode(accessToken).UserId;
       }
       if (userId) {

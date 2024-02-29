@@ -4,7 +4,8 @@ import { Box, Popover, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {logout} from '../../auth/authSlice';
-import { setCookieToken } from '../../boredLocal';
+import { clearCookies } from '../../boredLocal';
+import Cookie from 'js-cookie';
 
 export default function UserIcon() {
   const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
@@ -29,8 +30,7 @@ export default function UserIcon() {
 
   const handleLogout = () => {
     dispatch(logout());
-    setCookieToken('');
-
+    clearCookies('');
   }
   
     return (
