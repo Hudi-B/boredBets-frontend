@@ -1,10 +1,5 @@
 import * as React from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import TextField from '@mui/material/TextField';
-import Slider from '@mui/material/Slider';
-import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
+import {AlertTitle, Alert, Button, Slider, TextField, FormGroup} from '@mui/material';
 import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
 

@@ -32,7 +32,7 @@ useEffect(() => {
       minHeight: '65px',
       color: 'white',
       overflow: 'hidden',
-      flexWrap: 'nowrap'}}>
+      flexWrap: 'nowrap'}} className='preventSelect'>
         <Box sx={{
           display: 'flex',
           flexDirection: 'row',

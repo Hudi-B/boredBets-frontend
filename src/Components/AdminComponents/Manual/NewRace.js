@@ -1,21 +1,16 @@
 import * as React from 'react';
+import axios from 'axios';
+
+import { List, ListItem, ListItemText, ListItemButton, ListSubheader, Button, TextField, Select, MenuItem, InputLabel, Box } from '@mui/material';
+
 import { DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Box from '@mui/material/Box';
-import {TextField } from '@mui/material';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import axios from 'axios';
-import { List, ListItem, ListItemText } from '@mui/material';
-import ListSubheader from '@mui/material/ListSubheader';
-import Button from '@mui/material/Button';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
+
 import dayjs from 'dayjs';
 import { apiUrl } from '../../../boredLocal';
-import ListItemButton from '@mui/material/ListItemButton';
 
 export default function NewRace() {
   const [raceDate, setRaceDate] = React.useState();
@@ -68,7 +63,6 @@ export default function NewRace() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-
         <InputLabel id="demo-simple-select-label">Track:</InputLabel>
         <List dense sx={{ paddingTop: '0', maxHeight: '200px', overflow: 'auto' }}>
             <ListSubheader sx={{ marginTop: 'none', backgroundColor: 'gray', color: 'white' }}>
@@ -79,7 +73,6 @@ export default function NewRace() {
                 <span className='listItem'>Surface</span>
                 <span className='listItem last'>Oval</span>
             </Box>
-
             </ListSubheader>
             {tracks.map((track) => {
                 return (
@@ -109,7 +102,6 @@ export default function NewRace() {
                 );
             })}
         </List>
-
         <Box
             sx={{
             display: 'flex',
@@ -133,7 +125,6 @@ export default function NewRace() {
                     />
         </Box>
 
-        
         <TextField
             label="Race time in minutes"
             type="number"

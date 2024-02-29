@@ -15,7 +15,6 @@ export default function RegisterPopup({thisIsA}) {
     password: '',
 });
     const dispatch = useDispatch();
-
     const handleClickOpen = () => {
         setOpen(true);
         setOnLogin(thisIsA==="Login");
@@ -106,6 +105,7 @@ return (
         </Button>
         <Dialog
             open={open}
+            className="preventSelect"
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"

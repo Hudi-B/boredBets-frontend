@@ -1,15 +1,5 @@
 import * as React from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import TextField from '@mui/material/TextField';
-import Slider from '@mui/material/Slider';
-import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import AlertTitle from '@mui/material/AlertTitle';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
+import {FormGroup, FormControlLabel, Checkbox, TextField, Slider, Button, Select, Alert, AlertTitle, InputLabel, MenuItem} from '@mui/material';
 import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
 
