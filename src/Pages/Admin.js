@@ -46,7 +46,7 @@ export default function Admin() {
   const [jockeyManual, setJockeyManual] = React.useState(true);
   const [trackManual, setTrackManual] = React.useState(true);
   const [raceManual, setRaceManual] = React.useState(true);
-
+  
     return (
         <Stack className='Container' direction="column" justifyContent="flex-start" alignItems="center" spacing={2}>
               <Panel> 

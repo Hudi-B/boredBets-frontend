@@ -5,6 +5,7 @@ import { List, ListItem, ListItemText, ListItemButton, ListSubheader, Button, Te
 
 import { DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
@@ -111,14 +112,13 @@ export default function NewRace() {
             alignItems: 'flex-end',
             gap: 5,
         }}>
-            <DemoItem label="Date of Race">
-            <DatePicker
-                label=""
-                value={raceDate}
+
+           <DemoContainer components={['DatePicker']}>
+                <DatePicker
                 onChange={handleDateChange}
-                renderInput={(params) => <TextField {...params} />}
-            />
-            </DemoItem>
+                label="Date of race"
+                overflow="hidden"  />
+            </DemoContainer>
 
             <TimeField
                 label="Time of race"

@@ -1,5 +1,6 @@
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box } from '@mui/material';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 
@@ -44,6 +45,7 @@ function App() {
       }
     }, []);
 
+
   return (
   <Box sx={{
     width: '100vw',
@@ -52,10 +54,11 @@ function App() {
     margin: 'none',
     display: 'flex',
     flexDirection: 'column',
+    backgroundColor: 'rgb(2, 145, 138)',
     overflow: 'auto',
   }}>
     <Router>
-      <Navbar />
+      <Navbar background={"rgba(50, 50, 50, 1)"} />
       <Routes>
         <Route exact path="/" element={<Home/>} />
         <Route path="*" element={<Home/>} />

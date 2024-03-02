@@ -1,18 +1,15 @@
 import {useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Register from './MuiPopup';
-import {Box, Typography, Button, AppBar, Toolbar} from '@mui/material';
+import {Box, Typography, Button, AppBar} from '@mui/material';
 import { useSelector } from 'react-redux';
 import UserIcon from './userIcon';
 import {Link} from 'react-router-dom';
-import {logout} from '../../auth/authSlice';
-import { useDispatch } from 'react-redux';
 
-export default function Navbar() {
+export default function Navbar( {background} ) {
   const [onUserPage, setOnUserPage] = useState(true);
   const userData = useSelector((state) => state.auth);
   const location = useLocation();
-  const dispatch = useDispatch();
 
 useEffect(() => {
   let url = location.pathname;
@@ -22,6 +19,10 @@ useEffect(() => {
     setOnUserPage(false);
   }
 }, [location.pathname]);
+
+
+
+
 
 
 
@@ -62,7 +63,7 @@ const RightBoxContent = () => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      backgroundColor: 'rgb(54, 54, 54)',
+      backgroundColor: {background},
       paddingInline: '10px',
       minHeight: '65px'}} className='preventSelect'>
         <Box sx={{
