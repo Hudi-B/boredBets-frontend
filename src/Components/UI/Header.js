@@ -1,7 +1,7 @@
 import {useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Register from './MuiPopup';
-import {Box, Typography, Button} from '@mui/material';
+import {Box, Typography, Button, AppBar, Toolbar} from '@mui/material';
 import { useSelector } from 'react-redux';
 import UserIcon from './userIcon';
 import {Link} from 'react-router-dom';
@@ -57,24 +57,17 @@ const RightBoxContent = () => {
 
 
   return (
-    <Box sx={{
-      position: 'fixed',
-      width: '100%',
-      zIndex: 99,
-      display: 'flex',
+    <AppBar sx={{
+      position: 'sticky',
+      flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
       backgroundColor: 'rgb(54, 54, 54)',
       paddingInline: '10px',
-      minHeight: '65px',
-      color: 'white',}} className='preventSelect'>
+      minHeight: '65px'}} className='preventSelect'>
         <Box sx={{
           display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: '15px',
-          height: 'fill',
-          flexWrap: 'nowrap'}}>
+          gap: '15px'}}>
             <Button component={Link} to="/">
               <Typography variant='h5' color={'rgb(220, 220, 220)'}>BoredBets</Typography>
             </Button>
@@ -90,8 +83,7 @@ const RightBoxContent = () => {
             </Button>
             }
         </Box>
-
       {RightBoxContent()}
-    </Box>
+    </AppBar>
   );
 }
