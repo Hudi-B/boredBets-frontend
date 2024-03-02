@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 
 import './styles/Main.css';
 
-import Header from './Components/UI/Header'
+import Navbar from './Components/UI/Navbar'
 import Home from './Pages/Home';
 import Community from './Pages/Community';
 import UserPage from './Pages/UserPage';
@@ -55,14 +55,14 @@ function App() {
     overflow: 'auto',
   }}>
     <Router>
-      <Header />
+      <Navbar />
       <Routes>
         <Route exact path="/" element={<Home/>} />
         <Route path="*" element={<Home/>} />
         <Route exact path="/community" element={<Community/>} />
         <Route exact path="/races" element={<Races/>} />
         {userData.isAdmin && <Route exact path="/admin" element={<Admin/>} />}
-        <Route exact path="/mypage" element={<UserPage/>} />
+        <Route exact path="/mypage/:userId" element={<UserPage/>} />
       </Routes>
     </Router>
   </Box>

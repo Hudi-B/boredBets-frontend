@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 import {logout} from '../../auth/authSlice';
 import { useDispatch } from 'react-redux';
 
-export default function Header() {
+export default function Navbar() {
   const [onUserPage, setOnUserPage] = useState(true);
   const userData = useSelector((state) => state.auth);
   const location = useLocation();
