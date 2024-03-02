@@ -128,6 +128,7 @@ export default function NewRace() {
         </Box>
 
         <TextField
+            fullWidth
             label="Race time in minutes"
             type="number"
             name="raceTime"
@@ -140,6 +141,7 @@ export default function NewRace() {
 
         <InputLabel id="demo-simple-select-label">Weather</InputLabel>
         <Select
+            fullWidth
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={weather}
@@ -151,7 +153,7 @@ export default function NewRace() {
             <MenuItem value={"Snow"}>Snow</MenuItem>
         </Select>
 
-        <Button sx={{marginTop: '10px'}} variant="contained" onClick={handleSubmit}>Send</Button>
+        <Button fullWidth sx={{marginTop: '10px'}} variant="contained" onClick={handleSubmit}>Send</Button>
     </LocalizationProvider>
   );
 }

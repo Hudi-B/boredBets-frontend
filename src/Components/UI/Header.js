@@ -58,15 +58,16 @@ const RightBoxContent = () => {
 
   return (
     <Box sx={{
+      position: 'fixed',
+      width: '100%',
+      zIndex: 99,
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
       backgroundColor: 'rgb(54, 54, 54)',
       paddingInline: '10px',
       minHeight: '65px',
-      color: 'white',
-      overflow: 'hidden',
-      flexWrap: 'nowrap'}} className='preventSelect'>
+      color: 'white',}} className='preventSelect'>
         <Box sx={{
           display: 'flex',
           flexDirection: 'row',
