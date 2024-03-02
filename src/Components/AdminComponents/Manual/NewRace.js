@@ -21,7 +21,7 @@ export default function NewRace() {
   const [tracks, setTracks] = React.useState([]);
 
   React.useEffect(() => {
-    axios.get(`${apiUrl}Track/AllTrack`)
+    axios.get(`${apiUrl}Track/GetAllTracks`)
     .then((response) => {
         const updatedTracks = response.data.map(track => {
             return {...track, selected: false};
@@ -47,13 +47,15 @@ export default function NewRace() {
         tempTime.setMinutes(0);
     }
     const formState= {
+        trackId: selectedTrackID,
         raceScheduled: tempTime.toISOString(),
         raceTime: raceTime,
         weather: weather,
     }
-    axios.post(`${apiUrl}Race/RacePost?TrackId=${selectedTrackID}`, formState)
+    axios.post(`${apiUrl}Race/RacePost`, formState)
     .then((response) => {
         console.log(response);
+        alert(response.statusText);
     })
     .catch((error) => {
         console.log(error);
