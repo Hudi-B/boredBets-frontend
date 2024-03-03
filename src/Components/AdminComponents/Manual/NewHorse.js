@@ -39,12 +39,14 @@ export default function NewHorse() {
         <>
             <FormGroup spacing={2}>
                 <TextField id="outlined-basic" label="Name" variant="outlined" name="name" value={formState.name} onChange={handleChange} />
-                {alert?
-                    <Alert className='mt-2' severity="warning">
+                { alert ?
+                    <Alert sx={{marginTop: '10px'}} severity="warning">
                         <AlertTitle>Warning</AlertTitle>
                         The horse should have a name atleast.
                     </Alert> 
-                :null}
+                    :
+                    null
+                }
                 <Box marginTop={2}>Age:</Box>
                 <Slider
                     max={6}
@@ -55,8 +57,8 @@ export default function NewHorse() {
                     value={formState.age}
                     onChange={(event, newValue) => setFormState(prevState => ({ ...prevState, age: newValue }))}
                 />
-<FormControlLabel control={<Switch onChange={handleChange} name="stallion" />} label="Stallion" />
-                <Button variant="contained" onClick={handleSubmit}>Send</Button>
+                <FormControlLabel control={<Switch onChange={handleChange} name="stallion" />} label="Stallion" />
+                <Button variant="contained" onClick={() => handleSubmit()}>Send</Button>
             </FormGroup>
         </>
     );

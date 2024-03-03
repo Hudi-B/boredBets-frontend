@@ -2,15 +2,12 @@ import * as React from 'react';
 import axios from 'axios';
 
 import { List, ListItem, ListItemText, ListItemButton, ListSubheader, Button, TextField, Select, MenuItem, InputLabel, Box } from '@mui/material';
-
-import { DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
 
-import dayjs from 'dayjs';
 import { apiUrl } from '../../../boredLocal';
 
 export default function NewRace() {
@@ -153,7 +150,7 @@ export default function NewRace() {
             <MenuItem value={"Snow"}>Snow</MenuItem>
         </Select>
 
-        <Button fullWidth sx={{marginTop: '10px'}} variant="contained" onClick={handleSubmit}>Send</Button>
+        <Button fullWidth sx={{marginTop: '10px'}} variant="contained" onClick={() => handleSubmit()}>Send</Button>
     </LocalizationProvider>
   );
 }

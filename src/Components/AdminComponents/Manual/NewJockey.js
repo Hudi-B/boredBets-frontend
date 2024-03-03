@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {AlertTitle, Alert, Button, Slider, TextField, FormGroup} from '@mui/material';
+import {AlertTitle, Alert, Button, Slider, TextField, FormGroup, Box} from '@mui/material';
 import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
 
@@ -38,13 +38,15 @@ export default function NewHorse() {
         <>
             <FormGroup spacing={2}>
                 <TextField id="outlined-basic" label="Name" variant="outlined" name="name" value={formState.name} onChange={handleChange} />
-                {alert?
-                    <Alert className='mt-2' severity="warning">
+                { alert ?
+                    <Alert sx={{marginTop: '10px'}} severity="warning">
                         <AlertTitle>Warning</AlertTitle>
                         The jockey should have a name atleast.
                     </Alert> 
-                :null}
-                <div className='mt-2'>Quality:</div>
+                    :
+                    null
+                }
+                <Box sx={{marginTop: '10px'}}>Quality:</Box>
                 <Slider
                     max={10}
                     min={1}
@@ -54,8 +56,7 @@ export default function NewHorse() {
                     value={formState.quality}
                     onChange={(event, newValue) => setFormState(prevState => ({ ...prevState, quality: newValue }))}
                 />
-
-                <Button variant="contained" onClick={handleSubmit}>Send</Button>
+                <Button variant="contained" onClick={() => handleSubmit()}>Send</Button>
             </FormGroup>
         </>
     );
