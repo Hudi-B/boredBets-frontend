@@ -5,6 +5,12 @@ import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 
 import './styles/Main.css';
+import { useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
+import { apiUrl } from './boredLocal';
+import axios from 'axios';
+import { logout, login } from './auth/authSlice';
+import { useDispatch } from 'react-redux';
 
 import Navbar from './Components/UI/Navbar'
 import Home from './Pages/Home';
@@ -12,12 +18,7 @@ import Community from './Pages/Community';
 import UserPage from './Pages/UserPage';
 import Races from './Pages/Races';
 import Admin from './Pages/Admin';
-import { useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
-import { apiUrl } from './boredLocal';
-import axios from 'axios';
-import { logout, login } from './auth/authSlice';
-import { useDispatch } from 'react-redux';
+import NotFound from './Pages/NotFound';
 
 function App() {
   const userData = useSelector((state) => state.auth);
@@ -61,7 +62,7 @@ function App() {
       <Navbar background={"rgba(50, 50, 50, 1)"} />
       <Routes>
         <Route exact path="/" element={<Home/>} />
-        <Route path="*" element={<Home/>} />
+        <Route path="*" element={<NotFound/>} />
         <Route exact path="/community" element={<Community/>} />
         <Route exact path="/races" element={<Races/>} />
         {userData.isAdmin && <Route exact path="/admin" element={<Admin/>} />}
