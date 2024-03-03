@@ -33,13 +33,15 @@ export default function GenerateRace() {
             <FormGroup spacing={2}>
                 <FormLabel sx={{textAlign: 'center'}} component="legend">For quicker data generation, make sure you wont use numbers greater than 1000</FormLabel>
                 <TextField id="outlined-basic" label="Generation Count" variant="outlined" name="name" value={quantity} />
-                {alert?
-                    <Alert className='mt-2' severity="warning">
+                { alert ?
+                    <Alert sx={{marginTop: '10px'}} severity="warning">
                         <AlertTitle>Warning</AlertTitle>
                         Please ensure to input a positive number.
                     </Alert> 
-                :null}
-                <Button sx={{marginTop: '10px'}} variant="contained" onClick={handleSubmit}>Send</Button>
+                    :
+                    null
+                }
+                <Button sx={{marginTop: '10px'}} variant="contained" onClick={() => handleSubmit()}>Send</Button>
             </FormGroup>
         </>
     );
