@@ -29,9 +29,9 @@ useEffect(() => {
 const RightBoxContent = () => {
   if (!onUserPage) {
     if (userData.isLoggedIn === null) {
-      return null; // If the website hasn't determined whether the user is logged in or not, nothing will appear
+      return null;
     } else if (userData.isLoggedIn) {
-      return <UserIcon />; // If the user is logged in, their icon will appear
+      return <UserIcon />;
     } else {
       return (
         <Box
@@ -47,10 +47,10 @@ const RightBoxContent = () => {
           <Register thisIsA={'Login'} />
           <Register thisIsA={'Register'} />
         </Box>
-      ); // If the user is not logged in, the login and register buttons will appear
+      );
     }
   } else {
-    return null; // If the user is on the user page, nothing will appear
+    return null;
   }
 };
 

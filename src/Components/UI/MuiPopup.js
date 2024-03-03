@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Button, Box, Checkbox, Dialog, DialogContent, FormControlLabel, TextField } from '@mui/material';
 import { apiUrl, setCookieToken } from '../../boredLocal';
 import { useDispatch } from 'react-redux';
-import {login} from '../../auth/authSlice';
+import { login } from '../../auth/authSlice';
 
 export default function RegisterPopup({thisIsA}) {
   const [open, setOpen] = React.useState(false);  
@@ -14,7 +14,7 @@ export default function RegisterPopup({thisIsA}) {
   const [formState, setFormState] = React.useState({
     email: '',
     password: '',
-});
+  });
     const dispatch = useDispatch();
     const handleClickOpen = () => {
         setOpen(true);
@@ -26,9 +26,6 @@ export default function RegisterPopup({thisIsA}) {
         setOpen(false);
     };
 
-
-
-
     const handleChange = (event) => {
         const { name, value, checked, type } = event.target;
         setFormState(prevState => ({
@@ -36,8 +33,6 @@ export default function RegisterPopup({thisIsA}) {
             [name]: type === 'checkbox' ? checked : value,
         }));
     };
-
-
 
 const handleLogin = async () => {
     const { email, password } = formState;
@@ -106,7 +101,7 @@ const ForgotPassword = () => {
 }
 
 return (
-    <React.Fragment>
+    <>
         <Button variant={thisIsA==="Login" ? "outlined" : "contained"} onClick={handleClickOpen}>
             {thisIsA}
         </Button>
@@ -175,6 +170,6 @@ return (
                     </Box>
             </DialogContent>
         </Dialog>
-    </React.Fragment>
+    </>
 );
 }
