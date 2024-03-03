@@ -37,10 +37,6 @@ const Title = styled(Box)(({ theme }) => ({
     borderBottom: '5px solid rgb(113, 113, 113)'
   }));
 
-  
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
-
 export default function Admin() {
   const [horseManual, setHorseManual] = React.useState(true);
   const [jockeyManual, setJockeyManual] = React.useState(true);
@@ -55,7 +51,11 @@ export default function Admin() {
                   <Button variant={horseManual ? 'contained' : 'outlined'} onClick={() => setHorseManual(true)}>Add manually</Button>
                   <Button variant={!horseManual ? 'contained' : 'outlined'} onClick={() => setHorseManual(false)}>Generate data</Button>
                 </Box>
-                {horseManual? <NewHorse /> : < GenerateHorse/>}
+                { horseManual ? 
+                  <NewHorse /> 
+                  : 
+                  < GenerateHorse/>
+                }
               </Panel>
               <Panel> 
                 <Title className='title'>New jockey</Title> 
@@ -63,7 +63,11 @@ export default function Admin() {
                   <Button variant={jockeyManual ? 'contained' : 'outlined'} onClick={() => setJockeyManual(true)}>Add manually</Button>
                   <Button variant={!jockeyManual ? 'contained' : 'outlined'} onClick={() => setJockeyManual(false)}>Generate data</Button>
                 </Box>
-                {jockeyManual? <NewJockey /> : < GenerateJockey/>} 
+                { jockeyManual ? 
+                  <NewJockey /> 
+                  : 
+                  < GenerateJockey/>
+                } 
               </Panel>
               <Panel> 
                 <Title className='title'>New track</Title>
@@ -71,7 +75,11 @@ export default function Admin() {
                   <Button variant={trackManual ? 'contained' : 'outlined'} onClick={() => setTrackManual(true)}>Add manually</Button>
                   <Button variant={!trackManual ? 'contained' : 'outlined'} onClick={() => setTrackManual(false)}>Generate data</Button>
                 </Box>
-                {trackManual? <NewTrack /> : < GenerateTrack />}
+                { trackManual ? 
+                  <NewTrack /> 
+                  : 
+                  < GenerateTrack />
+                }
               </Panel>
               <Panel> 
                 <Title className='title'>New Race</Title>
@@ -79,7 +87,11 @@ export default function Admin() {
                   <Button variant={raceManual ? 'contained' : 'outlined'} onClick={() => setRaceManual(true)}>Add manually</Button>
                   <Button variant={!raceManual ? 'contained' : 'outlined'} onClick={() => setRaceManual(false)}>Generate data</Button>
                 </Box>
-                {raceManual? <NewRace /> : < GenerateRace/>}
+                { raceManual ? 
+                  <NewRace /> 
+                  : 
+                  < GenerateRace/>
+                }
               </Panel>
         </Stack>
     );
