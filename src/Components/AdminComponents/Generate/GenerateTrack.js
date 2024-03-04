@@ -32,7 +32,7 @@ export default function GenerateTrack() {
         <>
             <FormGroup spacing={2}>
                 <FormLabel sx={{textAlign: 'center'}} component="legend">For quicker data generation, make sure you wont use numbers greater than 1000</FormLabel>
-                <TextField id="outlined-basic" label="Generation Count" variant="outlined" name="name" value={quantity} />
+                <TextField id="outlined-basic" label="Generation Count" variant="outlined" name="name" onChange={(e) => setQuantity(e.target.value)} />
                 { alert ?
                     <Alert sx={{marginTop: '10px'}} severity="warning">
                         <AlertTitle>Warning</AlertTitle>

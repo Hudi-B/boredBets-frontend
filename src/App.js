@@ -1,6 +1,5 @@
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box } from '@mui/material';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 

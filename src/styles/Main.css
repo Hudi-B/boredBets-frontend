@@ -17,24 +17,3 @@ scrollbar-width: none;
 .noScrollBar::-webkit-scrollbar {
   display: none;
 }
-
-
-
-.nav_link {
-  text-decoration: none;
-  color: black;
-}
-.nav_link .pfp{
-  width: fill;
-  height: fill;
-  background-size: 'cover';
-  background-position: 'center';
-  background-repeat: 'no-repeat';
-
-  background-color: rgb(202, 202, 202);
-}
-.pfpContainer{
-  width: fit-content;
-  height: fit-content;
-}
-

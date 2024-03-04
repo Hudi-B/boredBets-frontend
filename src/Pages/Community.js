@@ -1,7 +1,4 @@
-import axios from 'axios';
-import { apiUrl } from '../boredLocal';
-import Cookies from 'js-cookie';
-import { useEffect } from 'react';
+
 import { Box } from '@mui/material';
 export default function App() {
 
