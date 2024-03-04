@@ -44,8 +44,8 @@ const RightBoxContent = () => {
             flexWrap: 'nowrap'
           }}
         >
-          <Register thisIsA={'Login'} />
-          <Register thisIsA={'Register'} />
+          <Register itsALogin={true} />
+          <Register itsALogin={false} />
         </Box>
       );
     }

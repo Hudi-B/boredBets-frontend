@@ -5,7 +5,7 @@ import { apiUrl, setCookieToken } from '../../boredLocal';
 import { useDispatch } from 'react-redux';
 import { login } from '../../auth/authSlice';
 
-export default function RegisterPopup({thisIsA}) {
+export default function RegisterPopup({itsALogin}) {
   const [open, setOpen] = React.useState(false);  
   const [alertOnEmail, setAlertOnEmail] = React.useState(false);
   const [alertOnPass, setAlertOnPass] = React.useState(false);
@@ -18,7 +18,7 @@ export default function RegisterPopup({thisIsA}) {
     const dispatch = useDispatch();
     const handleClickOpen = () => {
         setOpen(true);
-        setOnLogin(thisIsA==="Login");
+        setOnLogin(itsALogin);
     };
 
     const handleClose = () => {
@@ -102,8 +102,8 @@ const ForgotPassword = () => {
 
 return (
     <>
-        <Button variant={thisIsA==="Login" ? "outlined" : "contained"} onClick={handleClickOpen}>
-            {thisIsA}
+        <Button variant={itsALogin ? "outlined" : "contained"} onClick={handleClickOpen}>
+            {itsALogin? "Login" : "Sign up"}
         </Button>
         <Dialog
             open={open}
