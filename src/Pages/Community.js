@@ -1,5 +1,7 @@
-
+import { apiUrl } from '../boredLocal';
 import { Box } from '@mui/material';
+import axios from 'axios';
+import {useState, useEffect} from 'react';
 export default function App() {
 
   // useEffect(() => {
@@ -11,6 +13,8 @@ export default function App() {
   //       console.log(error);
   //   })
   // },[])
+
+  
 
   return (
     <Box>
