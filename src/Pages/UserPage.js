@@ -1,10 +1,13 @@
 import { Box } from '@mui/material';
+import React from 'react';
 
-export default function App() {
-  return (
-    <Box>
-      
-    </Box>
-  );
+export default function UserPage() {
+
+
+
+    return (
+        <Box>
+            
+        </Box>
+    )
 }
-  
