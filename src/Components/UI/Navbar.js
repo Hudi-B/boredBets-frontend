@@ -5,6 +5,7 @@ import {Box, Typography, Button, AppBar} from '@mui/material';
 import { useSelector } from 'react-redux';
 import UserIcon from './userIcon';
 import {Link} from 'react-router-dom';
+import Hamburger from './hamburgerMenu';
 
 export default function Navbar( {background} ) {
   const [onUserPage, setOnUserPage] = useState(true);
@@ -69,6 +70,7 @@ const RightBoxContent = () => {
         <Box sx={{
           display: 'flex',
           gap: '15px'}}>
+            <Hamburger />
             <Button component={Link} to="/">
               <Typography variant='h5' color={'rgb(220, 220, 220)'}>BoredBets</Typography>
             </Button>
