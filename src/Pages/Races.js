@@ -11,7 +11,7 @@ export default function App() {
     const [selectedRace, setSelectedRace] = useState();
     const [countryToSearch, setCountryToSearch] = useState();
 
-    //Race/GetByCountry?country=asd
+    
     useEffect(() => {
         axios.get(apiUrl+`Race/GetAllFutureRaces`)
         .then((response) => {
@@ -61,7 +61,7 @@ export default function App() {
                 <Box display="flex" flexDirection="column">
                     <Typography variant="h5" sx={{marginBottom: 2, backgroundColor: 'gray', color: 'white', padding: 1, borderRadius: 3}}>Incoming races</Typography>
                     {allFutureRaces &&allFutureRaces.map((race) => (
-                        <Button variant="outlined" sx={{marginBottom: 1}} key={race.Id} onClick={() => SelectedARace(race.id)}>
+                        <Button variant="contained" sx={{marginBottom: 1}} key={race.Id} onClick={() => SelectedARace(race.id)}>
                             {race.name}
                         </Button>
                     ))}
@@ -70,7 +70,7 @@ export default function App() {
                 <Box display="flex" flexDirection="column" sx={{marginInline: 1}}>
                     <Typography variant="h5" sx={{marginBottom: 2, backgroundColor: 'gray', color: 'white', padding: 1, borderRadius: 3}}>Previous races</Typography>
                     {allPastRaces && allPastRaces.map((race) => (
-                        <Button variant="outlined" sx={{marginBottom: 1}} key={race.id} onClick={() => SelectedARace(race.id)}>
+                        <Button variant="contained" sx={{marginBottom: 1}} key={race.id} onClick={() => SelectedARace(race.id)}>
                             {race.name}
                         </Button>
                     ))}
@@ -79,7 +79,7 @@ export default function App() {
                 <Box display="flex" flexDirection="column">
                     <Typography variant="h5" sx={{marginBottom: 2, backgroundColor: 'gray', color: 'white', padding: 1, borderRadius: 3}}>Selected race</Typography>
                     {selectedRace && 
-                    <Button variant="outlined" onClick={() => setSelectedRace(null)}>
+                    <Button variant="contained" onClick={() => setSelectedRace(null)}>
                         {selectedRace.id}
                     </Button>}
                 </Box>
@@ -91,7 +91,7 @@ export default function App() {
             <Stack gap={1} backgroundColor={"lime"} fullWidth>
                
             {allXCountryRaces && allXCountryRaces.map((race) => (
-                <Button variant="outlined" fullWidth>{race.id}, Length: {race.length}, Weather: {race.weather}</Button>
+                <Button variant="contained" fullWidth>{race.id}, Length: {race.length}, Weather: {race.weather}</Button>
             ))}
             </Stack>
         </Stack>

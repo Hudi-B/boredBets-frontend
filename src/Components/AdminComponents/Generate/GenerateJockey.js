@@ -18,7 +18,7 @@ export default function GenerateJockey() {
             setAlert(true);
         }else{
             setAlert(false);
-            axios.post(`${apiUrl}Horse/GenerateJockey`, quantity)
+            axios.post(`${apiUrl}Jockey/GenerateJockey?quantity=${quantity}`)
             .then((response) => {
                 console.log(response);
             })

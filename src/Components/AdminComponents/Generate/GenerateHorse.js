@@ -1,10 +1,5 @@
 import * as React from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import FormLabel from '@mui/material/FormLabel';
+import {FormGroup, TextField, Button, Alert, AlertTitle, FormLabel} from '@mui/material';
 import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
 
@@ -18,7 +13,7 @@ export default function NewHorse() {
             setAlert(true);
         }else{
             setAlert(false);
-            axios.post(`${apiUrl}Horse/GenerateHorse`, quantity)
+            axios.post(`${apiUrl}Horse/GenerateHorses?quantity=${quantity}`)
             .then((response) => {
                 console.log(response);
             })
