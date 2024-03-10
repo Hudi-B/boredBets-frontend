@@ -40,6 +40,7 @@ export default function UserIcon() {
               cursor: 'pointer',
               borderRadius: '40%',
               height: '50px',
+              minimumWidth: '50px',
               overflow: 'hidden',
             }}>
             <img 

@@ -10,7 +10,20 @@ import Hamburger from './hamburgerMenu';
 export default function Navbar( {background} ) {
   const [onUserPage, setOnUserPage] = useState(true);
   const userData = useSelector((state) => state.auth);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const location = useLocation();
+
+  const handleScreenResize = () => {
+    setScreenWidth(window.innerWidth);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleScreenResize);
+    return () => {
+      window.removeEventListener("resize", handleScreenResize);
+    };
+  });
+
+
 
 useEffect(() => {
   let url = location.pathname;
@@ -19,6 +32,7 @@ useEffect(() => {
   } else {
     setOnUserPage(false);
   }
+
 }, [location.pathname]);
 
 
@@ -70,20 +84,24 @@ const RightBoxContent = () => {
         <Box sx={{
           display: 'flex',
           gap: '15px'}}>
-            <Hamburger />
-            <Button component={Link} to="/">
+            {screenWidth<550 && <Hamburger isAdmin={userData.isAdmin} />}
+            <Button component={Link} to="/Home">
               <Typography variant='h5' color={'rgb(220, 220, 220)'}>BoredBets</Typography>
             </Button>
-            <Button component={Link} to="/community">
-              <Typography variant='h7' color={'rgb(220, 220, 220)'}>Community</Typography>
-            </Button>
-            <Button component={Link} to="/races">
-              <Typography variant='h7' color={'rgb(220, 220, 220)'}>Races</Typography>
-            </Button>
-            {userData.isAdmin &&
-            <Button component={Link} to="/admin">
-              <Typography variant='h7' color={'rgb(220, 220, 220)'}>Admin</Typography>
-            </Button>
+            {screenWidth>=550 &&
+              <>
+                <Button component={Link} to="/community">
+                  <Typography variant='h7' color={'rgb(220, 220, 220)'}>Community</Typography>
+                </Button>
+                <Button component={Link} to="/races">
+                  <Typography variant='h7' color={'rgb(220, 220, 220)'}>Races</Typography>
+                </Button>
+                {userData.isAdmin &&
+                <Button component={Link} to="/admin">
+                  <Typography variant='h7' color={'rgb(220, 220, 220)'}>Admin</Typography>
+                </Button>
+                }
+              </>
             }
         </Box>
       {RightBoxContent()}
