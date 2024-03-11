@@ -10,29 +10,23 @@ import StadiumRoundedIcon from '@mui/icons-material/StadiumRounded';
 import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import { Link } from 'react-router-dom';
-export default function NewHorse(isAdmin) {
+export default function NewHorse({isAdmin}) {
     const [open, setOpen] = React.useState(false);
-    const [userIsAdmin, setUserIsAdmin] = React.useState(isAdmin);
     const menuItems = [
           {
             "name": "Home",
-            "icon": <HomeRoundedIcon/>,
+            "icon": <HomeRoundedIcon style={{marginRight: '5px'}}/>,
             "link": "/"
           },
           {
             "name": "Community",
-            "icon": <PeopleRoundedIcon/>,
+            "icon": <PeopleRoundedIcon style={{marginRight: '5px'}}/>,
             "link": "/Community"
           },
           {
             "name": "Races",
-            "icon": <StadiumRoundedIcon/>,
+            "icon": <StadiumRoundedIcon style={{marginRight: '5px'}}/>,
             "link": "/Races"
-          },
-          {
-            "name": "Admin",
-            "icon": <EngineeringRoundedIcon/>,
-            "link": "/Admin"
           }
         ]
     
@@ -42,16 +36,22 @@ export default function NewHorse(isAdmin) {
     };
 
 const DrawerList = (
-    <Box sx={{ width: 200, height: '100%', backgroundColor: 'rgb(2, 40, 95)' }}onClick={toggleDrawer(false)}>
-      <List>
+    <Box sx={{ width: 180, height: '100%', backgroundColor: 'rgb(2, 40, 95)' }}onClick={toggleDrawer(false)}>
+      <List sx={{ height:'100%' }}>
         {menuItems.map((item) => (
           <ListItem key={item.name} disablePadding>
-          <Button component={Link} to={item.link} sx={{ marginTop: '10px', height: '50px', marginX: '5px', fontSize: '15px' }} variant="outlined" fullWidth>
-          {item.icon}
-          {item.name.toUpperCase()}
-          </Button>
-      </ListItem>
+            <Button component={Link} to={item.link} sx={{justifyContent: 'flex-start', marginTop: '10px', height: '50px', marginX: '5px', fontSize: '15px' }} variant="outlined" fullWidth>
+            {item.icon} {item.name}
+            </Button>
+        </ListItem>
         ))}
+        {isAdmin && (
+          <ListItem key="Admin" sx={{position: 'absolute', bottom: 20}} disablePadding>
+              <Button component={Link} to="/Admin" sx={{ justifyContent: 'flex-start', marginTop: '10px', height: '50px', marginX: '5px', fontSize: '15px' }} variant="outlined" fullWidth>
+                <EngineeringRoundedIcon style={{marginRight: '5px'}} />ADMIN
+              </Button>
+          </ListItem>
+        )}
       </List>
     </Box>
   );

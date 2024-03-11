@@ -6,6 +6,13 @@ import { useSelector } from 'react-redux';
 import UserIcon from './userIcon';
 import {Link} from 'react-router-dom';
 import Hamburger from './hamburgerMenu';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import StadiumRoundedIcon from '@mui/icons-material/StadiumRounded';
+import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded';
+import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
+
+
+
 
 export default function Navbar( {background} ) {
   const [onUserPage, setOnUserPage] = useState(true);
@@ -34,9 +41,6 @@ useEffect(() => {
   }
 
 }, [location.pathname]);
-
-
-
 
 
 
@@ -85,20 +89,20 @@ const RightBoxContent = () => {
           display: 'flex',
           gap: '15px'}}>
             {screenWidth<550 && <Hamburger isAdmin={userData.isAdmin} />}
-            <Button component={Link} to="/Home">
-              <Typography variant='h5' color={'rgb(220, 220, 220)'}>BoredBets</Typography>
+            <Button style={{color: 'white', fontSize: '25px'}} component={Link} to="/">
+              BoredBets
             </Button>
             {screenWidth>=550 &&
               <>
-                <Button component={Link} to="/community">
-                  <Typography variant='h7' color={'rgb(220, 220, 220)'}>Community</Typography>
+                <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/community">
+                  <PeopleRoundedIcon/>Community
                 </Button>
-                <Button component={Link} to="/races">
-                  <Typography variant='h7' color={'rgb(220, 220, 220)'}>Races</Typography>
+                <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/races">
+                  <StadiumRoundedIcon/>Races
                 </Button>
                 {userData.isAdmin &&
-                <Button component={Link} to="/admin">
-                  <Typography variant='h7' color={'rgb(220, 220, 220)'}>Admin</Typography>
+                <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/admin">
+                  <EngineeringRoundedIcon/>Admin
                 </Button>
                 }
               </>
