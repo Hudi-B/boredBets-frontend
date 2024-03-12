@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { apiUrl } from '../boredLocal';
 
-export default function App() {
+export default function RacesPage() {
     const [allFutureRaces, setAllFutureRaces] = useState();
     const [allPastRaces, setAllPastRaces] = useState();
     const [allXCountryRaces, setAllXCountryRaces] = useState();

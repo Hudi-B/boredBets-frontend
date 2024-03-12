@@ -10,7 +10,7 @@ import StadiumRoundedIcon from '@mui/icons-material/StadiumRounded';
 import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import { Link } from 'react-router-dom';
-export default function NewHorse({isAdmin}) {
+export default function HamburgerMenu({isAdmin}) {
     const [open, setOpen] = React.useState(false);
     const menuItems = [
           {

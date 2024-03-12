@@ -1,6 +1,6 @@
 import {useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Register from './MuiPopup';
+import AuthPopup from './AuthPopup';
 import {Box, Typography, Button, AppBar} from '@mui/material';
 import { useSelector } from 'react-redux';
 import UserIcon from './userIcon';
@@ -10,8 +10,6 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import StadiumRoundedIcon from '@mui/icons-material/StadiumRounded';
 import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
-
-
 
 
 export default function Navbar( {background} ) {
@@ -63,8 +61,8 @@ const RightBoxContent = () => {
             flexWrap: 'nowrap'
           }}
         >
-          <Register itsALogin={true} />
-          <Register itsALogin={false} />
+          <AuthPopup itsALogin={true} />
+          <AuthPopup itsALogin={false} />
         </Box>
       );
     }
@@ -95,14 +93,14 @@ const RightBoxContent = () => {
             {screenWidth>=550 &&
               <>
                 <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/community">
-                  <PeopleRoundedIcon/>Community
+                  <PeopleRoundedIcon sx={{marginRight: '3px'}}/>Community
                 </Button>
                 <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/races">
-                  <StadiumRoundedIcon/>Races
+                  <StadiumRoundedIcon sx={{marginRight: '3px'}}/>Races
                 </Button>
                 {userData.isAdmin &&
                 <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/admin">
-                  <EngineeringRoundedIcon/>Admin
+                  <EngineeringRoundedIcon sx={{marginRight: '3px'}}/>Admin
                 </Button>
                 }
               </>

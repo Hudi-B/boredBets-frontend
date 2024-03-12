@@ -5,7 +5,7 @@ import { apiUrl, setCookieToken } from '../../boredLocal';
 import { useDispatch } from 'react-redux';
 import { login } from '../../auth/authSlice';
 
-export default function RegisterPopup({itsALogin}) {
+export default function AuthPopup({itsALogin}) {
   const [open, setOpen] = React.useState(false);  
   const [alertOnEmail, setAlertOnEmail] = React.useState(false);
   const [alertOnPass, setAlertOnPass] = React.useState(false);
@@ -79,7 +79,6 @@ const handleRegister = async () => {
 
     try {
         const response = await axios.post(`${apiUrl}User/UserRegister`, formState);
-        console.log(response);
         initiateLogin();
 
     } catch (error) {
@@ -91,8 +90,13 @@ const handleRegister = async () => {
 const initiateLogin = async () => {
     console.log(formState);
     const response = await axios.post(`${apiUrl}User/UserLogin`, {email: formState.email, password: formState.password});
-    setCookieToken(true, response.data.accessToken);
-    setCookieToken(false, response.data.refreshToken);
+    if(rememberMe){
+        setCookieToken(true, response.data.accessToken);
+        setCookieToken(false, response.data.refreshToken);
+    }else{
+        setCookieToken(true, response.data.accessToken);
+        setCookieToken(false, response.data.refreshToken);
+    }
     dispatch(login(response.data));
 }
 

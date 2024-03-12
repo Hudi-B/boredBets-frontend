@@ -4,7 +4,7 @@ import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
 
 
-export default function NewHorse() {
+export default function NewJockey() {
     const [alert, setAlert] = React.useState(false);
     const [formState, setFormState] = React.useState({
         name: '',

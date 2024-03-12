@@ -1,6 +1,6 @@
 
 import { Box } from '@mui/material';
-export default function App() {
+export default function Community() {
 
   // useEffect(() => {
   //   axios.get(`${apiUrl}user/getAllUsers`,  { headers: { Authorization: `Bearer ${Cookies.get('accessToken')}` } })

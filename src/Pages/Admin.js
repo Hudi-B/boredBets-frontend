@@ -12,7 +12,6 @@ import NewRace from '../Components/AdminComponents/Manual/NewRace';
 
 import GenerateHorse from '../Components/AdminComponents/Generate/GenerateHorse';
 import GenerateJockey from '../Components/AdminComponents/Generate/GenerateJockey';
-import GenerateTrack from '../Components/AdminComponents/Generate/GenerateTrack';
 import GenerateRace from '../Components/AdminComponents/Generate/GenerateRace';
 
 import '../styles/Admin.css';
@@ -37,7 +36,7 @@ const Title = styled(Box)(({ theme }) => ({
     borderBottom: '5px solid rgb(113, 113, 113)'
   }));
 
-export default function Admin() {
+export default function AdminPage() {
   const [horseManual, setHorseManual] = React.useState(true);
   const [jockeyManual, setJockeyManual] = React.useState(true);
   const [trackManual, setTrackManual] = React.useState(true);
@@ -71,15 +70,7 @@ export default function Admin() {
               </Panel>
               <Panel> 
                 <Title className='title'>New track</Title>
-                <Box display="flex" justifyContent="space-between" margin="normal" paddingBottom={'10px'}>
-                  <Button variant={trackManual ? 'contained' : 'outlined'} onClick={() => setTrackManual(true)}>Add manually</Button>
-                  <Button variant={!trackManual ? 'contained' : 'outlined'} onClick={() => setTrackManual(false)}>Generate data</Button>
-                </Box>
-                { trackManual ? 
-                  <NewTrack /> 
-                  : 
-                  < GenerateTrack />
-                }
+               <NewTrack />
               </Panel>
               <Panel> 
                 <Title className='title'>New Race</Title>

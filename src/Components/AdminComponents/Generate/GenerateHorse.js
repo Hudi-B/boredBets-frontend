@@ -4,7 +4,7 @@ import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
 
 
-export default function NewHorse() {
+export default function GenerateHorse() {
     const [alert, setAlert] = React.useState(false);
     const [quantity, setQuantity] = React.useState();
 

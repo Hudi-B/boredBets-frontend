@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 
 
-export default function App() {
+export default function HomePage() {
   const [recentRaces, setRecentRaces] = useState([]);
   const [comingRaces, setComingRaces] = useState([]);
 
