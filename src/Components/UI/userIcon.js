@@ -74,7 +74,7 @@ export default function UserIcon() {
             border: '2px solid rgb(90, 90, 90)',
             }}>
                 <Typography variant='h6'>{userData.id}</Typography>
-            <Button onClick={toUserPage} variant='contained'>Go to user page</Button>
+            <Button onClick={toUserPage} sx={{flexWrap: 'nowrap'}} variant='contained'>Go to my page</Button>
             <Button onClick={handleLogout} variant='outlined' color='warning'>Log out</Button>
         </Box>
       </Popover>
