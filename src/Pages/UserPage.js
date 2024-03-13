@@ -10,6 +10,7 @@ import History from '../Components/UserComponents/History';
 const MenuChip = styled(Chip)(({ theme }) => ({
     height: '50px',
     fontSize: '20px',
+    color: 'white',
   }));
 
 export default function UserPage() {

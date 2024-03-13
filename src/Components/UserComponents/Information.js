@@ -1,7 +1,14 @@
 import React from 'react';
-import { Avatar, Box, Paper, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Select, MenuItem, FormControl, InputLabel, Divider } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import AddIcon from '@mui/icons-material/Add';
+import ChecklistIcon from '@mui/icons-material/Checklist';
+import PortraitIcon from '@mui/icons-material/Portrait';
+import EditIcon from '@mui/icons-material/Edit';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '100%',
@@ -9,43 +16,195 @@ const TilePaper = styled(Paper)(({ theme }) => ({
     backgroundColor: 'rgb(4, 112, 107)',
     padding: theme.spacing(2),
     textAlign: 'center',
+    color: 'white',
 }))
 
 export default function Information() {
+
     return (
-        <Box sx={{ 
-         width: '100%',
-         display: 'flex', 
-         flexDirection: 'column', 
-         alignItems: 'center', 
-         justifyContent: 'center', 
-         padding: '10px', 
-         margin: '0px', 
-         overflowY: ''}}
+        <Box 
+        sx={{ 
+        width: '100%',
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        padding: '10px', 
+        margin: '0px', 
+        overflowY: ''}}
         >
             <Grid container spacing={2} sx={{width: '100%'}}>
-                <Grid item xs={4}>
+                <Grid item xs={8}>
                     <Stack direction={'column'} spacing={2}>
-                        <TilePaper centered sx={{height: '250px', alignItems: 'center', justifyContent: 'center'}}>
+                        <TilePaper> 
+                            <Typography variant="h5" sx={{ paddingBottom: '20px' }}>Account Status</Typography>
+                            <Grid container spacing={2}>
+                                <Grid item xs={6}>
+                                    <Stack direction={'column'} spacing={2} alignItems={'center'}>
+                                        <Stack direction={'row'} spacing={2} alignItems="center">
+                                            <Typography variant="h6" sx={{color: 'lightgrey'}}>Create an Account</Typography>
+                                            <Box
+                                            sx={{
+                                            width: '50px',
+                                            height: '50px',
+                                            borderRadius: '50%',
+                                            backgroundColor: 'rgb(44, 252, 3)',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',}}
+                                            >
+                                                <AddIcon sx={{color: 'rgb(4, 112, 107)'}}/>
+                                            </Box>
+                                        </Stack>
+                                        <Stack direction="row" spacing={2} alignItems="center">
+                                            <Typography variant="h6">Add Profile Picture</Typography>
+                                            <Box
+                                            sx={{
+                                            width: '50px',
+                                            height: '50px',
+                                            borderRadius: '50%',
+                                            borderStyle: 'solid',
+                                            borderWidth: '2px',
+                                            borderColor: 'white',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',}}
+                                            >
+                                                <PortraitIcon sx={{color: 'white'}}/>
+                                            </Box>
+                                        </Stack>
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Stack direction={'column'} spacing={2}>
+                                        <Stack direction={'row'} spacing={2} alignItems="center">
+                                            <Typography variant="h6">Complete Account</Typography>
+                                            <Box
+                                            sx={{
+                                            width: '50px',
+                                            height: '50px',
+                                            borderRadius: '50%',
+                                            borderStyle: 'solid',
+                                            borderWidth: '2px',
+                                            borderColor: 'white',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',}}
+                                            >
+                                                <ChecklistIcon sx={{color: 'white'}}/>
+                                            </Box>
+                                        </Stack>
+                                        <Stack direction="row" spacing={2} alignItems="center">
+                                            <Typography variant="h6">Make Transaction</Typography>
+                                            <Box
+                                                sx={{
+                                                width: '50px',
+                                                height: '50px',
+                                                borderRadius: '50%',
+                                                borderStyle: 'solid',
+                                                borderWidth: '2px',
+                                                borderColor: 'white',
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                }}
+                                            >
+                                                <CreditCardIcon sx={{color: 'white'}}/>
+                                            </Box>
+                                        </Stack>
+                                    </Stack>
+                                </Grid>
+                            </Grid>
+                        </TilePaper>
+
+                        <TilePaper>
+                            <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Email</Typography>
+                            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                <Chip size='large' label="email placeholder@gmail.com" onClick={() => {}} onDelete={() => {}} deleteIcon={<EditIcon style={{color: 'white'}} />} sx={{color: 'white', width: '400px',display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}/>
+                            </Box>
+                        </TilePaper>
+
+                        <TilePaper>
+                            <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Password</Typography>
+                            <Stack direction="column" spacing={1} sx={{paddingBottom: '20px'}}>
+                                <Button variant="contained" onClick={() => {}} sx={{width: '100%'}}>Change Password</Button>
+                                <Typography variant="caption">Change password by entering your current one.</Typography>
+                            </Stack>
+                            <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.5)' }}/>
+                            <Stack direction="column" spacing={1} sx={{paddingTop: '20px'}}>
+                                <Button variant="contained" onClick={() => {}} sx={{width: '100%'}}>Reset Password</Button>
+                                <Typography variant="caption">Reset password via email.</Typography>
+                            </Stack>
+                        </TilePaper>
+
+                        <TilePaper>
+                            <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Preferences</Typography>
+                            <Stack direction="column" spacing={1}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Language</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="lang"
+                                    label="Language"
+                                    onChange={() => {}}
+                                >
+                                    <MenuItem value={'en'}>English</MenuItem>
+                                    <MenuItem value={'hun'}>Hungarian</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.5)' }} />
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label1">Currency</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label1"
+                                    id="curr"
+                                    label="Currency"
+                                    onChange={() => {}}
+                                >
+                                    <MenuItem value={'en'}>Eur</MenuItem>
+                                    <MenuItem value={'hun'}>Huf</MenuItem>
+                                </Select>
+                            </FormControl>
+                            </Stack>
+                        </TilePaper>
+                    </Stack>
+                </Grid>
+
+                <Grid item xs={4}>
+                    <Stack direction="column" spacing={2}>
+
+                        <TilePaper centered sx={{alignItems: 'center', justifyContent: 'center'}}>
                             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                                 <Avatar sx={{width: '100px', height: '100px', fontSize: '50px'}}>A</Avatar>
                             </Box>
                             <Typography variant="h5">UserID:</Typography>
-                            <Typography variant="h6">asrwh42-135fhsdhs3-qsdgdwsh</Typography>
+                            <Typography variant="h6">id placeholder</Typography>
                         </TilePaper>
-                        <TilePaper sx={{height: '400px'}}>
-                            <Typography variant="h5">About you:</Typography>
+
+                        <TilePaper>
+                            <Typography variant="h6" sx={{ paddingBottom: '20px' }}>About you:</Typography>
+
+                            <Divider>
+                                <Chip label="Name" size="small" sx={{color: 'white'}}/>
+                            </Divider>
+                            <Typography variant="subtitle1">Name placeholder</Typography>
+                            <Divider>
+                                <Chip label="Date of birth" size="small" sx={{color: 'white'}}/>
+                            </Divider>
+                            <Typography variant="subtitle1">Date of birth placeholder</Typography>
+                            <Divider>
+                                <Chip label="Phone number" size="small" sx={{color: 'white'}}/>
+                            </Divider>
+                            <Typography variant="subtitle1">Phone number placeholder</Typography>
+                            <Divider>
+                                <Chip label="Address" size="small" sx={{color: 'white'}}/>
+                            </Divider>
+                            <Typography variant="subtitle1">Address placeholder</Typography>
                         </TilePaper>
+
                     </Stack>
                 </Grid>
-                <Grid item xs={8}>
-                    <Stack direction="column" spacing={2}>
-                        <TilePaper sx={{height: '100px'}}>Account status</TilePaper>
-                        <TilePaper sx={{height: '100px'}}>Email</TilePaper>
-                        <TilePaper sx={{height: '100px'}}>Password</TilePaper>
-                        <TilePaper sx={{height: '100px'}}>Preferences</TilePaper>
-                    </Stack>
-                </Grid>
+
             </Grid>
         </Box>
     );
