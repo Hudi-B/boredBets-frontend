@@ -12,6 +12,7 @@ import { logout, login } from './auth/authSlice';
 import { useDispatch } from 'react-redux';
 
 import Navbar from './Components/UI/Navbar'
+import Footer from './Components/UI/Footer';
 import Home from './Pages/Home';
 import Community from './Pages/Community';
 import UserPage from './Pages/UserPage';
@@ -68,6 +69,7 @@ function App() {
         <Route exact path="/mypage/:userId" element={<UserPage/>} />
       </Routes>
     </Router>
+    <Footer />
   </Box>
   );
 }
