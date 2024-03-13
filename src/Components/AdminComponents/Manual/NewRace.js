@@ -8,6 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
 import { useSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 
 import { apiUrl } from '../../../boredLocal';
 
@@ -54,10 +55,18 @@ export default function NewRace() {
     }
     axios.post(`${apiUrl}Race/RacePost`, formState)
     .then((response) => {
-        enqueueSnackbar(response.statusText, {variant: 'success'});
+        enqueueSnackbar(response.statusText, {
+            variant: 'success',
+            autoHideDuration: 3000,
+            TransitionComponent: Slide,
+          });
     })
     .catch((error) => {
-        enqueueSnackbar(error.message, {variant: 'error'});
+        enqueueSnackbar(error.message, {
+            variant: 'error',
+            autoHideDuration: 3000,
+            TransitionComponent: Slide,
+          });
     })
   }
 

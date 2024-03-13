@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { apiUrl } from '../boredLocal';
 import { useSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 
 export default function RacesPage() {
     const [allFutureRaces, setAllFutureRaces] = useState();
@@ -21,7 +22,11 @@ export default function RacesPage() {
         })
         .catch((error) => {
             console.log(error);
-            enqueueSnackbar("Error while requesting upcoming races.", {variant: 'error'});
+            enqueueSnackbar("Error while requesting upcoming races.", {
+                variant: 'error',
+                autoHideDuration: 3000,
+                TransitionComponent: Slide,
+              });
 
         })
 
@@ -32,14 +37,17 @@ export default function RacesPage() {
         })
         .catch((error) => {
             console.log(error);
-            enqueueSnackbar("Error while requesting past races.", {variant: 'error'});
+            enqueueSnackbar("Error while requesting past races.", {
+                variant: 'error',
+                autoHideDuration: 3000,
+                TransitionComponent: Slide,
+              });
         })
     }, []);
 
     const SearchByCountry = (countryName) => {
         axios.get(apiUrl+`Race/GetByCountry?country=${countryToSearch}`)
         .then((response) => {
-            console.log(response);
             setAllXCountryRaces(response.data);
         }).catch((error) => {
             console.log(error);

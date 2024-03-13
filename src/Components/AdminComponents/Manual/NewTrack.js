@@ -3,6 +3,7 @@ import {FormGroup, TextField, Slider, Button, Alert, AlertTitle, InputLabel} fro
 import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
 import { useSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 
 
 export default function NewTrack() {
@@ -39,10 +40,18 @@ export default function NewTrack() {
         if (!alertOnName && !alertOnCountry) {
             axios.post(`${apiUrl}Track/TrackPost`, formState)
             .then((response) => {
-                enqueueSnackbar(response.statusText, {variant: 'success'});
+                enqueueSnackbar(response.statusText, {
+                    variant: 'success',
+                    autoHideDuration: 3000,
+                    TransitionComponent: Slide,
+                  });
             })
             .catch((error) => {
-                enqueueSnackbar(error.message, {variant: 'error'});
+                enqueueSnackbar(error.message, {
+                    variant: 'error',
+                    autoHideDuration: 3000,
+                    TransitionComponent: Slide,
+                  });
             }) 
         }
     }

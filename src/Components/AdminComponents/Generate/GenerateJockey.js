@@ -8,6 +8,7 @@ import FormLabel from '@mui/material/FormLabel';
 import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
 import { useSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 
 
 export default function GenerateJockey() {
@@ -22,11 +23,18 @@ export default function GenerateJockey() {
             setAlert(false);
             axios.post(`${apiUrl}Jockey/GenerateJockey?quantity=${quantity}`)
             .then((response) => {
-                console.log(response);
-                enqueueSnackbar( response.message, {variant: 'success'});
+                enqueueSnackbar( response.message, {
+                    variant: 'success',
+                    autoHideDuration: 3000,
+                    TransitionComponent: Slide, // Use the actual Slide component
+                  });
             })
             .catch((error) => {
-                enqueueSnackbar( error.message, {variant: 'error'});
+                enqueueSnackbar( error.message, {
+                    variant: 'error',
+                    autoHideDuration: 3000,
+                    TransitionComponent: Slide, // Use the actual Slide component
+                  });
             })
         }
     };

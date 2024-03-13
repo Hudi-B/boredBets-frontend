@@ -5,6 +5,7 @@ import moment from 'moment';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import { useSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 
 
 export default function HomePage() {
@@ -18,14 +19,22 @@ export default function HomePage() {
         setRecentRaces(response.data);
       }).catch((error) => {
         console.log(error);
-        enqueueSnackbar("Error while requesting recent races.", {variant: 'error'});
+        enqueueSnackbar("Error while requesting recent races.", {
+          variant: 'error',
+          autoHideDuration: 3000,
+          TransitionComponent: Slide,
+        });
       });
       axios.get(`${apiUrl}Race/GetFiveFutureRaces`)
       .then((response) => {
         setComingRaces(response.data);
       }).catch((error) => {
         console.log(error);
-        enqueueSnackbar("Error while requesting upcoming races.", {variant: 'error'});
+        enqueueSnackbar("Error while requesting upcoming races.", {
+          variant: 'error',
+          autoHideDuration: 3000,
+          TransitionComponent: Slide,
+        });
       });
   }, [])
   return (

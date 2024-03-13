@@ -3,6 +3,7 @@ import {AlertTitle, Alert, Button, Slider, TextField, FormGroup, Box} from '@mui
 import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
 import { useSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 
 export default function NewJockey() {
     const [alert, setAlert] = React.useState(false);
@@ -27,10 +28,18 @@ export default function NewJockey() {
             setAlert(false);
             axios.post(`${apiUrl}Jockey/JockeyPost`, formState)
             .then((response) => {
-                enqueueSnackbar(response.statusText, {variant: 'success'});
+                enqueueSnackbar(response.statusText, {
+                    variant: 'success',
+                    autoHideDuration: 3000,
+                    TransitionComponent: Slide,
+                  });
             })
             .catch((error) => {
-                enqueueSnackbar(error.message, {variant: 'error'});
+                enqueueSnackbar(error.message, {
+                    variant: 'error',
+                    autoHideDuration: 3000,
+                    TransitionComponent: Slide, // Use the actual Slide component
+                  });
             })
         }
     };

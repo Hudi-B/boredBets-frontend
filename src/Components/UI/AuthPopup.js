@@ -5,6 +5,7 @@ import { apiUrl, setCookieToken } from '../../boredLocal';
 import { useDispatch } from 'react-redux';
 import { login } from '../../auth/authSlice';
 import { useSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 
 export default function AuthPopup({itsALogin}) {
   const [open, setOpen] = React.useState(false);  
@@ -86,9 +87,17 @@ const initiateLogin = async () => {
         setCookieToken(false, response.data.refreshToken);
        
         dispatch(login(response.data));               
-        enqueueSnackbar("Succesfull login", {variant: 'success'});
+        enqueueSnackbar("Succesfull login", {
+            variant: 'success',
+            autoHideDuration: 3000,
+            TransitionComponent: Slide,
+          });
     }catch(error){
-        enqueueSnackbar("Couldn't login. Something went wrong", {variant: 'error'});
+        enqueueSnackbar("Couldn't login. Something went wrong", {
+            variant: 'error',
+            autoHideDuration: 3000,
+            TransitionComponent: Slide,
+          });
     }
     
 
