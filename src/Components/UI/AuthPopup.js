@@ -4,17 +4,19 @@ import { Button, Box, Checkbox, Dialog, DialogContent, FormControlLabel, TextFie
 import { apiUrl, setCookieToken } from '../../boredLocal';
 import { useDispatch } from 'react-redux';
 import { login } from '../../auth/authSlice';
+import { useSnackbar } from 'notistack';
 
 export default function AuthPopup({itsALogin}) {
   const [open, setOpen] = React.useState(false);  
   const [alertOnEmail, setAlertOnEmail] = React.useState(false);
   const [alertOnPass, setAlertOnPass] = React.useState(false);
-  const [rememberMe, setRememberMe] = React.useState(false);
   const [onLogin, setOnLogin] = React.useState();
   const [formState, setFormState] = React.useState({
     email: '',
     password: '',
-  });
+  });    
+  const { enqueueSnackbar } = useSnackbar();
+
     const dispatch = useDispatch();
     const handleClickOpen = () => {
         setOpen(true);
@@ -52,12 +54,7 @@ const handleLogin = async () => {
 
     //if (alerts.email || alerts.password) return;
 
-    try {
-        initiateLogin();
-    } catch (error) {
-        console.log(error);
-        alert("Invalid Email or Password");
-    }
+    initiateLogin();
 };
 
 const handleRegister = async () => {
@@ -75,29 +72,26 @@ const handleRegister = async () => {
     setAlertOnEmail(alerts.email);
     setAlertOnPass(alerts.password);
 
-    if (alerts.email || alerts.password) return;
-
-    try {
-        const response = await axios.post(`${apiUrl}User/UserRegister`, formState);
+    if (!alerts.email || !alerts.password){
+        await axios.post(`${apiUrl}User/UserRegister`, formState);
         initiateLogin();
-
-    } catch (error) {
-        console.log(error);
-        alert("There seems to be a problem. Please try again later.");
     }
 };
 
 const initiateLogin = async () => {
-    console.log(formState);
-    const response = await axios.post(`${apiUrl}User/UserLogin`, {email: formState.email, password: formState.password});
-    if(rememberMe){
+    try {
+        console.log(formState);
+        const response = await axios.post(`${apiUrl}User/UserLogin`, {email: formState.email, password: formState.password});
         setCookieToken(true, response.data.accessToken);
         setCookieToken(false, response.data.refreshToken);
-    }else{
-        setCookieToken(true, response.data.accessToken);
-        setCookieToken(false, response.data.refreshToken);
+       
+        dispatch(login(response.data));               
+        enqueueSnackbar("Succesfull login", {variant: 'success'});
+    }catch(error){
+        enqueueSnackbar("Couldn't login. Something went wrong", {variant: 'error'});
     }
-    dispatch(login(response.data));
+    
+
 }
 
 const ForgotPassword = () => {
@@ -162,14 +156,11 @@ return (
                             </Button>
                         </Box>
                         <Box display="flex" justifyContent="space-between">
-                        {onLogin ? (
-                            <>
-                            <FormControlLabel control={<Checkbox onClick={() => {setRememberMe(!rememberMe) }} />} label="Remember me" />
-                            <Button variant='string' onClick={ForgotPassword} size='small' sx={{ textTransform: 'none' }}>
+                        {onLogin &&
+                            <Button variant='string' onClick={ForgotPassword} size='small' sx={{ textTransform: 'none', position: 'absolute', right: 35 }}>
                                 forgot password
                             </Button>
-                            </>
-                        ) : null}
+                        }
                         </Box>
                     </Box>
             </DialogContent>

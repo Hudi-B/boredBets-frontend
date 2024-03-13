@@ -2,6 +2,7 @@ import { Typography, Box, Stack, Button, TextField} from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { apiUrl } from '../boredLocal';
+import { useSnackbar } from 'notistack';
 
 export default function RacesPage() {
     const [allFutureRaces, setAllFutureRaces] = useState();
@@ -10,6 +11,7 @@ export default function RacesPage() {
 
     const [selectedRace, setSelectedRace] = useState();
     const [countryToSearch, setCountryToSearch] = useState();
+    const { enqueueSnackbar } = useSnackbar();
 
     
     useEffect(() => {
@@ -19,6 +21,8 @@ export default function RacesPage() {
         })
         .catch((error) => {
             console.log(error);
+            enqueueSnackbar("Error while requesting upcoming races.", {variant: 'error'});
+
         })
 
 
@@ -28,6 +32,7 @@ export default function RacesPage() {
         })
         .catch((error) => {
             console.log(error);
+            enqueueSnackbar("Error while requesting past races.", {variant: 'error'});
         })
     }, []);
 
@@ -36,6 +41,8 @@ export default function RacesPage() {
         .then((response) => {
             console.log(response);
             setAllXCountryRaces(response.data);
+        }).catch((error) => {
+            console.log(error);
         })
     }
 

@@ -7,6 +7,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
+import { useSnackbar } from 'notistack';
 
 import { apiUrl } from '../../../boredLocal';
 
@@ -17,6 +18,7 @@ export default function NewRace() {
   const [weather, setWeather] = React.useState('Clear');
   const [selectedTrackID, setSelectedTrackID] = React.useState();
   const [tracks, setTracks] = React.useState([]);
+  const { enqueueSnackbar } = useSnackbar();
 
   React.useEffect(() => {
     axios.get(`${apiUrl}Track/GetAllTracks`)
@@ -52,11 +54,10 @@ export default function NewRace() {
     }
     axios.post(`${apiUrl}Race/RacePost`, formState)
     .then((response) => {
-        console.log(response);
-        alert(response.statusText);
+        enqueueSnackbar(response.statusText, {variant: 'success'});
     })
     .catch((error) => {
-        console.log(error);
+        enqueueSnackbar(error.message, {variant: 'error'});
     })
   }
 

@@ -2,6 +2,7 @@ import * as React from 'react';
 import {FormGroup, TextField, Slider, Button, Alert, AlertTitle, InputLabel} from '@mui/material';
 import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
+import { useSnackbar } from 'notistack';
 
 
 export default function NewTrack() {
@@ -14,6 +15,7 @@ export default function NewTrack() {
         surface: 'Dry',
         oval: false
     });
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleChange = (event) => {
         const { name, value, checked, type } = event.target;
@@ -37,10 +39,10 @@ export default function NewTrack() {
         if (!alertOnName && !alertOnCountry) {
             axios.post(`${apiUrl}Track/TrackPost`, formState)
             .then((response) => {
-                console.log(response);
+                enqueueSnackbar(response.statusText, {variant: 'success'});
             })
             .catch((error) => {
-                console.log(error);
+                enqueueSnackbar(error.message, {variant: 'error'});
             }) 
         }
     }

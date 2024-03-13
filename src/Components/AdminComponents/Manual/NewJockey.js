@@ -2,7 +2,7 @@ import * as React from 'react';
 import {AlertTitle, Alert, Button, Slider, TextField, FormGroup, Box} from '@mui/material';
 import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
-
+import { useSnackbar } from 'notistack';
 
 export default function NewJockey() {
     const [alert, setAlert] = React.useState(false);
@@ -10,6 +10,7 @@ export default function NewJockey() {
         name: '',
         quality: 1,
     });
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleChange = (event) => {
         const { name, value, checked, type } = event.target;
@@ -26,38 +27,36 @@ export default function NewJockey() {
             setAlert(false);
             axios.post(`${apiUrl}Jockey/JockeyPost`, formState)
             .then((response) => {
-                console.log(response);
+                enqueueSnackbar(response.statusText, {variant: 'success'});
             })
             .catch((error) => {
-                console.log(error);
+                enqueueSnackbar(error.message, {variant: 'error'});
             })
         }
     };
 
     return (
-        <>
-            <FormGroup spacing={2}>
-                <TextField id="outlined-basic" label="Name" variant="outlined" name="name" value={formState.name} onChange={handleChange} />
-                { alert ?
-                    <Alert sx={{marginTop: '10px'}} severity="warning">
-                        <AlertTitle>Warning</AlertTitle>
-                        The jockey should have a name atleast.
-                    </Alert> 
-                    :
-                    null
-                }
-                <Box sx={{marginTop: '10px'}}>Quality:</Box>
-                <Slider
-                    max={10}
-                    min={1}
-                    size="medium"
-                    valueLabelDisplay="auto"
-                    name="quality"
-                    value={formState.quality}
-                    onChange={(event, newValue) => setFormState(prevState => ({ ...prevState, quality: newValue }))}
-                />
-                <Button variant="contained" onClick={() => handleSubmit()}>Send</Button>
-            </FormGroup>
-        </>
+        <FormGroup spacing={2}>
+            <TextField id="outlined-basic" label="Name" variant="outlined" name="name" value={formState.name} onChange={handleChange} />
+            { alert ?
+                <Alert sx={{marginTop: '10px'}} severity="warning">
+                    <AlertTitle>Warning</AlertTitle>
+                    The jockey should have a name atleast.
+                </Alert> 
+                :
+                null
+            }
+            <Box sx={{marginTop: '10px'}}>Quality:</Box>
+            <Slider
+                max={10}
+                min={1}
+                size="medium"
+                valueLabelDisplay="auto"
+                name="quality"
+                value={formState.quality}
+                onChange={(event, newValue) => setFormState(prevState => ({ ...prevState, quality: newValue }))}
+            />
+            <Button variant="contained" onClick={() => handleSubmit()}>Send</Button>
+        </FormGroup>
     );
 }

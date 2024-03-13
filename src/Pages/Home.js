@@ -4,24 +4,28 @@ import { apiUrl } from '../boredLocal';
 import moment from 'moment';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
+import { useSnackbar } from 'notistack';
 
 
 export default function HomePage() {
   const [recentRaces, setRecentRaces] = useState([]);
   const [comingRaces, setComingRaces] = useState([]);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
       axios.get(`${apiUrl}Race/GetFivePreviousRaces` ) 
       .then((response) => {
         setRecentRaces(response.data);
-      }).catch((err) => {
-        console.log();
+      }).catch((error) => {
+        console.log(error);
+        enqueueSnackbar("Error while requesting recent races.", {variant: 'error'});
       });
       axios.get(`${apiUrl}Race/GetFiveFutureRaces`)
       .then((response) => {
         setComingRaces(response.data);
-      }).catch((err) => {
-        console.log();
+      }).catch((error) => {
+        console.log(error);
+        enqueueSnackbar("Error while requesting upcoming races.", {variant: 'error'});
       });
   }, [])
   return (

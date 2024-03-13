@@ -10,6 +10,7 @@ import { apiUrl } from './boredLocal';
 import axios from 'axios';
 import { logout, login } from './auth/authSlice';
 import { useDispatch } from 'react-redux';
+import { SnackbarProvider } from 'notistack';
 
 import Navbar from './Components/UI/Navbar'
 import Home from './Pages/Home';

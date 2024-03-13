@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Switch, AlertTitle, Alert, Button, Slider, TextField, FormControlLabel, FormGroup, Box} from '@mui/material';
 import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
+import { useSnackbar } from 'notistack';
 
 
 export default function NewHorse() {
@@ -10,7 +11,9 @@ export default function NewHorse() {
         name: '',
         age: 2,
         stallion: false,
-    });
+    });    
+    const { enqueueSnackbar } = useSnackbar();
+
 
     const handleChange = (event) => {
         const { name, value, checked, type } = event.target;
@@ -27,39 +30,37 @@ export default function NewHorse() {
             setAlert(false);
             axios.post(`${apiUrl}Horse/HorsePost`, formState)
             .then((response) => {
-                console.log(response);
+                enqueueSnackbar(response.message, {variant: 'success'});
             })
             .catch((error) => {
-                console.log(error);
+                enqueueSnackbar(error.message, {variant: 'error'});
             })
         }
     };
 
     return (
-        <>
-            <FormGroup spacing={2}>
-                <TextField id="outlined-basic" label="Name" variant="outlined" name="name" value={formState.name} onChange={handleChange} />
-                { alert ?
-                    <Alert sx={{marginTop: '10px'}} severity="warning">
-                        <AlertTitle>Warning</AlertTitle>
-                        The horse should have a name atleast.
-                    </Alert> 
-                    :
-                    null
-                }
-                <Box marginTop={2}>Age:</Box>
-                <Slider
-                    max={6}
-                    min={2}
-                    size="medium"
-                    valueLabelDisplay="auto"
-                    name="age"
-                    value={formState.age}
-                    onChange={(event, newValue) => setFormState(prevState => ({ ...prevState, age: newValue }))}
-                />
-                <FormControlLabel control={<Switch onChange={handleChange} name="stallion" />} label="Stallion" />
-                <Button variant="contained" onClick={() => handleSubmit()}>Send</Button>
-            </FormGroup>
-        </>
+        <FormGroup spacing={2}>
+            <TextField id="outlined-basic" label="Name" variant="outlined" name="name" value={formState.name} onChange={handleChange} />
+            { alert ?
+                <Alert sx={{marginTop: '10px'}} severity="warning">
+                    <AlertTitle>Warning</AlertTitle>
+                    The horse should have a name atleast.
+                </Alert> 
+                :
+                null
+            }
+            <Box marginTop={2}>Age:</Box>
+            <Slider
+                max={6}
+                min={2}
+                size="medium"
+                valueLabelDisplay="auto"
+                name="age"
+                value={formState.age}
+                onChange={(event, newValue) => setFormState(prevState => ({ ...prevState, age: newValue }))}
+            />
+            <FormControlLabel control={<Switch onChange={handleChange} name="stallion" />} label="Stallion" />
+            <Button variant="contained" onClick={() => handleSubmit()}>Send</Button>
+        </FormGroup>
     );
 }
