@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 
 import Navbar from './Components/UI/Navbar'
+import Footer from './Components/UI/Footer';
 import Home from './Pages/Home';
 import Community from './Pages/Community';
 import MyPage from './Pages/MyPage';
@@ -77,6 +78,7 @@ function App() {
         {userData.isAdmin && <Route exact path="/admin" element={<Admin/>} />}
       </Routes>
     </Router>
+    <Footer />
   </Box>
   );
 }
