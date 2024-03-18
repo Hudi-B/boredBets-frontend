@@ -17,11 +17,10 @@ import { SecurityUpdateWarning } from '@mui/icons-material';
 
 
 export default function Navbar( {background} ) {
-  const [onUserPage, setOnUserPage] = useState(true);
   const userData = useSelector((state) => state.auth);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const location = useLocation();
-  const [wallet,setWallet] = useState("0");
+  const [wallet,setWallet] = useState();
 
   const handleScreenResize = () => {
     setScreenWidth(window.innerWidth);
@@ -34,34 +33,25 @@ export default function Navbar( {background} ) {
   });
 
 
-
-useEffect(() => {
-  let url = location.pathname;
-  if (url.includes("mypage")) {
-    setOnUserPage(true);
-  } else {
-    setOnUserPage(false);
-  }
-
-}, [location.pathname]);
-
 const GetWallet = () => {
   axios.get(`${apiUrl}User/GetWalletByUserId?UserId=${userData.userId}`)
   .then((response) => {
-    setWallet(response.data);
+    setWallet(response.data.wallet);
   })
   .catch((error) => {
     console.log(error);
   })
-  
 }
 
-useEffect(() => {
-  GetWallet();
-},[])
+
+useEffect((event) => {
+  if (userData.isLoggedIn) {
+    GetWallet();
+  }
+},[userData])
+
 
 const RightBoxContent = () => {
-  if (!onUserPage) {
     if (userData.isLoggedIn === null) {
       return null;
     } else if (userData.isLoggedIn) {
@@ -88,9 +78,6 @@ const RightBoxContent = () => {
         </Box>
       );
     }
-  } else {
-    return null;
-  }
 };
 
   return (

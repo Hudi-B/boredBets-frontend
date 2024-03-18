@@ -136,7 +136,7 @@ export default function Community() {
               justifyContent: 'flex-start',
               '&:hover': {
                 backgroundColor: 'rgb(4, 112, 107)',
-                boxShadow: '0 0 30px rgb(4, 105, 107)',
+                boxShadow: '0 0 30px rgb(4, 50,50)',
               }
             }}
             >

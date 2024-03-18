@@ -15,7 +15,6 @@ export default function UserIcon() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };

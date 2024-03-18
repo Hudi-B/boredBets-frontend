@@ -39,7 +39,7 @@ export default function App() {
 
         <Stack direction="collumn">
           <Stack direction={"row"}>
-            <img src={process.env.PUBLIC_URL + pfpImage}></img>
+            
           </Stack>
         </Stack>
       

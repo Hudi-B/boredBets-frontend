@@ -11,7 +11,7 @@ export function setCookieToken(type, token) {
       expires: tokenExpiration
     })
   }
-  export function clearCookies() {
+export function clearCookies() {
     Cookies.remove('accessToken');
     Cookies.remove('refreshToken');
   }

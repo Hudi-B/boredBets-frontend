@@ -40,7 +40,7 @@ function App() {
           userId = jwtDecode(accessToken).UserId;
         }
         if (userId) {
-          axios.get(apiUrl+`user/getByUserId?Id=${userId}`)
+          axios.get(apiUrl+`User/GetByUserId?UserId=${userId}`)
           .then((response) => {
             const user = response.data[0];
             dispatch(login(user));
