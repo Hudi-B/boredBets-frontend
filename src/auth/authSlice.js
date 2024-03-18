@@ -13,7 +13,7 @@ const authSlice = createSlice({
         login(state, action) {
             state.isLoggedIn = true;
             state.isAdmin = action.payload.admin;
-            state.userId = action.payload.id;
+            state.userId = action.payload.userId;
         },
         logout(state) {
             state.isLoggedIn = false;
