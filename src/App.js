@@ -15,10 +15,14 @@ import { SnackbarProvider } from 'notistack';
 import Navbar from './Components/UI/Navbar'
 import Home from './Pages/Home';
 import Community from './Pages/Community';
-import UserPage from './Pages/UserPage';
+import MyPage from './Pages/MyPage';
 import Races from './Pages/Races';
 import Admin from './Pages/Admin';
 import NotFound from './Pages/NotFound';
+import User from './Pages/User';
+import Jockey from './Pages/Jockey';
+import Horse from './Pages/Horse';
+
 
 function App() {
   const userData = useSelector((state) => state.auth);
@@ -62,11 +66,15 @@ function App() {
       <Navbar background={"rgba(50, 50, 50, 1)"} />
       <Routes>
         <Route exact path="/" element={<Home/>} />
-        <Route path="*" element={<NotFound/>} />
+            <Route path="*" element={<NotFound/>} />
         <Route exact path="/community" element={<Community/>} />
+            <Route exact path="/user/:userId" element={<User/>} />
+            <Route exact path="/jockey/:jockeyId" element={<Jockey/>} />
+            <Route exact path="/horse/:horseId" element={<Horse/>} />
         <Route exact path="/races" element={<Races/>} />
+        <Route exact path="/mypage/:userId" element={<MyPage/>} />
+
         {userData.isAdmin && <Route exact path="/admin" element={<Admin/>} />}
-        <Route exact path="/mypage/:userId" element={<UserPage/>} />
       </Routes>
     </Router>
   </Box>
