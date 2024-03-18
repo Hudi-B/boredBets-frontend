@@ -130,13 +130,13 @@ export default function App() {
               width: '100%', 
               height : '75px',
               color: 'white', 
-              backgroundColor: 'rgba( 150, 10, 70, 0.9 )', 
+              backgroundColor: 'rgb(4, 112, 107)', 
               borderRadius: 3,
               marginBottom: 1,
               justifyContent: 'flex-start',
               '&:hover': {
-                backgroundColor: 'rgba( 150, 10, 70, 1.0 )',
-                boxShadow: '0 0 30px rgba(150, 10, 70, 1.0)',
+                backgroundColor: 'rgb(4, 112, 107)',
+                boxShadow: '0 0 30px rgb(4, 105, 107)',
               }
             }}
             >
