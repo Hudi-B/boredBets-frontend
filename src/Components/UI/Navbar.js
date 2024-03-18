@@ -1,7 +1,7 @@
 import {useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AuthPopup from './AuthPopup';
-import {Box, Typography, Button, AppBar} from '@mui/material';
+import {Box, Typography, Button, AppBar, Chip, Stack} from '@mui/material';
 import { useSelector } from 'react-redux';
 import UserIcon from './userIcon';
 import {Link} from 'react-router-dom';
@@ -10,6 +10,10 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import StadiumRoundedIcon from '@mui/icons-material/StadiumRounded';
 import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
+import axios from 'axios';
+
+import { apiUrl } from '../../boredLocal';
+import { SecurityUpdateWarning } from '@mui/icons-material';
 
 
 export default function Navbar( {background} ) {
@@ -17,6 +21,7 @@ export default function Navbar( {background} ) {
   const userData = useSelector((state) => state.auth);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const location = useLocation();
+  const [wallet,setWallet] = useState("0");
 
   const handleScreenResize = () => {
     setScreenWidth(window.innerWidth);
@@ -40,15 +45,32 @@ useEffect(() => {
 
 }, [location.pathname]);
 
+const GetWallet = () => {
+  axios.get(`${apiUrl}User/GetWalletByUserId?UserId=${userData.userId}`)
+  .then((response) => {
+    setWallet(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  
+}
 
-
+useEffect(() => {
+  GetWallet();
+},[])
 
 const RightBoxContent = () => {
   if (!onUserPage) {
     if (userData.isLoggedIn === null) {
       return null;
     } else if (userData.isLoggedIn) {
-      return <UserIcon />;
+      return  (
+        <Stack direction={'row'} spacing={1} alignItems={'center'}> 
+          <Chip label={wallet} sx={{ color: 'white'}} />
+          <UserIcon />
+        </Stack>
+      );
     } else {
       return (
         <Box
@@ -70,9 +92,6 @@ const RightBoxContent = () => {
     return null;
   }
 };
-
-
-
 
   return (
     <AppBar sx={{
