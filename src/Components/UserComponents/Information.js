@@ -8,7 +8,6 @@ import AddIcon from '@mui/icons-material/Add';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import PortraitIcon from '@mui/icons-material/Portrait';
 import EditIcon from '@mui/icons-material/Edit';
-import ClearIcon from '@mui/icons-material/Clear';
 
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '100%',
