@@ -25,6 +25,7 @@ export default function UserPage() {
         <Box sx={{ 
          padding: '10px', 
          paddingTop: '50px' }}
+         
         >
             <Grid container spacing={5} sx={{width: '100%', height: '100%'}}>
                 <Grid item xs={4}>

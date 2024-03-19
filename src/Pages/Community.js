@@ -3,7 +3,6 @@ import { Box, Grid, TextField,Autocomplete, Stack, Typography, Button} from '@mu
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
-import '../styles/Community.css';
 import * as React from 'react';
 
 import List from '@mui/material/List';

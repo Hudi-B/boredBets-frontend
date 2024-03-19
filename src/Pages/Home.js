@@ -43,6 +43,7 @@ export default function HomePage() {
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
+      minHeight: '100vh',
       alignItems: 'center',
       justifyContent: 'center',
       padding: '10px',
@@ -57,7 +58,7 @@ export default function HomePage() {
           alignItems: 'center',
           justifyContent: 'center'}} className='preventSelect'>
             <Typography variant='h3' textAlign={'center'}>Don’t let boredom get you down.</Typography>
-            <Typography variant='h2' textAlign={'center'} fontWeight={'800'}>Bet on boredBets</Typography>
+            <Typography variant='h2' textAlign={'center'} fontWeight={'800'}>Bet-bet boredBets</Typography>
         </Box>
     </Box>
   );
