@@ -63,13 +63,13 @@ export default function CardPaper({ cardName, cardNumber, expirationYear, expira
                             <Typography variant="h5">{holderName}</Typography>
                         </BackgroundBox>
                     </Stack>
-                    <Stack direction="column" alignItems="start" sx={{ width: '100%' }}>
+                    <Stack direction="column" alignItems="start">
                         <CaptionText>CVC</CaptionText>
                         <BackgroundBox>
                             <Typography variant="h5">{cvc.charAt(0)}**</Typography>
                         </BackgroundBox>
                     </Stack>
-                    <Stack sx={{ marginLeft: 'auto', marginBottom: 'auto' }}>
+                    <Stack direction="column" sx={{ marginLeft: 'auto', marginBottom: 'auto' }}>
                         <Tooltip title="Remove">
                             <IconButton aria-label="delete" size="large" onClick={onDelete}>
                                 <DeleteIcon style={{ color: 'white' }}/>

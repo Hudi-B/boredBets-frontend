@@ -43,6 +43,7 @@ export default function Cards() {
         .then((response) => {
             setCardData(response.data);
             setIsLoading(false);
+            console.log(response.data, userId);
         })
         .catch((error) => {
             console.log(error);
@@ -52,7 +53,7 @@ export default function Cards() {
     const handleDelete = async (cardId) => {
         axios.delete(apiUrl+`UserCard/DeleteByCreditCardNum?CreditCardNum=` + cardId)
         .then((response) => {
-            setCardData(response.data);
+            fetchData();
             setIsLoading(false);
         })
         .catch((error) => {
