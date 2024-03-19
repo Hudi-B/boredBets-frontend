@@ -10,10 +10,12 @@ import Slide from '@mui/material/Slide';
 export default function AuthPopup({itsALogin}) {
   const [open, setOpen] = React.useState(false);  
   const [alertOnEmail, setAlertOnEmail] = React.useState(false);
+  const [alertOnUsername, setAlertOnUsername] = React.useState(false);
   const [alertOnPass, setAlertOnPass] = React.useState(false);
   const [onLogin, setOnLogin] = React.useState();
   const [formState, setFormState] = React.useState({
-    emailOrUsername: '',
+    username:'',
+    email: '',
     password: '',
   });    
   const { enqueueSnackbar } = useSnackbar();
@@ -30,12 +32,12 @@ export default function AuthPopup({itsALogin}) {
     };
 
     const handleChange = (event) => {
-        const { name, value, checked, type } = event.target;
-        setFormState(prevState => ({
-            ...prevState,
-            [name]: type === 'checkbox' ? checked : value,
+        const { name, value } = event.target;
+        setFormState((prevState) => ({
+          ...prevState,
+          [name]: value,
         }));
-    };
+      };
 
 const handleLogin = async () => {
     const { emailOrUsername, password } = formState;
@@ -59,23 +61,30 @@ const handleLogin = async () => {
 };
 
 const handleRegister = async () => {
-    const { email, password } = formState;
+    const {username, email, password } = formState;
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isEmailValid = emailRegex.test(email);
-    const isPasswordValid = password.length >= 4;
 
     const alerts = {
-        email: !isEmailValid,
-        password: !isPasswordValid,
+        email: !emailRegex.test(email),
+        username: !username.length >= 4,
+        password: !password.length >= 4,
     };
-
+    console.log(formState);
+    setAlertOnUsername(alerts.username);
     setAlertOnEmail(alerts.email);
     setAlertOnPass(alerts.password);
 
     if (!alerts.email || !alerts.password){
-        await axios.post(`${apiUrl}User/UserRegister`, formState);
-        initiateLogin();
+        await axios.post(`${apiUrl}User/UserRegister`, formState)
+        .then(() => {
+            enqueueSnackbar("Successful register, now try to Log in", {
+              variant: 'success',
+              autoHideDuration: 3000,
+              TransitionComponent: Slide,
+            });
+            setOnLogin(true);
+          })
     }
 };
 
@@ -138,12 +147,23 @@ const ForgotPassword = () => {
                                 <Box mx={1} />
                                 <Button variant='string' onClick={() => setOnLogin(false)}> Sign up</Button>
                             </Box>
-
+                            {!onLogin && <TextField 
+                                id="outlined-basic" 
+                                label="Username" 
+                                variant="outlined" 
+                                name="username" 
+                                value={formState.name} 
+                                onChange={handleChange} 
+                                fullWidth
+                                margin='normal'
+                                helperText={alertOnUsername ? 'Please enter a valid Username' : ''}
+                            />}
+                            
                             <TextField 
                                 id="outlined-basic" 
                                 label="Email" 
                                 variant="outlined" 
-                                name="emailOrUsername" 
+                                name="email" 
                                 value={formState.name} 
                                 onChange={handleChange} 
                                 fullWidth
@@ -157,6 +177,7 @@ const ForgotPassword = () => {
                                     label="Password" 
                                     variant="outlined" 
                                     name="password" 
+                                    onKeyDown={(e) => e.keyCode == 13 ? onLogin ? handleLogin() : handleRegister() : null}
                                     value={formState.password} 
                                     onChange={handleChange} 
                                     sx={{ flexGrow: 1, marginRight: 1 }}
