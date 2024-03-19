@@ -1,25 +1,21 @@
-import {useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AuthPopup from './AuthPopup';
-import {Box, Typography, Button, AppBar, Chip, Stack} from '@mui/material';
+import {Box, Button, AppBar, Chip, Stack} from '@mui/material';
 import { useSelector } from 'react-redux';
-import UserIcon from './userIcon';
+import UserIcon from './UserIcon';
 import {Link} from 'react-router-dom';
-import Hamburger from './hamburgerMenu';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import Hamburger from './HamburgerMenu';
 import StadiumRoundedIcon from '@mui/icons-material/StadiumRounded';
 import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import axios from 'axios';
 
 import { apiUrl } from '../../boredLocal';
-import { SecurityUpdateWarning } from '@mui/icons-material';
 
 
 export default function Navbar( {background} ) {
   const userData = useSelector((state) => state.auth);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const location = useLocation();
   const [wallet,setWallet] = useState();
 
   const handleScreenResize = () => {
