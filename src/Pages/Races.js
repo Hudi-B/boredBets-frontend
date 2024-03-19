@@ -68,7 +68,7 @@ export default function RacesPage() {
 
     return (
         <Stack 
-        direction={"column"} spacing={2}>
+        direction={"column"} spacing={2} sx={{ minHeight: '100vh' }}>
             <Stack 
             direction="row" 
             justifyContent={"space-around"} 

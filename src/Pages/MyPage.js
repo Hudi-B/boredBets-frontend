@@ -22,15 +22,8 @@ export default function UserPage() {
     }
 
     return (
-        <Box sx={{ width: '100%', 
-         height: '100%', 
-         display: 'flex', 
-         flexDirection: 'column', 
-         alignItems: 'center', 
-         justifyContent: 'center', 
+        <Box sx={{ 
          padding: '10px', 
-         margin: '0px', 
-         overflowY: 'auto', 
          paddingTop: '50px' }}
         >
             <Grid container spacing={5} sx={{width: '100%', height: '100%'}}>
@@ -41,7 +34,7 @@ export default function UserPage() {
                         <MenuChip label="History" onClick={() => { handleCompChange(2) }} />
                     </Stack>
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={8} sx={{minHeight: '100vh'}}>
                     {currentPage === 0 && <Information />}
                     {currentPage === 1 && <Cards />}
                     {currentPage === 2 && <History />}
