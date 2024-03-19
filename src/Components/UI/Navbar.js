@@ -16,7 +16,6 @@ import { apiUrl } from '../../boredLocal';
 export default function Navbar( {background} ) {
   const userData = useSelector((state) => state.auth);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [wallet,setWallet] = useState();
 
   const handleScreenResize = () => {
     setScreenWidth(window.innerWidth);
@@ -28,32 +27,13 @@ export default function Navbar( {background} ) {
     };
   });
 
-
-const GetWallet = () => {
-  axios.get(`${apiUrl}User/GetWalletByUserId?UserId=${userData.userId}`)
-  .then((response) => {
-    setWallet(response.data.wallet);
-  })
-  .catch((error) => {
-    console.log(error);
-  })
-}
-
-
-useEffect((event) => {
-  if (userData.isLoggedIn) {
-    GetWallet();
-  }
-},[userData])
-
-
 const RightBoxContent = () => {
     if (userData.isLoggedIn === null) {
       return null;
     } else if (userData.isLoggedIn) {
       return  (
         <Stack direction={'row'} spacing={1} alignItems={'center'}> 
-          <Chip label={wallet} sx={{ color: 'white'}} />
+          <Chip label={userData.wallet} sx={{ color: 'white'}} />
           <UserIcon />
         </Stack>
       );

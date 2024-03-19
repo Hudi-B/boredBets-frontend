@@ -43,6 +43,7 @@ function App() {
           axios.get(apiUrl+`User/GetByUserId?UserId=${userId}`)
           .then((response) => {
             const user = response.data[0];
+            console.log(user);
             dispatch(login(user));
           })
         }
