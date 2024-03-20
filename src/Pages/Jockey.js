@@ -1,12 +1,42 @@
-import { Box, Stack, Typography, Chip } from '@mui/material';
+import { Box, Stack, Typography, Chip, Grid } from '@mui/material';
 import { useEffect } from 'react';
 import {useLocation} from 'react-router-dom';
 import { apiUrl } from '../boredLocal';
 import axios from 'axios';
 import { useState } from 'react';
+import { styled } from '@mui/material/styles';
 
+const Title = styled(Typography)(({ theme }) => ({
+  width:'fill',
+  margin:'10px',
+  borderBottom: '3px solid black',
+  color: 'black',
+  fontSize: '25px',
+  letterSpacing: '1px',
+}))
+const BulletPoint = styled(Typography)(({ theme }) => ({
+  fontSize: "18px",
+  color: 'black',
+  width: 'fit-content',
+  marginLeft: '25px',
+  letterSpacing: '2px',
+  content: '"\\2022"',
+  '&::before': {
+    content: '"\\2022"',
+},
+}))
+const DataText = styled(Typography)(({ theme }) => ({
+  fontSize: "15px",
+  color: 'black',
+  width: 'fit-content',
+  paddingBottom: '0px',
+  marginLeft: '10px',
+  marginTop:'auto'
+}))
 
 export default function App() {
+  const [isPrivate, setIsPrivate] = useState(true);
+
   const id = useLocation().pathname.split("/")[2];
   const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
 
@@ -23,13 +53,26 @@ export default function App() {
     })
   }, []);
 
+
+
+
+  const CustomBulletPoint = styled(({ children, ...props }) => (
+    <BulletPoint {...props}>
+      {children[1]}{children[0]}
+    </BulletPoint>
+  ))`
+    font-weight: bold;
+  `;
+  
+
+      
+
   return (
     <Box
       sx={{
         backgroundColor: 'rgb(4, 112, 107)',
         borderTopRightRadius: '20px',
         borderTopLeftRadius: '20px',
-        minHeight:'100%',
         width:'90%',
         maxWidth: '1000px',
         marginTop: '100px',
@@ -37,11 +80,11 @@ export default function App() {
         marginRight:'auto',
       }}>
 
-        <Stack direction="collumn">
-          <Stack className='preventSelect' direction={"row"} sx={{margin: '20px',width: '100%', gap: 1 }}>
-            <Box id="insteadOfPfp" sx={{
+        <Stack direction="column">
+          <Stack className='preventSelect' direction="row" sx={{margin: '20px', gap: 1 }}>
+            <Box sx={{
                 width: '200px',
-                minWidth: '200px',
+                flexShrink: 0,
                 height: '200px',
                 borderRadius: '50%',
                 display: 'flex',
@@ -52,20 +95,19 @@ export default function App() {
             }}>pfp FR</Box>
             <Stack direction={"column"} sx={{
               width: '100%',
-              height: '100%',
+              height: 'fill',
             }}>
-              <Box sx={{paddingTop: '20px', width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+              <Box sx={{paddingTop: '20px', width: 'fill', display: 'flex', justifyContent: 'space-between'}}>
                 <Typography variant='h5'>Individuals name FR</Typography>
                 <Typography variant='h5'>Icon</Typography>
               </Box>
-              <Box sx={{width: '100%', marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
+              <Box sx={{marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
               <Stack sx={{alignItems:'flex-end'}}>
                 <Typography>
                   Explain uno:
                 </Typography>
               <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="123"/>
               </Stack>
-
               <Stack sx={{alignItems:'flex-end'}}>
                 <Typography>
                   Explain dos:
@@ -73,8 +115,43 @@ export default function App() {
               <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="456"/>
               </Stack>
               </Box>
-
             </Stack>
+          </Stack>
+
+          <Stack 
+            className='preventSelect' 
+            direction="column" 
+            sx={{
+              width: '100%', 
+              marginTop: '30px'}}
+          >
+            <Title>Individuals Information:</Title>
+              <Grid container spacing={2}>
+                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                      <BulletPoint>Born: </BulletPoint>
+                      <DataText>1918.12.44</DataText>
+                  </Grid>
+                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                      <BulletPoint>Gender:</BulletPoint>
+                      <DataText>the strongerGender</DataText>
+                  </Grid>
+                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                      <BulletPoint>Registered:</BulletPoint>
+                      <DataText>1920.12.44</DataText>
+                  </Grid>
+                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                      <BulletPoint>Phone:</BulletPoint>
+                      <DataText>21321321312</DataText>
+                  </Grid>
+                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                      <BulletPoint>Email:</BulletPoint>
+                      <DataText>gypsy@go.com</DataText>
+                  </Grid>
+              </Grid>
+            
+            <Title>History:</Title>
+
+          
           </Stack>
         </Stack>
     </Box>
