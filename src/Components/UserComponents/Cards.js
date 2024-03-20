@@ -22,7 +22,7 @@ export default function Cards() {
 
     const [cardData, setCardData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const userId = '77b9dfd8-2037-4cf4-822a-ccc235b40531';
+    const userId = useSelector((state) => state.auth.userId);
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -43,7 +43,6 @@ export default function Cards() {
         .then((response) => {
             setCardData(response.data);
             setIsLoading(false);
-            console.log(response.data, userId);
         })
         .catch((error) => {
             console.log(error);
@@ -97,7 +96,7 @@ export default function Cards() {
                     ) 
                 }
             </Stack>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={handleClose} onSubmit={() => {fetchData()}}>
                 <DialogContent sx={{ backgroundColor : 'rgb(4, 112, 107)'}}>
                     <CreditCardForm onClose={handleClose} />
                 </DialogContent>

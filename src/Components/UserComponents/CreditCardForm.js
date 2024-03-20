@@ -1,17 +1,50 @@
 import React from 'react';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Box, InputAdornment, Input, Grid, Typography, Button, Stack, TextField } from '@mui/material';
+import { apiUrl } from '../../boredLocal';
 
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import ClearIcon from '@mui/icons-material/Clear';
+import axios from 'axios';
 
-const CreditCardForm = ({ onClose }) => {
+const CreditCardForm = ({ onClose, onSubmit }) => {
 
+    const userId = useSelector((state) => state.auth.userId);
     const [cardNum, setCardNum] = useState('');
     const [name, setName] = useState('');
     const [exp, setExp] = useState('');
     const [cvc, setCvc] = useState('');
     const [holder, setHolder] = useState('');
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        var expSplit = exp.split('/');
+        var formData = {
+            userId : userId,
+            creditcardNum : cardNum,
+            cvc : cvc,
+            expMonth : expSplit[0],
+            expYear : expSplit[1],
+            cardName : name,
+            cardHoldername : holder,
+        }
+        axios.post(apiUrl+`UserCard/UserCardPost`, formData)
+        .then((response) => {
+            onClose();
+            onSubmit();
+        })
+        .catch((error) => {
+            console.log(error);
+            console.log(formData);
+        })
+    }
+
+    const handleNameChange = (event) => {
+        const inputValue = event.target.value;
+        const formattedValue = inputValue.replace(/[^\w]/g, '');
+        setName(formattedValue);
+    }
 
     const handleCardNumberChange = (event) => {
         const inputValue = event.target.value;
@@ -22,8 +55,8 @@ const CreditCardForm = ({ onClose }) => {
 
     const handleHolderChange = (event) => {
         const inputValue = event.target.value;
-        const noNumber = inputValue.replace(/[\d]/g, '');
-        setHolder(noNumber);
+        const formattedValue = inputValue.toUpperCase().replace(/[^A-Z\s]/g, '');
+        setHolder(formattedValue);
     }
 
     const handleExpChange = (event) => {
@@ -45,7 +78,7 @@ const CreditCardForm = ({ onClose }) => {
                 <ClearIcon style={{ color: 'white', position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }} onClick={onClose} />
             </Box>
             <Box sx={{ padding: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', backgroundColor: 'rgb(4, 112, 107)' }}>
-                <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px', color: 'white' }}>Add a new card</Typography>
+                <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px', color: 'white' }}>ADD A NEW CARD</Typography>
                 <Box
                     sx={{
                         display: 'flex',
@@ -67,7 +100,6 @@ const CreditCardForm = ({ onClose }) => {
                             width: '100%',
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'flex-end',
                             height: 'fit-content',
                             position: 'absolute',
                             top: 0,
@@ -75,7 +107,21 @@ const CreditCardForm = ({ onClose }) => {
                             padding: '18px',
                         }}
                     >
-                        <CreditCardIcon sx={{ height: '40px', width: 'auto' }} />
+                        <Stack direction="row" spacing={2} alignItems="center" justifyContent={'space-between'} sx={{ width: '100%' }}>
+                            <Stack>
+                                <Typography sx={{ color: 'white', fontSize: '12px', letterSpacing: '1.5px' }}>CARD NAME</Typography>
+                                <Input
+                                    disableUnderline
+                                    fullWidth
+                                    placeholder="My card"
+                                    value={name}
+                                    inputProps={{ maxLength: 25 }}
+                                    onChange={(event) => handleNameChange(event)}
+                                    sx={{ color: 'white', fontSize: '17px', letterSpacing: '1.5px', caretColor: 'red' }}
+                                />
+                            </Stack>
+                            <CreditCardIcon sx={{ height: '40px', width: 'auto' }} />
+                        </Stack>
                     </Box>
                     <Grid container spacing={2} alignItems="center" className="number-container">
                         <Grid item xs={12}>
@@ -131,6 +177,9 @@ const CreditCardForm = ({ onClose }) => {
                         </Grid>
                     </Grid>
                 </Box>
+
+                <Button variant="contained" sx={{ width: 'fit-content', marginTop: '20px' }} onClick={handleSubmit}>ADD CARD</Button>
+
             </Box>
         </Box>
     );
