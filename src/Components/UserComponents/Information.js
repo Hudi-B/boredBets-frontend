@@ -139,31 +139,7 @@ export default function Information() {
                         <TilePaper>
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Preferences</Typography>
                             <Stack direction="column" spacing={1}>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Language</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="lang"
-                                    label="Language"
-                                    onChange={() => {}}
-                                >
-                                    <MenuItem value={'en'}>English</MenuItem>
-                                    <MenuItem value={'hun'}>Hungarian</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.5)' }} />
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label1">Currency</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label1"
-                                    id="curr"
-                                    label="Currency"
-                                    onChange={() => {}}
-                                >
-                                    <MenuItem value={'en'}>Eur</MenuItem>
-                                    <MenuItem value={'hun'}>Huf</MenuItem>
-                                </Select>
-                            </FormControl>
+                            
                             </Stack>
                         </TilePaper>
                     </Stack>
