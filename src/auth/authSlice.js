@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from 'axios';
-import { apiUrl } from '../boredLocal';
 
 const initialState = {
     isLoggedIn: null,

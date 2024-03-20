@@ -58,7 +58,7 @@ export default function HomePage() {
           alignItems: 'center',
           justifyContent: 'center'}} className='preventSelect'>
             <Typography variant='h3' textAlign={'center'}>Don’t let boredom get you down.</Typography>
-            <Typography variant='h2' textAlign={'center'} fontWeight={'800'}>Bet-bet boredBets</Typography>
+            <Typography variant='h2' textAlign={'center'} fontWeight={'800'}>Bet on boredBets</Typography>
         </Box>
     </Box>
   );
