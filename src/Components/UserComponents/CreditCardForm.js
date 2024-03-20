@@ -20,12 +20,31 @@ const CreditCardForm = ({ onClose }) => {
         setCardNum(formattedValue);
     }
 
+    const handleHolderChange = (event) => {
+        const inputValue = event.target.value;
+        const noNumber = inputValue.replace(/[\d]/g, '');
+        setHolder(noNumber);
+    }
+
+    const handleExpChange = (event) => {
+        const inputValue = event.target.value;
+        const noLetter = inputValue.replace(/[^\d/]/g, '');
+        const formattedValue = noLetter.replace(/\s+/g, '').replace(/(\d{2})(?=\d{1})/g, '$1/').trim();
+        setExp(formattedValue);
+    }
+
+    const handleCvcChange = (event) => {
+        const inputValue = event.target.value;
+        const noLetter = inputValue.replace(/[^\d]/g, '');
+        setCvc(noLetter);
+    }
+
     return (
         <Box>
             <Box>
                 <ClearIcon style={{ color: 'white', position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }} onClick={onClose} />
             </Box>
-            <Box sx={{ width: '500px', height: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', backgroundColor: 'rgb(4, 112, 107)' }}>
+            <Box sx={{ padding: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', backgroundColor: 'rgb(4, 112, 107)' }}>
                 <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px', color: 'white' }}>Add a new card</Typography>
                 <Box
                     sx={{
@@ -33,8 +52,8 @@ const CreditCardForm = ({ onClose }) => {
                         flexDirection: 'column',
                         alignItems: 'flex-start',
                         justifyContent: 'flex-end',
-                        width: '300px',
-                        height: '200px',
+                        width: '350px',
+                        height: '210px',
                         backgroundImage: 'radial-gradient(circle 897px at 9% 80.3%, rgba(55, 60, 245, 1) 0%, rgba(234, 161, 15, 0.9) 100.2%)',
                         borderRadius: '10px',
                         padding: '20px',
@@ -61,7 +80,7 @@ const CreditCardForm = ({ onClose }) => {
                     <Grid container spacing={2} alignItems="center" className="number-container">
                         <Grid item xs={12}>
                             <Typography sx={{ color: 'white', fontSize: '10px', letterSpacing: '1.5px' }}>CARD NUMBER</Typography>
-                            <TextField
+                            <Input
                                 disableUnderline
                                 fullWidth
                                 placeholder="XXXX XXXX XXXX XXXX"
@@ -78,8 +97,10 @@ const CreditCardForm = ({ onClose }) => {
                             <Input
                                 disableUnderline
                                 fullWidth
+                                onChange={(event) => handleHolderChange(event)}
                                 placeholder="JOHN DOE"
-                                id="holderName"
+                                value={holder}
+                                inputProps={{ maxLength: 25 }}
                                 sx={{ color: 'white', fontSize: '13px', letterSpacing: '1.5px' }}
                             />
                         </Grid>
@@ -89,9 +110,11 @@ const CreditCardForm = ({ onClose }) => {
                                 disableUnderline
                                 fullWidth
                                 placeholder="MM/YY"
-                                id="expiry"
+                                value={exp}
+                                onChange={(event) => handleExpChange(event)}
+                                inputProps={{ maxLength: 5 }}
                                 sx={{ color: 'white', fontSize: '13px', letterSpacing: '1.5px' }}
-                            />
+                            />  
                         </Grid>
                         <Grid item xs={2}>
                             <Typography sx={{ color: 'white', fontSize: '10px', letterSpacing: '1.5px' }}>CVC</Typography>
@@ -99,7 +122,9 @@ const CreditCardForm = ({ onClose }) => {
                                 disableUnderline
                                 fullWidth
                                 placeholder="CVC"
-                                id="cvc"
+                                inputProps={{ maxLength: 3 }}
+                                value={cvc}
+                                onChange={(event) => handleCvcChange(event)}
                                 type="password"
                                 sx={{ color: 'white', fontSize: '13px', letterSpacing: '1.5px' }}
                             />
