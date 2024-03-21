@@ -39,10 +39,7 @@ export default function App() {
 
   const id = useLocation().pathname.split("/")[2];
   const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
-
   const [data, setData] = useState({});
-  console.log(process.env.PUBLIC_URL);
-
   useEffect(() => {
     axios.get(`${apiUrl}Jockey/GetJockeyById?JockeyId=${id}`)
     .then((response) => {
@@ -123,8 +120,7 @@ export default function App() {
             direction="column" 
             sx={{
               width: '100%', 
-              marginTop: '30px'}}
-          >
+              marginTop: '30px'}}>
             <Title>Individuals Information:</Title>
               <Grid container spacing={2}>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>

@@ -1,9 +1,11 @@
 import { apiUrl } from '../boredLocal';
-import { Box, Grid, TextField,Autocomplete, Stack, Typography, Button} from '@mui/material';
+import { Popper, Box, Grid, TextField,Autocomplete, Stack, Typography, Button} from '@mui/material';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import * as React from 'react';
+import { useNavigate } from "react-router-dom";
+
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -22,15 +24,18 @@ import { keys } from '@mui/system';
 import PersonIcon from '@mui/icons-material/Person';
 
 
+
 export default function Community() {
   const [horses, setHorses] = useState([]);
   const [users, setUsers] = useState([]);
   const [jockeys, setJockeys] = useState([]);
   const [fetching, setFetching] = useState(true);
+  const [allData, setAllData] = useState([]);
   const [searchValues, setSearchValues] = useState([]);
   const [selected, setSelected] = useState([]);
   const [singleItem, setSingleItem] = useState({});
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
     (async () => {
       try {
@@ -67,6 +72,7 @@ export default function Community() {
       
         values.sort((a, b) => a.name.localeCompare(b.name));
         setSearchValues(values);
+        setAllData(values);
 
         setFetching(false);
       } catch (error) {
@@ -75,19 +81,26 @@ export default function Community() {
     })();
   }, []);
   
-  const navigateForward = (id, type) => {
-    console.log(id, type);
-    if (type === "Horse") {
-      
-    }
-    else if (type === "Jockey") {
-      
-    }
-    else if (type === "User") {
-      
-    }
-  }
-  
+
+
+  const ListItem = ( data ) => {
+    return (
+      <Box display={"flex"} 
+      sx={{
+        width: '100%', 
+        gap: 1, 
+        justifyContent: 'space-between', 
+        marginX: 1,
+        backgroundColor: 'rgba(0,0,0,0.1)',
+        padding: 1,
+        paddingX: 2,
+        borderRadius:'20px'}}>
+      <Box>{data.icon}
+      {data.name}</Box>
+      {data.gender === "Male" ? <MaleIcon sx={{color: 'blue'}} /> : <FemaleIcon sx={{color: 'pink' }} />}
+      </Box>
+    );
+  };
 
   return (
     <Box sx={{ py: 15, px: 5 }}>
@@ -96,7 +109,11 @@ export default function Community() {
             sx={{ width: '100%' }}
             disabled={fetching}
             onChange={(event, newValue) => {
-                setSelected(newValue);
+                navigate(
+                  newValue.type === "Horse" ? `/Horse/${newValue.id}` :
+                  newValue.type === "Jockey" ? `/Jockey/${newValue.id}` :
+                  newValue.type === "User" ? `/User/${newValue.id}` : "/community"
+              );
             }}
             selectOnFocus
             handleHomeEndKeys
@@ -105,14 +122,21 @@ export default function Community() {
               return option.name;
             }}
             renderOption={(props, option) => 
-            <li {...props}key={option.id}>
-              {option.icon}
-              {option.name}
-              {option.gender === "Male" ? <MaleIcon sx={{color: 'blue'}} /> : <FemaleIcon sx={{color: 'pink' }} />}
-            </li>
+            <li {...props}
+            key={option.id}
+             style={{padding: '0px'}}>
+                {ListItem(option)}
+              </li>
           }
             renderInput={(params) => (
-              <TextField {...params} label="Search" />
+              <TextField {...params} 
+              onChange={(e) => {
+                setSearchValues(
+                  allData.filter((item) => item.name.toLowerCase().includes(e.target.value.toLowerCase()))
+                );
+              }}
+              onFocus={() => setSearchValues(allData)}
+              label="Search" />
             )}
           />
 
