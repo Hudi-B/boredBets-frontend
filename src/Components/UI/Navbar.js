@@ -68,11 +68,11 @@ const RightBoxContent = () => {
         <Box sx={{
           display: 'flex',
           gap: '15px'}}>
-            {screenWidth<550 && <Hamburger isAdmin={userData.isAdmin} />}
+            {screenWidth<650 && <Hamburger isAdmin={userData.isAdmin} />}
             <Button style={{color: 'white', fontSize: '25px'}} component={Link} to="/">
-              BoredBets
+              {screenWidth<450 ? 'BB' : 'BoredBets' }
             </Button>
-            {screenWidth>=550 &&
+            {screenWidth>=650 &&
               <>
                 <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/community">
                   <PeopleRoundedIcon sx={{marginRight: '3px'}}/>Community

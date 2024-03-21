@@ -37,7 +37,7 @@ export default function AuthPopup({itsALogin}) {
 
     return (
         <>
-            <Button variant={itsALogin ? "outlined" : "contained"} onClick={handleClickOpen}>
+            <Button sx={{flexWrap: 'nowrap', whiteSpace:'nowrap'}} variant={itsALogin ? "outlined" : "contained"} onClick={handleClickOpen}>
                 {itsALogin? "Login" : "Sign up"}
             </Button>
             <Dialog
