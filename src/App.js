@@ -62,6 +62,7 @@ function App() {
     flexDirection: 'column',
     backgroundColor: 'rgb(2, 145, 138)',
     overflow: 'auto',
+    overflowX: 'hidden',
   }}>
     <Router>
       <Navbar background={"rgba(50, 50, 50, 1)"} />

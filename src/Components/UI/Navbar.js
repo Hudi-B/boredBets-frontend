@@ -70,7 +70,7 @@ const RightBoxContent = () => {
           gap: '15px'}}>
             {screenWidth<650 && <Hamburger isAdmin={userData.isAdmin} />}
             <Button style={{color: 'white', fontSize: '25px'}} component={Link} to="/">
-              BoredBets
+              {screenWidth<450 ? 'BB' : 'BoredBets' }
             </Button>
             {screenWidth>=650 &&
               <>

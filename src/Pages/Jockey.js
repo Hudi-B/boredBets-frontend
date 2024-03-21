@@ -78,42 +78,50 @@ export default function App() {
       }}>
 
         <Stack direction="column">
-          <Stack className='preventSelect' direction="row" sx={{margin: '20px', gap: 1 }}>
-            <Box sx={{
-                width: '200px',
-                flexShrink: 0,
-                height: '200px',
-                borderRadius: '50%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                fontSize: '30px',
-                backgroundColor: 'white',
-            }}>pfp FR</Box>
-            <Stack direction={"column"} sx={{
-              width: '100%',
-              height: 'fill',
-            }}>
-              <Box sx={{paddingTop: '20px', width: 'fill', display: 'flex', justifyContent: 'space-between'}}>
-                <Typography variant='h5'>Individuals name FR</Typography>
-                <Typography variant='h5'>Icon</Typography>
-              </Box>
-              <Box sx={{marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
-              <Stack sx={{alignItems:'flex-end'}}>
-                <Typography>
-                  Explain uno:
-                </Typography>
-              <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="123"/>
-              </Stack>
-              <Stack sx={{alignItems:'flex-end'}}>
-                <Typography>
-                  Explain dos:
-                </Typography>
-              <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="456"/>
-              </Stack>
-              </Box>
-            </Stack>
-          </Stack>
+
+
+          <Grid container className='preventSelect' direction="row" sx={{ justifyContent: 'center', marginTop: '20px', gap: 1 }}>
+            <Grid item xs={12} sm={4} sx={{display:'flex', flexWrap:'nowrap',minWidth:'220px', justifyContent: 'center'}}>
+              <Box sx={{
+                  width: '200px',
+                  flexShrink: 0,
+                  height: '200px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '30px',
+                  backgroundColor: 'white',
+              }}>pfp FR</Box>
+            </Grid>
+            <Grid item xs={12} sm={7} sx={{display:'flex', flexWrap:'nowrap'}}>
+              <Stack direction={"column"} sx={{
+                width: '100%',
+                height: 'fill',
+                marginX: '20px',
+              }}>
+                <Box sx={{paddingTop: '20px', width: 'fill', display: 'flex', justifyContent: 'space-between'}}>
+                  <Typography variant='h5'>Individuals name FR</Typography>
+                  <Typography variant='h5'>Icon</Typography>
+                </Box>
+                <Box sx={{marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
+                <Stack sx={{alignItems:'flex-end'}}>
+                  <Typography>
+                    Explain uno:
+                  </Typography>
+                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="123"/>
+                </Stack>
+                <Stack sx={{alignItems:'flex-end'}}>
+                  <Typography>
+                    Explain dos:
+                  </Typography>
+                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="456"/>
+                </Stack>
+                </Box>
+
+                </Stack>
+              </Grid>
+          </Grid>
 
           <Stack 
             className='preventSelect' 
