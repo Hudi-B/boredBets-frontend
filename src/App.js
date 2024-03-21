@@ -20,9 +20,9 @@ import MyPage from './Pages/MyPage';
 import Races from './Pages/Races';
 import Admin from './Pages/Admin';
 import NotFound from './Pages/NotFound';
-import User from './Pages/User';
-import Jockey from './Pages/Jockey';
-import Horse from './Pages/Horse';
+  import User from './Pages/SinglePages/User';
+  import Jockey from './Pages/SinglePages/Jockey';
+  import Horse from './Pages/SinglePages/Horse';
 
 
 function App() {
