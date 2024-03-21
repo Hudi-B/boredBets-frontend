@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {AlertTitle, Alert, Button, Slider, TextField, FormGroup, Box} from '@mui/material';
+import {AlertTitle, Alert, Button, Slider, TextField, FormGroup, Box, FormControlLabel, Switch} from '@mui/material';
 import axios from 'axios';
 import { apiUrl } from '../../../boredLocal';
 import { useSnackbar } from 'notistack';
@@ -10,6 +10,7 @@ export default function NewJockey() {
     const [formState, setFormState] = React.useState({
         name: '',
         quality: 1,
+        male: false,
     });
     const { enqueueSnackbar } = useSnackbar();
 
@@ -65,6 +66,8 @@ export default function NewJockey() {
                 value={formState.quality}
                 onChange={(event, newValue) => setFormState(prevState => ({ ...prevState, quality: newValue }))}
             />
+            
+            <FormControlLabel control={<Switch onChange={handleChange} name="male" />} label="Male" />
             <Button variant="contained" onClick={() => handleSubmit()}>Send</Button>
         </FormGroup>
     );

@@ -50,8 +50,6 @@ function App() {
         dispatch(logout());
       }
     }, []);
-
-
   return (
   <Box sx={{
     width: '100vw',
