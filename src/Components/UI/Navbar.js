@@ -74,8 +74,8 @@ const RightBoxContent = () => {
             </Button>
             {screenWidth>=650 &&
               <>
-                <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/community">
-                  <PeopleRoundedIcon sx={{marginRight: '3px'}}/>Community
+                <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/discover">
+                  <PeopleRoundedIcon sx={{marginRight: '3px'}}/>Discover
                 </Button>
                 <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/races">
                   <StadiumRoundedIcon sx={{marginRight: '3px'}}/>Races

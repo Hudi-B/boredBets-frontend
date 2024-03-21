@@ -15,7 +15,7 @@ import { SnackbarProvider } from 'notistack';
 import Navbar from './Components/UI/Navbar'
 import Footer from './Components/UI/Footer';
 import Home from './Pages/Home';
-import Community from './Pages/Community';
+import Discover from './Pages/Discover';
 import MyPage from './Pages/MyPage';
 import Races from './Pages/Races';
 import Admin from './Pages/Admin';
@@ -67,7 +67,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home/>} />
             <Route path="*" element={<NotFound/>} />
-        <Route exact path="/community" element={<Community/>} />
+        <Route exact path="/discover" element={<Discover/>} />
             <Route exact path="/user/:userId" element={<User/>} />
             <Route exact path="/jockey/:jockeyId" element={<Jockey/>} />
             <Route exact path="/horse/:horseId" element={<Horse/>} />

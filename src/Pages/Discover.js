@@ -25,7 +25,7 @@ import PersonIcon from '@mui/icons-material/Person';
 
 
 
-export default function Community() {
+export default function Discover() {
   const [horses, setHorses] = useState([]);
   const [users, setUsers] = useState([]);
   const [jockeys, setJockeys] = useState([]);
@@ -112,7 +112,7 @@ export default function Community() {
                 navigate(
                   newValue.type === "Horse" ? `/Horse/${newValue.id}` :
                   newValue.type === "Jockey" ? `/Jockey/${newValue.id}` :
-                  newValue.type === "User" ? `/User/${newValue.id}` : "/community"
+                  newValue.type === "User" ? `/User/${newValue.id}` : "/discover"
               );
             }}
             selectOnFocus
