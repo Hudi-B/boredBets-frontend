@@ -42,7 +42,7 @@ const CreditCardForm = ({ onClose, onSubmit }) => {
 
     const handleNameChange = (event) => {
         const inputValue = event.target.value;
-        const formattedValue = inputValue.replace(/[^\w]/g, '');
+        const formattedValue = inputValue.replace(/[^a-zA-z\s]/g, '');
         setName(formattedValue);
     }
 
@@ -50,7 +50,7 @@ const CreditCardForm = ({ onClose, onSubmit }) => {
         const inputValue = event.target.value;
         const noLetter = inputValue.replace(/[^\d]/g, '');
         const formattedValue = noLetter.replace(/\s+/g, '').replace(/(\d{4})/g, '$1 ').trim();
-        setCardNum(formattedValue);
+        setCardNum(formattedValue); 
     }
 
     const handleHolderChange = (event) => {
