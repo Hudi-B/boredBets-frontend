@@ -32,24 +32,29 @@ function App() {
   //jwtDecode(Cookies.get('refreshToken'));
   // change to use refresh token
 
+    const fetchData = async (userId) => {
+      await axios.get(apiUrl+`User/GetByUserId?UserId=${userId}`)
+          .then((response) => {
+            const user = response.data;
+            dispatch(login(user));
+          })
+    }
+
     useEffect(() => {
-      if (Cookies.get('accessToken')) { 
+      if (Cookies.get('accessToken')) {
         const accessToken = Cookies.get('accessToken');
         var userId;
         if (accessToken && accessToken!=='undefined') {
           userId = jwtDecode(accessToken).UserId;
         }
         if (userId) {
-          axios.get(apiUrl+`User/GetByUserId?UserId=${userId}`)
-          .then((response) => {
-            const user = response.data;
-            dispatch(login(user));
-          })
+          fetchData(userId);
         }
       }else {
         dispatch(logout());
       }
     }, []);
+
   return (
   <Box sx={{
     width: '100vw',

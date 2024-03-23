@@ -15,7 +15,7 @@ const authSlice = createSlice({
             state.isLoggedIn = true;
             state.isAdmin = action.payload.admin;
             state.userId = action.payload.id;
-            state.wallet = action.payload.wallet
+            state.wallet = action.payload.wallet;
         },
         logout(state) {
             state.isLoggedIn = false;
