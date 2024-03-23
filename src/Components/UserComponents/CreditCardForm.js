@@ -165,13 +165,14 @@ const CreditCardForm = ({ onClose, onSubmit }) => {
                                     sx={{ color: 'white', fontSize: '17px', letterSpacing: '1.5px', caretColor: 'red' }}
                                 />
                             </Stack>
-                            <CreditCardIcon sx={{ height: '40px', width: 'auto' }} />
+                            <CreditCardIcon style={{ height: '40px', width: 'auto', color: 'white' }} />
                         </Stack>
                     </Box>
                     <Grid container spacing={2} alignItems="center" className="number-container">
                         <Grid item xs={12}>
                             <Typography sx={{ color: 'white', fontSize: '10px', letterSpacing: '1.5px' }}>CARD NUMBER</Typography>
                             <Input
+                                id='card-number-input'
                                 disableUnderline
                                 fullWidth
                                 placeholder="XXXX XXXX XXXX XXXX"
@@ -186,6 +187,7 @@ const CreditCardForm = ({ onClose, onSubmit }) => {
                         <Grid item xs={7}>
                             <Typography sx={{ color: 'white', fontSize: '10px', letterSpacing: '1.5px' }}>CARD HOLDER</Typography>
                             <Input
+                                id='card-holder-input'
                                 disableUnderline
                                 fullWidth
                                 onChange={(event) => handleHolderChange(event)}
@@ -198,6 +200,7 @@ const CreditCardForm = ({ onClose, onSubmit }) => {
                         <Grid item xs={3}>
                             <Typography sx={{ color: 'white', fontSize: '10px', letterSpacing: '1.5px' }}>EXP</Typography>
                             <Input
+                                id='exp-date-input'
                                 disableUnderline
                                 fullWidth
                                 placeholder="MM/YY"
@@ -210,6 +213,7 @@ const CreditCardForm = ({ onClose, onSubmit }) => {
                         <Grid item xs={2}>
                             <Typography sx={{ color: 'white', fontSize: '10px', letterSpacing: '1.5px' }}>CVC</Typography>
                             <Input
+                                id='cvc-input'
                                 disableUnderline
                                 fullWidth
                                 placeholder="CVC"
