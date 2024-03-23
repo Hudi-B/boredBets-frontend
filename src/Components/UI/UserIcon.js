@@ -30,6 +30,7 @@ export default function UserIcon() {
   const handleLogout = () => {
     dispatch(logout());
     clearCookies('');
+    navigate('/');
   }
   
     return (
