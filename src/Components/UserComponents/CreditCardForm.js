@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Box, InputAdornment, Input, Grid, Typography, Button, Stack, TextField } from '@mui/material';
 import { apiUrl } from '../../boredLocal';
+import { useSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -16,28 +18,71 @@ const CreditCardForm = ({ onClose, onSubmit }) => {
     const [exp, setExp] = useState('');
     const [cvc, setCvc] = useState('');
     const [holder, setHolder] = useState('');
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        var expSplit = exp.split('/');
-        var formData = {
-            userId : userId,
-            creditcardNum : cardNum,
-            cvc : cvc,
-            expMonth : expSplit[0],
-            expYear : expSplit[1],
-            cardName : name,
-            cardHoldername : holder,
+
+        var expirationSplit = exp.split('/');
+        var expirationYear = expirationSplit[1];
+        var expirationMonth =  expirationSplit[0];
+
+        if( !validateCardNumber(cardNum) || !validateCvc(cvc) || !validateHolder(holder) || !validateExp(expirationMonth, expirationYear) ) {
+
+            if(!validateCardNumber(cardNum)) enqueueSnackbar("Invalid Card Number", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+            if(!validateCvc(cvc)) enqueueSnackbar("Invalid CVC", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+            if(!validateHolder(holder)) enqueueSnackbar("Invalid Holder", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+            if(!validateExp(expirationMonth, expirationYear)) enqueueSnackbar("Invalid Expiration Date", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+
+            return;
         }
-        axios.post(apiUrl+`UserCard/UserCardPost`, formData)
-        .then((response) => {
-            onClose();
-            onSubmit();
-        })
-        .catch((error) => {
-            console.log(error);
-            console.log(formData);
-        })
+
+        var formData = {
+            userId: userId,
+            creditcardNum: cardNum,
+            cvc: cvc,
+            expMonth: expirationMonth,
+            expYear: expirationYear,
+            cardName: name,
+            cardHoldername: holder,
+        };
+        axios
+            .post(apiUrl + `UserCard/UserCardPost`, formData)
+            .then((response) => {
+                onClose();
+                onSubmit();
+            })
+            .catch((error) => {
+                console.log(error);
+                console.log(formData);
+            });
+    }
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSubmit(event);
+        }
+    };
+
+    const validateCardNumber = (cardNumber) => {
+        return cardNumber.length === 19;
+    }
+
+    const validateCvc = (cvc) => {
+        return cvc.length === 3;
+    }
+
+    const validateHolder = (holder) => {
+        return holder.trim().includes(' ');
+    }
+
+    const validateExp = (expM, expY) => {
+        var currentYear = new Date().getFullYear() % 100;
+        var currentMonth = new Date().getMonth() + 1;
+
+        return (
+            (expY > currentYear && expM > 0 && expM <= 12) || (expY === currentYear && expM >= currentMonth && expM <= 12)
+        );
     }
 
     const handleNameChange = (event) => {
@@ -73,7 +118,7 @@ const CreditCardForm = ({ onClose, onSubmit }) => {
     }
 
     return (
-        <Box>
+        <Box onKeyDown={handleKeyPress}>
             <Box>
                 <ClearIcon style={{ color: 'white', position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }} onClick={onClose} />
             </Box>
