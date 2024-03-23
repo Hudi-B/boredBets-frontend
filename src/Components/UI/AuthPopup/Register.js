@@ -48,25 +48,27 @@ const handleRegister = async () => {
 
 
     return (
-        <>
+    <>
         <TextField 
-            id="outlined-basic" 
+            id="registerUsername" 
             label="Username" 
             variant="outlined" 
             name="username" 
             value={data.username} 
             onChange={handleChange} 
+            onKeyDown={(e) => e.key === 'Enter' && handleRegister()}
             fullWidth
             helperText={alertOnUsername ? 'Please enter a valid Username' : ''}
         />
         
         <TextField 
-            id="outlined-basic" 
+            id="registerEmail" 
             label="Email" 
             variant="outlined" 
             name="email" 
             value={data.email} 
-            onChange={handleChange} 
+            onChange={handleChange}
+            onKeyDown={(e) => e.key === 'Enter' && handleRegister()}
             fullWidth
             helperText={alertOnEmail ? 'Please enter a valid Email' : ''}
         />
@@ -74,11 +76,11 @@ const handleRegister = async () => {
         <Box display="flex" spacing={1} alignItems="flex-start" > 
             <TextField 
                 className='popupPassword'
-                id="outlined-basic" 
+                id="registerPassword" 
                 label="Password" 
                 variant="outlined" 
                 name="password" 
-                onKeyDown={(e) => e.keyCode == 13 && handleRegister()}
+                onKeyDown={(e) => e.key === 'Enter' && handleRegister()}
                 value={data.password} 
                 onChange={handleChange} 
                 sx={{ flexGrow: 1, marginRight: 1 }}

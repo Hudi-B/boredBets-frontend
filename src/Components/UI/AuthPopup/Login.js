@@ -51,19 +51,20 @@ export default function Login({data, callback}) {
         callback(event);
     };
 
-const ForgotPassword = () => {
-    // another dialog in here asking for the users email, then sending a post request with that email to the api
-}
+    const ForgotPassword = () => {
+        // another dialog in here asking for the users email, then sending a post request with that email to the api
+    }
 
     return (
     <>
         <TextField 
-            id="outlined-basic" 
+            id="loginUsername" 
             label="Email or Username"
             variant="outlined" 
             name="username" 
             value={data.username? data.username : data.email} 
             onChange={handleChange} 
+            onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
             fullWidth
             helperText={alertOnLogin ? 'Please enter a valid login identifier' : ''}
         />
@@ -71,11 +72,11 @@ const ForgotPassword = () => {
         <Box display="flex" spacing={1} alignItems="flex-start" > 
             <TextField 
                 className='popupPassword'
-                id="outlined-basic" 
+                id="loginPassword" 
                 label="Password" 
                 variant="outlined" 
                 name="password" 
-                onKeyDown={(e) => e.keyCode == 13 && handleLogin()}
+                onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
                 value={data.password} 
                 onChange={handleChange} 
                 sx={{ flexGrow: 1, marginRight: 1 }}
