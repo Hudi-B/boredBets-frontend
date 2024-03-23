@@ -24,7 +24,7 @@ export default function UserIcon() {
   };
 
   const toUserPage = () => {
-      navigate(`/mypage/${userData.userId}`);
+      navigate(`/mypage`);
   };
 
   const handleLogout = () => {

@@ -77,8 +77,8 @@ function App() {
             <Route exact path="/jockey/:jockeyId" element={<Jockey/>} />
             <Route exact path="/horse/:horseId" element={<Horse/>} />
         <Route exact path="/races" element={<Races/>} />
-        <Route exact path="/mypage/:userId" element={<MyPage/>} />
 
+        {userData.isLoggedIn && <Route exact path="/mypage" element={<MyPage/>} />}
         {userData.isAdmin && <Route exact path="/admin" element={<Admin/>} />}
       </Routes>
     </Router>
