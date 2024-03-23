@@ -96,9 +96,9 @@ export default function Cards() {
                     ) 
                 }
             </Stack>
-            <Dialog open={open} onClose={handleClose} onSubmit={() => {fetchData()}}>
+            <Dialog open={open} onClose={handleClose} >
                 <DialogContent sx={{ backgroundColor : 'rgb(4, 112, 107)'}}>
-                    <CreditCardForm onClose={handleClose} />
+                    <CreditCardForm onClose={handleClose} onSubmit={() => {fetchData()}} />
                 </DialogContent>
             </Dialog>
         </Box>
