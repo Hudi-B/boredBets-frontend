@@ -1,5 +1,5 @@
 import { apiUrl } from '../boredLocal';
-import { Box, FormControlLabel, TextField,Autocomplete, Stack, Chip, Button, Slider} from '@mui/material';
+import { Input, RadioGroup, Radio, Typography, Grid, Box, FormControlLabel, TextField,Autocomplete, Stack, Chip, Button, Slider, Divider} from '@mui/material';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
@@ -24,6 +24,7 @@ import { keys } from '@mui/system';
 import PersonIcon from '@mui/icons-material/Person';
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import { styled } from '@mui/material/styles';
 
 
 export default function Discover() {
@@ -37,9 +38,13 @@ export default function Discover() {
   const [singleItem, setSingleItem] = useState({});
   const navigate = useNavigate();
 
-  const [userActive, setUserActive] = useState(true);
-  const [jockeyActive, setJockeyActive] = useState(true);
-  const [horseActive, setHorseActive] = useState(true);
+  const [userActive, setUserActive] = useState(false);
+  const [jockeyActive, setJockeyActive] = useState(false);
+  const [horseActive, setHorseActive] = useState(false);
+
+  const [filters, setFilters] = useState(
+    []
+  );
 
   const [value1, setValue1] = React.useState([1, 6]);
 
@@ -108,28 +113,81 @@ export default function Discover() {
       </Box>
     );
   };
+ 
+  const handleChipClick = (sender) => {
+    switch (sender) {
+      case "Horse":
+        setHorseActive(!horseActive);
+        setUserActive(false);
+        setJockeyActive(false);
+        break;
+      case "User":
+        setHorseActive(false);
+        setUserActive(!userActive);
+        setJockeyActive(false);
+        break;
+      case "Jockey":
+        setHorseActive(false);
+        setUserActive(false);
+        setJockeyActive(!jockeyActive);
+          break;
 
-  const handleChange1 = (event, newValue, activeThumb) => {
-    if (!Array.isArray(newValue)) {
-      return;
+      default:
+        break;
     }
+  }
 
-    if (activeThumb === 0) {
-      setValue1([Math.min(newValue[0], value1[1] - 1), value1[1]]);
-    } else {
-      setValue1([value1[0], Math.max(newValue[1], value1[0] + 1)]);
-    }
-  };
-
-
-
-
-
-
+  const Cube = (item) => (
+    <Button 
+      component={Link} 
+      to={
+        item.type === "Horse" ? `/Horse/${item.id}` : 
+        item.type === "Jockey" ? `/Jockey/${item.id}` : 
+        item.type === "User" ? `/User/${item.id}`: "/community"}
+      sx={{
+        textTransform: 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        width: '100%',
+        minWidth: '175px',
+        height: '125px',
+        backgroundColor: 'rgb(4, 112, 107)', 
+        borderRadius: '10px',
+        marginInline: 'auto',
+        '&:hover': {
+          backgroundColor: 'rgb(4, 112, 107)',
+          boxShadow: '0 0 30px rgb(4, 50,50)',
+        }
+      }}
+    >
+      <Typography 
+        sx={{ 
+          fontWeight: 'bold', 
+          fontSize: '22px', 
+          color: 'white', 
+          textAlign: 'center' }}
+          > 
+          {item.icon}
+          &nbsp;
+          {item.name}
+          </Typography>
+      <Box>
+        {item.gender === "Male" ? 
+          <MaleIcon sx={{color: 'blue', fontSize: 35}} /> : 
+          <FemaleIcon sx={{color: 'pink', fontSize: 35 }} />}
+          
+        {/*
+        This is for displaying Warning messages regarding individuals
+        <MaleIcon sx={{color: 'blue', fontSize: 35, position: 'absolute', right: 0}} />*/}
+      </Box>
+    </Button>
+  );
+  
   return (
     <Box sx={{ py: 15, px: 5,display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center', width: '100%', gap: 2 }}>
             <Autocomplete
-            sx={{ width: '60%', marginRight: 'auto' }}
+            sx={{ width: '80%', marginX: 'auto' }}
             disabled={fetching}
             onChange={(event, newValue) => {
                 navigate(
@@ -164,16 +222,14 @@ export default function Discover() {
           />
 
 
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', }}>
-          <Box 
+        <Grid container gap={1} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+          <Grid item xs={12} sm={2}
           sx={{
-            width: '30%',
             minWidth: '180px',
-            maxWidth: '300px', 
+            maxWidth: '300px',
             backgroundColor: 'rgba(4, 112, 107, 0.5)',
             borderRadius: '10px', 
-            padding: '5px',
-            marginRight: '10px' }}>
+            padding: '5px'}}>
               <Box sx={{
                 height: '100%',
                 borderRadius: '8px', 
@@ -190,33 +246,53 @@ export default function Discover() {
                   color="success" 
                   icon={<PersonIcon />} 
                   label="Users" 
-                  onDelete={() => setUserActive(!userActive)}
+                  onDelete={() => handleChipClick("User")}
                   deleteIcon={userActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
                   
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0, paddingLeft: 2  }}>
+              <Box sx={{ color: 'rgb(240, 240, 240)', display: 'flex', flexDirection: 'column', gap: 0}}>
                 
+              <Typography marginX={1} sx={{ color: !userActive && 'rgba(40, 40, 40,0.8)' }}>Privacy:</Typography>
                 <FormControlLabel disabled={!userActive} 
-                sx={{color: 'rgb(240, 240, 240)'}}
-                  control={
-                    <Checkbox
-                      defaultChecked
-                      size='small'
-                      color='default'
-                      icon={< CircleOutlinedIcon/>}
-                      checkedIcon={<CircleIcon />}
-                    />} label="Non-private" />
+                  sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
+                    control={
+                      <Checkbox
+                        size='small'
+                        color='default'
+                        icon={< CircleOutlinedIcon/>}
+                        checkedIcon={<CircleIcon />}
+                      />} label="Public" />
 
+                <FormControlLabel disabled={!userActive} 
+                  sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
+                    control={
+                      <Checkbox
+                        size='small'
+                        color='default'
+                        icon={< CircleOutlinedIcon/>}
+                        checkedIcon={<CircleIcon />}
+                      />} label="Private" />
 
+                <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}} />
+                <Typography marginX={1} sx={{ color: !userActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
+                <FormControlLabel disabled={!userActive} 
+                  sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
+                    control={
+                      <Checkbox
+                        size='small'
+                        color='default'
+                        icon={< CircleOutlinedIcon/>}
+                        checkedIcon={<CircleIcon />}
+                      />} label="Male" />
 
-                  <FormControlLabel disabled={!userActive}
-                  sx={{color: 'rgb(240, 240, 240)'}}
-                  control={
-                    <Checkbox
-                      size='small'
-                      color='default'
-                      icon={< CircleOutlinedIcon/>}
-                      checkedIcon={<CircleIcon />}
-                    />} label="Admin" />
+                <FormControlLabel disabled={!userActive} 
+                  sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
+                    control={
+                      <Checkbox
+                        size='small'
+                        color='default'
+                        icon={< CircleOutlinedIcon/>}
+                        checkedIcon={<CircleIcon />}
+                      />} label="Female" />
                 </Box>
 
 
@@ -225,34 +301,43 @@ export default function Discover() {
                   color="success" 
                   icon={<FontAwesomeIcon icon={faHorseHead} />} 
                   label="Horses"
-                  onDelete={() => setHorseActive(!horseActive)}
+                  onDelete={() => handleChipClick("Horse")}
                   deleteIcon={horseActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
               {/*age, gender, */}
-              <Box color={'rgb(240, 240, 240)'} sx={{ display: 'flex', flexDirection: 'column', gap: 0, paddingX: 2  }}>
-                Age:
-              <Slider
-                color='warning'
-                value={value1}
-                disabled={!horseActive}
-                width='fill'
-                min={1}
-                max={6}
-                onChange={handleChange1}
-                valueLabelDisplay="auto"
-                disableSwap
-              />
+              <Box color={'rgb(240, 240, 240)'} sx={{ display: 'flex', flexDirection: 'column', gap: 0, }}>
                 
+                <Typography marginX={2}  sx={{ color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Minimum age:</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 0, }}>
+                <TextField marginX={2} disabled={!horseActive} size='small' placeholder='min' />
+                <TextField marginX={2} disabled={!horseActive} size='small' placeholder='max' />
+                </Box>
+                <Button marginX={2} disabled={!horseActive} variant='filled' sx={{color: 'rgb(240, 240, 240)'}}>Set</Button>
                 
+                <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
                 
+                <Typography sx={{ marginX: 1, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
                 <FormControlLabel disabled={!horseActive} 
-                  control={
-                    <Checkbox
-                      defaultChecked
-                      size='small'
-                      color='default'
-                      icon={< CircleOutlinedIcon/>}
-                      checkedIcon={<CircleIcon />}
-                    />} label="Stallion" />
+                  sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
+                    control={
+                      <Checkbox
+                        size='small'
+                        color='default'
+                        icon={< CircleOutlinedIcon/>}
+                        checkedIcon={<CircleIcon />}
+                      />} label="Stallion" />
+
+                <FormControlLabel disabled={!horseActive} 
+                  sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
+                    control={
+                      <Checkbox
+                        size='small'
+                        color='default'
+                        icon={< CircleOutlinedIcon/>}
+                        checkedIcon={<CircleIcon />}
+                      />} label="Breeder" />
+                
+
+
               </Box>
 
 
@@ -262,16 +347,16 @@ export default function Discover() {
                   width="100%"
                   icon={<FontAwesomeIcon icon={faHelmetSafety}/>} 
                   label="Jockeys" 
-                  onDelete={() => setJockeyActive(!jockeyActive)}
+                  onDelete={() => handleChipClick("Jockey")}
                   deleteIcon={jockeyActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
 
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0, paddingLeft: 2  }}>
-
+              <Box sx={{ color: 'rgb(240, 240, 240)', display: 'flex', flexDirection: 'column', gap: 0}}>
+              
+              <Typography sx={{ marginX: 1, color: !jockeyActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
                 <FormControlLabel disabled={!jockeyActive} 
-                  sx={{color: 'rgb(240, 240, 240)'}}
+                  sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
                     control={
                       <Checkbox
-                        defaultChecked
                         size='small'
                         color='default'
                         icon={< CircleOutlinedIcon/>}
@@ -279,63 +364,95 @@ export default function Discover() {
                       />} label="Male" />
 
                 <FormControlLabel disabled={!jockeyActive} 
-                sx={{color: 'rgb(240, 240, 240)'}}
-                  control={
-                    <Checkbox
-                      defaultChecked
-                      size='small'
-                      color='default'
-                      icon={< CircleOutlinedIcon/>}
-                      checkedIcon={<CircleIcon />}
-                    />} label="Has a horse" />
+                  sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
+                    control={
+                      <Checkbox
+                        size='small'
+                        color='default'
+                        icon={< CircleOutlinedIcon/>}
+                        checkedIcon={<CircleIcon />}
+                      />} label="Female" />
 
+                <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
+
+                <Typography sx={{ marginX: 1, color: !jockeyActive && 'rgba(40, 40, 40,0.8)' }}>Owns a horse:</Typography>
+                <FormControlLabel disabled={!jockeyActive} 
+                  sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
+                    control={
+                      <Checkbox
+                        size='small'
+                        color='default'
+                        icon={< CircleOutlinedIcon/>}
+                        checkedIcon={<CircleIcon />}
+                      />} label="Does" />
+
+                <FormControlLabel disabled={!jockeyActive} 
+                  sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
+                    control={
+                      <Checkbox
+                        size='small'
+                        color='default'
+                        icon={< CircleOutlinedIcon/>}
+                        checkedIcon={<CircleIcon />}
+                      />} label="Does not" />
               </Box>
-
-                
-
-
-
               </Box>
-          </Box>
+          </Grid>
 
-          <Stack direction="column" sx={{ width: '80%' }}>
-            {searchValues.map((item) => (
-              <Button 
-              component={Link} 
-              to={
-                item.type === "Horse" ? `/Horse/${item.id}` : 
-                item.type === "Jockey" ? `/Jockey/${item.id}` : 
-                item.type === "User" ? `/User/${item.id}`: "/community"}
-              key={item.id}
-              sx={{ 
-                width: '100%', 
-                height : '75px',
-                color: 'white', 
-                backgroundColor: 'rgb(4, 112, 107)', 
-                borderRadius: 3,
-                marginBottom: 1,
-                justifyContent: 'flex-start',
-                '&:hover': {
-                  backgroundColor: 'rgb(4, 112, 107)',
-                  boxShadow: '0 0 30px rgb(4, 50,50)',
-                }
-              }}
-              >
-                <Box sx={{fontSize: 40, marginX: 2}}>
-                  {item.icon}
-                </Box>
-                <Box sx={{fontSize: 15, height: '100%', display: 'flex', alignItems: 'flex-start'}}>
-                  {item.name}
-                </Box>
-                <Box sx={{height: '100%', marginLeft: 'auto'}}>
-                  {item.gender === "Male" ? 
-                      <MaleIcon sx={{color: 'blue', fontSize: 35 }} /> : 
-                      <FemaleIcon sx={{color: 'pink', fontSize: 35 }} />}
-                </Box>
-              </Button>
-            ))}
-          </Stack>
-        </Box>
+          <Grid item xs={12} sm={7}>
+            <Grid container display={'flex'} spacing={1}>
+              {searchValues.map((item) => (
+                <Grid item xs key={item.id}>
+                  {Cube(item)}
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+        </Grid>
     </Box>
   );
 }
+
+
+
+/*
+
+            <Stack direction="column">
+              {searchValues.map((item) => (
+                <Button 
+                component={Link} 
+                to={
+                  item.type === "Horse" ? `/Horse/${item.id}` : 
+                  item.type === "Jockey" ? `/Jockey/${item.id}` : 
+                  item.type === "User" ? `/User/${item.id}`: "/community"}
+                key={item.id}
+                sx={{ 
+                  width: '100%', 
+                  height : '75px',
+                  color: 'white', 
+                  backgroundColor: 'rgb(4, 112, 107)', 
+                  borderRadius: 3,
+                  marginBottom: 1,
+                  justifyContent: 'flex-start',
+                  '&:hover': {
+                    backgroundColor: 'rgb(4, 112, 107)',
+                    boxShadow: '0 0 30px rgb(4, 50,50)',
+                  }
+                }}
+                >
+                  <Box sx={{fontSize: 40, marginX: 2}}>
+                    {item.icon}
+                  </Box>
+                  <Box sx={{fontSize: 15, height: '100%', display: 'flex', alignItems: 'flex-start'}}>
+                    {item.name}
+                  </Box>
+                  <Box sx={{height: '100%', marginLeft: 'auto'}}>
+                    {item.gender === "Male" ? 
+                        <MaleIcon sx={{color: 'blue', fontSize: 35 }} /> : 
+                        <FemaleIcon sx={{color: 'pink', fontSize: 35 }} />}
+                  </Box>
+                </Button>
+              ))}
+            </Stack>
+
+*/
