@@ -34,20 +34,11 @@ export default function Discover() {
   const [fetching, setFetching] = useState(true);
   const [allData, setAllData] = useState([]);
   const [searchValues, setSearchValues] = useState([]);
-  const [selected, setSelected] = useState([]);
-  const [singleItem, setSingleItem] = useState({});
   const navigate = useNavigate();
 
   const [userActive, setUserActive] = useState(false);
   const [jockeyActive, setJockeyActive] = useState(false);
   const [horseActive, setHorseActive] = useState(false);
-
-  const [filters, setFilters] = useState(
-    []
-  );
-
-  const [value1, setValue1] = React.useState([1, 6]);
-
 
   useEffect(() => {
     (async () => {
