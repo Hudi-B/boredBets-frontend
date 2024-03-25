@@ -49,7 +49,7 @@ export default function Discover() {
 
   const horseFilterDefault = {
     minAge: 0,
-    maxAge: 0,
+    maxAge: 6,
     stallion: false,
     mare: false,
   };
@@ -114,6 +114,9 @@ export default function Discover() {
     })();
   }, []);
   
+  const applyFilters = () => {
+    
+  }
 
   const ListItem = ( data ) => {
     return (
@@ -287,13 +290,16 @@ return(
 
 
         <Grid container gap={1} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+          
+
           <Grid item xs={12} sm={2}
           sx={{
             minWidth: '180px',
             maxWidth: '300px',
             backgroundColor: 'rgba(4, 112, 107, 0.5)',
             borderRadius: '10px', 
-            padding: '5px'}}>
+            padding: 1}}>
+              <Button variant='contained' onClick={() => applyFilters()} sx={{width: '100%', marginY: 1}} color='success'>Apply Filters</Button>
               <Box sx={{
                 height: '100%',
                 borderRadius: '8px', 
@@ -338,12 +344,11 @@ return(
               {/*age, gender, */}
                 <Box color={'rgb(240, 240, 240)'} sx={{ display: 'flex', flexDirection: 'column', gap: 0, }}>
                   
-                  <Typography sx={{ marginX: 2, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Minimum age:</Typography>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', gap: 0, }}>
-                    <TextField sx={{marginX: 2}} disabled={!horseActive} size='small' placeholder='min' />
-                    <TextField sx={{marginX: 2}} disabled={!horseActive} size='small' placeholder='max' />
+                  <Typography sx={{ marginX: 2, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Age range:</Typography>
+                  <Box sx={{ marginBottom: 1, marginX: 1, display: 'flex', flexDirection: 'row', gap: 0, }}>
+                    <TextField onChange={(e) => setHorseFilters({ ...horseFilters, minAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='min' />
+                    <TextField onChange={(e) => setHorseFilters({ ...horseFilters, maxAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='max' />
                   </Box>
-                  <Button sx={{marginX: 2}} disabled={!horseActive} variant='filled' sx={{color: 'rgb(240, 240, 240)'}}>Set</Button>
                   
                   <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
                   
