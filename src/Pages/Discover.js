@@ -18,6 +18,9 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import { faHorseHead, faHelmetSafety } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { InputAdornment } from '@mui/material';
+import SearchIcon from "@mui/icons-material/Search";
+
 
 import { keys } from '@mui/system';
 
@@ -266,7 +269,7 @@ return(
   return (
     <Box sx={{ py: 15, px: 5,display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center', width: '100%', gap: 2 }}>
             <Autocomplete
-            sx={{ width: '80%', marginX: 'auto' }}
+            sx={{ width: '80%', maxWidth: '1200px', marginX: 'auto','& .MuiAutocomplete-inputRoot': {paddingX: '20px', borderRadius: '50px'} }}
             disabled={fetching}
             onChange={(event, newValue) => {
                 navigate(
@@ -275,6 +278,7 @@ return(
                   newValue.type === "User" ? `/User/${newValue.id}` : "/discover"
               );
             }}
+            freeSolo
             selectOnFocus
             handleHomeEndKeys
             options={searchValues}
@@ -289,12 +293,40 @@ return(
               </li>
           }
             renderInput={(params) => (
-              <TextField {...params} 
+              <TextField {...params}
+
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "50px",
+      
+                  legend: {
+                    marginLeft: "30px"
+                  }
+                },
+                "& .MuiAutocomplete-inputRoot": {
+                  paddingLeft: "20px !important",
+                  borderRadius: "50px"
+                },
+                "& .MuiInputLabel-outlined": {
+                  paddingLeft: "35px",
+                  fontSize: "18px",
+                },
+              }}
+
+
               onChange={(e) => {
                 setSearchValues(
                   allData.filter((item) => item.name.toLowerCase().includes(e.target.value.toLowerCase()))
                 );
               }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ margin: 1}}>
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+    
               onFocus={() => setSearchValues(allData)}
               label="Search" />
             )}
@@ -398,7 +430,7 @@ return(
 
           <Grid item xs={12} sm={7}>
             {serverError ? 
-              <img style={{height: '60vh'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
+              <img style={{width: '90%', maxWidth: '400px'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
               : 
               <Grid container display={'flex'} spacing={1}>
               {searchValues.map((item) => (
