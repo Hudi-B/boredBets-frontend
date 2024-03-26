@@ -120,6 +120,7 @@ export default function Discover() {
     })();
   }, []);
   
+
   useEffect(() => {
     if(searchValues.length < 1 && !fetching ) {
       setServerError(true);
@@ -230,7 +231,8 @@ export default function Discover() {
           
         {/*
         This is for displaying Warning messages regarding individuals
-        <MaleIcon sx={{color: 'blue', fontSize: 35, position: 'absolute', right: 0}} />*/}
+        <MaleIcon sx={{color: 'blue', fontSize: 35, position: 'absolute', right: 0}} />
+        */}
       </Box>
     </Button>
   );
@@ -268,6 +270,13 @@ return(
   };
   return (
     <Box sx={{ py: 15, px: 5,display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center', width: '100%', gap: 2 }}>
+            
+{/*
+
+Search bar ↓
+
+*/}
+
             <Autocomplete
             sx={{ width: '80%', maxWidth: '1200px', marginX: 'auto','& .MuiAutocomplete-inputRoot': {paddingX: '20px', borderRadius: '50px'} }}
             disabled={fetching}
@@ -335,6 +344,12 @@ return(
 
         <Grid container gap={1} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
           
+{/*
+
+Filters ↓
+
+*/}
+
 
           <Grid item xs={12} sm={2}
           sx={{
@@ -427,10 +442,14 @@ return(
                 </Box>
               </Box>
           </Grid>
+{/*
 
+Shown data, or error message ↓
+
+*/}
           <Grid item xs={12} sm={7}>
             {serverError ? 
-              <img style={{width: '90%', maxWidth: '400px'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
+              <img className='preventSelect' style={{width: '90%', maxWidth: '400px'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
               : 
               <Grid container display={'flex'} spacing={1}>
               {searchValues.map((item) => (
