@@ -35,6 +35,8 @@ export default function Discover() {
   const [fetching, setFetching] = useState(true);
   const [allData, setAllData] = useState([]);
   const [searchValues, setSearchValues] = useState([]);
+  const [serverError, setServerError] = useState(false);
+  
   const navigate = useNavigate();
 
   const [userActive, setUserActive] = useState(false);
@@ -107,14 +109,22 @@ export default function Discover() {
         values.sort((a, b) => a.name.localeCompare(b.name));
         setSearchValues(values);
         setAllData(values);
-
         setFetching(false);
       } catch (error) {
         console.log(error);
+        setFetching(false);
       }
     })();
   }, []);
   
+  useEffect(() => {
+    if(searchValues.length < 1 && !fetching ) {
+      setServerError(true);
+    }
+    else {
+      setServerError(false);
+    }
+  },[fetching]);
   const applyFilters = () => {
     
   }
@@ -387,13 +397,17 @@ return(
           </Grid>
 
           <Grid item xs={12} sm={7}>
-            <Grid container display={'flex'} spacing={1}>
+            {serverError ? 
+              <img style={{height: '60vh'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
+              : 
+              <Grid container display={'flex'} spacing={1}>
               {searchValues.map((item) => (
                 <Grid item xs key={item.id}>
                   {Cube(item)}
                 </Grid>
               ))}
-            </Grid>
+            </Grid> }
+            
           </Grid>
         </Grid>
     </Box>
