@@ -24,6 +24,7 @@ import { keys } from '@mui/system';
 import PersonIcon from '@mui/icons-material/Person';
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { styled } from '@mui/material/styles';
 
 
@@ -230,7 +231,8 @@ return(
           size='small'
           color='default'
           icon={< CircleOutlinedIcon/>}
-          checkedIcon={<CircleIcon />}
+          checkedIcon={<CheckCircleRoundedIcon />}
+          checked={horseFilters[label.toLowerCase()] }
           onChange={() => filterBooleanToggle(label, disabled)}
         />} label={label} />
         )
