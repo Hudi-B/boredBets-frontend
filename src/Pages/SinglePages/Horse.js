@@ -1,7 +1,7 @@
 import { Box, Stack, Typography, Chip, Grid } from '@mui/material';
 import { useEffect } from 'react';
 import {useLocation} from 'react-router-dom';
-import { apiUrl } from '../boredLocal';
+import { apiUrl } from '../../boredLocal';
 import axios from 'axios';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
@@ -44,7 +44,7 @@ export default function App() {
   console.log(process.env.PUBLIC_URL);
 
   useEffect(() => {
-    axios.get(`${apiUrl}User/GetByUserId?userId=${id}`)
+    axios.get(`${apiUrl}Horse/GetHorseById?HorseId=${id}`)
     .then((response) => {
         setData(response.data);
     })
@@ -126,16 +126,6 @@ export default function App() {
               marginTop: '30px'}}
           >
             <Title>Individuals Information:</Title>
-            {isPrivate? (
-              
-              <Box sx={{display:'flex', flexWrap:'nowrap', paddingY: '20px', paddingX: '50px',margin: '20px', backgroundColor: 'error.main', borderRadius: '10px'}}>
-                
-                <Typography sx={{color: 'white'}}> 
-                    Due to privacy settings, we are unable to provide access this users private information.
-                </Typography>
-
-              </Box>
-                ):(
               <Grid container spacing={2}>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                       <BulletPoint>Born: </BulletPoint>
@@ -157,7 +147,7 @@ export default function App() {
                       <BulletPoint>Email:</BulletPoint>
                       <DataText>gypsy@go.com</DataText>
                   </Grid>
-              </Grid>)}
+              </Grid>
             
             <Title>History:</Title>
 

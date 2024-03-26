@@ -20,9 +20,9 @@ export default function HamburgerMenu({isAdmin}) {
             "link": "/"
           },
           {
-            "name": "Community",
+            "name": "Discover",
             "icon": <PeopleRoundedIcon style={{marginRight: '5px'}}/>,
-            "link": "/Community"
+            "link": "/Discover"
           },
           {
             "name": "Races",

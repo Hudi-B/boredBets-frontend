@@ -1,5 +1,5 @@
 import { apiUrl } from '../boredLocal';
-import { Popper, Box, Grid, TextField,Autocomplete, Stack, Typography, Button} from '@mui/material';
+import { Input, RadioGroup, Radio, Typography, Grid, Box, FormControlLabel, TextField,Autocomplete, Stack, Chip, Button, Slider, Divider} from '@mui/material';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
@@ -18,11 +18,17 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import { faHorseHead, faHelmetSafety } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { InputAdornment } from '@mui/material';
+import SearchIcon from "@mui/icons-material/Search";
+
 
 import { keys } from '@mui/system';
 
 import PersonIcon from '@mui/icons-material/Person';
-
+import CircleIcon from '@mui/icons-material/Circle';
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import { styled } from '@mui/material/styles';
 
 
 export default function Discover() {
@@ -32,9 +38,42 @@ export default function Discover() {
   const [fetching, setFetching] = useState(true);
   const [allData, setAllData] = useState([]);
   const [searchValues, setSearchValues] = useState([]);
-  const [selected, setSelected] = useState([]);
-  const [singleItem, setSingleItem] = useState({});
+  const [serverError, setServerError] = useState(false);
+  
   const navigate = useNavigate();
+
+  const [userActive, setUserActive] = useState(false);
+  const [jockeyActive, setJockeyActive] = useState(false);
+  const [horseActive, setHorseActive] = useState(false);
+
+  const userFilterDefault = {
+    private: false,
+    public: false,
+    female: false,
+    male: false,
+  };
+
+  const horseFilterDefault = {
+    minAge: 0,
+    maxAge: 6,
+    stallion: false,
+    mare: false,
+  };
+
+  const jockeyFilterDefault = {
+    male: false,
+    female: false,
+    withahorse: false,
+    withoutahorse: false,
+  }
+
+  const [userFilters, setUserFilters] = useState(userFilterDefault);
+
+  const [horseFilters, setHorseFilters] = useState(horseFilterDefault);
+
+  const [jockeyFilters, setJockeyFilters] = useState(jockeyFilterDefault);
+  
+
 
   useEffect(() => {
     (async () => {
@@ -73,15 +112,25 @@ export default function Discover() {
         values.sort((a, b) => a.name.localeCompare(b.name));
         setSearchValues(values);
         setAllData(values);
-
         setFetching(false);
       } catch (error) {
         console.log(error);
+        setFetching(false);
       }
     })();
   }, []);
   
-
+  useEffect(() => {
+    if(searchValues.length < 1 && !fetching ) {
+      setServerError(true);
+    }
+    else {
+      setServerError(false);
+    }
+  },[fetching]);
+  const applyFilters = () => {
+    
+  }
 
   const ListItem = ( data ) => {
     return (
@@ -101,12 +150,126 @@ export default function Discover() {
       </Box>
     );
   };
+ 
+  const handleChipClick = (sender) => {
+    switch (sender) {
+      case "Horse":
+          setHorseActive(!horseActive);
 
+        setUserActive(false);
+        setUserFilters(userFilterDefault);
+
+        setJockeyActive(false);
+        setJockeyFilters(jockeyFilterDefault);
+        break;
+
+      case "User":
+        setHorseActive(false);
+        setHorseFilters(horseFilterDefault);
+
+          setUserActive(!userActive);
+
+        setJockeyActive(false);
+        setJockeyFilters(jockeyFilterDefault);
+        break;
+        
+      case "Jockey":
+        setHorseActive(false);
+        setHorseFilters(horseFilterDefault);
+
+        setUserActive(false);
+        setUserFilters(userFilterDefault);
+        
+          setJockeyActive(!jockeyActive);
+          break;
+
+      default:
+        break;
+    }
+  }
+
+  const Cube = (item) => (
+    <Button 
+      component={Link} 
+      to={
+        item.type === "Horse" ? `/Horse/${item.id}` : 
+        item.type === "Jockey" ? `/Jockey/${item.id}` : 
+        item.type === "User" ? `/User/${item.id}`: "/community"}
+      sx={{
+        textTransform: 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        width: '100%',
+        minWidth: '175px',
+        height: '125px',
+        backgroundColor: 'rgb(4, 112, 107)', 
+        borderRadius: '10px',
+        marginInline: 'auto',
+        '&:hover': {
+          backgroundColor: 'rgb(4, 112, 107)',
+          boxShadow: '0 0 30px rgb(4, 50,50)',
+        }
+      }}
+    >
+      <Typography 
+        sx={{ 
+          fontWeight: 'bold', 
+          fontSize: '22px', 
+          color: 'white', 
+          textAlign: 'center' }}
+          > 
+          {item.icon}
+          &nbsp;
+          {item.name}
+          </Typography>
+      <Box>
+        {item.gender === "Male" ? 
+          <MaleIcon sx={{color: 'blue', fontSize: 35}} /> : 
+          <FemaleIcon sx={{color: 'pink', fontSize: 35 }} />}
+          
+        {/*
+        This is for displaying Warning messages regarding individuals
+        <MaleIcon sx={{color: 'blue', fontSize: 35, position: 'absolute', right: 0}} />*/}
+      </Box>
+    </Button>
+  );
+
+  const filterCheckBox = (label, disabled) => {
+return(
+    <FormControlLabel disabled={!disabled} 
+    sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
+      control={
+        <Checkbox
+          size='small'
+          color='default'
+          icon={< CircleOutlinedIcon/>}
+          checkedIcon={<CheckCircleRoundedIcon />}
+          checked={horseFilters[label.toLowerCase()] }
+          onChange={() => filterBooleanToggle(label, disabled)}
+        />} label={label} />
+        )
+  };
+  
+  const filterBooleanToggle = (label, category) => {
+    switch (category) {
+      case horseActive:
+        setHorseFilters({ ...horseFilters, [label.toLowerCase()]: !horseFilters[label.toLowerCase()] });
+        break;
+      case userActive:
+        setUserFilters( { ...userFilters, [label.toLowerCase()]: !userFilters[label.toLowerCase()] });
+        break;
+      case jockeyActive:
+        setJockeyFilters( { ...jockeyFilters, [label.toLowerCase().replace(/\s/g, '')]: !jockeyFilters[label.toLowerCase().replace(/\s/g, '')] });
+        break;
+      default:
+          break;
+    }
+  };
   return (
-    <Box sx={{ py: 15, px: 5 }}>
-      <Grid sx={{ display: 'flex', justifyContent: 'center', width: '100%', gap: 2 }}container spacing={2} >
+    <Box sx={{ py: 15, px: 5,display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center', width: '100%', gap: 2 }}>
             <Autocomplete
-            sx={{ width: '100%' }}
+            sx={{ width: '80%', maxWidth: '1200px', marginX: 'auto','& .MuiAutocomplete-inputRoot': {paddingX: '20px', borderRadius: '50px'} }}
             disabled={fetching}
             onChange={(event, newValue) => {
                 navigate(
@@ -115,6 +278,7 @@ export default function Discover() {
                   newValue.type === "User" ? `/User/${newValue.id}` : "/discover"
               );
             }}
+            freeSolo
             selectOnFocus
             handleHomeEndKeys
             options={searchValues}
@@ -129,55 +293,155 @@ export default function Discover() {
               </li>
           }
             renderInput={(params) => (
-              <TextField {...params} 
+              <TextField {...params}
+
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "50px",
+      
+                  legend: {
+                    marginLeft: "30px"
+                  }
+                },
+                "& .MuiAutocomplete-inputRoot": {
+                  paddingLeft: "20px !important",
+                  borderRadius: "50px"
+                },
+                "& .MuiInputLabel-outlined": {
+                  paddingLeft: "35px",
+                  fontSize: "18px",
+                },
+              }}
+
+
               onChange={(e) => {
                 setSearchValues(
                   allData.filter((item) => item.name.toLowerCase().includes(e.target.value.toLowerCase()))
                 );
               }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ margin: 1}}>
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+    
               onFocus={() => setSearchValues(allData)}
               label="Search" />
             )}
           />
 
-        <Stack direction="column" sx={{ width: '80%' }}>
-          {searchValues.map((item) => (
-            <Button 
-            component={Link} 
-            to={
-              item.type === "Horse" ? `/Horse/${item.id}` : 
-              item.type === "Jockey" ? `/Jockey/${item.id}` : 
-              item.type === "User" ? `/User/${item.id}`: "/community"}
-            key={item.id}
-            sx={{ 
-              width: '100%', 
-              height : '75px',
-              color: 'white', 
-              backgroundColor: 'rgb(4, 112, 107)', 
-              borderRadius: 3,
-              marginBottom: 1,
-              justifyContent: 'flex-start',
-              '&:hover': {
+
+        <Grid container gap={1} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+          
+
+          <Grid item xs={12} sm={2}
+          sx={{
+            minWidth: '180px',
+            maxWidth: '300px',
+            backgroundColor: 'rgba(4, 112, 107, 0.5)',
+            borderRadius: '10px', 
+            padding: 1}}>
+              <Button variant='contained' onClick={() => applyFilters()} sx={{width: '100%', marginY: 1}} color='success'>Apply Filters</Button>
+              <Box sx={{
+                height: '100%',
+                borderRadius: '8px', 
+                width: 'fill',
                 backgroundColor: 'rgb(4, 112, 107)',
-                boxShadow: '0 0 30px rgb(4, 50,50)',
-              }
-            }}
-            >
-              <Box sx={{fontSize: 40, marginX: 2}}>
-                {item.icon}
+                display: 'flex',
+                flexDirection: 'column', 
+                gap: 1,
+                padding: 1
+              }}>
+
+                <Chip 
+                    variant='filled' 
+                    color="success" 
+                    icon={<PersonIcon />} 
+                    label="Users" 
+                    onDelete={() => handleChipClick("User")}
+                    deleteIcon={userActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
+                    
+                <Box sx={{ color: 'rgb(240, 240, 240)', display: 'flex', flexDirection: 'column', gap: 0}}>
+                  
+                  <Typography sx={{ marginX: 1, color: !userActive && 'rgba(40, 40, 40,0.8)' }}>Privacy:</Typography>
+                  {filterCheckBox("Public", userActive)}
+                  {filterCheckBox("Private", userActive)}
+
+                  <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}} />
+                  
+                  <Typography sx={{ marginX: 1, color: !userActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
+                  {filterCheckBox("Male", userActive)}
+                  {filterCheckBox("Female", userActive)}
+
+                </Box>
+
+
+                <Chip 
+                    variant='filled' 
+                    color="success" 
+                    icon={<FontAwesomeIcon icon={faHorseHead} />} 
+                    label="Horses"
+                    onDelete={() => handleChipClick("Horse")}
+                    deleteIcon={horseActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
+              {/*age, gender, */}
+                <Box color={'rgb(240, 240, 240)'} sx={{ display: 'flex', flexDirection: 'column', gap: 0, }}>
+                  
+                  <Typography sx={{ marginX: 2, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Age range:</Typography>
+                  <Box sx={{ marginBottom: 1, marginX: 1, display: 'flex', flexDirection: 'row', gap: 0, }}>
+                    <TextField onChange={(e) => setHorseFilters({ ...horseFilters, minAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='min' />
+                    <TextField onChange={(e) => setHorseFilters({ ...horseFilters, maxAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='max' />
+                  </Box>
+                  
+                  <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
+                  
+                  <Typography sx={{ marginX: 1, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
+                  {filterCheckBox("Stallion", horseActive)}
+                  {filterCheckBox("Mare", horseActive)}
+                  
+                </Box>
+
+
+                <Chip 
+                    variant='filled' 
+                    color="success" 
+                    width="100%"
+                    icon={<FontAwesomeIcon icon={faHelmetSafety}/>} 
+                    label="Jockeys" 
+                    onDelete={() => handleChipClick("Jockey")}
+                    deleteIcon={jockeyActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
+
+                <Box sx={{ color: 'rgb(240, 240, 240)', display: 'flex', flexDirection: 'column', gap: 0}}>
+                
+                  <Typography sx={{ marginX: 1, color: !jockeyActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
+                  {filterCheckBox("Male", jockeyActive)}
+                  {filterCheckBox("Female", jockeyActive)}
+
+                  <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
+
+                  <Typography sx={{ marginX: 1, color: !jockeyActive && 'rgba(40, 40, 40,0.8)' }}>Status:</Typography>
+                  {filterCheckBox("With a horse", jockeyActive)}
+                  {filterCheckBox("Without a horse", jockeyActive)}
+
+                </Box>
               </Box>
-              <Box sx={{fontSize: 15, height: '100%', display: 'flex', alignItems: 'flex-start'}}>
-                {item.name}
-              </Box>
-              <Box sx={{height: '100%', marginLeft: 'auto'}}>
-                {item.gender === "Male" ? 
-                    <MaleIcon sx={{color: 'blue', fontSize: 35 }} /> : 
-                    <FemaleIcon sx={{color: 'pink', fontSize: 35 }} />}
-              </Box>
-            </Button>
-          ))}
-        </Stack>
-      </Grid>
+          </Grid>
+
+          <Grid item xs={12} sm={7}>
+            {serverError ? 
+              <img style={{width: '90%', maxWidth: '400px'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
+              : 
+              <Grid container display={'flex'} spacing={1}>
+              {searchValues.map((item) => (
+                <Grid item xs key={item.id}>
+                  {Cube(item)}
+                </Grid>
+              ))}
+            </Grid> }
+            
+          </Grid>
+        </Grid>
     </Box>
   );
 }
