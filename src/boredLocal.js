@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-export const apiUrl = 'https://boredbetsapi.azurewebsites.net/api/';
+export const apiUrl = 'https://boredbetsapidev.azurewebsites.net/api/';
 
 export function setCookieToken(type, token) {
     const inOneHour = new Date( new Date().getTime() + 60 * 60 * 1000 );

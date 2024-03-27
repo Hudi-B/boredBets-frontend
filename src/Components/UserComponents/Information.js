@@ -1,7 +1,11 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Select, MenuItem, FormControl, InputLabel, Divider } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import axios from 'axios';
+import { apiUrl } from '../../boredLocal';
+import { useSelector } from 'react-redux';
 
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import AddIcon from '@mui/icons-material/Add';
@@ -19,6 +23,27 @@ const TilePaper = styled(Paper)(({ theme }) => ({
 }))
 
 export default function Information() {
+    const userId = useSelector((state) => state.auth.userId);
+    const [userData, setUserData] = useState({
+        email: '',
+        fullName: '-',
+        birthDate: '-',
+        address: '-',
+    });
+
+    const fetchData = async () => {
+        await axios.get(apiUrl+`User/GetByUserId?UserId=` + userId)
+        .then((response) => {
+            setUserData(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <Box 
@@ -119,7 +144,7 @@ export default function Information() {
                         <TilePaper>
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Email</Typography>
                             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                <Chip size='large' label="email placeholder@gmail.com" onClick={() => {}} onDelete={() => {}} deleteIcon={<EditIcon style={{color: 'white'}} />} sx={{color: 'white', width: '400px',display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}/>
+                                <Chip size='large' label={userData.email} onClick={() => {}} onDelete={() => {}} deleteIcon={<EditIcon style={{color: 'white'}} />} sx={{color: 'white', width: '400px',display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}/>
                             </Box>
                         </TilePaper>
 
@@ -153,7 +178,7 @@ export default function Information() {
                                 <Avatar sx={{width: '100px', height: '100px', fontSize: '50px'}}>A</Avatar>
                             </Box>
                             <Typography variant="h5">UserID:</Typography>
-                            <Typography variant="h6">id placeholder</Typography>
+                            <Typography variant="h6">{ userId }</Typography>
                         </TilePaper>
 
                         <TilePaper>
@@ -162,11 +187,11 @@ export default function Information() {
                             <Divider>
                                 <Chip label="Name" size="small" sx={{color: 'white'}}/>
                             </Divider>
-                            <Typography variant="subtitle1">Name placeholder</Typography>
+                            <Typography variant="subtitle1">{ userData.name }</Typography>
                             <Divider>
                                 <Chip label="Date of birth" size="small" sx={{color: 'white'}}/>
                             </Divider>
-                            <Typography variant="subtitle1">Date of birth placeholder</Typography>
+                            <Typography variant="subtitle1">{ userData.birthDate }</Typography>
                             <Divider>
                                 <Chip label="Phone number" size="small" sx={{color: 'white'}}/>
                             </Divider>
@@ -174,7 +199,7 @@ export default function Information() {
                             <Divider>
                                 <Chip label="Address" size="small" sx={{color: 'white'}}/>
                             </Divider>
-                            <Typography variant="subtitle1">Address placeholder</Typography>
+                            <Typography variant="subtitle1">{ userData.address }</Typography>
                         </TilePaper>
 
                     </Stack>
