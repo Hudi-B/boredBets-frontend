@@ -30,6 +30,9 @@ import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { styled } from '@mui/material/styles';
 
+import { useSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
+
 
 export default function Discover() {
   const [horses, setHorses] = useState([]);
@@ -40,6 +43,8 @@ export default function Discover() {
   const [searchValues, setSearchValues] = useState([]);
   const [serverError, setServerError] = useState(false);
   
+  const { enqueueSnackbar } = useSnackbar();
+
   const navigate = useNavigate();
 
   const [userActive, setUserActive] = useState(false);
@@ -54,7 +59,7 @@ export default function Discover() {
   };
 
   const horseFilterDefault = {
-    minAge: 0,
+    minAge: 1,
     maxAge: 6,
     stallion: false,
     mare: false,
@@ -130,7 +135,46 @@ export default function Discover() {
     }
   },[fetching]);
   const applyFilters = () => {
-    
+    let errorOnFilter = false;
+    if (horseActive) {
+      if (horseFilters.minAge === 0) {
+        setHorseFilters({ ...horseFilters, minAge: 1 });
+      }
+
+      if (horseFilters.maxAge === 0) {
+        setHorseFilters({ ...horseFilters, maxAge: 6 });
+      }
+
+      if (Number.isNaN(horseFilters.minAge)) {
+        enqueueSnackbar( "Please set a valid number for minimum age", {
+          variant: 'error',
+          autoHideDuration: 3000,
+          TransitionComponent: Slide, // Use the actual Slide component
+        });
+        errorOnFilter = true;
+      } 
+
+      if (Number.isNaN(horseFilters.maxAge)) {
+        enqueueSnackbar( "Please set a valid number for maximum age", {
+          variant: 'error',
+          autoHideDuration: 3000,
+          TransitionComponent: Slide, // Use the actual Slide component
+        });
+        errorOnFilter = true;
+      }
+
+      if (!errorOnFilter) {
+        {/*Axios request for filtered information, include horseFilters*/}
+      }
+    }else if (jockeyActive) {
+      
+      {/*Axios request for filtered information, include jockeyFilters*/}
+
+    }else if (userActive) {        
+      {/*Axios request for filtered information, include userFilters*/}
+
+    }
+
   }
 
   const ListItem = ( data ) => {
@@ -303,7 +347,6 @@ Search bar ↓
           }
             renderInput={(params) => (
               <TextField {...params}
-
               sx={{
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "50px",
@@ -403,7 +446,7 @@ Filters ↓
               {/*age, gender, */}
                 <Box color={'rgb(240, 240, 240)'} sx={{ display: 'flex', flexDirection: 'column', gap: 0, }}>
                   
-                  <Typography sx={{ marginX: 2, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Age range:</Typography>
+                  <Typography sx={{ marginX: 2, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Age&nbsp;range:  1&nbsp;-&nbsp;6 </Typography>
                   <Box sx={{ marginBottom: 1, marginX: 1, display: 'flex', flexDirection: 'row', gap: 0, }}>
                     <TextField onChange={(e) => setHorseFilters({ ...horseFilters, minAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='min' />
                     <TextField onChange={(e) => setHorseFilters({ ...horseFilters, maxAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='max' />
