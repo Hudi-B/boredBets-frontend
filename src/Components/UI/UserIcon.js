@@ -24,6 +24,7 @@ export default function UserIcon() {
   };
 
   const toUserPage = () => {
+      handleClose();
       navigate(`/mypage`);
   };
 

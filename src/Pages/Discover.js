@@ -35,13 +35,11 @@ import Slide from '@mui/material/Slide';
 
 
 export default function Discover() {
-  const [horses, setHorses] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [jockeys, setJockeys] = useState([]);
   const [fetching, setFetching] = useState(true);
   const [allData, setAllData] = useState([]);
   const [searchValues, setSearchValues] = useState([]);
   const [serverError, setServerError] = useState(false);
+  const [pageNum, setPageNum] = useState(1);
   
   const { enqueueSnackbar } = useSnackbar();
 
@@ -80,43 +78,13 @@ export default function Discover() {
   
 
 
+
   useEffect(() => {
     (async () => {
       try {
-        const horseResponse = await axios.get(`${apiUrl}Horse/getAllHorses`);
-        setHorses(horseResponse.data);
-      
-        const jockeyResponse = await axios.get(`${apiUrl}Jockey/GetAllJockeys`);
-        setJockeys(jockeyResponse.data);
-      
-        /* Uncomment the following lines if you want to fetch users
-        const userResponse = await axios.get(`${apiUrl}User/GetAllUsers`);
-        setUsers(userResponse.data);
-        */
-      
-        let values = [
-          ...horseResponse.data.map((horse) => ({ 
-              icon: <FontAwesomeIcon icon={faHorseHead}/>,
-              id: horse.id, 
-              name: horse.name, 
-              gender: horse.stallion ? "Male" : "Female",
-              type: "Horse"
+        const values = await axios.get(`${apiUrl}SearchBar?page=${pageNum}`);
+        setAllData(values.data);
 
-          })),
-          ...jockeyResponse.data.map((jockey) => ({
-            icon: <FontAwesomeIcon icon={faHelmetSafety}/>, 
-              id: jockey.id,
-              name: jockey.name, 
-              gender: jockey.male ? "Male" : "Female",
-              type: "Jockey"
-          })),
-          // Uncomment the following line if you want to fetch users
-          // ...userResponse.data.map((user) => ({ icon: <PersonIcon />, id: user.id, name: user.name, gender: user.gender })),
-        ];
-      
-        values.sort((a, b) => a.name.localeCompare(b.name));
-        setSearchValues(values);
-        setAllData(values);
         setFetching(false);
       } catch (error) {
         console.log(error);
@@ -495,7 +463,7 @@ Shown data, or error message ↓
               <img className='preventSelect' style={{width: '90%', maxWidth: '400px'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
               : 
               <Grid container display={'flex'} spacing={1}>
-              {searchValues.map((item) => (
+              {allData.map((item) => (
                 <Grid item xs key={item.id}>
                   {Cube(item)}
                 </Grid>
