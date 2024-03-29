@@ -34,8 +34,8 @@ const handleRegister = async () => {
     setAlertOnEmail(alerts.email);
     setAlertOnPass(alerts.password);
 
-    if(alertOnEmail || alertOnUsername || alertOnPass) return;
-
+    if(alerts.email || alerts.password|| alerts.username) return;
+    console.log("xxd");
     await axios.post(`${apiUrl}User/UserRegister`, data)
     .then(() => {
         enqueueSnackbar("Successful register, now try to Log in", {

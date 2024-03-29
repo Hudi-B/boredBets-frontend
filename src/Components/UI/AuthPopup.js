@@ -58,7 +58,6 @@ export default function AuthPopup({itsALogin}) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 fullScreen={fullscreen}
-                backgroundColor="rgb(60, 150, 120)"
             >
                 <Box 
                 sx={{
