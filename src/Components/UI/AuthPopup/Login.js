@@ -87,7 +87,7 @@ export default function Login({data, callback}) {
             </Button>
         </Box>
         <Box display="flex" justifyContent="space-between">
-            <Button variant='string' onClick={ForgotPassword} size='small' sx={{ textTransform: 'none', position: 'absolute', right: 35 }}>
+            <Button variant='string' onClick={ForgotPassword} size='small' sx={{maxWidth: '50%', textTransform: 'none', position: 'absolute', right: 35 }}>
                 forgot password
             </Button>
         </Box>
