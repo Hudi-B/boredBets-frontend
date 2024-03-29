@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, Chip, Grid } from '@mui/material';
+import { Box, Stack, Typography, Chip, Grid, Avatar } from '@mui/material';
 import { useEffect } from 'react';
 import {useLocation} from 'react-router-dom';
 import { apiUrl } from '../../boredLocal';
@@ -82,17 +82,11 @@ export default function App() {
 
           <Grid container className='preventSelect' direction="row" sx={{ justifyContent: 'center', marginTop: '20px', gap: 1 }}>
             <Grid item xs={12} sm={4} sx={{display:'flex', flexWrap:'nowrap',minWidth:'220px', justifyContent: 'center'}}>
-              <Box sx={{
-                  width: '200px',
-                  flexShrink: 0,
-                  height: '200px',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  fontSize: '30px',
-                  backgroundColor: 'white',
-              }}>pfp FR</Box>
+            <Avatar sx={{
+                width: '200px',
+                height: '200px',
+              }}
+              src={process.env.PUBLIC_URL + pfpImage}/>
             </Grid>
             <Grid item xs={12} sm={7} sx={{display:'flex', flexWrap:'nowrap'}}>
               <Stack direction={"column"} sx={{

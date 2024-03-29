@@ -28,7 +28,6 @@ export default function NewRace() {
             return {...track, selected: false};
         });
         setTracks(updatedTracks);
-        setSelectedTrackID(updatedTracks[0].id);
     })
 }, []);
 

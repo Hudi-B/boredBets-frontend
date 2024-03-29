@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, Chip, Grid } from '@mui/material';
+import { Box, Stack, Typography, Chip, Grid, Avatar } from '@mui/material';
 import { useEffect } from 'react';
 import {useLocation} from 'react-router-dom';
 import { apiUrl } from '../../boredLocal';
@@ -82,17 +82,11 @@ export default function App() {
 
         <Stack direction="column">
           <Stack className='preventSelect' direction="row" sx={{margin: '20px', gap: 1 }}>
-            <Box sx={{
+          <Avatar sx={{
                 width: '200px',
-                flexShrink: 0,
                 height: '200px',
-                borderRadius: '50%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                fontSize: '30px',
-                backgroundColor: 'white',
-            }}>pfp FR</Box>
+              }}
+              src={process.env.PUBLIC_URL + pfpImage}/>
             <Stack direction={"column"} sx={{
               width: '100%',
               height: 'fill',

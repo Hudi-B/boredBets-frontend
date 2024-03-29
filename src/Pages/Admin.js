@@ -8,13 +8,12 @@ import Button from '@mui/material/Button';
 import NewHorse from '../Components/AdminComponents/Manual/NewHorse';
 import NewJockey from '../Components/AdminComponents/Manual/NewJockey';
 import NewTrack from '../Components/AdminComponents/Manual/NewTrack';
-import NewRace from '../Components/AdminComponents/Manual/NewRace';
+//import NewRace from '../Components/AdminComponents/Manual/NewRace';
 
 import GenerateHorse from '../Components/AdminComponents/Generate/GenerateHorse';
 import GenerateJockey from '../Components/AdminComponents/Generate/GenerateJockey';
 import GenerateRace from '../Components/AdminComponents/Generate/GenerateRace';
 
-import '../styles/Admin.css';
 
 const Panel = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -79,7 +78,10 @@ export default function AdminPage() {
                   <Button variant={!raceManual ? 'contained' : 'outlined'} onClick={() => setRaceManual(false)}>Generate data</Button>
                 </Box>
                 { raceManual ? 
-                  <NewRace /> 
+                  <>
+                    {/*<NewRace />*/}
+                    < GenerateRace/>
+                  </>
                   : 
                   < GenerateRace/>
                 }

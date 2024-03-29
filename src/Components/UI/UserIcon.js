@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Popover, Button, Typography } from '@mui/material';
+import { Box, Popover, Button, Typography, Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {logout} from '../../auth/authSlice';
@@ -44,14 +44,8 @@ export default function UserIcon() {
               minimumWidth: '50px',
               overflow: 'hidden',
             }}>
-            <img 
-                src={process.env.PUBLIC_URL + pfpImage} 
-                alt='why'
-                style={{
-                    objectFit: 'cover', 
-                    height: '100%',
-                    width: '100%'
-                }} />
+              {/*process.env.PUBLIC_URL + pfpImage*/}
+              <Avatar sx={{width: '100%', height: '100%'}} src={process.env.PUBLIC_URL + pfpImage} />
         </Box>
         <Popover
         open={Boolean(anchorEl)}

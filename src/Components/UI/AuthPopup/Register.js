@@ -34,16 +34,16 @@ const handleRegister = async () => {
     setAlertOnEmail(alerts.email);
     setAlertOnPass(alerts.password);
 
-    if (!alerts.email || !alerts.password){
-        await axios.post(`${apiUrl}User/UserRegister`, data)
-        .then(() => {
-            enqueueSnackbar("Successful register, now try to Log in", {
-              variant: 'success',
-              autoHideDuration: 3000,
-              TransitionComponent: Slide,
-            });
-          })
-    }
+    if(alertOnEmail || alertOnUsername || alertOnPass) return;
+
+    await axios.post(`${apiUrl}User/UserRegister`, data)
+    .then(() => {
+        enqueueSnackbar("Successful register, now try to Log in", {
+            variant: 'success',
+            autoHideDuration: 3000,
+            TransitionComponent: Slide,
+        });
+        })
 };
 
 

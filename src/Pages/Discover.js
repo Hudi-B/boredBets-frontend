@@ -1,5 +1,5 @@
 import { apiUrl } from '../boredLocal';
-import { Input, RadioGroup, Radio, Typography, Grid, Box, FormControlLabel, TextField,Autocomplete, Stack, Chip, Button, Slider, Divider} from '@mui/material';
+import { Typography, Grid, Box, FormControlLabel, TextField,Autocomplete, Chip, Button, Divider, Avatar} from '@mui/material';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
@@ -460,7 +460,7 @@ Shown data, or error message ↓
 */}
           <Grid item xs={12} sm={7}>
             {serverError ? 
-              <img className='preventSelect' style={{width: '90%', maxWidth: '400px'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
+              <Avatar className='preventSelect' variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
               : 
               <Grid container display={'flex'} spacing={1}>
               {allData.map((item) => (
