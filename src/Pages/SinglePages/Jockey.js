@@ -1,10 +1,13 @@
 import { Box, Stack, Typography, Chip, Grid, Avatar } from '@mui/material';
 import { useEffect } from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import { apiUrl } from '../../boredLocal';
 import axios from 'axios';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
+import MaleIcon from '@mui/icons-material/Male';
+import FemaleIcon from '@mui/icons-material/Female';
+
 
 const Title = styled(Typography)(({ theme }) => ({
   width:'fill',
@@ -40,8 +43,9 @@ export default function App() {
   const id = useLocation().pathname.split("/")[2];
   const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
   const [data, setData] = useState({});
+  const navigate = useNavigate();
   useEffect(() => {
-    axios.get(`${apiUrl}Jockey/GetJockeyById?JockeyId=${id}`)
+    axios.get(`${apiUrl}Jockey/GetJockeyDetailByJockeyId?JockeyId=${id}`)
     .then((response) => {
         setData(response.data);
     })
@@ -95,19 +99,19 @@ export default function App() {
                 marginX: '20px',
               }}>
                 <Box sx={{paddingTop: '20px', width: 'fill', display: 'flex', justifyContent: 'space-between'}}>
-                  <Typography variant='h5'>Individuals name FR</Typography>
-                  <Typography variant='h5'>Icon</Typography>
+                  <Typography variant='h5'>{data.name}</Typography>
+                  <Typography variant='h5'>{data.male? <MaleIcon sx={{color: 'blue', fontSize: '40px'}}/> : <FemaleIcon sx={{color: 'blue', fontSize: '40px'}}/>}</Typography>
                 </Box>
                 <Box sx={{marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
                 <Stack sx={{alignItems:'flex-end'}}>
                   <Typography>
-                    Explain uno:
+                    Life time races:
                   </Typography>
                 <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="123"/>
                 </Stack>
                 <Stack sx={{alignItems:'flex-end'}}>
                   <Typography>
-                    Explain dos:
+                    Average placement:
                   </Typography>
                 <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="456"/>
                 </Stack>
@@ -123,27 +127,31 @@ export default function App() {
             sx={{
               width: '100%', 
               marginTop: '30px'}}>
-            <Title>Individuals Information:</Title>
+            <Title>Information:</Title>
               <Grid container spacing={2}>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Born: </BulletPoint>
-                      <DataText>1918.12.44</DataText>
+                      <BulletPoint>Age: </BulletPoint>
+                      <DataText>{data.age}y. old</DataText>
                   </Grid>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                       <BulletPoint>Gender:</BulletPoint>
-                      <DataText>the strongerGender</DataText>
+                      <DataText>{data.male? "Male" : "Female"}</DataText>
                   </Grid>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Registered:</BulletPoint>
-                      <DataText>1920.12.44</DataText>
+                      <BulletPoint>Represents</BulletPoint>
+                      <DataText>{data.country}</DataText>
                   </Grid>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Phone:</BulletPoint>
-                      <DataText>21321321312</DataText>
-                  </Grid>
-                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Email:</BulletPoint>
-                      <DataText>gypsy@go.com</DataText>
+                      <BulletPoint>Horse name:</BulletPoint>
+                      <DataText 
+                      onClick={() => navigate(`/Horse/${data.horseId}`)}
+                      sx={{
+                        paddingX: '10px', 
+                        paddingY: '3px',
+                        cursor: 'pointer', 
+                        backgroundColor: 'rgba(0,0,0,0.15)', 
+                        borderRadius: '5px'}}>
+                        csikóu</DataText>
                   </Grid>
               </Grid>
             

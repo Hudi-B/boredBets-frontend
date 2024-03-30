@@ -1,10 +1,13 @@
 import { Box, Stack, Typography, Chip, Grid, Avatar } from '@mui/material';
 import { useEffect } from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import { apiUrl } from '../../boredLocal';
 import axios from 'axios';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
+import MaleIcon from '@mui/icons-material/Male';
+import FemaleIcon from '@mui/icons-material/Female';
+
 
 const Title = styled(Typography)(({ theme }) => ({
   width:'fill',
@@ -39,12 +42,11 @@ export default function App() {
 
   const id = useLocation().pathname.split("/")[2];
   const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
-
   const [data, setData] = useState({});
-  console.log(process.env.PUBLIC_URL);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`${apiUrl}Horse/GetHorseById?HorseId=${id}`)
+    axios.get(`${apiUrl}Horse/GetHorseDetailByHorseId?HorseId=${id}`)
     .then((response) => {
         setData(response.data);
     })
@@ -81,65 +83,76 @@ export default function App() {
       }}>
 
         <Stack direction="column">
-          <Stack className='preventSelect' direction="row" sx={{margin: '20px', gap: 1 }}>
+
+
+          <Grid container className='preventSelect' direction="row" sx={{ justifyContent: 'center', marginTop: '20px', gap: 1 }}>
+            <Grid item xs={12} sm={4} sx={{display:'flex', flexWrap:'nowrap',minWidth:'220px', justifyContent: 'center'}}>
             <Avatar sx={{
                 width: '200px',
                 height: '200px',
               }}
               src={process.env.PUBLIC_URL + pfpImage}/>
-            <Stack direction={"column"} sx={{
-              width: '100%',
-              height: 'fill',
-            }}>
-              <Box sx={{paddingTop: '20px', width: 'fill', display: 'flex', justifyContent: 'space-between'}}>
-                <Typography variant='h5'>Individuals name FR</Typography>
-                <Typography variant='h5'>Icon</Typography>
-              </Box>
-              <Box sx={{marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
-              <Stack sx={{alignItems:'flex-end'}}>
-                <Typography>
-                  Explain uno:
-                </Typography>
-              <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="123"/>
-              </Stack>
-              <Stack sx={{alignItems:'flex-end'}}>
-                <Typography>
-                  Explain dos:
-                </Typography>
-              <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="456"/>
-              </Stack>
-              </Box>
-            </Stack>
-          </Stack>
+            </Grid>
+            <Grid item xs={12} sm={7} sx={{display:'flex', flexWrap:'nowrap'}}>
+              <Stack direction={"column"} sx={{
+                width: '100%',
+                height: 'fill',
+                marginX: '20px',
+              }}>
+                <Box sx={{paddingTop: '20px', width: 'fill', display: 'flex', justifyContent: 'space-between'}}>
+                  <Typography variant='h5'>{data.name}</Typography>
+                  <Typography variant='h5'>{data.male? <MaleIcon sx={{color: 'blue', fontSize: '40px'}}/> : <FemaleIcon sx={{color: 'blue', fontSize: '40px'}}/>}</Typography>
+                </Box>
+                <Box sx={{marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
+                <Stack sx={{alignItems:'flex-end'}}>
+                  <Typography>
+                    Life time races:
+                  </Typography>
+                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="123"/>
+                </Stack>
+                <Stack sx={{alignItems:'flex-end'}}>
+                  <Typography>
+                    Average placement:
+                  </Typography>
+                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="456"/>
+                </Stack>
+                </Box>
+
+                </Stack>
+              </Grid>
+          </Grid>
 
           <Stack 
             className='preventSelect' 
             direction="column" 
             sx={{
               width: '100%', 
-              marginTop: '30px'}}
-          >
-            <Title>Individuals Information:</Title>
+              marginTop: '30px'}}>
+            <Title>Information:</Title>
               <Grid container spacing={2}>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Born: </BulletPoint>
-                      <DataText>1918.12.44</DataText>
+                      <BulletPoint>Age: </BulletPoint>
+                      <DataText>{data.age}y. old</DataText>
                   </Grid>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                       <BulletPoint>Gender:</BulletPoint>
-                      <DataText>the strongerGender</DataText>
+                      <DataText>{data.stallion? "Stallion" : "Mare"}</DataText>
                   </Grid>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Registered:</BulletPoint>
-                      <DataText>1920.12.44</DataText>
+                      <BulletPoint>Represents</BulletPoint>
+                      <DataText>{data.country}</DataText>
                   </Grid>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Phone:</BulletPoint>
-                      <DataText>21321321312</DataText>
-                  </Grid>
-                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Email:</BulletPoint>
-                      <DataText>gypsy@go.com</DataText>
+                      <BulletPoint>Jockey:</BulletPoint>
+                      <DataText 
+                      onClick={() => navigate(`/Jockey/${data.jockeyId}`)}
+                      sx={{
+                        paddingX: '10px', 
+                        paddingY: '3px',
+                        cursor: 'pointer', 
+                        backgroundColor: 'rgba(0,0,0,0.15)', 
+                        borderRadius: '5px'}}>
+                        Senior Mr.</DataText>
                   </Grid>
               </Grid>
             

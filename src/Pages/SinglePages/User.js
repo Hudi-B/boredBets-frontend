@@ -6,6 +6,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 
+import MaleIcon from '@mui/icons-material/Male';
+import FemaleIcon from '@mui/icons-material/Female';
+
 const Title = styled(Typography)(({ theme }) => ({
   width:'fill',
   margin:'10px',
@@ -41,10 +44,9 @@ export default function App() {
   const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
 
   const [data, setData] = useState({});
-  console.log(process.env.PUBLIC_URL);
 
   useEffect(() => {
-    axios.get(`${apiUrl}User/GetByUserId?userId=${id}`)
+    axios.get(`${apiUrl}User/GetUserDetailsByUserId?UserId=${id}`)
     .then((response) => {
         setData(response.data);
     })
@@ -64,11 +66,15 @@ export default function App() {
     font-weight: bold;
   `;
   
+  const convertDate = (date) => {
+    const rawDate = new Date(date);
+    const formatedDate = rawDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+    return formatedDate
+  };
 
-      
 
   return (
-    <Box
+<Box
       sx={{
         backgroundColor: 'rgb(4, 112, 107)',
         borderTopRightRadius: '20px',
@@ -81,36 +87,44 @@ export default function App() {
       }}>
 
         <Stack direction="column">
-          <Stack className='preventSelect' direction="row" sx={{margin: '20px', gap: 1 }}>
-          <Avatar sx={{
+
+
+          <Grid container className='preventSelect' direction="row" sx={{ justifyContent: 'center', marginTop: '20px', gap: 1 }}>
+            <Grid item xs={12} sm={4} sx={{display:'flex', flexWrap:'nowrap',minWidth:'220px', justifyContent: 'center'}}>
+            <Avatar sx={{
                 width: '200px',
                 height: '200px',
               }}
               src={process.env.PUBLIC_URL + pfpImage}/>
-            <Stack direction={"column"} sx={{
-              width: '100%',
-              height: 'fill',
-            }}>
-              <Box sx={{paddingTop: '20px', width: 'fill', display: 'flex', justifyContent: 'space-between'}}>
-                <Typography variant='h5'>Individuals name FR</Typography>
-                <Typography variant='h5'>Icon</Typography>
-              </Box>
-              <Box sx={{marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
-              <Stack sx={{alignItems:'flex-end'}}>
-                <Typography>
-                  Explain uno:
-                </Typography>
-              <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="123"/>
-              </Stack>
-              <Stack sx={{alignItems:'flex-end'}}>
-                <Typography>
-                  Explain dos:
-                </Typography>
-              <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="456"/>
-              </Stack>
-              </Box>
-            </Stack>
-          </Stack>
+            </Grid>
+            <Grid item xs={12} sm={7} sx={{display:'flex', flexWrap:'nowrap'}}>
+              <Stack direction={"column"} sx={{
+                width: '100%',
+                height: 'fill',
+                marginX: '20px',
+              }}>
+                <Box sx={{paddingTop: '20px', width: 'fill', display: 'flex', justifyContent: 'space-between'}}>
+                  <Typography variant='h5'>{data.username}</Typography>
+                  <Typography variant='h5'>{data.male? <MaleIcon sx={{color: 'blue', fontSize: '40px'}}/> : <FemaleIcon sx={{color: 'blue', fontSize: '40px'}}/>}</Typography>
+                </Box>
+                <Box sx={{marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
+                <Stack sx={{alignItems:'center'}}>
+                  <Typography>
+                    Registered
+                  </Typography>
+                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label={convertDate(data.created)}/>
+                </Stack>
+                <Stack sx={{alignItems:'center'}}>
+                  <Typography>
+                    Profit:
+                  </Typography>
+                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="+132"/>
+                </Stack>
+                </Box>
+
+                </Stack>
+              </Grid>
+          </Grid>
 
           <Stack 
             className='preventSelect' 
@@ -120,12 +134,12 @@ export default function App() {
               marginTop: '30px'}}
           >
             <Title>Individuals Information:</Title>
-            {isPrivate? (
+            {data.isPrivate? (
               
               <Box sx={{display:'flex', flexWrap:'nowrap', paddingY: '20px', paddingX: '50px',margin: '20px', backgroundColor: 'error.main', borderRadius: '10px'}}>
                 
                 <Typography sx={{color: 'white'}}> 
-                    Due to privacy settings, we are unable to provide access this users private information.
+                    Due to privacy settings, we are unable to provide access to this users private information.
                 </Typography>
 
               </Box>
