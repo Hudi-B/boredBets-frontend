@@ -1,5 +1,5 @@
 import { apiUrl } from '../boredLocal';
-import { Typography, Grid, Box, FormControlLabel, TextField,Autocomplete, Chip, Button, Divider, Avatar} from '@mui/material';
+import { ThemeProvider, createTheme, Pagination, Typography, Grid, Box, FormControlLabel, TextField,Autocomplete, Chip, Button, Divider, Avatar} from '@mui/material';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
@@ -21,7 +21,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { InputAdornment } from '@mui/material';
 import SearchIcon from "@mui/icons-material/Search";
 
-
 import { keys } from '@mui/system';
 
 import PersonIcon from '@mui/icons-material/Person';
@@ -32,6 +31,18 @@ import { styled } from '@mui/material/styles';
 
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
+import { Person } from '@mui/icons-material';
+
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: 'rgb(4, 112, 107)', // Set your desired font color here
+    },
+  },
+});
+
 
 
 export default function Discover() {
@@ -40,6 +51,8 @@ export default function Discover() {
   const [searchValues, setSearchValues] = useState([]);
   const [serverError, setServerError] = useState(false);
   const [pageNum, setPageNum] = useState(1);
+  const [maxPage, setMaxPage] = useState(3);
+  const [fetchUrl, setFetchUrl] = useState(`${apiUrl}SearchBar?page=`);
   
   const { enqueueSnackbar } = useSnackbar();
 
@@ -69,7 +82,6 @@ export default function Discover() {
     withahorse: false,
     withoutahorse: false,
   }
-
   const [userFilters, setUserFilters] = useState(userFilterDefault);
 
   const [horseFilters, setHorseFilters] = useState(horseFilterDefault);
@@ -77,25 +89,8 @@ export default function Discover() {
   const [jockeyFilters, setJockeyFilters] = useState(jockeyFilterDefault);
   
 
-
-
   useEffect(() => {
-    (async () => {
-      try {
-        const values = await axios.get(`${apiUrl}SearchBar?page=${pageNum}`);
-        setAllData(values.data);
-
-        setFetching(false);
-      } catch (error) {
-        console.log(error);
-        setFetching(false);
-      }
-    })();
-  }, []);
-  
-
-  useEffect(() => {
-    if(searchValues.length < 1 && !fetching ) {
+    if(allData.length < 1 && !fetching ) {
       setServerError(true);
     }
     else {
@@ -132,18 +127,59 @@ export default function Discover() {
       }
 
       if (!errorOnFilter) {
-        {/*Axios request for filtered information, include horseFilters*/}
+        letsGetData();
       }
-    }else if (jockeyActive) {
-      
-      {/*Axios request for filtered information, include jockeyFilters*/}
-
-    }else if (userActive) {        
-      {/*Axios request for filtered information, include userFilters*/}
-
     }
+    else if (jockeyActive) {
+        letsGetData();
 
+    }else if (userActive) {
+      letsGetData();
+    }
+    else {
+      letsGetData();
+    }
   }
+
+    const handlePageChange = (event, value) => {
+    setPageNum(value);
+    };
+
+
+
+    useEffect(() => {
+      setFetching(true);
+      axios.get(fetchUrl+pageNum).then((response) => {
+        setAllData(response.data);
+        setFetching(false);
+      }).catch((error) => {
+        console.log(error);
+        setFetching(false);
+      })
+    },[pageNum]);
+
+
+
+const letsGetData = async () => {
+        if (userActive)
+        {
+          //Users
+          //setFetchUrl(`${apiUrl}SearchBar?page=`);
+        }else if (jockeyActive)
+        {
+          //Jockeys
+          //setFetchUrl(`${apiUrl}SearchBar?page=`);
+        } else if (horseActive)
+        {
+          //horses
+          //setFetchUrl(`${apiUrl}SearchBar?page=`);
+        }else
+        {
+          //Everyone
+          //setFetchUrl(`${apiUrl}SearchBar?page=`);
+        }
+        setPageNum(1);
+}
 
   const ListItem = ( data ) => {
     return (
@@ -201,13 +237,14 @@ export default function Discover() {
     }
   }
 
+
   const Cube = (item) => (
     <Button 
       component={Link} 
       to={
-        item.type === "Horse" ? `/Horse/${item.id}` : 
-        item.type === "Jockey" ? `/Jockey/${item.id}` : 
-        item.type === "User" ? `/User/${item.id}`: "/community"}
+        item.type === "Horse" ? `/Horse/${item.data.id}` : 
+        item.type === "Jockey" ? `/Jockey/${item.data.id}` : 
+        item.type === "User" && `/User/${item.data.id}`}
       sx={{
         textTransform: 'none',
         display: 'flex',
@@ -232,12 +269,14 @@ export default function Discover() {
           color: 'white', 
           textAlign: 'center' }}
           > 
-          {item.icon}
+          {item.type === "Horse" ? <FontAwesomeIcon icon={faHorseHead} /> : 
+          item.type === "Jockey" ? <FontAwesomeIcon icon={faHelmetSafety} /> : 
+          item.type === "User" && <PersonIcon sx={{fontSize: 35}}/> }
           &nbsp;
-          {item.name}
+          {item.data.name}
           </Typography>
       <Box>
-        {item.gender === "Male" ? 
+        {item.data.gender === "Male" ? 
           <MaleIcon sx={{color: 'blue', fontSize: 35}} /> : 
           <FemaleIcon sx={{color: 'pink', fontSize: 35 }} />}
           
@@ -280,13 +319,16 @@ return(
           break;
     }
   };
+
+
+
+
+
   return (
     <Box sx={{ py: 15, px: 5,display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center', width: '100%', gap: 2 }}>
             
 {/*
-
 Search bar ↓
-
 */}
 
             <Autocomplete
@@ -349,16 +391,14 @@ Search bar ↓
     
               onFocus={() => setSearchValues(allData)}
               label="Search" />
-            )}
-          />
+            )}>
+          </Autocomplete>
 
 
         <Grid container gap={1} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
           
 {/*
-
 Filters ↓
-
 */}
 
 
@@ -454,22 +494,30 @@ Filters ↓
               </Box>
           </Grid>
 {/*
-
 Shown data, or error message ↓
-
 */}
+
           <Grid item xs={12} sm={7}>
-            {serverError ? 
-              <Avatar className='preventSelect' variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
-              : 
-              <Grid container display={'flex'} spacing={1}>
-              {allData.map((item) => (
-                <Grid item xs key={item.id}>
-                  {Cube(item)}
-                </Grid>
-              ))}
-            </Grid> }
             
+          <Box sx={{marginTop: 2, display: 'flex', flexDirection: 'column', gap: 2, justifyContent: 'center', alignItems: 'center'}}>
+              <ThemeProvider theme={theme}>
+                <Pagination page={pageNum} onChange={handlePageChange} color='primary' value={pageNum} count={maxPage} showFirstButton showLastButton />
+              </ThemeProvider>
+                {serverError ? 
+                  <Avatar className='preventSelect' variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
+                  : 
+                  <Grid container display={'flex'} spacing={1}>
+                  {allData.map((item) => (
+                    <Grid item xs key={item.id}>
+                      {Cube(item)}
+                    </Grid>
+                  ))}
+                  </Grid>
+                  }
+              <ThemeProvider theme={theme}>
+                <Pagination page={pageNum} onChange={handlePageChange} color='primary' value={pageNum} count={maxPage} showFirstButton showLastButton />
+              </ThemeProvider>
+          </Box>
           </Grid>
         </Grid>
     </Box>
