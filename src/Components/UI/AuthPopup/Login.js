@@ -26,13 +26,13 @@ export default function Login({data, callback}) {
         setAlertOnLogin(alerts.emailOrUsername);
         setAlertOnPass(alerts.password);
 
+    if(alerts.emailOrUsername)
+    {
+        loginRef.current.focus();
+        return;
+    }
     if(alerts.password)
     {
-        if(alerts.emailOrUsername)
-        {
-            loginRef.current.focus();
-            return;
-        }
         passwordRef.current.focus();
         return;
     }
