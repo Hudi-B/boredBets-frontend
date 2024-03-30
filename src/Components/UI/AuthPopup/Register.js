@@ -3,8 +3,8 @@ import { apiUrl } from '../../../boredLocal';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 import axios from 'axios';
-import { TextField, Box, Button } from '@mui/material';
-
+import { TextField, Box, Button, InputAdornment, Tooltip } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 export default function Register({data, callback}) {
     const [open, setOpen] = React.useState(false);  
     const [alertOnEmail, setAlertOnEmail] = React.useState(false);
@@ -33,18 +33,18 @@ const handleRegister = async () => {
     setAlertOnUsername(alerts.username);
     setAlertOnEmail(alerts.email);
     setAlertOnPass(alerts.password);
+    if(alerts.username)
+    {
+        usernameRef.current.focus();
+        return;
+    }
+    if(alerts.email)
+    {
+        emailRef.current.focus();
+        return;
+    }
     if(alerts.password)
     {
-        if(alerts.email)
-        {
-            if(alerts.username)
-            {
-                usernameRef.current.focus();
-                return;
-            }
-            emailRef.current.focus();
-            return;
-        }
         passwordRef.current.focus();
         return;
     }
@@ -73,6 +73,15 @@ const handleRegister = async () => {
             onKeyDown={(e) => e.key === 'Enter' && emailRef.current.focus()}
             fullWidth
             helperText={alertOnUsername ? 'Please enter a valid Username' : ''}
+            InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Tooltip placement="top" sx={{ cursor: 'default'  }} title="Your username must be at least 5 characters">
+                        <InfoIcon sx={{ color: 'rgba(0, 0, 0, 0.3)' }}/>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+            }}
         />
         
         <TextField 
@@ -87,6 +96,15 @@ const handleRegister = async () => {
             onKeyDown={(e) => e.key === "Enter" && passwordRef.current.focus()}
             fullWidth
             helperText={alertOnEmail ? 'Please enter a valid Email' : ''}
+            InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Tooltip placement="top" sx={{ cursor: 'default' }} title="Your email must contain a '@' and a '.' symbol">
+                        <InfoIcon sx={{ color: 'rgba(0, 0, 0, 0.3)' }}/>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+            }}
         />
         
         <Box display="flex" spacing={1} alignItems="flex-start" > 
@@ -103,6 +121,16 @@ const handleRegister = async () => {
                 sx={{ flexGrow: 1, marginRight: 1, 
                     '& p': { color: 'rgb(204, 2, 2)', fontWeight: 'bold', } }}
                 helperText={alertOnPass ? 'Please enter a valid password' : ''}
+
+                InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Tooltip placement="top" sx={{ cursor: 'default' }} title="Your password must be at least 5 characters">
+                            <InfoIcon sx={{ color: 'rgba(0, 0, 0, 0.3)' }}/>
+                        </Tooltip>
+                      </InputAdornment>
+                    ),
+                }}
             />
             <Button variant='contained' sx={{ height: 55, width: 55 }} className='doitButton' onClick={handleRegister}>
                 Go
