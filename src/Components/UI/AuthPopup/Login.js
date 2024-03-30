@@ -1,5 +1,5 @@
 import { Button, Box, TextField } from '@mui/material';
-import React from 'react';
+import React, {useRef} from 'react';
 import { apiUrl } from '../../../boredLocal';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../auth/authSlice';
@@ -14,6 +14,9 @@ export default function Login({data, callback}) {
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
 
+    const loginRef = useRef(null);
+    const passwordRef = useRef(null);
+
     const handleLogin = async () => {
         const temp =  data.username? data.username : data.email? data.email : ''; // selects the avaliable data from either username or email, on default will return with empty, so it stops on the alertChecks
         const alerts = {
@@ -23,7 +26,16 @@ export default function Login({data, callback}) {
         setAlertOnLogin(alerts.emailOrUsername);
         setAlertOnPass(alerts.password);
 
-        if (alerts.emailOrUsername || alerts.password) return;
+    if(alerts.password)
+    {
+        if(alerts.emailOrUsername)
+        {
+            loginRef.current.focus();
+            return;
+        }
+        passwordRef.current.focus();
+        return;
+    }
 
         try {
             const response = await axios.post(`${apiUrl}User/UserLogin`, {
@@ -58,19 +70,22 @@ export default function Login({data, callback}) {
     return (
     <>
         <TextField 
+        inputRef={loginRef}
             id="loginUsername" 
             label="Email or Username"
             variant="outlined" 
-            name="username" 
+            name="emailOrUsername" 
             value={data.username? data.username : data.email} 
             onChange={handleChange} 
-            onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+            sx={{ '& p': { color: 'rgb(204, 2, 2)', fontWeight: 'bold', } }}
+            onKeyDown={(e) => e.key === "Enter" && passwordRef.current.focus()}
             fullWidth
             helperText={alertOnLogin ? 'Please enter a valid login identifier' : ''}
         />
         
         <Box display="flex" spacing={1} alignItems="flex-start" > 
             <TextField 
+                inputRef={passwordRef}
                 className='popupPassword'
                 id="loginPassword" 
                 label="Password" 
@@ -79,7 +94,7 @@ export default function Login({data, callback}) {
                 onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
                 value={data.password} 
                 onChange={handleChange} 
-                sx={{ flexGrow: 1, marginRight: 1 }}
+                sx={{ flexGrow: 1, marginRight: 1, '& p': { color: 'rgb(204, 2, 2)', fontWeight: 'bold', }  }}
                 helperText={alertOnPass ? 'Please enter your password' : ''}
             />
             <Button variant='contained' sx={{ height: 55, width: 55 }} onClick={handleLogin}>

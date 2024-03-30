@@ -40,6 +40,13 @@ export default function AuthPopup({itsALogin}) {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
+        if (name === 'emailOrUsername') {
+            setFormState((prevState) => ({
+                ...prevState,
+                username: value,
+                email: value,
+                }));
+        }
         setFormState((prevState) => ({
         ...prevState,
         [name]: value,
