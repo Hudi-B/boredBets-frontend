@@ -6,12 +6,6 @@ import {Link} from 'react-router-dom';
 import * as React from 'react';
 import { useNavigate } from "react-router-dom";
 
-
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 
 import MaleIcon from '@mui/icons-material/Male';
@@ -237,7 +231,6 @@ const letsGetData = async () => {
     }
   }
 
-
   const Cube = (item) => (
     <Button 
       component={Link} 
@@ -276,10 +269,10 @@ const letsGetData = async () => {
           {item.data.name}
           </Typography>
       <Box>
-        {item.data.gender === "Male" ? 
-          <MaleIcon sx={{color: 'blue', fontSize: 35}} /> : 
-          <FemaleIcon sx={{color: 'pink', fontSize: 35 }} />}
-          
+      {item.type === "Horse"
+        ? (item.data.stallion===true ? <MaleIcon sx={{ color: 'blue', fontSize: 35 }} /> : <FemaleIcon sx={{ color: 'pink', fontSize: 35 }} />)
+        : item.data.male ? <MaleIcon sx={{ color: 'blue', fontSize: 35 }} /> : <FemaleIcon sx={{ color: 'pink', fontSize: 35 }} />
+      }
         {/*
         This is for displaying Warning messages regarding individuals
         <MaleIcon sx={{color: 'blue', fontSize: 35, position: 'absolute', right: 0}} />
@@ -287,7 +280,6 @@ const letsGetData = async () => {
       </Box>
     </Button>
   );
-
   const filterCheckBox = (label, disabled) => {
 return(
     <FormControlLabel disabled={!disabled} 
