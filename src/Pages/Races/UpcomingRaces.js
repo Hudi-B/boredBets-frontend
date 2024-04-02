@@ -117,7 +117,7 @@ export default function PastRaces({race}) {
     return (
         <Stack direction={'column'} sx={{ paddingX: 1, width: '100%', display:'flex',justifyContent: 'center', alignItems: 'center'}} >
             <Stack sx={{
-                width: '75%', 
+                width: '85%', 
                 maxWidth: '750px',
                 backgroundColor: 'rgba(4, 88, 88, 0.4)',
                 border: '3px solid rgba(4, 88, 88, 0.7)',
@@ -153,19 +153,19 @@ export default function PastRaces({race}) {
                 width: '100%', 
                 backgroundColor: 'rgba(4, 88, 88, 0.4)',
                 border: '4px solid rgba(4, 88, 88, 0.7)',
+                borderBottom: 'none',
                 gap: 1,
                 padding: 3,
                 marginTop:10,
                 borderTopRightRadius: '40px',
                 borderTopLeftRadius: '40px',
                 }} direction={'column'}>
-            <Typography variant='h4' sx={{fontWeight: '700'}}>All coming races:</Typography>
-<Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center', paddingX: 2}}>
-
-{restData.map((user) => (
-                    bigRaceCard(user)
-                ))}
-</Grid>
+                <Typography variant='h4' sx={{fontWeight: '700'}}>All coming races:</Typography>
+                <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center', paddingX: 2}}>
+                    {restData.map((user) => (
+                        bigRaceCard(user)
+                    ))}
+                </Grid>
             </Stack>
         </Stack>
     );

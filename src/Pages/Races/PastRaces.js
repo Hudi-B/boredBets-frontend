@@ -118,7 +118,7 @@ export default function PastRaces({race}) {
     return (
         <Stack direction={'column'} sx={{ paddingX: 1, width: '100%', display:'flex',justifyContent: 'center', alignItems: 'center'}} >
             <Stack sx={{
-                width: '75%', 
+                width: '85%', 
                 maxWidth: '750px',
                 backgroundColor: 'rgba(4, 88, 88, 0.7)',
                 gap: 1,
