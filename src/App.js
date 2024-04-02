@@ -10,7 +10,6 @@ import { apiUrl } from './boredLocal';
 import axios from 'axios';
 import { logout, login } from './auth/authSlice';
 import { useDispatch } from 'react-redux';
-import { SnackbarProvider } from 'notistack';
 
 import Navbar from './Components/UI/Navbar'
 import Footer from './Components/UI/Footer';
@@ -18,6 +17,7 @@ import Home from './Pages/Home';
 import Discover from './Pages/Discover';
 import MyPage from './Pages/MyPage';
 import Races from './Pages/Races';
+  import SingleRace from './Pages/Races/SingleRace';
 import Admin from './Pages/Admin';
 import NotFound from './Pages/NotFound';
   import User from './Pages/SinglePages/User';
@@ -77,7 +77,8 @@ function App() {
             <Route exact path="/jockey/:jockeyId" element={<Jockey/>} />
             <Route exact path="/horse/:horseId" element={<Horse/>} />
         <Route exact path="/races" element={<Races/>} />
-
+          <Route exact path="/race/:raceId" element={<SingleRace/>} />
+          
         {userData.isLoggedIn && <Route exact path="/mypage" element={<MyPage/>} />}
         {userData.isAdmin && <Route exact path="/admin" element={<Admin/>} />}
       </Routes>

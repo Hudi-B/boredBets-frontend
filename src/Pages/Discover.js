@@ -1,5 +1,5 @@
 import { apiUrl } from '../boredLocal';
-import { ThemeProvider, createTheme, Pagination, Typography, Grid, Box, FormControlLabel, TextField,Autocomplete, Chip, Button, Divider, Avatar} from '@mui/material';
+import {Tooltip, ThemeProvider, createTheme, Pagination, Typography, Grid, Box, FormControlLabel, TextField,Autocomplete, Chip, Button, Divider, Avatar} from '@mui/material';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
@@ -21,6 +21,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import ReportRoundedIcon from '@mui/icons-material/ReportRounded';
 import { styled } from '@mui/material/styles';
 
 import { useSnackbar } from 'notistack';
@@ -45,12 +46,13 @@ export default function Discover() {
   const [searchValues, setSearchValues] = useState([]);
   const [serverError, setServerError] = useState(false);
   const [pageNum, setPageNum] = useState(1);
-  const [maxPage, setMaxPage] = useState(3);
+  const [maxPage, setMaxPage] = useState(15);
   const [fetchUrl, setFetchUrl] = useState(`${apiUrl}SearchBar?page=`);
   
   const { enqueueSnackbar } = useSnackbar();
 
   const navigate = useNavigate();
+
 
   const [userActive, setUserActive] = useState(false);
   const [jockeyActive, setJockeyActive] = useState(false);
@@ -150,6 +152,7 @@ export default function Discover() {
         console.log(error);
         setFetching(false);
       })
+
     },[pageNum]);
 
 
@@ -275,8 +278,16 @@ const letsGetData = async () => {
       }
         {/*
         This is for displaying Warning messages regarding individuals
-        <MaleIcon sx={{color: 'blue', fontSize: 35, position: 'absolute', right: 0}} />
         */}
+        {item.type === "Jockey" && item.data.hasHorse === false ? 
+        <Tooltip title="This Jockey is currently without a horse " placement="top">
+          <ReportRoundedIcon sx={{color: 'yellow', fontSize: 30, position: 'absolute', right: 7, bottom: 7}} />
+        </Tooltip> : null}
+
+        {item.type === "User" && item.data.isPrivate === false ? 
+        <Tooltip title="This User has set his profile to private " placement="top">
+          <ReportRoundedIcon sx={{color: 'yellow', fontSize: 30, position: 'absolute', right: 7, bottom: 7}} />
+        </Tooltip> : null}
       </Box>
     </Button>
   );
