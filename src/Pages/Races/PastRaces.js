@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
 import {Stack, Box, Grid, Divider, Typography, Button} from "@mui/material";
@@ -7,6 +8,8 @@ import MapIcon from '@mui/icons-material/Map';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 export default function PastRaces({race}) {
+    const navigate = useNavigate();
+
 
     const userData = [
         { name: "Alice", time: "10:00", country: "France" },
@@ -46,7 +49,7 @@ export default function PastRaces({race}) {
             className='preventSelect'
             component={Button}
             variant='default'
-            onClick={() => {console.log(race)}}
+            onClick={() => {navigate("/race/"+race.name)}}
             sx={{
                 textTransform: 'none',
                 display: 'flex',
@@ -83,7 +86,7 @@ export default function PastRaces({race}) {
             className='preventSelect'
             component={Button}
             variant='default'
-            onClick={() => {console.log(race)}}
+            onClick={() => {navigate("/race/"+race.name)}}
             sx={{
                 textTransform: 'none',
                 display: 'flex',
