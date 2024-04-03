@@ -1,12 +1,13 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Select, MenuItem, FormControl, InputLabel, Divider } from '@mui/material';
+import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Select, MenuItem, FormControl, InputLabel, Divider, Input } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
 import { useSelector } from 'react-redux';
 
+import CheckIcon from '@mui/icons-material/Check';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import AddIcon from '@mui/icons-material/Add';
 import ChecklistIcon from '@mui/icons-material/Checklist';
@@ -24,10 +25,13 @@ const TilePaper = styled(Paper)(({ theme }) => ({
 
 export default function Information() {
     const userId = useSelector((state) => state.auth.userId);
+    const [emailEdit, setEmailEdit] = useState(false);
     const [userData, setUserData] = useState({
+        username: '',
         email: '',
         fullName: '-',
         birthDate: '-',
+        phoneNumber: '-',
         address: '-',
     });
 
@@ -35,6 +39,7 @@ export default function Information() {
         await axios.get(apiUrl+`User/GetByUserId?UserId=` + userId)
         .then((response) => {
             setUserData(response.data);
+            console.log(response.data);
         })
         .catch((error) => {
             console.log(error);
@@ -44,6 +49,14 @@ export default function Information() {
     useEffect(() => {
         fetchData();
     }, []);
+
+    const handleEmailEdit = () => {
+        setEmailEdit(true);
+    }
+
+    const handleEmailSubmit = () => {
+        setEmailEdit(false);
+    }
 
     return (
         <Box 
@@ -58,7 +71,7 @@ export default function Information() {
         overflowY: ''}}
         >
             <Grid container spacing={2} sx={{width: '100%'}}>
-                <Grid item xs={8}>
+                <Grid item md={8}>
                     <Stack direction={'column'} spacing={2}>
                         <TilePaper> 
                             <Typography variant="h5" sx={{ paddingBottom: '20px' }}>Account Status</Typography>
@@ -75,7 +88,8 @@ export default function Information() {
                                             backgroundColor: 'rgb(44, 252, 3)',
                                             display: 'flex',
                                             justifyContent: 'center',
-                                            alignItems: 'center',}}
+                                            alignItems: 'center',
+                                            flex: 'none',}}
                                             >
                                                 <AddIcon sx={{color: 'rgb(4, 112, 107)'}}/>
                                             </Box>
@@ -92,7 +106,8 @@ export default function Information() {
                                             borderColor: 'white',
                                             display: 'flex',
                                             justifyContent: 'center',
-                                            alignItems: 'center',}}
+                                            alignItems: 'center',
+                                            flex: 'none',}}
                                             >
                                                 <PortraitIcon sx={{color: 'white'}}/>
                                             </Box>
@@ -113,7 +128,8 @@ export default function Information() {
                                             borderColor: 'white',
                                             display: 'flex',
                                             justifyContent: 'center',
-                                            alignItems: 'center',}}
+                                            alignItems: 'center',
+                                            flex: 'none',}}
                                             >
                                                 <ChecklistIcon sx={{color: 'white'}}/>
                                             </Box>
@@ -131,7 +147,7 @@ export default function Information() {
                                                 display: 'flex',
                                                 justifyContent: 'center',
                                                 alignItems: 'center',
-                                                }}
+                                                flex: 'none',}}
                                             >
                                                 <CreditCardIcon sx={{color: 'white'}}/>
                                             </Box>
@@ -142,10 +158,11 @@ export default function Information() {
                         </TilePaper>
 
                         <TilePaper>
-                            <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Email</Typography>
-                            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                <Chip size='large' label={userData.email} onClick={() => {}} onDelete={() => {}} deleteIcon={<EditIcon style={{color: 'white'}} />} sx={{color: 'white', width: '400px',display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}/>
-                            </Box>
+                            <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Details</Typography>
+                            <Stack direction="column" spacing={2} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                <Chip size='large' label={userData.username} deleteIcon={<EditIcon style={{color: 'white'}}/>} onDelete={() => ({})} onClick={() => ({})} sx={{color: 'white', width: '400px',display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}/>
+                                <Chip size='large' label={!emailEdit ? userData.email : <Input id='emailInput' disableUnderline sx={{width: '100%', color: 'white'}}/>} onClick={!emailEdit ? () => handleEmailEdit() : null} onDelete={emailEdit ? () => handleEmailSubmit() : () =>handleEmailEdit } deleteIcon={!emailEdit ? <EditIcon style={{color: 'white'}}/> : <CheckIcon style={{color: 'white'}}/> } sx={{color: 'white', width: '400px',display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}/>
+                            </Stack>
                         </TilePaper>
 
                         <TilePaper>
@@ -187,7 +204,7 @@ export default function Information() {
                             <Divider>
                                 <Chip label="Name" size="small" sx={{color: 'white'}}/>
                             </Divider>
-                            <Typography variant="subtitle1">{ userData.name }</Typography>
+                            <Typography variant="subtitle1">{ userData.fullName }</Typography>
                             <Divider>
                                 <Chip label="Date of birth" size="small" sx={{color: 'white'}}/>
                             </Divider>
