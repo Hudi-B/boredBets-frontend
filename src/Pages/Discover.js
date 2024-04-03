@@ -86,7 +86,7 @@ export default function Discover() {
 
   const applyFilters = () => {
     let errorOnFilter = false;
-
+  setPageNum(1);
     if (horseActive) {
       setUserFilter(userFilterDefault);
       setJockeyFilter(jockeyFilterDefault);
@@ -117,26 +117,26 @@ export default function Discover() {
       }
 
       if (!errorOnFilter) {
-        setFilterGroup("Horse");
-        pageNum === 1 ? requestData() : setPageNum(1);
-        setPageNum(1);
+        setUserFilter(userFilterDefault);
+        setJockeyFilter(jockeyFilterDefault);
+      filterGroup === "Horse" ? requestData() : setFilterGroup("Horse");
       }
     }
     else if (jockeyActive) {
       setUserFilter(userFilterDefault);
       setHorseFilter(horseFilterDefault);
-      setFilterGroup("Jockey");
+      filterGroup === "Jockey" ? requestData() : setFilterGroup("Jockey");
 
     }else if (userActive) {
       setHorseFilter(horseFilterDefault);
       setJockeyFilter(jockeyFilterDefault);
-      setFilterGroup("User");
+      filterGroup === "User" ? requestData() : setFilterGroup("User");
     }
     else {
       setHorseFilter(horseFilterDefault);
       setJockeyFilter(jockeyFilterDefault);
       setUserFilter(userFilterDefault);
-      setFilterGroup("");
+      filterGroup === "" ? requestData() : setFilterGroup("");
     }
   }
 
@@ -291,7 +291,7 @@ export default function Discover() {
         {/*
         This is for displaying Warning messages regarding individuals
         */}
-        {item.type === "Jockey" && item.data.hasHorse === false ? 
+        {item.type === "Jockey" && item.data.hashorse === false ? 
         <Tooltip title="This Jockey is currently without a horse " placement="top">
           <ReportRoundedIcon sx={{color: 'yellow', fontSize: 30, position: 'absolute', right: 7, bottom: 7}} />
         </Tooltip> : null}
