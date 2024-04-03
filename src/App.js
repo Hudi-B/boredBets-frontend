@@ -2,6 +2,7 @@ import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import './styles/Main.css';
 import { useEffect, lazy, Suspense } from 'react';
@@ -69,7 +70,10 @@ function App() {
   }}>
     <Router>
       <Navbar background={"rgba(50, 50, 50, 1)"} />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={
+              <Box sx={{ display: 'flex' ,width: '100vw', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+                <CircularProgress sx={{color: 'black', height: '100px', width: '100px'}}/>
+              </Box>}>
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="*" element={<NotFound />} />
