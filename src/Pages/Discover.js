@@ -1,5 +1,5 @@
 import { apiUrl } from '../boredLocal';
-import {Tooltip, ThemeProvider, createTheme, Pagination, Typography, Grid, Box, FormControlLabel, TextField,Autocomplete, Chip, Button, Divider, Avatar} from '@mui/material';
+import {Skeleton, Tooltip, ThemeProvider, createTheme, Pagination, Typography, Grid, Box, FormControlLabel, TextField,Autocomplete, Chip, Button, Divider, Avatar} from '@mui/material';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
@@ -21,6 +21,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import LockIcon from '@mui/icons-material/Lock';
 import ReportRoundedIcon from '@mui/icons-material/ReportRounded';
 import { styled } from '@mui/material/styles';
 
@@ -75,36 +76,28 @@ export default function Discover() {
   const jockeyFilterDefault = {
     male: false,
     female: false,
-    withahorse: false,
-    withoutahorse: false,
+    hasHorse: false,
+    hasNoHorse: false,
   }
-  const [userFilters, setUserFilters] = useState(userFilterDefault);
+  const [userFilter, setUserFilter] = useState(userFilterDefault);
 
-  const [horseFilters, setHorseFilters] = useState(horseFilterDefault);
+  const [horseFilter, setHorseFilter] = useState(horseFilterDefault);
 
-  const [jockeyFilters, setJockeyFilters] = useState(jockeyFilterDefault);
-  
+  const [jockeyFilter, setJockeyFilter] = useState(jockeyFilterDefault);
 
-  useEffect(() => {
-    if(allData.length < 1 && !fetching ) {
-      setServerError(true);
-    }
-    else {
-      setServerError(false);
-    }
-  },[fetching]);
   const applyFilters = () => {
     let errorOnFilter = false;
+
     if (horseActive) {
-      if (horseFilters.minAge === 0) {
-        setHorseFilters({ ...horseFilters, minAge: 1 });
+      if (horseFilter.minAge === 0) {
+        setHorseFilter({ ...horseFilter, minAge: 1 });
       }
 
-      if (horseFilters.maxAge === 0) {
-        setHorseFilters({ ...horseFilters, maxAge: 6 });
+      if (horseFilter.maxAge === 0) {
+        setHorseFilter({ ...horseFilter, maxAge: 6 });
       }
 
-      if (Number.isNaN(horseFilters.minAge)) {
+      if (Number.isNaN(horseFilter.minAge)) {
         enqueueSnackbar( "Please set a valid number for minimum age", {
           variant: 'error',
           autoHideDuration: 3000,
@@ -113,7 +106,7 @@ export default function Discover() {
         errorOnFilter = true;
       } 
 
-      if (Number.isNaN(horseFilters.maxAge)) {
+      if (Number.isNaN(horseFilter.maxAge)) {
         enqueueSnackbar( "Please set a valid number for maximum age", {
           variant: 'error',
           autoHideDuration: 3000,
@@ -123,60 +116,73 @@ export default function Discover() {
       }
 
       if (!errorOnFilter) {
-        letsGetData();
+        console.log("didHorse");
+        requestData();
       }
     }
     else if (jockeyActive) {
-        letsGetData();
+      console.log("didJockey");
+      requestData();
 
     }else if (userActive) {
-      letsGetData();
+      console.log("didUser");
+      requestData();
     }
     else {
-      letsGetData();
+      console.log("didDefa");
+      requestData();
     }
   }
 
     const handlePageChange = (event, value) => {
-    setPageNum(value);
+      setPageNum(value);
     };
 
-
-
     useEffect(() => {
-      setFetching(true);
-      axios.get(fetchUrl+pageNum).then((response) => {
-        setAllData(response.data);
-        setFetching(false);
-      }).catch((error) => {
-        console.log(error);
-        setFetching(false);
-      })
-
+      requestData();
     },[pageNum]);
 
 
+    const requestData = async () => {
+      if (userActive || jockeyActive || horseActive) {
+        console.log("withFilters");
+        const filtersToSend = {jockeyFilter, userFilter, horseFilter};
+        const filteredGroup = userActive ? "User" : jockeyActive ? "Jockey" : "Horse";
 
-const letsGetData = async () => {
-        if (userActive)
-        {
-          //Users
-          //setFetchUrl(`${apiUrl}SearchBar?page=`);
-        }else if (jockeyActive)
-        {
-          //Jockeys
-          //setFetchUrl(`${apiUrl}SearchBar?page=`);
-        } else if (horseActive)
-        {
-          //horses
-          //setFetchUrl(`${apiUrl}SearchBar?page=`);
-        }else
-        {
-          //Everyone
-          //setFetchUrl(`${apiUrl}SearchBar?page=`);
-        }
-        setPageNum(1);
-}
+
+        setFetching(true);
+        
+          axios.post(`${apiUrl}SearchBar?filteredGroup=${filteredGroup}&pageNum=${pageNum}`, filtersToSend)
+          .then((response) => {
+              setAllData(response.data.search);
+              setMaxPage(response.data.maxPage);
+              setServerError(false);
+              setFetching(false);
+          }).catch((error) => {
+              console.log(error);
+              setFetching(false);
+              setServerError(true);
+          })
+
+      } else {
+        console.log("noFilters");
+          setFetching(true);
+
+            axios.get(`${apiUrl}SearchBar?page=${pageNum}`)
+            .then((response) => {
+                setAllData(response.data.search);
+                setMaxPage(response.data.maxPage);
+                setServerError(false);
+                setFetching(false);
+            }).catch((error) => {
+                console.log(error);
+                setFetching(false);
+                setServerError(true);
+            })
+      }
+    }
+
+
 
   const ListItem = ( data ) => {
     return (
@@ -203,28 +209,28 @@ const letsGetData = async () => {
           setHorseActive(!horseActive);
 
         setUserActive(false);
-        setUserFilters(userFilterDefault);
+        setUserFilter(userFilterDefault);
 
         setJockeyActive(false);
-        setJockeyFilters(jockeyFilterDefault);
+        setJockeyFilter(jockeyFilterDefault);
         break;
 
       case "User":
         setHorseActive(false);
-        setHorseFilters(horseFilterDefault);
+        setHorseFilter(horseFilterDefault);
 
           setUserActive(!userActive);
 
         setJockeyActive(false);
-        setJockeyFilters(jockeyFilterDefault);
+        setJockeyFilter(jockeyFilterDefault);
         break;
         
       case "Jockey":
         setHorseActive(false);
-        setHorseFilters(horseFilterDefault);
+        setHorseFilter(horseFilterDefault);
 
         setUserActive(false);
-        setUserFilters(userFilterDefault);
+        setUserFilter(userFilterDefault);
         
           setJockeyActive(!jockeyActive);
           break;
@@ -273,9 +279,22 @@ const letsGetData = async () => {
           </Typography>
       <Box>
       {item.type === "Horse"
-        ? (item.data.stallion===true ? <MaleIcon sx={{ color: 'blue', fontSize: 35 }} /> : <FemaleIcon sx={{ color: 'pink', fontSize: 35 }} />)
-        : item.data.male ? <MaleIcon sx={{ color: 'blue', fontSize: 35 }} /> : <FemaleIcon sx={{ color: 'pink', fontSize: 35 }} />
+        ? (item.data.stallion===true ? 
+              <MaleIcon sx={{ color: 'blue', fontSize: 35 }} /> 
+              :
+              <FemaleIcon sx={{ color: 'pink', fontSize: 35 }} />)
+        :null
       }
+
+      {
+      item.type ==="Jockey"? 
+          (item.data.male ? 
+          <MaleIcon sx={{ color: 'blue', fontSize: 35 }} /> 
+          :
+          <FemaleIcon sx={{ color: 'pink', fontSize: 35 }} />)
+        :null 
+      }
+
         {/*
         This is for displaying Warning messages regarding individuals
         */}
@@ -284,13 +303,14 @@ const letsGetData = async () => {
           <ReportRoundedIcon sx={{color: 'yellow', fontSize: 30, position: 'absolute', right: 7, bottom: 7}} />
         </Tooltip> : null}
 
-        {item.type === "User" && item.data.isPrivate === false ? 
+        {item.type === "User" && item.data.isPrivate === true ? 
         <Tooltip title="This User has set his profile to private " placement="top">
-          <ReportRoundedIcon sx={{color: 'yellow', fontSize: 30, position: 'absolute', right: 7, bottom: 7}} />
+          <LockIcon sx={{color: 'rgba(0,0,0,0.5)', fontSize: 30, position: 'absolute', right: 7, bottom: 7}} />
         </Tooltip> : null}
       </Box>
     </Button>
   );
+
   const filterCheckBox = (label, disabled) => {
 return(
     <FormControlLabel disabled={!disabled} 
@@ -301,7 +321,7 @@ return(
           color='default'
           icon={< CircleOutlinedIcon/>}
           checkedIcon={<CheckCircleRoundedIcon />}
-          checked={horseFilters[label.toLowerCase()] }
+          checked={horseFilter[label.toLowerCase()] }
           onChange={() => filterBooleanToggle(label, disabled)}
         />} label={label} />
         )
@@ -310,21 +330,18 @@ return(
   const filterBooleanToggle = (label, category) => {
     switch (category) {
       case horseActive:
-        setHorseFilters({ ...horseFilters, [label.toLowerCase()]: !horseFilters[label.toLowerCase()] });
+        setHorseFilter({ ...horseFilter, [label.toLowerCase()]: !horseFilter[label.toLowerCase()] });
         break;
       case userActive:
-        setUserFilters( { ...userFilters, [label.toLowerCase()]: !userFilters[label.toLowerCase()] });
+        setUserFilter( { ...userFilter, [label.toLowerCase()]: !userFilter[label.toLowerCase()] });
         break;
       case jockeyActive:
-        setJockeyFilters( { ...jockeyFilters, [label.toLowerCase().replace(/\s/g, '')]: !jockeyFilters[label.toLowerCase().replace(/\s/g, '')] });
+        setJockeyFilter( { ...jockeyFilter, [label.toLowerCase().replace(/\s/g, '')]: !jockeyFilter[label.toLowerCase().replace(/\s/g, '')] });
         break;
       default:
           break;
     }
   };
-
-
-
 
 
   return (
@@ -459,8 +476,8 @@ Filters ↓
                   
                   <Typography sx={{ marginX: 2, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Age&nbsp;range:  1&nbsp;-&nbsp;6 </Typography>
                   <Box sx={{ marginBottom: 1, marginX: 1, display: 'flex', flexDirection: 'row', gap: 0, }}>
-                    <TextField onChange={(e) => setHorseFilters({ ...horseFilters, minAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='min' />
-                    <TextField onChange={(e) => setHorseFilters({ ...horseFilters, maxAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='max' />
+                    <TextField onChange={(e) => setHorseFilter({ ...horseFilter, minAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='min' />
+                    <TextField onChange={(e) => setHorseFilter({ ...horseFilter, maxAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='max' />
                   </Box>
                   
                   <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
@@ -510,11 +527,27 @@ Shown data, or error message ↓
                   <Avatar className='preventSelect' variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
                   : 
                   <Grid container display={'flex'} spacing={1}>
-                  {allData.map((item) => (
-                    <Grid item xs key={item.id}>
-                      {Cube(item)}
-                    </Grid>
-                  ))}
+                  {!fetching ? 
+                    allData.map((item) => (
+                      <Grid item xs key={item.id}>
+                        {Cube(item)}
+                      </Grid>
+                    ))
+                  :
+                    Array.from({ length: 20 }).map((_, index) => (
+                      <Grid item xs>
+                        <Skeleton key={index} variant="rectangular" 
+                        sx={{
+                          backgroundColor: 'rgba(0, 0, 0, 0.15)',
+                          width: '100%',
+                          minWidth: '175px',
+                          height: '125px',
+                          borderRadius: '10px',
+                          marginInline: 'auto',}} />
+                        </Grid>
+                    ))
+                  }
+
                   </Grid>
                   }
               <ThemeProvider theme={theme}>
