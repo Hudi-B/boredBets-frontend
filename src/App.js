@@ -2,9 +2,10 @@ import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import './styles/Main.css';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { apiUrl } from './boredLocal';
 import axios from 'axios';
@@ -14,15 +15,15 @@ import { useDispatch } from 'react-redux';
 import Navbar from './Components/UI/Navbar'
 import Footer from './Components/UI/Footer';
 import Home from './Pages/Home';
-import Discover from './Pages/Discover';
-import MyPage from './Pages/MyPage';
-import Races from './Pages/Races';
-  import SingleRace from './Pages/Races/SingleRace';
-import Admin from './Pages/Admin';
-import NotFound from './Pages/NotFound';
-  import User from './Pages/SinglePages/User';
-  import Jockey from './Pages/SinglePages/Jockey';
-  import Horse from './Pages/SinglePages/Horse';
+const Discover = lazy(() => import('./Pages/Discover'));
+const MyPage = lazy(() => import('./Pages/MyPage'));
+const Races = lazy(() => import('./Pages/Races'));
+const SingleRace = lazy(() => import('./Pages/Races/SingleRace'));
+const Admin = lazy(() => import('./Pages/Admin'));
+const NotFound = lazy(() => import('./Pages/NotFound'));
+const User = lazy(() => import('./Pages/SinglePages/User'));
+const Jockey = lazy(() => import('./Pages/SinglePages/Jockey'));
+const Horse = lazy(() => import('./Pages/SinglePages/Horse'));
 
 
 function App() {
@@ -69,19 +70,23 @@ function App() {
   }}>
     <Router>
       <Navbar background={"rgba(50, 50, 50, 1)"} />
-      <Routes>
-        <Route exact path="/" element={<Home/>} />
-            <Route path="*" element={<NotFound/>} />
-        <Route exact path="/discover" element={<Discover/>} />
-            <Route exact path="/user/:userId" element={<User/>} />
-            <Route exact path="/jockey/:jockeyId" element={<Jockey/>} />
-            <Route exact path="/horse/:horseId" element={<Horse/>} />
-        <Route exact path="/races" element={<Races/>} />
-          <Route exact path="/race/:raceId" element={<SingleRace/>} />
-          
-        {userData.isLoggedIn && <Route exact path="/mypage" element={<MyPage/>} />}
-        {userData.isAdmin && <Route exact path="/admin" element={<Admin/>} />}
-      </Routes>
+      <Suspense fallback={
+              <Box sx={{ display: 'flex' ,width: '100vw', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+                <CircularProgress sx={{color: 'black', height: '100px', width: '100px'}}/>
+              </Box>}>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="*" element={<NotFound />} />
+            <Route exact path="/discover" element={<Discover />} />
+            <Route exact path="/user/:userId" element={<User />} />
+            <Route exact path="/jockey/:jockeyId" element={<Jockey />} />
+            <Route exact path="/horse/:horseId" element={<Horse />} />
+            <Route exact path="/races" element={<Races />} />
+            <Route exact path="/race/:raceId" element={<SingleRace />} />
+            {userData.isLoggedIn && <Route exact path="/mypage" element={<MyPage />} />}
+            {userData.isAdmin && <Route exact path="/admin" element={<Admin />} />}
+          </Routes>
+        </Suspense>
     </Router>
     <Footer />
   </Box>

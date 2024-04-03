@@ -47,17 +47,16 @@ export default function Discover() {
   const [searchValues, setSearchValues] = useState([]);
   const [serverError, setServerError] = useState(false);
   const [pageNum, setPageNum] = useState(1);
-  const [maxPage, setMaxPage] = useState(15);
-  const [fetchUrl, setFetchUrl] = useState(`${apiUrl}SearchBar?page=`);
-  
+  const [maxPage, setMaxPage] = useState(5);
   const { enqueueSnackbar } = useSnackbar();
 
   const navigate = useNavigate();
 
-
   const [userActive, setUserActive] = useState(false);
   const [jockeyActive, setJockeyActive] = useState(false);
   const [horseActive, setHorseActive] = useState(false);
+
+  const [filterGroup, setFilterGroup] = useState("");
 
   const userFilterDefault = {
     private: false,
@@ -76,8 +75,8 @@ export default function Discover() {
   const jockeyFilterDefault = {
     male: false,
     female: false,
-    hasHorse: false,
-    hasNoHorse: false,
+    hashorse: false,
+    hasnohorse: false,
   }
   const [userFilter, setUserFilter] = useState(userFilterDefault);
 
@@ -87,8 +86,10 @@ export default function Discover() {
 
   const applyFilters = () => {
     let errorOnFilter = false;
-
+  setPageNum(1);
     if (horseActive) {
+      setUserFilter(userFilterDefault);
+      setJockeyFilter(jockeyFilterDefault);
       if (horseFilter.minAge === 0) {
         setHorseFilter({ ...horseFilter, minAge: 1 });
       }
@@ -116,21 +117,26 @@ export default function Discover() {
       }
 
       if (!errorOnFilter) {
-        console.log("didHorse");
-        requestData();
+        setUserFilter(userFilterDefault);
+        setJockeyFilter(jockeyFilterDefault);
+      filterGroup === "Horse" ? requestData() : setFilterGroup("Horse");
       }
     }
     else if (jockeyActive) {
-      console.log("didJockey");
-      requestData();
+      setUserFilter(userFilterDefault);
+      setHorseFilter(horseFilterDefault);
+      filterGroup === "Jockey" ? requestData() : setFilterGroup("Jockey");
 
     }else if (userActive) {
-      console.log("didUser");
-      requestData();
+      setHorseFilter(horseFilterDefault);
+      setJockeyFilter(jockeyFilterDefault);
+      filterGroup === "User" ? requestData() : setFilterGroup("User");
     }
     else {
-      console.log("didDefa");
-      requestData();
+      setHorseFilter(horseFilterDefault);
+      setJockeyFilter(jockeyFilterDefault);
+      setUserFilter(userFilterDefault);
+      filterGroup === "" ? requestData() : setFilterGroup("");
     }
   }
 
@@ -138,21 +144,21 @@ export default function Discover() {
       setPageNum(value);
     };
 
+
     useEffect(() => {
       requestData();
-    },[pageNum]);
+    }, [filterGroup]);
 
+    useEffect(() => {
+      requestData();
+    }, [pageNum]);
 
     const requestData = async () => {
-      if (userActive || jockeyActive || horseActive) {
-        console.log("withFilters");
+      if (filterGroup!=="") {
         const filtersToSend = {jockeyFilter, userFilter, horseFilter};
-        const filteredGroup = userActive ? "User" : jockeyActive ? "Jockey" : "Horse";
-
 
         setFetching(true);
-        
-          axios.post(`${apiUrl}SearchBar?filteredGroup=${filteredGroup}&pageNum=${pageNum}`, filtersToSend)
+          axios.post(`${apiUrl}SearchBar?filteredGroup=${filterGroup}&pageNum=${pageNum}`, filtersToSend)
           .then((response) => {
               setAllData(response.data.search);
               setMaxPage(response.data.maxPage);
@@ -165,7 +171,6 @@ export default function Discover() {
           })
 
       } else {
-        console.log("noFilters");
           setFetching(true);
 
             axios.get(`${apiUrl}SearchBar?page=${pageNum}`)
@@ -207,31 +212,19 @@ export default function Discover() {
     switch (sender) {
       case "Horse":
           setHorseActive(!horseActive);
-
         setUserActive(false);
-        setUserFilter(userFilterDefault);
-
         setJockeyActive(false);
-        setJockeyFilter(jockeyFilterDefault);
         break;
 
       case "User":
         setHorseActive(false);
-        setHorseFilter(horseFilterDefault);
-
           setUserActive(!userActive);
-
         setJockeyActive(false);
-        setJockeyFilter(jockeyFilterDefault);
         break;
         
       case "Jockey":
         setHorseActive(false);
-        setHorseFilter(horseFilterDefault);
-
         setUserActive(false);
-        setUserFilter(userFilterDefault);
-        
           setJockeyActive(!jockeyActive);
           break;
 
@@ -298,7 +291,7 @@ export default function Discover() {
         {/*
         This is for displaying Warning messages regarding individuals
         */}
-        {item.type === "Jockey" && item.data.hasHorse === false ? 
+        {item.type === "Jockey" && item.data.hashorse === false ? 
         <Tooltip title="This Jockey is currently without a horse " placement="top">
           <ReportRoundedIcon sx={{color: 'yellow', fontSize: 30, position: 'absolute', right: 7, bottom: 7}} />
         </Tooltip> : null}
@@ -507,8 +500,8 @@ Filters ↓
                   <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
 
                   <Typography sx={{ marginX: 1, color: !jockeyActive && 'rgba(40, 40, 40,0.8)' }}>Status:</Typography>
-                  {filterCheckBox("With a horse", jockeyActive)}
-                  {filterCheckBox("Without a horse", jockeyActive)}
+                  {filterCheckBox("Has horse", jockeyActive)}
+                  {filterCheckBox("Has no horse", jockeyActive)}
 
                 </Box>
               </Box>
