@@ -49,6 +49,7 @@ const CreditCardForm = ({ onClose, onSubmit }) => {
         axios
             .post(apiUrl + `UserCard/UserCardPost`, formData)
             .then((response) => {
+                enqueueSnackbar("Card Added", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
                 onClose();
                 onSubmit();
             })
