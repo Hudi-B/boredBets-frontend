@@ -68,7 +68,6 @@ const switchButtons = (upcoming) => {
         direction={"column"} spacing={2}>
             <Stack sx={{backgroundColor: 'rgba(4, 112, 107, 0.5)',borderBottom: '3px solid rgba(0,0,0,0.5)'}} direction={"row"} justifyContent={"space-around"}>
                 {switchButtons(true)}
-                <Divider orientation="vertical" flexItem color={'black'}/>
                 {switchButtons(false)}
             </Stack>
             {present?
