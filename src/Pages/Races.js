@@ -68,7 +68,7 @@ const switchButtons = (upcoming) => {
             fontWeight: 'bolder',
             fontSize: '18px',
             letterSpacing: '3px',
-            borderRadius: 'none',
+            borderRadius: '0px',
             '&:hover': { //this is only required to keep the buttons color on hover
                 backgroundColor: present === upcoming
                 ? 'rgba(4, 88, 88, 0.7)'

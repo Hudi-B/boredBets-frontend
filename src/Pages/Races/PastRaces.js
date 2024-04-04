@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
 import {Stack, Divider, Grid, Typography, Button} from "@mui/material";
-import Moment from 'moment';
+import React  from 'react';
 
 import MapIcon from '@mui/icons-material/Map';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -12,19 +12,16 @@ export default function PastRaces({races}) {
     const navigate = useNavigate();
     const [smallScreen, setSmallScreen] = useState(false);
 
-console.log(races);
     const firstThree = races.slice(0, 3);
     const restData = races.slice(3);
-
+    const moment = require('moment');
 
     useEffect(() => {
         if (window.innerWidth < 400) {
             setSmallScreen(true);
-            console.log("nows");
         }
         else {
             setSmallScreen(false);
-            console.log("snows");
         }
     }, [window.innerWidth]);
 
@@ -35,7 +32,7 @@ console.log(races);
                 className='preventSelect'
                 component={Button}
                 variant='default'
-                onClick={() => {navigate("/race/"+race.name)}}
+                onClick={() => {navigate("/race/"+race.id)}}
                 sx={{
                     textTransform: 'none',
                     display: 'flex',
@@ -55,7 +52,8 @@ console.log(races);
                     {race.country}
                 </Grid>
                 <Grid item xs={6} sx={{display: 'flex', paddingRight: '10px', justifyContent: 'flex-end', alignItems: 'center'}}>
-                    {race.raceScheduled}
+                {moment(race.raceScheduled).format("yyyy, MMMM d, HH:mm")}
+
 
                 </Grid>
             </Grid>
@@ -70,7 +68,7 @@ console.log(races);
             className='preventSelect'
             component={Button}
             variant='default'
-            onClick={() => {navigate("/race/"+race.name)}}
+            onClick={() => {navigate("/race/"+race.id)}}
             sx={{
                 textTransform: 'none',
                 display: 'flex',
@@ -85,7 +83,7 @@ console.log(races);
             }}
             >
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-                {race.raceScheduled}
+                {moment(race.raceScheduled).format("yyyy, MMMM d, HH:mm")}
                 </Grid>
                 <Divider orientation="vertical" flexItem color="black" />
                 <Grid item xs={3} sx={{fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -119,12 +117,13 @@ console.log(races);
                 paddingX: 2}}
                 >
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-               <AccessTimeIcon /></Grid>
+                <MapIcon /></Grid>
 
                 <Grid item xs={3} ></Grid>
                 
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <MapIcon /></Grid>
+                <AccessTimeIcon /></Grid>
+                
             </Grid>
 
             {firstThree.map((user) => (
