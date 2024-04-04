@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Box,Dialog, Stack } from '@mui/material';
+import { Button, Box,Dialog, Stack, Paper } from '@mui/material';
 import Login from './AuthPopup/Login';
 import Register from './AuthPopup/Register';
 import CloseIcon from '@mui/icons-material/Close';
@@ -106,21 +106,56 @@ export default function AuthPopup({itsALogin}) {
                         </Box>
                         <Stack sx={{gap: 1}}>
                             <Box display="flex" justifyContent="center" gap={1} marginBottom={1}>
-                                <Button 
-                                    sx={{flexWrap: 'nowrap', whiteSpace:'nowrap'}}
-                                    variant='string' 
-                                    onClick={() => setOnLogin(true)}> 
+                                
+                                <Paper
+                                    elevation={onLogin ? 3 : 0}
+                                    square
+                                    sx={{
+                                        flexWrap: 'nowrap', 
+                                        borderRadius: '10px',
+                                        paddingX: 3,
+                                        paddingY: 0.7,
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        whiteSpace:'nowrap',
+                                        backgroundColor: "transparent",
+                                        '&:hover': {
+                                            backgroundColor: 'rgba(50, 50, 50, 0.11)',
+                                          },
+                                          '&:active': {
+                                              backgroundColor: 'rgba(50, 50, 50, 0.08)',
+                                            },
+                                        }}
+                                    onClick={() => setOnLogin(true)}>
                                     Sign in
-                                </Button>
-                                <Button 
-                                    sx={{flexWrap: 'nowrap', whiteSpace:'nowrap'}}
-                                    variant='string'
-                                    onClick={() => {
-                                        setOnLogin(false); 
-                                        setFormState({username: '',email:'', password: ''})
-                                        }}> 
+                                </Paper>
+                                <Paper
+                                    elevation={!onLogin ? 3 : 0}
+                                    square
+                                    sx={{
+                                        flexWrap: 'nowrap', 
+                                        borderRadius: '10px',
+                                        paddingX: 3,
+                                        paddingY: 0.7,
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        whiteSpace:'nowrap',
+                                        backgroundColor: "transparent",
+                                        '&:hover': {
+                                            backgroundColor: 'rgba(50, 50, 50, 0.11)',
+                                          },
+                                          '&:active': {
+                                              backgroundColor: 'rgba(50, 50, 50, 0.08)',
+                                            },
+                                        }}
+                                        onClick={() => {
+                                            setOnLogin(false); 
+                                            setFormState({username: '',email:'', password: ''})
+                                            }}>
                                         Sign up
-                                </Button>
+                                </Paper>
                             </Box>
                             {
                                 onLogin
