@@ -9,6 +9,9 @@ import { styled } from '@mui/material/styles';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 
+import { enqueueSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
+
 const Title = styled(Typography)(({ theme }) => ({
   width:'fill',
   margin:'10px',
@@ -52,6 +55,11 @@ export default function App() {
     })
     .catch((error) => {
         console.log(error);
+        enqueueSnackbar("Error while requesting this users data.", {
+          variant: 'error',
+          autoHideDuration: 3000,
+          TransitionComponent: Slide,
+        });
     })
   }, []);
 

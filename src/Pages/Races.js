@@ -5,11 +5,13 @@ import PastRaces from "./Races/PastRaces";
 import axios from 'axios';
 import { apiUrl } from '../boredLocal';
 
+import { enqueueSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
+
 export default function RacesPage() {
     const [present, setPresent] = useState(true);
     const [allPastRaces, setAllPastRaces] = useState([]);
     const [allUpcomingRaces, setAllUpcomingRaces] = useState([]);
-
 
     useEffect(() => {
         
@@ -19,6 +21,11 @@ export default function RacesPage() {
         })
         .catch((error) => {
             console.log(error);
+            enqueueSnackbar("Error while requesting past races.", {
+              variant: 'error',
+              autoHideDuration: 3000,
+              TransitionComponent: Slide,
+            });
         });
 
         axios.get(`${apiUrl}Race/GetAllFutureRaces`)
@@ -27,6 +34,12 @@ export default function RacesPage() {
         })
         .catch((error) => {
             console.log(error);
+    
+        enqueueSnackbar("Error while requesting upcoming races.", {
+            variant: 'error',
+            autoHideDuration: 3000,
+            TransitionComponent: Slide,
+          });
         });
 
     }, []);

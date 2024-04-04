@@ -7,7 +7,8 @@ import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
-
+import { enqueueSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 
 const Title = styled(Typography)(({ theme }) => ({
   width:'fill',
@@ -50,7 +51,11 @@ export default function App() {
         setData(response.data);
     })
     .catch((error) => {
-        console.log(error);
+      enqueueSnackbar("Error while requesting this jockey's data.", {
+        variant: 'error',
+        autoHideDuration: 3000,
+        TransitionComponent: Slide,
+      });
     })
   }, []);
 
