@@ -1,11 +1,5 @@
 import * as React from 'react';
-import axios from 'axios';
-import { Button, Box, Checkbox, Dialog, DialogContent, FormControlLabel, TextField, Stack } from '@mui/material';
-import { apiUrl, setCookieToken } from '../../boredLocal';
-import { useDispatch } from 'react-redux';
-import { login } from '../../auth/authSlice';
-import { useSnackbar } from 'notistack';
-import Slide from '@mui/material/Slide';
+import { Button, Box,Dialog, Stack } from '@mui/material';
 import Login from './AuthPopup/Login';
 import Register from './AuthPopup/Register';
 import CloseIcon from '@mui/icons-material/Close';

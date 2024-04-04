@@ -1,9 +1,6 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import { Paper, Stack, Typography, Box, IconButton, Tooltip } from "@mui/material";
-import axios from 'axios';
-import { useSelector } from "react-redux";
-import { apiUrl } from '../../boredLocal';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const TilePaper = styled(Paper)(({ theme }) => ({

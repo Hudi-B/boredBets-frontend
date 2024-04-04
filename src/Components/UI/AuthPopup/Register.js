@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { apiUrl } from '../../../boredLocal';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';

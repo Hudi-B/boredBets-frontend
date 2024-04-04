@@ -1,4 +1,4 @@
-import { Stack, Button, Divider} from "@mui/material";
+import { Stack, Button} from "@mui/material";
 import { useEffect, useState } from "react";
 import UpcomingRaces from "./Races/UpcomingRaces";
 import PastRaces from "./Races/PastRaces";
