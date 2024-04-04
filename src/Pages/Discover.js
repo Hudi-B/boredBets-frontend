@@ -60,9 +60,7 @@ export default function Discover() {
 
   const userFilterDefault = {
     private: false,
-    public: false,
-    female: false,
-    male: false,
+    public: false
   };
 
   const horseFilterDefault = {
@@ -447,12 +445,6 @@ Filters ↓
                   <Typography sx={{ marginX: 1, color: !userActive && 'rgba(40, 40, 40,0.8)' }}>Privacy:</Typography>
                   {filterCheckBox("Public", userActive)}
                   {filterCheckBox("Private", userActive)}
-
-                  <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}} />
-                  
-                  <Typography sx={{ marginX: 1, color: !userActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
-                  {filterCheckBox("Male", userActive)}
-                  {filterCheckBox("Female", userActive)}
 
                 </Box>
 
