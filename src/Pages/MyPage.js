@@ -7,12 +7,6 @@ import Information from '../Components/UserComponents/Information';
 import Cards from '../Components/UserComponents/Cards';
 import History from '../Components/UserComponents/History';
 
-const MenuChip = styled(Chip)(({ theme }) => ({
-    height: '50px',
-    fontSize: '20px',
-    color: 'white',
-  }));
-
 export default function UserPage() {
 
     const [currentPage, setCurrentPage] = React.useState(0);
@@ -30,13 +24,13 @@ export default function UserPage() {
             <Grid container spacing={5} sx={{width: '100%', height: '100%'}}>
                 <Grid item xs={2}>
                     <Stack spacing={2} alignItems={'center'} className='preventSelect' sx={{ paddingTop: '10px' }}>
-                        <Paper elevation={ currentPage === 0 && 5} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(0) }} >
+                        <Paper elevation={ currentPage === 0 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(0) }} >
                             <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' > Account </Typography>
                         </Paper>
-                        <Paper elevation={ currentPage === 1 && 5} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(1) }} >
+                        <Paper elevation={ currentPage === 1 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(1) }} >
                             <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' > Payment </Typography>
                         </Paper>
-                        <Paper elevation={ currentPage === 2 && 5} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(2) }} >
+                        <Paper elevation={ currentPage === 2 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(2) }} >
                             <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' > History </Typography>
                         </Paper>
                     </Stack>
