@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Box, Typography,  Chip, Paper, Stack, Dialog, DialogContent, Input, InputAdornment, Select } from "@mui/material";
+import { Box, Typography,  Chip, Paper, Stack, Dialog, DialogContent, Input, InputAdornment, Select, Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CardPaper from "./CardPaper";
 import AddIcon from '@mui/icons-material/Add';
@@ -45,7 +45,9 @@ export default function Cards() {
         await axios.get(apiUrl+`UserCard/GetAllUserCardsByUserId?UserId=` + userId)
         .then((response) => {
             setCardData(response.data);
-            setIsLoading(false);
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 1000);
         })
         .catch((error) => {
             console.log(error);
@@ -102,7 +104,11 @@ export default function Cards() {
                 </TilePaper>
                 {
                     isLoading ? (
-                        <Typography>Loading...</Typography>
+                        <>
+                            <Skeleton variant="rounded" animation="wave" width={'98%'} height={250} />
+                            <Skeleton variant="rounded" animation="wave" width={'98%'} height={250} />
+                            <Skeleton variant="rounded" animation="wave" width={'98%'} height={250} />
+                        </>
                     ) : (
                         cardData.map((card) => (
                             <CardPaper 

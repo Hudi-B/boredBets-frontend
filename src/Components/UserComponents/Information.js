@@ -39,7 +39,6 @@ export default function Information() {
         await axios.get(apiUrl+`User/GetByUserId?UserId=` + userId)
         .then((response) => {
             setUserData(response.data);
-            console.log(response.data);
         })
         .catch((error) => {
             console.log(error);
