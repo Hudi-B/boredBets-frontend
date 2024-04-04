@@ -2,77 +2,59 @@ import {useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
-import {Stack, Box, Grid, Divider, Typography, Button} from "@mui/material";
+import {Stack, Divider, Grid, Typography, Button} from "@mui/material";
+import React  from 'react';
 
 import MapIcon from '@mui/icons-material/Map';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
-export default function PastRaces({race}) {
+export default function PastRaces({races}) {
     const navigate = useNavigate();
+    const [smallScreen, setSmallScreen] = useState(false);
 
+    const firstThree = races.slice(0, 3);
+    const restData = races.slice(3);
+    const moment = require('moment');
 
-    const userData = [
-        { name: "Alice", time: "10:00", country: "France" },
-        { name: "Bob", time: "12:30", country: "Germany" },
-        { name: "Charlie", time: "17:15", country: "India" },
-        { name: "Diana", time: "08:45", country: "Italy" },
-        { name: "Ethan", time: "14:00", country: "Japan" },
-        { name: "Flora", time: "20:20", country: "Nigeria" },
-        { name: "George", time: "05:55", country: "Russia" },
-        { name: "Henry", time: "09:30", country: "South Africa" },
-        { name: "Isla", time: "11:10", country: "Spain" },
-        { name: "Jack", time: "16:45", country: "United Kingdom" },
-        { name: "Kim", time: "07:25", country: "United States" },
-        { name: "Leo", time: "13:00", country: "Venezuela" },
-        { name: "Mia", time: "18:30", country: "France" },
-        { name: "Noah", time: "03:15", country: "Germany" },
-        { name: "Olivia", time: "21:45", country: "India" },
-        { name: "Peter", time: "06:00", country: "Italy" },
-        { name: "Quinn", time: "10:30", country: "Japan" },
-        { name: "Rory", time: "15:00", country: "Nigeria" },
-        { name: "Sophia", time: "22:10", country: "Russia" },
-        { name: "Thomas", time: "02:45", country: "South Africa" },
-        { name: "Umaima", time: "07:15", country: "Spain" },
-        { name: "Victor", time: "12:00", country: "United Kingdom" },
-        { name: "Willow", time: "16:30", country: "United States" },
-        { name: "Xavier", time: "20:00", country: "Venezuela" },
-      ];
-
-    const firstThree = userData.slice(0, 3);
-    const restData = userData.slice(3);
-
+    useEffect(() => {
+        if (window.innerWidth < 400) {
+            setSmallScreen(true);
+        }
+        else {
+            setSmallScreen(false);
+        }
+    }, [window.innerWidth]);
 
 
     const smallRaceCard = (race) => {
         return (
             <Grid container 
-            className='preventSelect'
-            component={Button}
-            variant='default'
-            onClick={() => {navigate("/race/"+race.name)}}
-            sx={{
-                textTransform: 'none',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                height: '50px',
-                paddingX: 2,
-                paddingY:1,
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                borderRadius: '50px',
-            }}
+                className='preventSelect'
+                component={Button}
+                variant='default'
+                onClick={() => {navigate("/race/"+race.id)}}
+                sx={{
+                    textTransform: 'none',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    paddingX: 2,
+                    paddingY:1,
+                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    borderRadius: '50px',
+                }}
             >
-                <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-                {race.time}
+                <Grid item xs={12} sx={{paddingLeft: '10px', fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                    {race.name}
                 </Grid>
-                <Divider orientation="vertical" flexItem color="black" />
-                <Grid item xs={3} sx={{fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                {race.name}
+                    <Divider sx={{width: '100%', borderColor: 'black'}} />
+                <Grid item xs={6} sx={{paddingLeft: '15px',display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                    {race.country}
                 </Grid>
-                
-                <Divider orientation="vertical" flexItem color="black" />
-                <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                {race.country}
+                <Grid item xs={6} sx={{display: 'flex', paddingRight: '10px', justifyContent: 'flex-end', alignItems: 'center'}}>
+                {moment(race.raceScheduled).format("yyyy, MMMM d, HH:mm")}
+
+
                 </Grid>
             </Grid>
     )}
@@ -86,7 +68,7 @@ export default function PastRaces({race}) {
             className='preventSelect'
             component={Button}
             variant='default'
-            onClick={() => {navigate("/race/"+race.name)}}
+            onClick={() => {navigate("/race/"+race.id)}}
             sx={{
                 textTransform: 'none',
                 display: 'flex',
@@ -101,7 +83,7 @@ export default function PastRaces({race}) {
             }}
             >
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-                {race.time}
+                {moment(race.raceScheduled).format("yyyy, MMMM d, HH:mm")}
                 </Grid>
                 <Divider orientation="vertical" flexItem color="black" />
                 <Grid item xs={3} sx={{fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -135,12 +117,13 @@ export default function PastRaces({race}) {
                 paddingX: 2}}
                 >
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-               <AccessTimeIcon /></Grid>
+                <MapIcon /></Grid>
 
                 <Grid item xs={3} ></Grid>
                 
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <MapIcon /></Grid>
+                <AccessTimeIcon /></Grid>
+                
             </Grid>
 
             {firstThree.map((user) => (

@@ -6,7 +6,6 @@ import axios from 'axios';
 import { TextField, Box, Button, InputAdornment, Tooltip } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 export default function Register({data, callback}) {
-    const [open, setOpen] = React.useState(false);  
     const [alertOnEmail, setAlertOnEmail] = React.useState(false);
     const [alertOnUsername, setAlertOnUsername] = React.useState(false);
     const [alertOnPass, setAlertOnPass] = React.useState(false);
