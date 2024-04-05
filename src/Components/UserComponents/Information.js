@@ -36,9 +36,10 @@ export default function Information() {
     });
 
     const fetchData = async () => {
-        await axios.get(apiUrl+`User/GetByUserId?UserId=` + userId)
+        await axios.get(apiUrl+`UserDetail/GetUserDetailByUserId?UserId=` + userId)
         .then((response) => {
             setUserData(response.data);
+            console.log(response.data);
         })
         .catch((error) => {
             console.log(error);
@@ -172,7 +173,7 @@ export default function Information() {
                             </Stack>
                             <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.5)' }}/>
                             <Stack direction="column" spacing={1} sx={{paddingTop: '20px'}}>
-                                <Button variant="contained" onClick={() => {}} sx={{width: '100%'}}>Reset Password</Button>
+                                <Button variant="contained" onClick={(event) => {event.preventDefault(); window.scrollTo(0, 0);}} sx={{width: '100%'}}>Reset Password</Button>
                                 <Typography variant="caption">Reset password via email.</Typography>
                             </Stack>
                         </TilePaper>
@@ -190,11 +191,11 @@ export default function Information() {
                     <Stack direction="column" spacing={2}>
 
                         <TilePaper centered sx={{alignItems: 'center', justifyContent: 'center'}}>
-                            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: '20px'}}>
                                 <Avatar sx={{width: '100px', height: '100px', fontSize: '50px'}}>A</Avatar>
                             </Box>
-                            <Typography variant="h5">UserID:</Typography>
-                            <Typography variant="h6">{ userId }</Typography>
+                            <Typography variant="h6">UserID:</Typography>
+                            <Typography variant="subtitle1">{ userId }</Typography>
                         </TilePaper>
 
                         <TilePaper>
@@ -211,11 +212,14 @@ export default function Information() {
                             <Divider>
                                 <Chip label="Phone number" size="small" sx={{color: 'white'}}/>
                             </Divider>
-                            <Typography variant="subtitle1">Phone number placeholder</Typography>
+                            <Typography variant="subtitle1">{ userData.phoneNumber }</Typography>
                             <Divider>
                                 <Chip label="Address" size="small" sx={{color: 'white'}}/>
                             </Divider>
                             <Typography variant="subtitle1">{ userData.address }</Typography>
+                            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'end', justifyContent: 'end', paddingTop: '10px', paddingRight: '20px'}}>
+                                <Button variant="outlined">Edit</Button>
+                            </Box>
                         </TilePaper>
 
                     </Stack>
