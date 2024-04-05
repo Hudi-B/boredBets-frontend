@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
-import {Stack, Divider, Grid, Typography, Button} from "@mui/material";
+import {Stack, Divider, Grid, Typography, Button, Hidden} from "@mui/material";
 import React  from 'react';
 
 import MapIcon from '@mui/icons-material/Map';
@@ -44,14 +44,17 @@ export default function PastRaces({races}) {
                     borderRadius: '50px',
                 }}
             >
-                <Grid item xs={12} sx={{paddingLeft: '10px', fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                <Grid item xs={12} sx={{marginY: 0.3,paddingLeft: '10px', fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
                     {race.name}
                 </Grid>
                     <Divider sx={{width: '100%', borderColor: 'black'}} />
-                <Grid item xs={6} sx={{paddingLeft: '15px',display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                <Grid item xs={12} sm={6} sx={{paddingLeft: '15px',display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginY: 0.3}}>
                     {race.country}
                 </Grid>
-                <Grid item xs={6} sx={{display: 'flex', paddingRight: '10px', justifyContent: 'flex-end', alignItems: 'center'}}>
+                <Hidden smUp>
+                    <Divider sx={{width: '100%', borderColor: 'black'}} />
+                </Hidden>
+                <Grid item xs={12} sm={6} sx={{display: 'flex', paddingRight: '10px', justifyContent: 'flex-end', alignItems: 'center', marginTop: 0.3}}>
                 {moment(race.raceScheduled).format("yyyy, MMMM d, HH:mm")}
 
 
