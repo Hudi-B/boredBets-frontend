@@ -18,8 +18,7 @@ export default function UserPage() {
     return (
         <Box sx={{ 
          padding: '35px', 
-         paddingTop: '50px',
-         minHeight: '100vh', }}
+         paddingTop: '50px', }}
          >
             <Grid container spacing={5} sx={{width: '100%', height: '100%'}}>
                 <Grid item xs={2}>
@@ -35,7 +34,7 @@ export default function UserPage() {
                         </Paper>
                     </Stack>
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={10} sx={{ paddingBottom: '100px' }}>
                     {currentPage === 0 && <Information />}
                     {currentPage === 1 && <Cards />}
                     {currentPage === 2 && <History />}

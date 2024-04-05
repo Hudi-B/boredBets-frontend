@@ -25,8 +25,20 @@ export default function Cards() {
     const [cardData, setCardData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const userId = useSelector((state) => state.auth.userId);
+    const currentWallet = useSelector((state) => state.auth.wallet);
     const [open, setOpen] = useState(false);
+    const [amount, setAmount] = useState(0);
     const { enqueueSnackbar } = useSnackbar();
+
+    const handleDeposit = () => {
+        axios.put(apiUrl+`User/UpdateWalletByUserId?UserId=` + userId, { wallet: currentWallet + amount })
+        .then(() => {
+            
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
 
     const handleOpen = () => {
         setOpen(true);
@@ -59,7 +71,6 @@ export default function Cards() {
         .then(() => {
             enqueueSnackbar("Card Deleted", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
             fetchData();
-            setIsLoading(false);
         })
         .catch((error) => {
             console.log(error);
@@ -81,13 +92,13 @@ export default function Cards() {
                 <TilePaper>
                     <Stack direction={'row'} justifyContent={'space-between'}>
                         <Typography variant="h5">Deposit:</Typography>
-                        <Chip label="Finish" icon={<AddIcon style={{ color: 'white' }} />} style={{ color: 'white' }} onClick={() => {}} />
+                        <Chip label="Finish" icon={<AddIcon style={{ color: 'white' }} />} style={{ color: 'white' }} onClick={() => {handleDeposit()}} />
                     </Stack>
                     <Box sx={{ padding: '35px', justifyContent: 'center', display: 'flex', color: 'white' }}>
                         <Stack direction={'row'} spacing={5}>
                             <Stack direction={'column'} spacing={1}>
                                 <Typography variant="caption">Amount</Typography>
-                                <Input placeholder="Amount" startAdornment={<InputAdornment position="start">$</InputAdornment>} />
+                                <Input value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Amount" startAdornment={<InputAdornment position="start">$</InputAdornment>} />
                             </Stack>
                             <Stack direction={'column'} spacing={1}>
                                 <Typography variant="caption">Card</Typography>
