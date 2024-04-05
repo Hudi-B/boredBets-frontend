@@ -25,18 +25,27 @@ export default function Cards() {
     const [cardData, setCardData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const userId = useSelector((state) => state.auth.userId);
-    const currentWallet = useSelector((state) => state.auth.wallet);
+    const [currentWallet, setCurrentWallet] = useState(0);
     const [open, setOpen] = useState(false);
     const [amount, setAmount] = useState(0);
     const { enqueueSnackbar } = useSnackbar();
 
     const handleDeposit = () => {
-        axios.put(apiUrl+`User/UpdateWalletByUserId?UserId=` + userId, { wallet: currentWallet + amount })
+        axios.get(apiUrl+`User/GetWalletByUserId?UserId=` + userId)
+        .then((response) => {
+            setCurrentWallet(response.data.wallet);
+            console.log(response.data.wallet);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        var newWallet = Number(currentWallet) + Number(amount);
+        axios.put(apiUrl+`User/UpdateWalletByUserId?UserId=` + userId, { wallet: newWallet })
         .then(() => {
             
         })
         .catch((error) => {
-            console.log(error);
+            
         })
     }
 
