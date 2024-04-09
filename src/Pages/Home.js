@@ -8,6 +8,7 @@ import { Typography, Grid, Avatar, Paper, Divider, Button } from '@mui/material'
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 
+import First from '../Components/Home/First'
 
 export default function HomePage() {
   const [comingRaces, setComingRaces] = useState([]);
@@ -122,37 +123,8 @@ console.log(comingRaces);
       overflowY: 'auto',
       paddingTop: '30px',
       backgroundColor: 'rgb(2, 145, 138)'}} className="noScrollBar">
-        
 
-        <Grid container gap={2}  sx={{
-            justifyContent: 'center',
-            width: '100%',
-            marginTop: 15,
-            marginBottom: 20}}>
-              <Grid item xs={10} sm={5} justifyContent={'center'} alignItems={'center'} display={'flex'}>
-                  <Avatar variant='square' sx={{width: '100%', height: 'auto'}} />
-              </Grid>
-
-              <Grid item xs={10} sm={5}
-                sx={{
-                  width: '100%',
-                  backgroundColor: '',
-                  height: 'fit-content',
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  paddingTop: 2,
-                  paddingX: 2,
-                  paddingBottom: 1,
-                  borderRadius: 4,
-                  backgroundColor: 'rgba(0,0,0,0.3)'}}>
-                  <Typography sx={{width: '100%', textAlign: 'flex-start', color: 'rgb(220,220,220)', margin:0.5}} fontWeight={'800'}>Fictopia</Typography>
-                  {tempRaces.map((race) => (
-                    comingRaceBox(race)
-                  ))}
-              </Grid>
-        </Grid>
+        <First/>
         
         
         <Box sx={{

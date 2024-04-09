@@ -21,9 +21,9 @@ const Races = lazy(() => import('./Pages/Races'));
 const SingleRace = lazy(() => import('./Pages/Races/SingleRace'));
 const Admin = lazy(() => import('./Pages/Admin'));
 const NotFound = lazy(() => import('./Pages/NotFound'));
-const User = lazy(() => import('./Pages/SinglePages/User'));
-const Jockey = lazy(() => import('./Pages/SinglePages/Jockey'));
-const Horse = lazy(() => import('./Pages/SinglePages/Horse'));
+const User = lazy(() => import('./Pages/Individuals/User'));
+const Jockey = lazy(() => import('./Pages/Individuals/Jockey'));
+const Horse = lazy(() => import('./Pages/Individuals/Horse'));
 
 
 function App() {

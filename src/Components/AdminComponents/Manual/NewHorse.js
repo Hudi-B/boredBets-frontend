@@ -34,14 +34,14 @@ export default function NewHorse() {
                 enqueueSnackbar(response.message, {
                     variant: 'success',
                     autoHideDuration: 3000,
-                    TransitionComponent: Slide, // Use the actual Slide component
+                    TransitionComponent: Slide,
                   });
             })
             .catch((error) => {
                 enqueueSnackbar(error.message, {
                     variant: 'error',
                     autoHideDuration: 3000,
-                    TransitionComponent: Slide, // Use the actual Slide component
+                    TransitionComponent: Slide,
                   });
             })
         }

@@ -45,7 +45,7 @@ export default function UserIcon() {
               overflow: 'hidden',
             }}>
               {/*process.env.PUBLIC_URL + pfpImage*/}
-              <Avatar sx={{width: '100%', height: '100%'}} src={process.env.PUBLIC_URL + pfpImage} />
+              <Avatar sx={{width: '100%', height: '100%'}} src={process.env.PUBLIC_URL + "images/" +pfpImage} />
         </Box>
         <Popover
         open={Boolean(anchorEl)}

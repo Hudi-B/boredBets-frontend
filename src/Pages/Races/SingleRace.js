@@ -1,33 +1,31 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import '../../styles/DnD.css';
-
-
-
-const finalSpaceCharacters = [
-  {
-    id: 'gary',
-    name: 'Gary Goodspeed',
-  },
-  {
-    id: 'cato',
-    name: 'Little Cato',
-  },
-  {
-    id: 'kvn',
-    name: 'KVN',
-  },
-  {
-    id: 'mooncake',
-    name: 'Mooncake',
-  },
-  {
-    id: 'quinn',
-    name: 'Quinn Ergon'
-  }
-]
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { apiUrl } from '../../boredLocal';
+import {Stack, Divider, Grid, Box, Typography, Button, Hidden} from "@mui/material";
+import { useLocation } from 'react-router-dom';
 
 function App() {
+  
+  const id = useLocation().pathname.split("/")[2];
+  console.log(id);
+
+
+  return (
+    <Box>
+
+
+    </Box>
+  );
+}
+
+export default App;
+
+
+/*
+
   const [characters, updateCharacters] = useState(finalSpaceCharacters);
 
   function handleOnDragEnd(result) {
@@ -41,11 +39,7 @@ function App() {
     console.log(items.map((char) => char.name));
   }
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Horses drag and drop</h1>
-        <DragDropContext onDragEnd={handleOnDragEnd}>
+<DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="characters">
             {(provided) => (
               <ul className="characters" {...provided.droppableProps} ref={provided.innerRef}>
@@ -67,9 +61,4 @@ function App() {
             )}
           </Droppable>
         </DragDropContext>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+*/
