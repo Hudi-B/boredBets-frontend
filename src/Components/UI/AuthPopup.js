@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Box,Dialog, Stack, Paper } from '@mui/material';
+import { Button, Box,Dialog, Stack, Paper, Hidden } from '@mui/material';
 import Login from './AuthPopup/Login';
 import Register from './AuthPopup/Register';
 import CloseIcon from '@mui/icons-material/Close';
@@ -49,9 +49,17 @@ export default function AuthPopup({itsALogin}) {
 
     return (
         <>
-            <Button sx={{flexWrap: 'nowrap', whiteSpace:'nowrap'}} variant={itsALogin ? "outlined" : "contained"} onClick={handleClickOpen}>
-                {itsALogin? "Login" : "Sign up"}
+        {itsALogin? 
+            <Button sx={{flexWrap: 'nowrap', whiteSpace:'nowrap'}} variant={"outlined"} onClick={handleClickOpen}>
+                Login
             </Button>
+            :
+            <Hidden smDown>
+                <Button sx={{flexWrap: 'nowrap', whiteSpace:'nowrap'}} variant={"contained"} onClick={handleClickOpen}>
+                    Sign up
+                </Button>    
+            </Hidden>
+        }       
             <Dialog
                 open={open}
                 className="preventSelect"

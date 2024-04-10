@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import AuthPopup from './AuthPopup';
-import {Box, Button, AppBar, Chip, Stack} from '@mui/material';
+import {Box, Button, AppBar, Chip, Stack, Hidden} from '@mui/material';
 import { useSelector } from 'react-redux';
 import UserIcon from './UserIcon';
 import {Link} from 'react-router-dom';
@@ -15,17 +15,7 @@ import { apiUrl } from '../../boredLocal';
 
 export default function Navbar( {background} ) {
   const userData = useSelector((state) => state.auth);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
-  const handleScreenResize = () => {
-    setScreenWidth(window.innerWidth);
-  };
-  useEffect(() => {
-    window.addEventListener("resize", handleScreenResize);
-    return () => {
-      window.removeEventListener("resize", handleScreenResize);
-    };
-  });
 
 const RightBoxContent = () => {
     if (userData.isLoggedIn === null) {
@@ -68,12 +58,12 @@ const RightBoxContent = () => {
         <Box sx={{
           display: 'flex',
           gap: '15px'}}>
-            {screenWidth<650 && <Hamburger isAdmin={userData.isAdmin} />}
+            <Hidden mdUp><Hamburger isAdmin={userData.isAdmin} /></Hidden>
             <Button style={{color: 'white', fontSize: '25px'}} component={Link} to="/">
-              {screenWidth<450 ? 'BB' : 'BoredBets' }
+              <Hidden smDown>BoredBets</Hidden>
+              <Hidden smUp>BB</Hidden>
             </Button>
-            {screenWidth>=650 &&
-              <>
+            <Hidden mdDown>
                 <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/discover">
                   <PeopleRoundedIcon sx={{marginRight: '3px'}}/>Discover
                 </Button>
@@ -85,8 +75,7 @@ const RightBoxContent = () => {
                   <EngineeringRoundedIcon sx={{marginRight: '3px'}}/>Admin
                 </Button>
                 }
-              </>
-            }
+            </Hidden>
         </Box>
       {RightBoxContent()}
     </AppBar>

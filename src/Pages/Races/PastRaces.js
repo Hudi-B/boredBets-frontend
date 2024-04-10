@@ -44,21 +44,36 @@ export default function PastRaces({races}) {
                     borderRadius: '50px',
                 }}
             >
-                <Grid item xs={12} sx={{marginY: 0.3,paddingLeft: '10px', fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
-                    {race.name}
-                </Grid>
-                    <Divider sx={{width: '100%', borderColor: 'black'}} />
-                <Grid item xs={12} sm={6} sx={{paddingLeft: '15px',display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginY: 0.3}}>
-                    {race.country}
-                </Grid>
-                <Hidden smUp>
-                    <Divider sx={{width: '100%', borderColor: 'black'}} />
+                <Hidden smUp> {/*Small screen */}
+                    <Grid item xs={12} sx={{display: 'flex',  justifyContent: 'center', alignItems: 'center', marginY: 0.3, fontWeight:'750', letterSpacing: '1px'}}>
+                    <MapIcon sx={{marginRight: '10px'}} /> {race.name}
+                    </Grid>
+                        <Divider sx={{width: '100%', borderColor: 'black'}} />
+                    <Grid item xs={12} sx={{display: 'flex',  justifyContent: 'center', alignItems: 'center', marginY: 0.3}}>
+                        {race.country}
+                    </Grid>
+                        <Divider sx={{width: '100%', borderColor: 'black'}} />
+                    <Grid item xs={12}sx={{display: 'flex',justifyContent: 'center', alignItems: 'center', marginTop: 0.3}}>
+                    <AccessTimeIcon sx={{marginRight: '10px'}} />{moment(race.raceScheduled).format("yyyy, MMMM d, HH:mm")}
+                    </Grid>
                 </Hidden>
-                <Grid item xs={12} sm={6} sx={{display: 'flex', paddingRight: '10px', justifyContent: 'flex-end', alignItems: 'center', marginTop: 0.3}}>
-                {moment(race.raceScheduled).format("yyyy, MMMM d, HH:mm")}
 
-
-                </Grid>
+                <Hidden smDown>{/*big screen */}
+                    <Grid item xs={12} sx={{marginY: 0.3,paddingLeft: '10px', fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                        
+                {race.name}
+                    </Grid>
+                        <Divider sx={{width: '100%', borderColor: 'black'}} />
+                    <Grid sm={6} sx={{paddingLeft: '15px',display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginY: 0.3}}>
+                        {race.country}
+                    </Grid>
+                    <Hidden smUp>
+                        <Divider sx={{width: '100%', borderColor: 'black'}} />
+                    </Hidden>
+                    <Grid item xs={12} sm={6} sx={{display: 'flex', paddingRight: '10px', justifyContent: 'flex-end', alignItems: 'center', marginTop: 0.3}}>
+                    {moment(race.raceScheduled).format("yyyy, MMMM d, HH:mm")}
+                    </Grid>
+                </Hidden>
             </Grid>
     )}
 
@@ -112,7 +127,8 @@ export default function PastRaces({races}) {
                 borderRadius:'30px',
                 marginX: 5}} direction={'column'}>
             <Typography variant='h4' sx={{fontWeight: '800', letterSpacing: '3px'}}>Most Recent:</Typography>
-    
+        
+        <Hidden smDown>
             <Grid container sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -123,11 +139,12 @@ export default function PastRaces({races}) {
                 <MapIcon /></Grid>
 
                 <Grid item xs={3} ></Grid>
-                
+
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <AccessTimeIcon /></Grid>
                 
             </Grid>
+        </Hidden>
 
             {firstThree.map((user) => (
                 smallRaceCard(user)
