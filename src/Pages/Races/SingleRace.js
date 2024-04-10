@@ -33,8 +33,6 @@ function App() {
         console.log(error);
       });
   }, []);
-  console.log(race)
-
 
   return (
     <Box>
