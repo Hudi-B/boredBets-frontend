@@ -505,7 +505,7 @@ Shown data, or error message ↓
                 <Pagination page={pageNum} onChange={handlePageChange} color='primary' value={pageNum} count={maxPage} showFirstButton showLastButton />
               </ThemeProvider>
                 {serverError ? 
-                  <Avatar className='preventSelect' variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "server_error.png"} /> 
+                  <Avatar className='preventSelect' variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "/images/server_error.png"} /> 
                   : 
                   <Grid container display={'flex'} spacing={1}>
                   {!fetching ? 

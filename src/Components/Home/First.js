@@ -1,49 +1,33 @@
 
-import { Typography, Grid, Avatar, Paper, Divider, Button } from '@mui/material';
-
-
+import { Typography, Grid, Avatar, Paper, Divider, Button, Hidden } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { apiUrl } from '../../boredLocal';
+import  axios  from 'axios';
+import { useNavigate } from 'react-router-dom';
 export default function First() {
+  const [comingRaces, setComingRaces] = useState([]);
+  const [pending, setPending] = useState(true);
+  const navigate = useNavigate();
 
-    const tempRaces = [
-        {
-          id: 1,
-          name: "Race 1",
-          country: "Fictopia",
-          raceSceduled: "2024-04-05T10:00:00", // Replace with the actual race time
-        },
-        {
-          id: 2,
-          name: "Race 2",
-          country: "Fictopia",
-          raceSceduled: "2024-04-06T14:30:00", // Replace with the actual race time
-        },
-        {
-          id: 3,
-          name: "Race 3",
-          country: "Fictopia",
-          raceSceduled: "2024-04-07T09:15:00", // Replace with the actual race time
-        },
-        {
-          id: 4,
-          name: "Race 4",
-          country: "Fictopia",
-          raceSceduled: "2024-04-08T16:45:00", // Replace with the actual race time
-        },
-        {
-          id: 5,
-          name: "Race 5",
-          country: "Fictopia",
-          raceSceduled: "2024-04-09T11:00:00", // Replace with the actual race time
-        },
-      ];
-    
+    useEffect(() => {
+      axios.get(apiUrl+`Race/GetFiveFutureRaces`)
+      .then((response) => {
+        setComingRaces(response.data);
+      }).catch((error) => {
+        console.log(error);
+      }).finally(() => {
+        setPending(false);
+      });
+    }, [])
+
+
       const comingRaceBox = (race) => {
         return (
           <Paper
           elevation={4}
           className='preventSelect'
           component={Button}
-          //onClick={() => {navigate("/race/"+race.id)}}
+          onClick={() => {navigate("/race/"+race.id)}}
             sx={{
               textTransform: 'none',
               width: '100%',
@@ -66,15 +50,23 @@ export default function First() {
                 display: 'flex', 
                 justifyContent: 'center', 
                 alignItems: 'center'}}>
-                <Grid item sm={5} sx={{justifyContent: 'center', display: 'flex'}}>{race.name}</Grid>
-                <Grid item sm={5} sx={{justifyContent: 'center', display: 'flex'}}>{race.country}</Grid>
+                <Grid item sm={5} xs={12} sx={{justifyContent: 'center', display: 'flex', marginRight: 1}}>
+                  {pending? 'RaceName': race.track_Name}
+                </Grid>
+                <Hidden smUp>
+                  <Divider sx={{width: '90%', borderColor: 'black'}} />
+                </Hidden>
+                <Grid item sm={5} xs={12} sx={{justifyContent: 'center', display: 'flex'}}>
+                  {pending? 'Country': race.country}
+                </Grid>
                 <Divider sx={{width: '90%', borderColor: 'black'}} />
-                <Grid item sm={12} sx={{justifyContent: 'center', display: 'flex'}}>{race.raceSceduled}</Grid>
+                <Grid item sm={12} sx={{justifyContent: 'center', display: 'flex'}}>
+                  {pending ? 'Date': race.raceScheduled}
+                </Grid>
               </Grid>
           </Paper>
         ) 
       }
-
 
     return (
         <Grid container gap={2}  sx={{
@@ -108,7 +100,7 @@ export default function First() {
                   borderRadius: 4,
                   backgroundColor: 'rgba(0,0,0,0.3)'}}>
                     <Typography sx={{width: '100%', textAlign: 'flex-start', color: 'rgb(220,220,220)', margin:0.5}} fontWeight={'800'}>Fictopia</Typography>
-                  {tempRaces.map((race) => (
+                  {comingRaces.map((race) => (
                     comingRaceBox(race)
                   ))}
                 </Paper>
