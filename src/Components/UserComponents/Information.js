@@ -160,8 +160,16 @@ export default function Information() {
                         <TilePaper>
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Details</Typography>
                             <Stack direction="column" spacing={2} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                <Chip size='large' label={userData.username} deleteIcon={<EditIcon style={{color: 'white'}}/>} onDelete={() => ({})} onClick={() => ({})} sx={{color: 'white', width: '400px',display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}/>
-                                <Chip size='large' label={!emailEdit ? userData.email : <Input id='emailInput' disableUnderline sx={{width: '100%', color: 'white'}}/>} onClick={!emailEdit ? () => handleEmailEdit() : null} onDelete={emailEdit ? () => handleEmailSubmit() : () =>handleEmailEdit } deleteIcon={!emailEdit ? <EditIcon style={{color: 'white'}}/> : <CheckIcon style={{color: 'white'}}/> } sx={{color: 'white', width: '400px',display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}/>
+                                <Stack direction="row" spacing={2} sx={{width: '100%'}}>
+                                    <Typography variant="h6">Username</Typography>
+                                    <Input placeholder={userData.username} sx={{width: '100%'}}/>
+                                    <Button variant="contained" onClick={() => {}} sx={{width: '100%'}}>Edit</Button>
+                                </Stack>
+                                <Stack direction="row" spacing={2} sx={{width: '100%'}}>
+                                    <Typography variant="h6">Email</Typography>
+                                    <Input placeholder={userData.email} sx={{width: '100%'}}/>
+                                    <Button variant="contained" onClick={handleEmailEdit} sx={{width: '100%'}}>Edit</Button>
+                                </Stack>
                             </Stack>
                         </TilePaper>
 
@@ -218,7 +226,7 @@ export default function Information() {
                             </Divider>
                             <Typography variant="subtitle1">{ userData.address }</Typography>
                             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'end', justifyContent: 'end', paddingTop: '10px', paddingRight: '20px'}}>
-                                <Button variant="outlined">Edit</Button>
+                                <Button variant="contained">Edit</Button>
                             </Box>
                         </TilePaper>
 
