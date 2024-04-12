@@ -8,6 +8,7 @@ import { apiUrl } from '../../boredLocal';
 import { useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
+import UserDetailForm from './UserDetailForm';
 import CheckIcon from '@mui/icons-material/Check';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import AddIcon from '@mui/icons-material/Add';
@@ -26,6 +27,7 @@ const TilePaper = styled(Paper)(({ theme }) => ({
 
 export default function Information() {
     const { enqueueSnackbar } = useSnackbar();
+    const [open, setOpen] = useState(false);
     const userId = useSelector((state) => state.auth.userId);
     const [tempEmail, setTempEmail] = useState('');
     const [tempUsername, setTempUsername] = useState('');
@@ -54,6 +56,12 @@ export default function Information() {
         fetchData();
     }, []);
 
+    const handleOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const handleEmailSubmit = async () => {
         if (!tempEmail.match(emailRegex)) {
@@ -255,14 +263,18 @@ export default function Information() {
                             </Divider>
                             <Typography variant="subtitle1">{ userData.address }</Typography>
                             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'end', justifyContent: 'end', paddingTop: '10px', paddingRight: '20px'}}>
-                                <Button variant="contained">Edit</Button>
+                                <Button variant="contained" onClick={() => {handleOpen()}}>Edit</Button>
                             </Box>
                         </TilePaper>
 
                     </Stack>
                 </Grid>
-
             </Grid>
+            <Dialog open={open} onClose={handleClose} >
+                <DialogContent sx={{ backgroundColor : 'rgb(4, 112, 107)'}}>
+                    <UserDetailForm onClose={handleClose} onSubmit={() => {fetchData()}} />
+                </DialogContent>
+            </Dialog>
         </Box>
     );
 }
