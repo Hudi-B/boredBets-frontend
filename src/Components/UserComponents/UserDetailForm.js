@@ -1,11 +1,14 @@
 import React from 'react';
+import { useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
-import { Box, Button, Divider, Grid, Input, Stack, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, Input, MenuItem, Select, Stack, Typography, FormControl } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
+import { phonePrefixes } from '../../boredLocal';
 
 const UserDetailForm = ( onClose, onSubmit ) => {
     const { enqueueSnackbar } = useSnackbar();
+    const [phonePrefix, setPhonePrefix] = useState('+36');
 
     return (
             <Box>
@@ -25,7 +28,17 @@ const UserDetailForm = ( onClose, onSubmit ) => {
                         </Stack>
                         <Stack spacing={1} direction={'column'} alignItems={'start'}>
                             <Typography variant='subtitle2' sx={{ color: 'white' }}>Phone number</Typography>
-                            <Input sx={{ width: '300px', color: 'white' }} placeholder='Phone number' />
+                            <Stack direction={'row'}>
+                                <FormControl>
+                                    <Select variant='standard' value={phonePrefix}>
+                                        {phonePrefixes.map((prefix) =>
+                                            <MenuItem key={prefix} value={prefix}>{prefix}</MenuItem>
+                                            )}
+                                        <MenuItem value={'+44'}>+44</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <Input sx={{ width: '300px', color: 'white' }} placeholder='Phone number' />
+                            </Stack>
                         </Stack>
                         <Stack spacing={1} direction={'column'} alignItems={'start'}>
                             <Typography variant='subtitle2' sx={{ color: 'white' }}>Address</Typography>
