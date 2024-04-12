@@ -1,12 +1,13 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Divider, Input } from '@mui/material';
+import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Divider, Input, Select, Dialog, DialogContent, InputAdornment } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
 import { useSelector } from 'react-redux';
-
+import { useSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 import CheckIcon from '@mui/icons-material/Check';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import AddIcon from '@mui/icons-material/Add';
@@ -24,8 +25,11 @@ const TilePaper = styled(Paper)(({ theme }) => ({
 }))
 
 export default function Information() {
+    const { enqueueSnackbar } = useSnackbar();
     const userId = useSelector((state) => state.auth.userId);
-    const [emailEdit, setEmailEdit] = useState(false);
+    const [tempEmail, setTempEmail] = useState('');
+    const [tempUsername, setTempUsername] = useState('');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const [userData, setUserData] = useState({
         username: '',
         email: '',
@@ -50,12 +54,37 @@ export default function Information() {
         fetchData();
     }, []);
 
-    const handleEmailEdit = () => {
-        setEmailEdit(true);
+
+    const handleEmailSubmit = async () => {
+        if (!tempEmail.match(emailRegex)) {
+            enqueueSnackbar("Invalid email", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+        }
+        else {
+            await axios.put(apiUrl+`User/UpdateEmailByUserId?UserId=` + userId, { email: tempEmail })
+            .then(() => {
+                enqueueSnackbar("Email updated", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
+                fetchData();
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
     }
 
-    const handleEmailSubmit = () => {
-        setEmailEdit(false);
+    const handleUsernameSubmit = async () => {
+        if (tempUsername.length <= 6) {
+            enqueueSnackbar("Invalid username", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+        }
+        else {
+            await axios.put(apiUrl+`User/UpdateUsernameByUserId?UserId=` + userId, { username: tempUsername })
+            .then(() => {
+                enqueueSnackbar("Username updated", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
+                fetchData();
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
     }
 
     return (
@@ -162,13 +191,13 @@ export default function Information() {
                             <Stack direction="column" spacing={2} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                                 <Stack direction="row" spacing={2} sx={{width: '100%'}}>
                                     <Typography variant="h6">Username</Typography>
-                                    <Input placeholder={userData.username} sx={{width: '100%'}}/>
-                                    <Button variant="contained" onClick={() => {}} sx={{width: '100%'}}>Edit</Button>
+                                    <Input placeholder={userData.username} value={tempUsername} onChange={(e) => setTempUsername(e.target.value)} sx={{width: '100%'}}/>
+                                    <Button variant="contained" onClick={() => {handleUsernameSubmit()}} sx={{width: '100%'}}>Edit</Button>
                                 </Stack>
                                 <Stack direction="row" spacing={2} sx={{width: '100%'}}>
                                     <Typography variant="h6">Email</Typography>
-                                    <Input placeholder={userData.email} sx={{width: '100%'}}/>
-                                    <Button variant="contained" onClick={handleEmailEdit} sx={{width: '100%'}}>Edit</Button>
+                                    <Input placeholder={userData.email} value={tempEmail} onChange={(e) => setTempEmail(e.target.value)} sx={{width: '100%'}}/>
+                                    <Button variant="contained" onClick={() => {handleEmailSubmit()}} sx={{width: '100%'}}>Edit</Button>
                                 </Stack>
                             </Stack>
                         </TilePaper>
