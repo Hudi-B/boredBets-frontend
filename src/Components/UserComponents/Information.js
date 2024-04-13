@@ -15,6 +15,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import PortraitIcon from '@mui/icons-material/Portrait';
 import EditIcon from '@mui/icons-material/Edit';
+import PasswordChangeForm from './PasswordChangeForm';
 
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '100%',
@@ -27,7 +28,6 @@ const TilePaper = styled(Paper)(({ theme }) => ({
 
 export default function Information() {
     const { enqueueSnackbar } = useSnackbar();
-    const [open, setOpen] = useState(false);
     const userId = useSelector((state) => state.auth.userId);
     const [tempEmail, setTempEmail] = useState('');
     const [tempUsername, setTempUsername] = useState('');
@@ -40,6 +40,19 @@ export default function Information() {
         phoneNumber: '-',
         address: '-',
     });
+
+    const [openDialogs, setOpenDialogs] = useState({
+        aboutYouDialog: false,
+        passwordChangeDialog: false,
+    });
+    
+    const handleOpenDialog = (dialogName) => {
+        setOpenDialogs({ ...openDialogs, [dialogName]: true });
+    };
+    
+    const handleCloseDialog = (dialogName) => {
+        setOpenDialogs({ ...openDialogs, [dialogName]: false });
+    };
 
     const fetchData = async () => {
         await axios.get(apiUrl+`UserDetail/GetUserDetailByUserId?UserId=` + userId)
@@ -55,13 +68,6 @@ export default function Information() {
     useEffect(() => {
         fetchData();
     }, []);
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const handleEmailSubmit = async () => {
         if (!tempEmail.match(emailRegex)) {
@@ -213,7 +219,7 @@ export default function Information() {
                         <TilePaper>
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Password</Typography>
                             <Stack direction="column" spacing={1} sx={{paddingBottom: '20px'}}>
-                                <Button variant="contained" onClick={() => {}} sx={{width: '100%'}}>Change Password</Button>
+                                <Button variant="contained" onClick={() => {handleOpenDialog('passwordChangeDialog')}} sx={{width: '100%'}}>Change Password</Button>
                                 <Typography variant="caption">Change password by entering your current one.</Typography>
                             </Stack>
                             <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.5)' }}/>
@@ -263,18 +269,15 @@ export default function Information() {
                             </Divider>
                             <Typography variant="subtitle1">{ userData.address }</Typography>
                             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'end', justifyContent: 'end', paddingTop: '10px', paddingRight: '20px'}}>
-                                <Button variant="contained" onClick={() => {handleOpen()}}>Edit</Button>
+                                <Button variant="contained" onClick={() => {handleOpenDialog('aboutYouDialog')}}>Edit</Button>
                             </Box>
                         </TilePaper>
 
                     </Stack>
                 </Grid>
             </Grid>
-            <Dialog open={open} onClose={handleClose} >
-                <DialogContent sx={{ backgroundColor : 'rgb(4, 112, 107)'}}>
-                    <UserDetailForm onClose={handleClose} onSubmit={() => {fetchData()}} />
-                </DialogContent>
-            </Dialog>
+            <UserDetailForm open={openDialogs.aboutYouDialog} onClose={() => handleCloseDialog('aboutYouDialog')} onSubmit={() => {/* handle submit logic */}} />
+            <PasswordChangeForm open={openDialogs.passwordChangeDialog} onClose={() => handleCloseDialog('passwordChangeDialog')} onSubmit={() => {/* handle submit logic */}}/>
         </Box>
     );
 }
