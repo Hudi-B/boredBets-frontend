@@ -33,7 +33,8 @@ export default function Cards() {
     const handleDeposit = () => {
         axios.put(apiUrl+`User/UpdateWalletByUserId?UserId=` + userId, { wallet: amount })
         .then(() => {
-            enqueueSnackbar("Wallet Updated", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
+            enqueueSnackbar("Deposit Successful", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
+            
         })
         .catch((error) => {
             console.log(error);
