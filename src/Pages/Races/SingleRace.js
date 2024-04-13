@@ -4,19 +4,83 @@ import '../../styles/DnD.css';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
-import {Stack,Tooltip, Divider, Grid, Box, Typography, Button, Hidden} from "@mui/material";
+import {Stack, Tooltip, Divider, Paper, Grid, Box, Typography, Button, Hidden} from "@mui/material";
 import { useLocation } from 'react-router-dom';
 import CloudIcon from '@mui/icons-material/Cloud';
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
+import { Link } from 'react-router-dom';
+
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 function App() {
   const id = useLocation().pathname.split("/")[2];
+
+  
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [race, setRace] = useState();
   const [participants, setParticipants] = useState([]);
   const [pending, setPending] = useState(true);
-
+  console.log(isSmallScreen);
+  function participantCard(participant) {
+    return(
+      <Grid item xs={12} sm={5.9} sx={{marginBottom: 1}}>
+      <Paper sx={{borderRadius: 3, overflow: 'hidden', background:'none', display: 'flex', }} elevation={10}>
+              <Grid xs={6}
+              component={Link}
+              to={`/Horse/${participant.horseId}`}
+              sx={{
+                backgroundImage: `linear-gradient(to right, #00463f, #00574f, #00695f, #007b70, #008e81)`,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                color: 'white',
+                textTransform: 'none',
+                textDecoration: 'none',
+                height: '70px',
+              }}>
+                <Box
+                sx={{
+                  width: '100%', 
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                  }}>
+                    <Box sx={{textAlign: 'center'}}>
+                      {participant.horseName}&nbsp;
+                      {!isSmallScreen &&<>
+                      {participant.horseAge}
+                      <Typography variant="caption" >yo&nbsp; </Typography>
+                      {participant.horseStallion?"Stallion":"Mare"}&nbsp;</>
+                    }
+                    </Box>
+                      <Typography variant="caption">from {participant.horseCountry}</Typography>
+                      
+                </Box>
+              </Grid>
+              <Grid xs={6}
+                component={Link}
+                to={`/Jockey/${participant.jockeyId}`}
+                sx={{
+                  backgroundImage: `linear-gradient(to left, #00463f, #00574f, #00695f, #007b70, #008e81)`,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  color: 'white',
+                  textTransform: 'none',
+                  textDecoration: 'none',
+                  height: '70px',
+                }}>
+                {participant.jockeyName}
+              </Grid></Paper></Grid>
+    )
+  }
 
   useEffect(() => {
     axios.get(`${apiUrl}Race/GetByRaceId?Id=`+id)
@@ -44,7 +108,7 @@ function App() {
   };
 
   return (
-    <Box>
+    <Box sx={{width: '100%'}}>
       <Grid container 
         sx={{
           marginBottom: 2, 
@@ -99,7 +163,6 @@ function App() {
 
       </Grid>
 
-
         <Stack
           direction="row"
           sx={{
@@ -122,7 +185,12 @@ function App() {
         </Stack>
 
           <Typography sx={{marginLeft: 2}} variant="h5">In the competition:</Typography>
-
+          <Stack direction="column" gap={1} sx={{paddingX: 2}}>
+            <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+          {participants.map((participant) => {
+            return participantCard(participant);
+          })}</Grid>
+          </Stack>
     </Box>
   );
 }
