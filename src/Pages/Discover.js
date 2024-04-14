@@ -239,6 +239,7 @@ export default function Discover() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+        alignItems: 'center',
         width: '100%',
         minWidth: '175px',
         height: '125px',
@@ -256,12 +257,21 @@ export default function Discover() {
           fontWeight: 'bold', 
           fontSize: '22px', 
           color: 'white', 
-          textAlign: 'center' }}
-          > 
+          textAlign: 'center',
+          position: 'absolute',
+          bottom: 5,
+          left: 8}}> 
           {item.type === "Horse" ? <FontAwesomeIcon icon={faHorseHead} /> : 
           item.type === "Jockey" ? <FontAwesomeIcon icon={faHelmetSafety} /> : 
           item.type === "User" && <PersonIcon sx={{fontSize: 35}}/> }
-          &nbsp;
+          </Typography>
+      <Typography 
+        sx={{ 
+          fontWeight: 'bold', 
+          fontSize: '22px', 
+          color: 'white', 
+          textAlign: 'center'}}
+          > 
           {item.data.name}
           </Typography>
       <Box>
