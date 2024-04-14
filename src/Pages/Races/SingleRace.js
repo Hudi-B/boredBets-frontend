@@ -12,6 +12,8 @@ import StraightenIcon from '@mui/icons-material/Straighten';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { Link } from 'react-router-dom';
 
+import PlaceBetPopup from '../../Components/UI/PlaceBetPopup';
+
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -210,6 +212,8 @@ function App() {
               })}
             </Grid>
           </Stack>
+          {pending? <></>: 
+          <PlaceBetPopup raceId={race.raceId} participants={participants} />}
     </Box>
   );
 }

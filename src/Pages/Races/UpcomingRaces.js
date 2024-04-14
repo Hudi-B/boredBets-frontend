@@ -127,7 +127,7 @@ export default function PastRaces({races}) {
                 padding: 3,
                 borderRadius:'30px',
                 marginX: 5}} direction={'column'}>
-            <Typography variant='h4' sx={{fontWeight: '800', letterSpacing: '3px'}}>Most Recent:</Typography>
+            <Typography variant='h4' sx={{fontWeight: '800', letterSpacing: '3px'}}>Upcoming:</Typography>
         
         <Hidden smDown>
             <Grid container sx={{
@@ -163,7 +163,7 @@ export default function PastRaces({races}) {
                 borderTopRightRadius: '40px',
                 borderTopLeftRadius: '40px',
                 }} direction={'column'}>
-            <Typography variant='h4' sx={{fontWeight: '700'}}>All Past Races in register:</Typography>
+            <Typography variant='h4' sx={{fontWeight: '700'}}>All coming races:</Typography>
             <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center', paddingX: 2}}>
             {restData.map((user) => (
                                 bigRaceCard(user)

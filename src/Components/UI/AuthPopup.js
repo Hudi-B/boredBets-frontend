@@ -24,6 +24,7 @@ export default function AuthPopup({itsALogin}) {
     };
 
     React.useEffect(() => {
+        console.log("changing");
         if (window.innerWidth < 500) {
             setFullscreen(true);
         }
