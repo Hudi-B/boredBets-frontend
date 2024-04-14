@@ -104,7 +104,7 @@ console.log(comingRaces);
       </Paper>
     ) 
   }
-
+console.log(comingRaces);
 
 
 

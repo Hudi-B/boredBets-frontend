@@ -4,7 +4,7 @@ import '../../styles/DnD.css';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
-import {Stack, Tooltip, Divider, Paper, Grid, Box, Typography, Button, Hidden} from "@mui/material";
+import {Stack, Tooltip, Divider, Paper, Grid, Box, Typography, Button, Hidden, Skeleton} from "@mui/material";
 import { useLocation } from 'react-router-dom';
 import CloudIcon from '@mui/icons-material/Cloud';
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
@@ -20,12 +20,11 @@ function App() {
 
   
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const [race, setRace] = useState();
   const [participants, setParticipants] = useState([]);
   const [pending, setPending] = useState(true);
-  console.log(isSmallScreen);
   function participantCard(participant) {
     return(
       <Grid item xs={12} sm={5.9} sx={{marginBottom: 1}}>
@@ -54,11 +53,16 @@ function App() {
                   }}>
                     <Box sx={{textAlign: 'center'}}>
                       {participant.horseName}&nbsp;
-                      {!isSmallScreen &&<>
-                      {participant.horseAge}
-                      <Typography variant="caption" >yo&nbsp; </Typography>
-                      {participant.horseStallion?"Stallion":"Mare"}&nbsp;</>
-                    }
+                      <Hidden mdDown>
+                        {participant.horseAge}
+                        <Typography variant="caption" >yo&nbsp; </Typography>
+                        {participant.horseStallion?"Stallion":"Mare"}&nbsp;
+                      </Hidden>
+                      <Hidden smUp>
+                        {participant.horseAge}
+                        <Typography variant="caption" >yo&nbsp; </Typography>
+                        {participant.horseStallion?"Stallion":"Mare"}&nbsp;
+                      </Hidden>
                     </Box>
                       <Typography variant="caption">from {participant.horseCountry}</Typography>
                       
@@ -92,10 +96,12 @@ function App() {
           track: response.data.track,
         });
         setParticipants(response.data.participants);
-        setPending(false);
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setPending(false);
       });
   }, []);
 
@@ -109,14 +115,13 @@ function App() {
 
   return (
     <Box sx={{width: '100%'}}>
-      <Grid container 
+      <Box container 
         sx={{
-          marginBottom: 2, 
-          gap: 2, 
+          marginBottom: 2,
           justifyContent: 'center',
           paddingTop: 10,
           backgroundColor: 'rgba(50,50,50,0.3)'}}>
-            <Grid item xs={12} sm={12} md={5}
+            <Box item xs={12} sm={12} md={5}
             sx={{
               display: 'flex',
               textAlign: 'center',
@@ -124,23 +129,25 @@ function App() {
               alignItems: 'center',
               fontSize: 'calc(1.5rem + 1.5vw)',
               letterSpacing: '0.1em',
-              fontWeight: '500'}}>
-                {pending? <div>Loading...</div> : race.track.name}
-            </Grid>
+              fontWeight: '700'}}>
+                {pending? 
+                <Skeleton width={"70%"} height={"70px"} animation="wave" />
+                : race.track.name}
+            </Box>
 
-            <Grid item xs={12} sm={12} md={5}
+            <Box item xs={12} sm={12} md={5}
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                fontSize: 'calc(1.2rem + 2vw)',
+                fontSize: 'calc(0.8rem + 2vw)',
                 whiteSpace: 'nowrap'}}>
                 {pending? 
-                <div>Loading...</div>/*skeleton here*/
+                <Skeleton width={"50%"} height={"50px"} animation="wave" />
                 : 
                 "Race held at: "+race.raceSceduled.replace("T"," ").replace("Z","").replaceAll("-", "/")
                 }
-            </Grid>
+            </Box>
             <Stack
               direction="row"
               sx={{
@@ -150,18 +157,29 @@ function App() {
               justifyContent: 'space-between',
               alignItems: 'space-between',
               letterSpacing: '0.1em',    
-              marginX:3 
+              paddingX:2
                 }}>
-                  {pending? 
-                <div>Loading...</div>/*skeleton here*/
-                : <p>Weather: {pending? <div>Loading...</div> : race.rain?<CloudIcon/> : <WbSunnyRoundedIcon/>}  </p>}
+                <Box sx={{display: 'flex', alignItems: 'center'}}>
+                    Weather: 
+                    {pending? 
+                      <Skeleton width={"30px"} height={"40px"} animation="wave" /> 
+                      :
+                      race.rain?
+                        <CloudIcon/> 
+                          : 
+                        <WbSunnyRoundedIcon/>}  
+                 </Box>
                 
-                {pending? 
-                  <div>Loading...</div>/*skeleton here*/
-                  : <p><StraightenIcon /> {race.track.length}km</p>}
+                 <Box sx={{display: 'flex', alignItems: 'center'}}>
+                  <StraightenIcon /> 
+                  {pending? 
+                    <Skeleton width={"60px"} height={"40px"} animation="wave" />
+                    :
+                    race.track.length}km
+                  </Box>
             </Stack>
 
-      </Grid>
+      </Box>
 
         <Stack
           direction="row"
@@ -173,7 +191,7 @@ function App() {
           letterSpacing: '0.1em',    
           paddingX:1 }}>
             {pending? 
-                <div>Loading...</div>/*skeleton here*/
+                <Skeleton width={"50%"} height={"40px"} animation="wave" />
                 : <>{race.track.address}</>}
          
           <Tooltip title="Show on map" placement='top'>
@@ -187,9 +205,10 @@ function App() {
           <Typography sx={{marginLeft: 2}} variant="h5">In the competition:</Typography>
           <Stack direction="column" gap={1} sx={{paddingX: 2}}>
             <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
-          {participants.map((participant) => {
-            return participantCard(participant);
-          })}</Grid>
+              {participants.map((participant) => {
+                return participantCard(participant);
+              })}
+            </Grid>
           </Stack>
     </Box>
   );
