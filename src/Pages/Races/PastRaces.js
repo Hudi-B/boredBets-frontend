@@ -11,10 +11,15 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 export default function PastRaces({races}) {
     const navigate = useNavigate();
     const [smallScreen, setSmallScreen] = useState(false);
-
-    const firstThree = races.slice(0, 3);
-    const restData = races.slice(3);
+    const [firstThree, setFirstThree] = useState([]);
+    const [restData, setRestData] = useState([]);   
     const moment = require('moment');
+
+    
+    useEffect(() => {
+        setFirstThree(races.allHappenedRaces.slice(0, 3));
+        setRestData(races.allHappenedRaces.slice(3));
+    },[]);
 
     useEffect(() => {
         if (window.innerWidth < 400) {

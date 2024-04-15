@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import '../../styles/DnD.css';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
@@ -12,7 +11,9 @@ import StraightenIcon from '@mui/icons-material/Straighten';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { Link } from 'react-router-dom';
 
-import PlaceBetPopup from '../../Components/UI/PlaceBetPopup';
+import BetScrollDownMenu from '../../Components/UI/BetScrollDownMenu';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+
 
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -106,7 +107,7 @@ function App() {
         setPending(false);
       });
   }, []);
-
+console.log(race);
   const handleMapOpen = () => {
     if (!pending) {
       const searchString = `${race.track.country}, ${race.track.address}`; // Replace with your desired string
@@ -127,7 +128,7 @@ function App() {
   }
 
   return (
-    <Box sx={{width: '100%'}}>
+    <Box sx={{width: '100%', paddingBottom: 10}}>
       <Box container 
         sx={{
           marginBottom: 2,
@@ -194,44 +195,44 @@ function App() {
 
       </Box>
 
-        <Stack
-          direction="row"
-          sx={{
-          width: '100%',  
-          fontSize: '13px',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          letterSpacing: '0.1em',    
-          paddingX:1 }}>
-            {pending? 
-                <Skeleton width={"50%"} height={"40px"} animation="wave" />
-                : <>{race.track.address}</>}
-         
-          <Tooltip title="Show on map" placement='top'>
-            <Button variant="string" onClick={handleMapOpen}
-            sx={{width: 'fit-content'}}>
-              <FmdGoodIcon sx={{fontSize: '40px', margin:'none'}}/>
-            </Button>
-          </Tooltip>
-        </Stack>
-
-          <Typography sx={{marginLeft: 2}} variant="h5">In the competition:</Typography>
-          <Stack direction="column" gap={1} sx={{paddingX: 2}}>
-            <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
-              {pending? 
-            showSkeletons()
-            :
-              participants.map((participant) => {
-                return participantCard(participant);
-              })
-            }
-            </Grid>
-          </Stack>
+      <Stack
+        direction="row"
+        sx={{
+        width: '100%',  
+        fontSize: '13px',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        letterSpacing: '0.1em',    
+        paddingX:1 }}>
           {pending? 
-          <></>
-          : 
-          <PlaceBetPopup raceId={race.raceId} participants={participants} />}
-    </Box>
+              <Skeleton width={"50%"} height={"40px"} animation="wave" />
+              : <>{race.track.address}</>}
+        
+        <Tooltip title="Show on map" placement='top'>
+          <Button variant="string" onClick={handleMapOpen}
+          sx={{width: 'fit-content'}}>
+            <FmdGoodIcon sx={{fontSize: '40px', margin:'none'}}/>
+          </Button>
+        </Tooltip>
+      </Stack>
+
+      <Typography sx={{marginLeft: 2}} variant="h5">In the competition:</Typography>
+      <Stack direction="column" gap={1} sx={{paddingX: 2}}>
+        <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+          {pending? 
+        showSkeletons()
+        :
+          participants.map((participant) => {
+            return participantCard(participant);
+          })
+        }
+        </Grid>
+      </Stack>
+      
+      {!pending && <BetScrollDownMenu raceId={race.raceId} participants={participants}/>}
+        
+
+    </Box >
   );
 }
 
