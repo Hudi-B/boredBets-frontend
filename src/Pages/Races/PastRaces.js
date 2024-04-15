@@ -30,6 +30,7 @@ export default function PastRaces({races}) {
         return (
             <Grid container 
                 className='preventSelect'
+                key={race.id}
                 component={Button}
                 variant='default'
                 onClick={() => {navigate("/race/"+race.id)}}
@@ -64,7 +65,7 @@ export default function PastRaces({races}) {
                 {race.name}
                     </Grid>
                         <Divider sx={{width: '100%', borderColor: 'black'}} />
-                    <Grid sm={6} sx={{paddingLeft: '15px',display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginY: 0.3}}>
+                    <Grid item sm={6} sx={{paddingLeft: '15px',display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginY: 0.3}}>
                         {race.country}
                     </Grid>
                     <Hidden smUp>

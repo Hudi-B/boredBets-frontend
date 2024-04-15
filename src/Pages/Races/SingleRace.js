@@ -115,6 +115,17 @@ function App() {
     }
   };
 
+  function showSkeletons() {
+    const items = [];
+    const itemCount = 5; // Define itemCount or replace with appropriate value
+    for (let index = 0; index < 20; index++) {
+        items.push(
+          <Skeleton width={"47%"} height={"90px"} animation="wave" />
+        );
+    }
+    return items;
+  }
+
   return (
     <Box sx={{width: '100%'}}>
       <Box container 
@@ -207,12 +218,18 @@ function App() {
           <Typography sx={{marginLeft: 2}} variant="h5">In the competition:</Typography>
           <Stack direction="column" gap={1} sx={{paddingX: 2}}>
             <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
-              {participants.map((participant) => {
+              {pending? 
+            showSkeletons()
+            :
+              participants.map((participant) => {
                 return participantCard(participant);
-              })}
+              })
+            }
             </Grid>
           </Stack>
-          {pending? <></>: 
+          {pending? 
+          <></>
+          : 
           <PlaceBetPopup raceId={race.raceId} participants={participants} />}
     </Box>
   );

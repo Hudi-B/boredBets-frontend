@@ -16,10 +16,7 @@ export default function RacesPage() {
     useEffect(() => {
         axios.get(`${apiUrl}Race/GetAllHappendRaces`)
         .then((response) => {
-
             setAllPastRaces(response.data);
-            console.log(response.data);
-
         })
         .catch((error) => {
 
@@ -37,8 +34,6 @@ export default function RacesPage() {
         .then((response) => {
 
             setAllUpcomingRaces(response.data);
-            console.log(response.data);
-
         })
         .catch((error) => {
 

@@ -31,6 +31,7 @@ export default function PastRaces({races}) {
             <Grid container 
                 className='preventSelect'
                 component={Button}
+                key={race.id}
                 variant='default'
                 onClick={() => {navigate("/race/"+race.id)}}
                 sx={{
@@ -163,7 +164,7 @@ export default function PastRaces({races}) {
                 borderTopRightRadius: '40px',
                 borderTopLeftRadius: '40px',
                 }} direction={'column'}>
-            <Typography variant='h4' sx={{fontWeight: '700'}}>All coming races:</Typography>
+            <Typography key={'btc'} variant='h4' sx={{fontWeight: '700'}}>All coming races:</Typography>
             <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center', paddingX: 2}}>
             {restData.map((user) => (
                                 bigRaceCard(user)
