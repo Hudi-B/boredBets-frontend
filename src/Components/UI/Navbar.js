@@ -60,8 +60,8 @@ const RightBoxContent = () => {
           gap: '15px'}}>
             <Hidden mdUp><Hamburger isAdmin={userData.isAdmin} /></Hidden>
             <Button style={{color: 'white', fontSize: '25px'}} component={Link} to="/">
-              <Hidden smDown>BoredBets</Hidden>
-              <Hidden smUp>BB</Hidden>
+              <Hidden smDown><img src={process.env.PUBLIC_URL + "/images/banner.png"} alt="logo" height="40px" /></Hidden>
+              <Hidden smUp><img src={process.env.PUBLIC_URL + "/images/logo.png"} alt="logo" height="40px" /></Hidden>
             </Button>
             <Hidden mdDown>
                 <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/discover">
