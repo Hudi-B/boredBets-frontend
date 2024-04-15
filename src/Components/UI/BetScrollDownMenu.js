@@ -75,14 +75,12 @@ function PlaceBetPopup({ raceId, participants }) {
     items.push(movedItem);
     setSelectedItems(items);
   }
-  const handleRemove = (index) => () => {
-    console.log(index);
-
+  function handleRemove(index) {
     const newSelectedItems = [...selectedItems];
     const [removedItem] = newSelectedItems.splice(index, 1);
     setSelectedItems(newSelectedItems);
     setRestParticipants([...restParticipants, removedItem]);
-  };
+  }
 
   
   function handleOnDragEnd(result) {
