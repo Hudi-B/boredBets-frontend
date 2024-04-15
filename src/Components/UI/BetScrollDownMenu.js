@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IconButton ,Accordion,List, ListItem, AccordionSummary, AccordionDetails,Button, Typography, Grid, ListItemText, Checkbox, Box, Dialog} from '@mui/material';
+import {InputAdornment,Tooltip,FormControlLabel, TextField, IconButton ,Accordion,List, ListItem, AccordionSummary, AccordionDetails,Button, Typography, Grid, ListItemText, Checkbox, Box, Dialog, Divider} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'; // Import DragDropContext, Droppable, and Draggable from react-beautiful-dnd
@@ -17,64 +17,58 @@ import '../../styles/Main.css';
 function PlaceBetPopup({ raceId, participants }) {
   const [selectedItems, setSelectedItems] = useState([]);
   const [restParticipants, setRestParticipants] = useState(participants);
+  const [orderedBet, setOrderedBet] = useState(false);
 
   const handleToggle = (horse) => () => {
     if (selectedItems.length < 5) {
       const currentIndex = selectedItems.indexOf(horse);
       const newCheckedItems = [...selectedItems];
-
       if (currentIndex === -1) {
-        // Add the horse to checkedItems
         newCheckedItems.push(horse);
-        // Remove the horse from restParticipants
         setRestParticipants(restParticipants.filter((item) => item !== horse));
       }
-
       setSelectedItems(newCheckedItems);
     }
   };
 
+  useEffect(() => {
+    console.log(selectedItems.map((item) => item.horseName));
+  },[selectedItems])
+
+
   function showHorses() {
-    return restParticipants.map((horse) => {
-      return (
-        <ListItem key={horse.horseId} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <Button variant="string" onClick={handleToggle(horse)} startIcon={<AddIcon />}>
-            {horse.horseName} from {horse.horseCountry}
-          </Button>
-        </ListItem>
-      );
-    });
+    return (
+      <Box>
+        {restParticipants.map((horse) => (
+            <ListItem sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+              <Button 
+                variant="string" 
+                onClick={handleToggle(horse)} 
+                startIcon={<AddIcon />}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  width: '100%',
+                  border: '3px solid rgba(50,50,50,0.3)',
+                  borderRadius: 5,
+                  textTransform: 'none',
+                }}>
+                <Box sx={{alignItems: 'center', display: 'flex', flexDirection: 'row'}}>
+                    <Typography sx={{fontWeight: '600'}} className='preventSelect'>
+                      {horse.horseName}
+                    </Typography> 
+                    <Typography className='preventSelect'>
+                    &nbsp;{"from "+horse.horseCountry}
+                    </Typography> 
+                </Box>
+              </Button>
+            </ListItem>
+        ))}
+      </Box>
+    );
   }
-  function handleMoveUp(index) {
-    if (index === 0) return;
-    const items = Array.from(selectedItems);
-    const temp = items[index];
-    items[index] = items[index - 1];
-    items[index - 1] = temp;
-    setSelectedItems(items);
-  }
-  
-  function handleMoveDown(index) {
-    if (index === selectedItems.length - 1) return;
-    const items = Array.from(selectedItems);
-    const temp = items[index];
-    items[index] = items[index + 1];
-    items[index + 1] = temp;
-    setSelectedItems(items);
-  }
-  function handleMoveToStart(index) {
-    const items = Array.from(selectedItems);
-    const movedItem = items.splice(index, 1)[0];
-    items.unshift(movedItem);
-    setSelectedItems(items);
-  }
-  
-  function handleMoveToEnd(index) {
-    const items = Array.from(selectedItems);
-    const movedItem = items.splice(index, 1)[0];
-    items.push(movedItem);
-    setSelectedItems(items);
-  }
+
   function handleRemove(index) {
     const newSelectedItems = [...selectedItems];
     const [removedItem] = newSelectedItems.splice(index, 1);
@@ -82,7 +76,11 @@ function PlaceBetPopup({ raceId, participants }) {
     setRestParticipants([...restParticipants, removedItem]);
   }
 
-  
+  const handleClear = () => {
+    setRestParticipants([...restParticipants, ...selectedItems]); // Add all checked items back to restParticipants
+    setSelectedItems([]); // Clear checkedItems
+  };
+
   function handleOnDragEnd(result) {
     if (!result.destination) return;
   
@@ -91,6 +89,8 @@ function PlaceBetPopup({ raceId, participants }) {
     items.splice(result.destination.index, 0, reorderedItem);
   
     setSelectedItems(items);
+  }
+  function handlePlaceBet() {
   }
   
   return (
@@ -110,42 +110,40 @@ function PlaceBetPopup({ raceId, participants }) {
             },
             borderRadius:5,
             paddingX: 3,
-
         }}
         >
         Start betting
         </AccordionSummary>
         <AccordionDetails>
-          <Grid container sx={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
-            <Grid item xs={12} sm={12} md={5.9} sx={{alignItems:'flex-end', display: 'flex', flexDirection:'column'}}>
+          <Grid container sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+            <Grid item xs={12} sm={12} md={5.9} sx={{alignItems:'center', display: 'flex', flexDirection:'column'}}>
               <Box sx={{
-                width: '100%',
-                height: '360px', 
-                border:'3px solid rgba(50, 50, 50 , 0.3)',
-                overflowY: 'auto',
-                '&::-webkit-scrollbar': { 
-                  backgroundColor: 'transparent',
-                  width: '8px',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  backgroundColor: 'rgba(50,50,50,0.6)', 
-                }
+                  width: '100%',
+                  height: '360px', 
+                  border:'3px solid rgba(50, 50, 50 , 0.3)',
+                  overflowY: 'auto',
+                  '&::-webkit-scrollbar': { 
+                    backgroundColor: 'transparent',
+                    width: '8px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: 'rgba(50,50,50,0.6)', 
+                  }
                 }}>                        
-                  {showHorses()}
+                {showHorses()}
               </Box>
-              <Button variant='contained' sx={{margin:1,width: 150}} onClick={() => setSelectedItems([])}>Clear</Button>
+              <Button variant='contained' sx={{width: '80%', marginY: 1}} onClick={handleClear}>Clear</Button>
+
             </Grid>
-            
+
             <Grid item sm={12} md={5.9} sx={{
               width: '100%',
-              border:'3px solid rgba(50, 50, 50 , 0.3)',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               flexDirection: 'column',
               backgroundColor: selectedItems.length !== 5 && 'rgba(50, 50, 50, 0.3)',
               transition: 'background-color 0.5s ease'
-
               }}>
                 {selectedItems.length !== 5 && (
                   <Typography 
@@ -178,34 +176,14 @@ function PlaceBetPopup({ raceId, participants }) {
                                       justifyContent: 'space-between',
                                       marginY: 1,
                                     }}>
-                                  <Box sx={{paddingLeft: 1, alignItems: 'center'}}>
+                                  <Box sx={{paddingLeft: 1, alignItems: 'center', display: 'flex', flexDirection: 'row'}}>
                                       <Typography sx={{fontWeight: '600'}} className='preventSelect'>
-                                        {data.horseName+" "}
+                                        {data.horseName}
                                       </Typography> 
                                       <Typography className='preventSelect'>
-                                        from {data.horseCountry}
+                                      &nbsp;{"from "+data.horseCountry}
                                       </Typography> 
                                   </Box>
-                                  {isMobile&&
-                                    <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexWrap: 'nowrap' }}>
-                                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', minWidth: '100%' }}>
-                                        <IconButton onClick={() => handleMoveUp(index)} disabled={index === 0}>
-                                          <KeyboardArrowUpIcon />
-                                        </IconButton>
-                                        <IconButton onClick={() => handleMoveToStart(index)} disabled={index === 0}>
-                                          <KeyboardDoubleArrowUpIcon onClick={() => handleMoveToStart(index)} /> 
-                                        </IconButton>
-                                      </div>
-                                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', minWidth: '100%' }}>
-                                        <IconButton onClick={() => handleMoveDown(index)} disabled={index === selectedItems.length - 1}>
-                                          <KeyboardArrowDownIcon />
-                                        </IconButton>
-                                        <IconButton onClick={() => handleMoveToEnd(index)} disabled={index === selectedItems.length - 1}>
-                                          <KeyboardDoubleArrowDownIcon />
-                                        </IconButton>
-                                      </div>
-                                    </Box> 
-                                  }
                                   <IconButton sx={{padding: 0}} onClick={() => handleRemove(index)}>
                                     <ClearIcon />
                                   </IconButton>
@@ -218,8 +196,47 @@ function PlaceBetPopup({ raceId, participants }) {
                       </List>
                     )}
                   </Droppable>
-                </DragDropContext>
+              </DragDropContext>
+              {selectedItems.length === 5 &&
+                <Box sx={{width:'100%', display: 'flex', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap'}} >
+                  <Box sx={{width:'100%', display: 'flex', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap'}}>
+                    <Tooltip arrow placement="top-start" title={orderedBet?
+                      "Placing bets with order results in higher prizes, but less winning chance."
+                      :
+                      "Placing bets without order results in lower prizes, but higher winning chance."} 
+                      >
+                        <Button variant='contained' 
+                        color='success'
+                        sx={{width: '200px', marginY: 1, marginX: 1,textTransform: 'none', fontSize: '15px',}} 
+                        onClick={() => setOrderedBet(!orderedBet)}>
+                          {orderedBet?"With order": "Without order"}
+                        </Button>
+                    </Tooltip>
+
+                      <TextField
+                        label="Bet amount"
+                        id="standard-start-adornment"
+                        sx={{marginX: 1}}
+                        InputProps={{
+                          endAdornment: <InputAdornment position="end">€</InputAdornment>,
+                        }}
+                        variant="standard"
+                      />
+                    </Box>
+
+                    <Button variant='contained' 
+                    fullWidth
+                    color='success'
+                    sx={{width: '200px', marginY: 1, marginX: 1, textTransform: 'none', fontWeight: 'bold', fontSize: '20px', letterSpacing: '2px'}} 
+                    onClick={handlePlaceBet}>
+                      Place bet
+                    </Button>
+
+                </Box>
+              }
             </Grid>
+
+
           </Grid>
         </AccordionDetails>
     </Accordion>
