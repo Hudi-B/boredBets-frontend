@@ -21,7 +21,6 @@ const TilePaper = styled(Paper)(({ theme }) => ({
 }))
 
 export default function Cards() {
-
     const [cardData, setCardData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const userId = useSelector((state) => state.auth.userId);
@@ -92,27 +91,13 @@ export default function Cards() {
             <Stack direction={'column'} spacing={1} sx={{ width: '100%', alignItems: 'center' }}>
                 <TilePaper>
                     <Stack direction={'row'} justifyContent={'space-between'}>
-                        <Typography variant="h5">Deposit:</Typography>
+                        <Typography variant="h5">Balance:</Typography>
                         <Chip label="Finish" icon={<AddIcon style={{ color: 'white' }} />} style={{ color: 'white' }} onClick={() => {handleDeposit()}} />
                     </Stack>
+                </TilePaper>
+                <TilePaper sx={{ width: '98%' }}>
                     <Box sx={{ padding: '35px', justifyContent: 'center', display: 'flex', color: 'white' }}>
-                        <Stack direction={'row'} spacing={5}>
-                            <Stack direction={'column'} spacing={1}>
-                                <Typography variant="caption">Amount</Typography>
-                                <Input value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Amount" startAdornment={<InputAdornment position="start">$</InputAdornment>} />
-                            </Stack>
-                            <Stack direction={'column'} spacing={1}>
-                                <Typography variant="caption">Card</Typography>
-                                <FormControl>
-                                    <Select variant="standard" value={selectedCard} onChange={(e) => setSelectedCard(e.target.value)}>
-                                        <MenuItem value="None">None</MenuItem>
-                                        {cardData.map((card) => (
-                                                <MenuItem key={card.creditcardNum.toString()} value={card.creditcardNum}>{card.cardName}</MenuItem>
-                                            ))}
-                                    </Select>
-                                </FormControl>
-                            </Stack>
-                        </Stack>
+                        
                     </Box>
                 </TilePaper>
                 <TilePaper>
