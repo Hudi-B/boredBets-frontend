@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import AuthPopup from './AuthPopup';
 import {Box, Button, AppBar, Chip, Stack, Hidden} from '@mui/material';
 import { useSelector } from 'react-redux';
@@ -8,9 +7,8 @@ import Hamburger from './HamburgerMenu';
 import StadiumRoundedIcon from '@mui/icons-material/StadiumRounded';
 import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
-import axios from 'axios';
 
-import { apiUrl } from '../../boredLocal';
+import HeadsUpButton from './HeadsUpButton';
 
 
 export default function Navbar( {background} ) {
@@ -77,6 +75,7 @@ const RightBoxContent = () => {
                 }
             </Hidden>
         </Box>
+        <HeadsUpButton/>
       {RightBoxContent()}
     </AppBar>
   );
