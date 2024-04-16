@@ -86,7 +86,7 @@ export default function Information() {
     }
 
     const handleUsernameSubmit = async () => {
-        if (tempUsername.length <= 6) {
+        if (tempUsername.length <= 4) {
             enqueueSnackbar("Invalid username", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
         }
         else {
