@@ -3,7 +3,8 @@ import {DialogActions,DialogTitle,DialogContent,DialogContentText,InputAdornment
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import AuthPopup from './AuthPopup';
-
+import { apiUrl } from '../../boredLocal';
+import axios from 'axios';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
 import '../../styles/Main.css';
@@ -15,7 +16,7 @@ function PlaceBetPopup({ raceId, participants }) {
   const [betAmount, setBetAmount] = useState();
   const [openDialog, setOpenDialog] = useState(false);
 
-  console.log(participants);
+
   const handleToggle = (horse) => () => {
     if (selectedItems.length < 5) {
       const currentIndex = selectedItems.indexOf(horse);
@@ -104,8 +105,21 @@ function PlaceBetPopup({ raceId, participants }) {
   };
   
   const handleConfirmBet = () => {
-    // jöhet a bet axios
-    setOpenDialog(false);
+    axios.post({apiUrl}+'UserBet/UserBetPost_XD', {
+      "userId": "userid",
+      "first": selectedItems[0],
+      "second": selectedItems[1],
+      "third": selectedItems[2],
+      "fourth": selectedItems[3],
+      "fifth": selectedItems[4],
+      "raceId": raceId,
+      "betAmount": betAmount,
+      "betTypeId": orderedBet ? 0 : 1
+    }).then((response) => {
+      handleClear();
+    }).finally(() => {
+      setOpenDialog(false);
+    })
   };
   
 

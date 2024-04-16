@@ -18,11 +18,11 @@ export default function HeadsUpButton() {
           await axios.get(`https://boredbetsapidev.azurewebsites.net/HeadsUp`);
         } 
         finally {
-          setPending(false);
+            setPending(false);
         }
       };
 
-      const icons = [<WifiIcon />, <Wifi2BarIcon />, <Wifi1BarIcon />];
+      const icons = [<Wifi1BarIcon />,<Wifi2BarIcon />,<WifiIcon />];
 
     useEffect(() => {
         let intervalId;
@@ -31,7 +31,7 @@ export default function HeadsUpButton() {
             setIconIndex((prevIndex) => (prevIndex + 1) % 3);
           }, 500);
         } else {
-          clearInterval(intervalId);
+            clearInterval(intervalId);
         }
         return () => clearInterval(intervalId);
       }, [pending]);
