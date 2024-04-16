@@ -2,6 +2,7 @@ import React from "react";
 import { styled } from "@mui/material/styles";
 import { Paper, Stack, Typography, Box, IconButton, Tooltip } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { CreditCard } from "@mui/icons-material";
 
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '98%',
@@ -35,7 +36,7 @@ export default function CardPaper({ cardName, cardNumber, expirationYear, expira
                             <Typography variant="h5">{cardName}</Typography>
                         </BackgroundBox>
                     </Stack>
-                        <Typography>Visa/Mastercard icon</Typography>
+                        <CreditCard sx={{ color: 'white' }}/>
                 </Stack>
 
                 <Stack direction={'row'} spacing={10}>
