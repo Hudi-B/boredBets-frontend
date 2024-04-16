@@ -22,8 +22,11 @@ const authSlice = createSlice({
             state.isAdmin = false;
             state.userId = null;
         },
+        updateWallet(state, action) {
+            state.wallet = action.payload;
+        }
     },
 });
 
-export const { login, logout} = authSlice.actions;
+export const { login, logout, updateWallet } = authSlice.actions;
 export default authSlice.reducer;
