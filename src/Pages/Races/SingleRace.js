@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react'; 
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
-import {Stack, Tooltip, Divider, Paper, Grid, Box, Typography, Button, Hidden, Skeleton} from "@mui/material";
+import {Stack, Tooltip, Paper, Grid, Box, Typography, Button, Hidden, Skeleton} from "@mui/material";
 import { useLocation } from 'react-router-dom';
 import CloudIcon from '@mui/icons-material/Cloud';
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
@@ -12,27 +10,19 @@ import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { Link } from 'react-router-dom';
 
 import BetScrollDownMenu from '../../Components/UI/BetScrollDownMenu';
-import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 
-
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 function App() {
   const id = useLocation().pathname.split("/")[2];
-
-  
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-
   const [race, setRace] = useState();
   const [participants, setParticipants] = useState([]);
   const [pending, setPending] = useState(true);
+
   function participantCard(participant) {
     return(
       <Grid item xs={12} sm={5.9} sx={{marginBottom: 1}}>
       <Paper sx={{borderRadius: 3, overflow: 'hidden', background:'none', display: 'flex', }} elevation={10}>
-              <Grid xs={6}
+              <Grid item  xs={6}
               component={Link}
               to={`/Horse/${participant.horseId}`}
               sx={{
@@ -71,7 +61,7 @@ function App() {
                       
                 </Box>
               </Grid>
-              <Grid xs={6}
+              <Grid item xs={6}
                 component={Link}
                 to={`/Jockey/${participant.jockeyId}`}
                 sx={{
@@ -107,7 +97,7 @@ function App() {
         setPending(false);
       });
   }, []);
-console.log(race);
+  
   const handleMapOpen = () => {
     if (!pending) {
       const searchString = `${race.track.country}, ${race.track.address}`; // Replace with your desired string
@@ -118,7 +108,6 @@ console.log(race);
 
   function showSkeletons() {
     const items = [];
-    const itemCount = 5; // Define itemCount or replace with appropriate value
     for (let index = 0; index < 20; index++) {
         items.push(
           <Skeleton width={"47%"} height={"90px"} animation="wave" />
@@ -129,13 +118,13 @@ console.log(race);
 
   return (
     <Box sx={{width: '100%', paddingBottom: 10}}>
-      <Box container 
+      <Box 
         sx={{
           marginBottom: 2,
           justifyContent: 'center',
           paddingTop: 10,
           backgroundColor: 'rgba(50,50,50,0.3)'}}>
-            <Box item xs={12} sm={12} md={5}
+            <Box
             sx={{
               display: 'flex',
               textAlign: 'center',
@@ -149,7 +138,7 @@ console.log(race);
                 : race.track.name}
             </Box>
 
-            <Box item xs={12} sm={12} md={5}
+            <Box
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -217,8 +206,8 @@ console.log(race);
       </Stack>
 
       <Typography sx={{marginLeft: 2}} variant="h5">In the competition:</Typography>
-      <Stack direction="column" gap={1} sx={{paddingX: 2}}>
-        <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+      <Stack key={"btc"} direction="column" gap={1} sx={{paddingX: 2}}>
+        <Grid key={"btc1"} container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
           {pending? 
         showSkeletons()
         :
@@ -229,7 +218,12 @@ console.log(race);
         </Grid>
       </Stack>
       
-      {!pending && <BetScrollDownMenu raceId={race.raceId} participants={participants}/>}
+      {!pending && 
+      participants[0].placement === 0?
+        <BetScrollDownMenu raceId={race.raceId} participants={participants}/>
+      :
+        <>{/*Implement placement checker here*/}</>
+      }
         
 
     </Box >
@@ -237,42 +231,3 @@ console.log(race);
 }
 
 export default App;
-
-/*
-drag and drop
-  const [characters, updateCharacters] = useState(finalSpaceCharacters);
-
-  function handleOnDragEnd(result) {
-    if (!result.destination) return;
-
-    const items = Array.from(characters);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    updateCharacters(items);
-    console.log(items.map((char) => char.name));
-  }
-
-<DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="characters">
-            {(provided) => (
-              <ul className="characters" {...provided.droppableProps} ref={provided.innerRef}>
-                {characters.map(({id, name}, index) => {
-                  return (
-                    <Draggable key={id} draggableId={id} index={index}>
-                      {(provided) => (
-                        <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <p>
-                            { name }
-                          </p>
-                        </li>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </ul>
-            )}
-          </Droppable>
-        </DragDropContext>
-*/
