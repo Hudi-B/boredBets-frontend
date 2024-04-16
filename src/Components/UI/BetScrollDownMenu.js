@@ -7,6 +7,7 @@ import { apiUrl } from '../../boredLocal';
 import axios from 'axios';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
+import { useSelector } from 'react-redux';
 import '../../styles/Main.css';
 function PlaceBetPopup({ raceId, participants }) {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -15,7 +16,7 @@ function PlaceBetPopup({ raceId, participants }) {
   const loggedIn = false;
   const [betAmount, setBetAmount] = useState();
   const [openDialog, setOpenDialog] = useState(false);
-
+  const userData = useSelector((state) => state.auth);
 
   const handleToggle = (horse) => () => {
     if (selectedItems.length < 5) {
@@ -95,8 +96,12 @@ function PlaceBetPopup({ raceId, participants }) {
   };
 
   const handleOpenDialog = () => {
-    if (selectedItems.length === 5 && betAmount > 0) {
+    if (selectedItems.length === 5 && betAmount > 0 ) {
+      if (userData.wallet >= betAmount) {
       setOpenDialog(true);
+      }else {
+        //error message for not enough money
+      }
     }
   };
 
