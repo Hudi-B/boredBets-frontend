@@ -37,18 +37,18 @@ const PasswordChangeForm = ( {open, onClose} ) => {
     const handlePasswordChange = async () => {
         if(newPassword.length <= 4) {
             enqueueSnackbar('Password must be at least 6 characters long', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
-            if (newPassword !== confirmPassword) {
-                enqueueSnackbar('Passwords do not match', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
-                if(oldPassword.length <= 4) {
-                    enqueueSnackbar('Invalid old password', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
-                    if (oldPassword === newPassword) {
-                        enqueueSnackbar('New password cannot be the same as old password', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
-                        return;
-                    }
-                    return;
-                }
-                return;
-            }
+            return;
+        }
+        if (newPassword !== confirmPassword) {
+            enqueueSnackbar('Passwords do not match', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
+            return;
+        }
+        if(oldPassword.length <= 4) {
+            enqueueSnackbar('Invalid old password', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
+            return;
+        }
+        if (oldPassword === newPassword) {
+            enqueueSnackbar('New password cannot be the same as old password', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
             return;
         }
         setIsLoading(true);
