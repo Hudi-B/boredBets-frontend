@@ -13,11 +13,50 @@ import BetScrollDownMenu from '../../Components/UI/BetScrollDownMenu';
 
 
 function App() {
-  const id = useLocation().pathname.split("/")[2];
+  const [raceId, setRaceId] = useState(useLocation().pathname.split("/")[2]); //gets the id of the race asynchronously
   const [race, setRace] = useState();
   const [participants, setParticipants] = useState([]);
   const [pending, setPending] = useState(true);
+  const [past, setPast] = useState(null);
 
+  
+  useEffect(() => {
+    axios.get(`${apiUrl}Race/GetByRaceId?Id=`+raceId)
+      .then((response) => {
+        setRace({
+          raceId: response.data.raceId,
+          rain: response.data.rain,
+          raceSceduled: response.data.raceScheduled,
+          track: response.data.track,
+        });
+        checkDate(response.data.raceScheduled); //calls the checkDate() function to check if the race is in the past or not
+        setParticipants(response.data.participants);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setPending(false);
+      });
+  }, [raceId]);//on change of raceId calls the api for data on race
+
+
+  const checkDate = (raceSceduled) => {
+    console.log(raceSceduled);
+    const dateToCompare = new Date(raceSceduled);
+    const currentDate = new Date();
+    const currentUTCDate = new Date(currentDate.getTime() + currentDate.getTimezoneOffset() * 60000);
+
+    if (dateToCompare > currentDate) {
+        setPast(false);
+    } else if (dateToCompare < currentUTCDate) {
+        setPast(true);
+    }
+  };
+
+
+
+  
   function participantCard(participant) {
     return(
       <Grid item xs={12} sm={5.9} sx={{marginBottom: 1}}>
@@ -79,25 +118,6 @@ function App() {
     )
   }
 
-  useEffect(() => {
-    axios.get(`${apiUrl}Race/GetByRaceId?Id=`+id)
-      .then((response) => {
-        setRace({
-          raceId: response.data.raceId,
-          rain: response.data.rain,
-          raceSceduled: response.data.raceScheduled,
-          track: response.data.track,
-        });
-        setParticipants(response.data.participants);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setPending(false);
-      });
-  }, []);
-  
   const handleMapOpen = () => {
     if (!pending) {
       const searchString = `${race.track.country}, ${race.track.address}`; // Replace with your desired string
@@ -218,11 +238,11 @@ function App() {
         </Grid>
       </Stack>
       
-      {!pending && 
-      participants[0].placement === 0?
-        <BetScrollDownMenu raceId={race.raceId} participants={participants}/>
-      :
-        <>{/*Implement placement checker here*/}</>
+      {!pending ?
+        (past?
+          <>{/*Implement placement checker here*/}</>
+        :
+          <BetScrollDownMenu raceId={race.raceId} participants={participants}/>):null
       }
         
 

@@ -15,6 +15,7 @@ function PlaceBetPopup({ raceId, participants }) {
   const [betAmount, setBetAmount] = useState();
   const [openDialog, setOpenDialog] = useState(false);
 
+  console.log(participants);
   const handleToggle = (horse) => () => {
     if (selectedItems.length < 5) {
       const currentIndex = selectedItems.indexOf(horse);
