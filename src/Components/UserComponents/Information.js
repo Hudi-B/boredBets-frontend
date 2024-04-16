@@ -76,6 +76,7 @@ export default function Information() {
         else {
             await axios.put(apiUrl+`User/UpdateEmailByUserId?UserId=` + userId, { email: tempEmail })
             .then(() => {
+                setTempEmail('');
                 enqueueSnackbar("Email updated", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
                 fetchData();
             })
@@ -92,6 +93,7 @@ export default function Information() {
         else {
             await axios.put(apiUrl+`User/UpdateUsernameByUserId?UserId=` + userId, { username: tempUsername })
             .then(() => {
+                setTempUsername('');
                 enqueueSnackbar("Username updated", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
                 fetchData();
             })

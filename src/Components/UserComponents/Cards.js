@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Box, Typography,  Chip, Paper, Stack, Dialog, DialogContent, Input, InputAdornment, Select, Skeleton, FormControl, MenuItem } from "@mui/material";
+import { Box, Typography,  Chip, Paper, Stack, Dialog, DialogContent, Input, InputAdornment, Select, Skeleton, FormControl, MenuItem, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CardPaper from "./CardPaper";
 import AddIcon from '@mui/icons-material/Add';
@@ -10,6 +10,8 @@ import CreditCardForm from "./CreditCardForm";
 import { useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
+import { useDispatch } from 'react-redux';
+import { updateWallet } from '../../auth/authSlice';
 
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '100%',
@@ -24,16 +26,18 @@ export default function Cards() {
     const [cardData, setCardData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const userId = useSelector((state) => state.auth.userId);
+    const wallet = useSelector((state) => state.auth.wallet);
     const [open, setOpen] = useState(false);
     const [amount, setAmount] = useState(0);
     const [selectedCard, setSelectedCard] = useState('None');
     const { enqueueSnackbar } = useSnackbar();
+    const dispatch = useDispatch();
 
     const handleDeposit = () => {
         axios.put(apiUrl+`User/UpdateWalletByUserId?UserId=` + userId, { wallet: amount })
         .then(() => {
             enqueueSnackbar("Deposit Successful", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
-            
+            fetchWallet();
         })
         .catch((error) => {
             console.log(error);
@@ -60,6 +64,16 @@ export default function Cards() {
             setTimeout(() => {
                 setIsLoading(false);
             }, 1000);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
+    const fetchWallet = async () => {
+        await axios.get(apiUrl+`User/GetWalletByUserId?UserId=` + userId)
+        .then((response) => {
+            dispatch(updateWallet(response.data.wallet));
         })
         .catch((error) => {
             console.log(error);
@@ -97,7 +111,21 @@ export default function Cards() {
                 </TilePaper>
                 <TilePaper sx={{ width: '98%' }}>
                     <Box sx={{ padding: '35px', justifyContent: 'center', display: 'flex', color: 'white' }}>
-                        
+                        <Stack direction={'row'} spacing={1} sx={{ width: '100%', alignItems: 'center' }}>
+                            <Typography>{wallet}</Typography>
+                            <Stack direction={'column'} spacing={1}>
+                                <Input value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Deposit Amount" startAdornment={<InputAdornment position="start">$</InputAdornment>} />
+                                <FormControl>
+                                    <Select value={selectedCard} onChange={(e) => setSelectedCard(e.target.value)}>
+                                        <MenuItem value={'None'}>None</MenuItem>
+                                        {cardData.map((card) => (
+                                            <MenuItem key={card.creditcardNum.toString()} value={card.creditcardNum}>{card.cardName}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                <Button variant="contained" onClick={() => handleDeposit()}>Deposit</Button>
+                            </Stack>
+                        </Stack>
                     </Box>
                 </TilePaper>
                 <TilePaper>
