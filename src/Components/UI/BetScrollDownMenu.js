@@ -276,7 +276,7 @@ function PlaceBetPopup({ raceId, participants }) {
                           color='success'
                           sx={{width: '200px', marginY: 1, marginX: 1,textTransform: 'none', fontSize: '15px',}} 
                           onClick={() => setOrderedBet(!orderedBet)}>
-                            {orderedBet?"With order": "Without order"}
+                            {orderedBet?"Exact order": "Any order"}
                           </Button>
                       </Tooltip>
 

@@ -65,8 +65,6 @@ export default function HomePage() {
       });
   }, [])
 
-console.log(comingRaces);
-
   const comingRaceBox = (race) => {
     return (
       <Paper
@@ -104,10 +102,6 @@ console.log(comingRaces);
       </Paper>
     ) 
   }
-console.log(comingRaces);
-
-
-
 
 
   return (

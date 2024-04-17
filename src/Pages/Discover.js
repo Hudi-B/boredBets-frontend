@@ -40,7 +40,6 @@ const theme = createTheme({
 export default function Discover() {
   const [fetching, setFetching] = useState(true);
   const [allData, setAllData] = useState([]);
-  const [searchValues, setSearchValues] = useState([]);
   const [serverError, setServerError] = useState(false);
   const [pageNum, setPageNum] = useState(1);
   const [maxPage, setMaxPage] = useState(5);
@@ -181,27 +180,24 @@ export default function Discover() {
       }
     }
 
+/*
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`${apiUrl}SearchBar?searchTerm=${searchTerm}`);
+          setSearchResults(response.data.search);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+  
+      if (searchTerm.trim() !== '') {
+        fetchData();
+      }
+    }, [searchTerm]);*/
 
-
-  const ListItem = ( data ) => {
-    return (
-      <Box display={"flex"} 
-      sx={{
-        width: '100%', 
-        gap: 1, 
-        justifyContent: 'space-between', 
-        marginX: 1,
-        backgroundColor: 'rgba(0,0,0,0.1)',
-        padding: 1,
-        paddingX: 2,
-        borderRadius:'20px'}}>
-      <Box>{data.icon}
-      {data.name}</Box>
-      {data.gender === "Male" ? <MaleIcon sx={{color: 'blue'}} /> : <FemaleIcon sx={{color: 'pink' }} />}
-      </Box>
-    );
-  };
- 
   const handleChipClick = (sender) => {
     switch (sender) {
       case "Horse":
@@ -346,32 +342,28 @@ return(
             
 {/*
 Search bar ↓
-*/}
 
-            <Autocomplete
+          <Autocomplete
             sx={{ width: '80%', maxWidth: '1200px', marginX: 'auto','& .MuiAutocomplete-inputRoot': {paddingX: '20px', borderRadius: '50px'} }}
             disabled={fetching}
             onChange={(event, newValue) => {
-                navigate(
-                  newValue.type === "Horse" ? `/Horse/${newValue.id}` :
-                  newValue.type === "Jockey" ? `/Jockey/${newValue.id}` :
-                  newValue.type === "User" ? `/User/${newValue.id}` : "/discover"
-              );
+                console.log(newValue);
             }}
             freeSolo
             selectOnFocus
             handleHomeEndKeys
-            options={searchValues}
-            getOptionLabel={(option) => {
-              return option.name;
-            }}
-            renderOption={(props, option) => 
-            <li {...props}
-            key={option.id}
-             style={{padding: '0px'}}>
-                {ListItem(option)}
-              </li>
-          }
+            options={searchResults}
+            getOptionLabel={(option) => option.data.name}
+            renderOption={(option) => (
+              <Link to={`/details/{option.data.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Box>
+                {option.type === "Horse" ? <FontAwesomeIcon icon={faHorseHead} /> : 
+                option.type === "Jockey" ? <FontAwesomeIcon icon={faHelmetSafety} /> : 
+                option.type === "User" && <PersonIcon sx={{fontSize: 35}}/> }
+        <Typography>{option.data && option.data.name ? option.data.name : 'Unknown Name'}</Typography>
+                </Box>
+              </Link>
+            )}
             renderInput={(params) => (
               <TextField {...params}
               sx={{
@@ -392,33 +384,20 @@ Search bar ↓
                 },
               }}
 
+              onChange={(event) => setSearchTerm(event.target.value)}
 
-              onChange={(e) => {
-                setSearchValues(
-                  allData.filter((item) => item.name.toLowerCase().includes(e.target.value.toLowerCase()))
-                );
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start" sx={{ margin: 1}}>
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
     
-              onFocus={() => setSearchValues(allData)}
               label="Search" />
             )}>
           </Autocomplete>
 
+*/}   
 
-        <Grid container gap={1} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-          
+    
 {/*
 Filters ↓
 */}
-
-
+        <Grid container gap={1} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
           <Grid item xs={12} sm={2}
           sx={{
             minWidth: '180px',
@@ -512,7 +491,7 @@ Shown data, or error message ↓
             
           <Box sx={{marginTop: 2, display: 'flex', flexDirection: 'column', gap: 2, justifyContent: 'center', alignItems: 'center'}}>
               <ThemeProvider theme={theme}>
-                <Pagination page={pageNum} onChange={handlePageChange} color='primary' value={pageNum} count={maxPage} showFirstButton showLastButton />
+                <Pagination page={pageNum} onChange={handlePageChange} color='primary' value={pageNum} count={maxPage} showFirstButton showLastButton/>
               </ThemeProvider>
                 {serverError ? 
                   <Avatar className='preventSelect' variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "/images/server_error.png"} /> 
