@@ -1,9 +1,8 @@
 import { apiUrl } from '../boredLocal';
-import {Skeleton, Tooltip, ThemeProvider, createTheme, Pagination, Typography, Grid, Box, FormControlLabel, TextField,Autocomplete, Chip, Button, Divider, Avatar} from '@mui/material';
+import {Skeleton, Tooltip, ThemeProvider, createTheme, Pagination, Typography, Grid, Box, FormControlLabel, TextField, Chip, Button, Divider, Avatar} from '@mui/material';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
-import * as React from 'react';
 import { useNavigate } from "react-router-dom";
 
 import Checkbox from '@mui/material/Checkbox';
@@ -45,8 +44,6 @@ export default function Discover() {
   const [maxPage, setMaxPage] = useState(5);
   const { enqueueSnackbar } = useSnackbar();
 
-  const navigate = useNavigate();
-
   const [userActive, setUserActive] = useState(false);
   const [jockeyActive, setJockeyActive] = useState(false);
   const [horseActive, setHorseActive] = useState(false);
@@ -79,10 +76,12 @@ export default function Discover() {
 
   const applyFilters = () => {
     let errorOnFilter = false;
-  setPageNum(1);
+    setPageNum(1);
+
     if (horseActive) {
       setUserFilter(userFilterDefault);
       setJockeyFilter(jockeyFilterDefault);
+
       if (horseFilter.minAge === 0) {
         setHorseFilter({ ...horseFilter, minAge: 1 });
       }
@@ -151,7 +150,20 @@ export default function Discover() {
         const filtersToSend = {jockeyFilter, userFilter, horseFilter};
 
         setFetching(true);
-          axios.post(`${apiUrl}SearchBar?filteredGroup=${filterGroup}&pageNum=${pageNum}`, filtersToSend)
+        axios.post(`${apiUrl}SearchBar?filteredGroup=${filterGroup}&pageNum=${pageNum}`, filtersToSend)
+        .then((response) => {
+            setAllData(response.data.search);
+            setMaxPage(response.data.maxPage);
+            setServerError(false);
+            setFetching(false);
+        }).catch((error) => {
+            console.log(error);
+            setFetching(false);
+            setServerError(true);
+        })
+      } else {
+          setFetching(true);
+          axios.get(`${apiUrl}SearchBar?page=${pageNum}`)
           .then((response) => {
               setAllData(response.data.search);
               setMaxPage(response.data.maxPage);
@@ -162,21 +174,6 @@ export default function Discover() {
               setFetching(false);
               setServerError(true);
           })
-
-      } else {
-          setFetching(true);
-
-            axios.get(`${apiUrl}SearchBar?page=${pageNum}`)
-            .then((response) => {
-                setAllData(response.data.search);
-                setMaxPage(response.data.maxPage);
-                setServerError(false);
-                setFetching(false);
-            }).catch((error) => {
-                console.log(error);
-                setFetching(false);
-                setServerError(true);
-            })
       }
     }
 
@@ -257,10 +254,11 @@ export default function Discover() {
           position: 'absolute',
           bottom: 5,
           left: 8}}> 
-          {item.type === "Horse" ? <FontAwesomeIcon icon={faHorseHead} /> : 
-          item.type === "Jockey" ? <FontAwesomeIcon icon={faHelmetSafety} /> : 
-          item.type === "User" && <PersonIcon sx={{fontSize: 35}}/> }
-          </Typography>
+        {item.type === "Horse" ? <FontAwesomeIcon icon={faHorseHead} /> : 
+        item.type === "Jockey" ? <FontAwesomeIcon icon={faHelmetSafety} /> : 
+        item.type === "User" && <PersonIcon sx={{fontSize: 35}}/> }
+      </Typography>
+
       <Typography 
         sx={{ 
           fontWeight: 'bold', 
@@ -268,25 +266,26 @@ export default function Discover() {
           color: 'white', 
           textAlign: 'center'}}
           > 
-          {item.data.name}
-          </Typography>
-      <Box>
-      {item.type === "Horse"
-        ? (item.data.stallion===true ? 
-              <MaleIcon sx={{ color: 'blue', fontSize: 35 }} /> 
-              :
-              <FemaleIcon sx={{ color: 'pink', fontSize: 35 }} />)
-        :null
-      }
+        {item.data.name}
+      </Typography>
 
-      {
-      item.type ==="Jockey"? 
-          (item.data.male ? 
-          <MaleIcon sx={{ color: 'blue', fontSize: 35 }} /> 
-          :
-          <FemaleIcon sx={{ color: 'pink', fontSize: 35 }} />)
-        :null 
-      }
+      <Box>
+        {item.type === "Horse"
+          ? (item.data.stallion===true ? 
+                <MaleIcon sx={{ color: 'blue', fontSize: 35 }} /> 
+                :
+                <FemaleIcon sx={{ color: 'pink', fontSize: 35 }} />)
+          :null
+        }
+
+        {
+        item.type ==="Jockey"? 
+            (item.data.male ? 
+            <MaleIcon sx={{ color: 'blue', fontSize: 35 }} /> 
+            :
+            <FemaleIcon sx={{ color: 'pink', fontSize: 35 }} />)
+          :null 
+        }
 
         {/*
         This is for displaying Warning messages regarding individuals
@@ -305,19 +304,20 @@ export default function Discover() {
   );
 
   const filterCheckBox = (label, disabled) => {
-return(
-    <FormControlLabel disabled={!disabled} 
-    sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
-      control={
-        <Checkbox
-          size='small'
-          color='default'
-          icon={< CircleOutlinedIcon/>}
-          checkedIcon={<CheckCircleRoundedIcon />}
-          checked={horseFilter[label.toLowerCase()] }
-          onChange={() => filterBooleanToggle(label, disabled)}
-        />} label={label} />
-        )
+    return(
+      <FormControlLabel disabled={!disabled} 
+      sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
+        control={
+          <Checkbox
+            size='small'
+            color='default'
+            icon={< CircleOutlinedIcon/>}
+            checkedIcon={<CheckCircleRoundedIcon />}
+            checked={horseFilter[label.toLowerCase()] }
+            onChange={() => filterBooleanToggle(label, disabled)}
+          />} 
+      label={label} />
+    )
   };
   
   const filterBooleanToggle = (label, category) => {
@@ -332,14 +332,14 @@ return(
         setJockeyFilter( { ...jockeyFilter, [label.toLowerCase().replace(/\s/g, '')]: !jockeyFilter[label.toLowerCase().replace(/\s/g, '')] });
         break;
       default:
-          break;
+        break;
     }
   };
 
 
   return (
     <Box sx={{ py: 15, px: 5,display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center', width: '100%', gap: 2 }}>
-            
+
 {/*
 Search bar ↓
 
@@ -394,138 +394,136 @@ Search bar ↓
 */}   
 
     
-{/*
-Filters ↓
-*/}
-        <Grid container gap={1} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-          <Grid item xs={12} sm={2}
+      <Grid container gap={1} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+  {/*
+  Filters ↓
+  */}
+        <Grid item xs={12} sm={2}
           sx={{
             minWidth: '180px',
             maxWidth: '300px',
             backgroundColor: 'rgba(4, 112, 107, 0.5)',
             borderRadius: '10px', 
             padding: 1}}>
-              <Button variant='contained' onClick={() => applyFilters()} sx={{width: '100%', marginY: 1}} color='success'>Apply Filters</Button>
-              <Box sx={{
-                height: '100%',
-                borderRadius: '8px', 
-                width: 'fill',
-                backgroundColor: 'rgb(4, 112, 107)',
-                display: 'flex',
-                flexDirection: 'column', 
-                gap: 1,
-                padding: 1
-              }}>
+          <Button variant='contained' onClick={() => applyFilters()} sx={{width: '100%', marginY: 1}} color='success'>Apply Filters</Button>
+          <Box sx={{
+            height: '100%',
+            borderRadius: '8px', 
+            width: 'fill',
+            backgroundColor: 'rgb(4, 112, 107)',
+            display: 'flex',
+            flexDirection: 'column', 
+            gap: 1,
+            padding: 1
+          }}>
 
-                <Chip 
-                    variant='filled' 
-                    color="success" 
-                    icon={<PersonIcon />} 
-                    label="Users" 
-                    onDelete={() => handleChipClick("User")}
-                    deleteIcon={userActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
-                    
-                <Box sx={{ color: 'rgb(240, 240, 240)', display: 'flex', flexDirection: 'column', gap: 0}}>
-                  
-                  <Typography sx={{ marginX: 1, color: !userActive && 'rgba(40, 40, 40,0.8)' }}>Privacy:</Typography>
-                  {filterCheckBox("Public", userActive)}
-                  {filterCheckBox("Private", userActive)}
-
-                </Box>
-
-
-                <Chip 
-                    variant='filled' 
-                    color="success" 
-                    icon={<FontAwesomeIcon icon={faHorseHead} />} 
-                    label="Horses"
-                    onDelete={() => handleChipClick("Horse")}
-                    deleteIcon={horseActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
-              {/*age, gender, */}
-                <Box color={'rgb(240, 240, 240)'} sx={{ display: 'flex', flexDirection: 'column', gap: 0, }}>
-                  
-                  <Typography sx={{ marginX: 2, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Age&nbsp;range:  1&nbsp;-&nbsp;6 </Typography>
-                  <Box sx={{ marginBottom: 1, marginX: 1, display: 'flex', flexDirection: 'row', gap: 0, }}>
-                    <TextField onChange={(e) => setHorseFilter({ ...horseFilter, minAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='min' />
-                    <TextField onChange={(e) => setHorseFilter({ ...horseFilter, maxAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='max' />
-                  </Box>
-                  
-                  <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
-                  
-                  <Typography sx={{ marginX: 1, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
-                  {filterCheckBox("Stallion", horseActive)}
-                  {filterCheckBox("Mare", horseActive)}
-                  
-                </Box>
-
-
-                <Chip 
-                    variant='filled' 
-                    color="success" 
-                    width="100%"
-                    icon={<FontAwesomeIcon icon={faHelmetSafety}/>} 
-                    label="Jockeys" 
-                    onDelete={() => handleChipClick("Jockey")}
-                    deleteIcon={jockeyActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
-
-                <Box sx={{ color: 'rgb(240, 240, 240)', display: 'flex', flexDirection: 'column', gap: 0}}>
+            <Chip 
+              variant='filled' 
+              color="success" 
+              icon={<PersonIcon />} 
+              label="Users" 
+              onDelete={() => handleChipClick("User")}
+              deleteIcon={userActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
                 
-                  <Typography sx={{ marginX: 1, color: !jockeyActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
-                  {filterCheckBox("Male", jockeyActive)}
-                  {filterCheckBox("Female", jockeyActive)}
+            <Box sx={{ color: 'rgb(240, 240, 240)', display: 'flex', flexDirection: 'column', gap: 0}}>
+              
+              <Typography sx={{ marginX: 1, color: !userActive && 'rgba(40, 40, 40,0.8)' }}>Privacy:</Typography>
+              {filterCheckBox("Public", userActive)}
+              {filterCheckBox("Private", userActive)}
 
-                  <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
+            </Box>
 
-                  <Typography sx={{ marginX: 1, color: !jockeyActive && 'rgba(40, 40, 40,0.8)' }}>Status:</Typography>
-                  {filterCheckBox("Has horse", jockeyActive)}
-                  {filterCheckBox("Has no horse", jockeyActive)}
 
-                </Box>
-              </Box>
-          </Grid>
-{/*
-Shown data, or error message ↓
-*/}
+            <Chip 
+              variant='filled' 
+              color="success" 
+              icon={<FontAwesomeIcon icon={faHorseHead} />} 
+              label="Horses"
+              onDelete={() => handleChipClick("Horse")}
+              deleteIcon={horseActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
 
-          <Grid item xs={12} sm={7}>
+            <Box color={'rgb(240, 240, 240)'} sx={{ display: 'flex', flexDirection: 'column', gap: 0, }}>
+                  
+            <Typography sx={{ marginX: 2, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Age&nbsp;range:  1&nbsp;-&nbsp;6 </Typography>
+            <Box sx={{ marginBottom: 1, marginX: 1, display: 'flex', flexDirection: 'row', gap: 0, }}>
+              <TextField onChange={(e) => setHorseFilter({ ...horseFilter, minAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='min' />
+              <TextField onChange={(e) => setHorseFilter({ ...horseFilter, maxAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='max' />
             
+            </Box>
+              <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
+                  
+              <Typography sx={{ marginX: 1, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
+              {filterCheckBox("Stallion", horseActive)}
+              {filterCheckBox("Mare", horseActive)}
+            </Box>
+
+            <Chip 
+              variant='filled' 
+              color="success" 
+              width="100%"
+              icon={<FontAwesomeIcon icon={faHelmetSafety}/>} 
+              label="Jockeys" 
+              onDelete={() => handleChipClick("Jockey")}
+              deleteIcon={jockeyActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
+
+            <Box sx={{ color: 'rgb(240, 240, 240)', display: 'flex', flexDirection: 'column', gap: 0}}>
+            
+              <Typography sx={{ marginX: 1, color: !jockeyActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
+              {filterCheckBox("Male", jockeyActive)}
+              {filterCheckBox("Female", jockeyActive)}
+
+              <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
+
+              <Typography sx={{ marginX: 1, color: !jockeyActive && 'rgba(40, 40, 40,0.8)' }}>Status:</Typography>
+              {filterCheckBox("Has horse", jockeyActive)}
+              {filterCheckBox("Has no horse", jockeyActive)}
+
+            </Box>
+          </Box>
+        </Grid>
+  {/*
+  Shown data, or error message ↓
+  */}
+
+        <Grid item xs={12} sm={7}>
+          
           <Box sx={{marginTop: 2, display: 'flex', flexDirection: 'column', gap: 2, justifyContent: 'center', alignItems: 'center'}}>
-              <ThemeProvider theme={theme}>
-                <Pagination page={pageNum} onChange={handlePageChange} color='primary' value={pageNum} count={maxPage} showFirstButton showLastButton/>
-              </ThemeProvider>
-                {serverError ? 
-                  <Avatar className='preventSelect' variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "/images/server_error.png"} /> 
-                  : 
-                  <Grid container display={'flex'} spacing={1}>
-                  {!fetching ? 
-                    allData.map((item) => (
-                      <Grid item xs key={item.id}>
-                        {Cube(item)}
-                      </Grid>
-                    ))
-                  :
-                    Array.from({ length: 20 }).map((_, index) => (
-                      <Grid item xs>
-                        <Skeleton key={index} variant="rectangular" 
+            <ThemeProvider theme={theme}>
+              <Pagination page={pageNum} onChange={handlePageChange} color='primary' value={pageNum} count={maxPage} showFirstButton showLastButton/>
+            </ThemeProvider>
+            {serverError ? 
+                <Avatar className='preventSelect' variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "/images/server_error.png"} /> 
+              : 
+                <Grid container display={'flex'} spacing={1}>
+                {!fetching ? 
+                  allData.map((item) => (
+                    <Grid item xs key={item.id}>
+                      {Cube(item)}
+                    </Grid>
+                  ))
+                :
+                  Array.from({ length: 20 }).map((_, index) => (
+                    <Grid item xs>
+                      <Skeleton key={index} variant="rectangular" 
                         sx={{
                           backgroundColor: 'rgba(0, 0, 0, 0.15)',
                           width: '100%',
                           minWidth: '175px',
                           height: '125px',
                           borderRadius: '10px',
-                          marginInline: 'auto',}} />
-                        </Grid>
-                    ))
-                  }
-
-                  </Grid>
-                  }
-              <ThemeProvider theme={theme}>
-                <Pagination page={pageNum} onChange={handlePageChange} color='primary' value={pageNum} count={maxPage} showFirstButton showLastButton />
-              </ThemeProvider>
+                          marginInline: 'auto',}} 
+                      />
+                    </Grid>
+                  ))
+                }
+                </Grid>
+              }
+            <ThemeProvider theme={theme}>
+              <Pagination page={pageNum} onChange={handlePageChange} color='primary' value={pageNum} count={maxPage} showFirstButton showLastButton />
+            </ThemeProvider>
           </Box>
-          </Grid>
         </Grid>
+      </Grid>
     </Box>
   );
 }
