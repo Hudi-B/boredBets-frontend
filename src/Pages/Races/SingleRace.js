@@ -10,6 +10,7 @@ import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { Link } from 'react-router-dom';
 
 import BetScrollDownMenu from '../../Components/UI/BetScrollDownMenu';
+import ViewResults from '../../Components/UI/ViewResults';
 
 
 function App() {
@@ -17,19 +18,19 @@ function App() {
   const [race, setRace] = useState();
   const [participants, setParticipants] = useState([]);
   const [pending, setPending] = useState(true);
+  const [betAble, setBetAble] = useState(null);
   const [past, setPast] = useState(null);
 
-  
   useEffect(() => {
     axios.get(`${apiUrl}Race/GetByRaceId?Id=`+raceId)
       .then((response) => {
+        setBetAble(response.data.betAble);
         setRace({
           raceId: response.data.raceId,
           rain: response.data.rain,
           raceSceduled: response.data.raceScheduled,
           track: response.data.track,
-        });
-        checkDate(response.data.raceScheduled); //calls the checkDate() function to check if the race is in the past or not
+        }); //calls the checkDate() function to check if the race is in the past or not
         setParticipants(response.data.participants);
       })
       .catch((error) => {
@@ -42,7 +43,6 @@ function App() {
 
 
   const checkDate = (raceSceduled) => {
-    console.log(raceSceduled);
     const dateToCompare = new Date(raceSceduled);
     const currentDate = new Date();
     const currentUTCDate = new Date(currentDate.getTime() + currentDate.getTimezoneOffset() * 60000);
@@ -120,7 +120,8 @@ function App() {
 
   const handleMapOpen = () => {
     if (!pending) {
-      const searchString = `${race.track.country}, ${race.track.address}`; // Replace with your desired string
+      const searchString = `${race.track.name} ${race.track.address}`; // Replace with your desired string
+      console.log(searchString);
       const mapUrl = `https://www.google.com/maps/search/?q=${searchString}`;
       window.open(mapUrl, '_blank');
     }
@@ -238,12 +239,12 @@ function App() {
         </Grid>
       </Stack>
       
-      {!pending ?
-        (past?
-          <>{/*Implement placement checker here*/}</>
+      {!pending &&
+        (betAble?
+        <BetScrollDownMenu raceId={race.raceId} participants={participants}/>
         :
-          <BetScrollDownMenu raceId={race.raceId} participants={participants}/>):null
-      }
+        <ViewResults participants={participants}/> 
+      )}
         
 
     </Box >

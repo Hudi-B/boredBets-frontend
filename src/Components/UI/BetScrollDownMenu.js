@@ -202,7 +202,7 @@ function PlaceBetPopup({ raceId, participants }) {
                 }}>
                   {selectedItems.length !== 5 ? (
                     <Typography 
-                      sx={{margin:1, fontSize: '20px', fontWeight: '500', color: 'black'}}
+                      sx={{margin:3, fontSize: '20px', fontWeight: '500', color: 'black'}}
                     >
                       {selectedItems.length ?  
                         "Horses selected: " + selectedItems.length :
