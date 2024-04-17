@@ -167,12 +167,12 @@ export default function PastRaces({races}) {
                 borderTopRightRadius: '40px',
                 borderTopLeftRadius: '40px',
                 }} direction={'column'}>
-            <Typography variant='h4' sx={{fontWeight: '700'}}>All Past Races in register:</Typography>
-            <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center', paddingX: 2}}>
-            {restData.map((user) => (
-                                bigRaceCard(user)
-                            ))}
-            </Grid>
+                <Typography variant='h4' sx={{fontWeight: '700'}}>All Past Races in register:</Typography>
+                <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center', paddingX: 2}}>
+                    {restData.map((user) => (
+                        bigRaceCard(user)
+                    ))}
+                </Grid>
             </Stack>
         </Stack>
     );

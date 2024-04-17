@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {DialogActions,DialogTitle,DialogContent,DialogContentText,InputAdornment,Tooltip,Input,IconButton ,Accordion,List, ListItem, AccordionSummary, AccordionDetails,Button, Typography, Grid, Box, Dialog} from '@mui/material';
+import {DialogActions, TextField,DialogTitle,DialogContent,DialogContentText,InputAdornment,Tooltip,Input,IconButton ,Accordion,List, ListItem, AccordionSummary, AccordionDetails,Button, Typography, Grid, Box, Dialog} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import AuthPopup from './AuthPopup';
@@ -9,6 +9,9 @@ import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
 import { useSelector } from 'react-redux';
 import '../../styles/Main.css';
+
+
+
 function PlaceBetPopup({ raceId, participants }) {
   const [selectedItems, setSelectedItems] = useState([]);
   const [restParticipants, setRestParticipants] = useState(participants);
@@ -17,6 +20,7 @@ function PlaceBetPopup({ raceId, participants }) {
   const [betAmount, setBetAmount] = useState();
   const [openDialog, setOpenDialog] = useState(false);
   const userData = useSelector((state) => state.auth);
+  const [errorOnAmount, setErrorOnAmount] = useState(false);
 
   const handleToggle = (horse) => () => {
     if (selectedItems.length < 5) {
@@ -83,12 +87,12 @@ function PlaceBetPopup({ raceId, participants }) {
   
     setSelectedItems(items);
   }
-  useEffect(() => {
-    console.log(betAmount);
-  },[betAmount])
+  
 
   const handleBetAmountChange = (event) => {
-    // Restrict input to numbers only
+    if (errorOnAmount) {
+      setErrorOnAmount(false);
+    }
     const regex = /^[0-9\b]+$/;
     if (event.target.value === '' || regex.test(event.target.value)) {
       setBetAmount(Number(event.target.value));
@@ -100,7 +104,7 @@ function PlaceBetPopup({ raceId, participants }) {
       if (userData.wallet >= betAmount) {
       setOpenDialog(true);
       }else {
-        //error message for not enough money
+        setErrorOnAmount(true);
       }
     }
   };
@@ -150,7 +154,7 @@ function PlaceBetPopup({ raceId, participants }) {
         Start betting
         </AccordionSummary>
         <AccordionDetails>
-          {!loggedIn? (
+          {!userData.isLoggedIn? (
             <Box sx={{
               justifyContent: 'center',
                alignItems: 'center',
@@ -276,24 +280,29 @@ function PlaceBetPopup({ raceId, participants }) {
                           </Button>
                       </Tooltip>
 
-                      <Input
-                        sx={{
-                          '& input': {
-                            '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
-                              '-webkit-appearance': 'none',
-                              margin: 0,
-
-                            },
-                          },
-                          paddingX: 1,
-                        }}
+                      <TextField
                         id="bet-amount"
                         type="number"
-                        endAdornment={<InputAdornment position="end">€</InputAdornment>}
+                        variant='standard'
+                        error={errorOnAmount}
+                        label="Bet amount"
+                        helperText={errorOnAmount&&"Bet amount was invalid" }
                         onChange={handleBetAmountChange}
                         inputProps={{
                           min: 1,
                           step: 'any',
+                        }}
+                        InputProps={{
+                          endAdornment: <InputAdornment position="end">€</InputAdornment>,
+                          sx: {
+                            '& input': {
+                              '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+                                '-webkit-appearance': 'none',
+                                margin: 0,
+                              },
+                            },
+                            paddingX: 1,
+                          },
                         }}
                       />
                       </Box>
