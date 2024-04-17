@@ -52,7 +52,7 @@ console.log(firstFive);
                 background:'none', 
                 display: 'flex',
                 minHeight: '70px',
-                '&:hover': { boxShadow: '0 0 10px rgba(200,200,200,0.2)'} }}>
+                '&:hover': { boxShadow: '0 0 20px rgba(50,50,50,1)'} }}>
                 <Grid item  xs={12} sm={6}
                 component={Link}
                 to={`/Horse/${participant.horseId}`}
@@ -65,7 +65,7 @@ console.log(firstFive);
                   textTransform: 'none',
                   textDecoration: 'none',
                   paddingTop: 1,
-                  '&:hover': { backgroundColor: 'rgba(0,0,0,0.4)'}, 
+                  '&:hover': { backgroundColor: 'rgba(0,0,0,0.3)'}, 
                 }}>
                   <Box
                   sx={{
@@ -104,7 +104,7 @@ console.log(firstFive);
                     textTransform: 'none',
                     textDecoration: 'none',
                     paddingY:1,
-                    '&:hover': { backgroundColor: 'rgba(0,0,0,0.4)'}, 
+                    '&:hover': { backgroundColor: 'rgba(0,0,0,0.3)'}, 
                   }}>
                   {participant.jockeyName}
                 </Grid>
