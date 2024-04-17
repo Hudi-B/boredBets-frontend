@@ -1,35 +1,27 @@
 import {useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
-import { apiUrl } from '../../boredLocal';
-import {Stack, Divider, Grid, Typography, Button, Hidden} from "@mui/material";
+import {Stack, Divider, Grid, Typography, Button, Hidden, Skeleton} from "@mui/material";
 import React  from 'react';
 
 import MapIcon from '@mui/icons-material/Map';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 export default function PastRaces({races}) {
-    const navigate = useNavigate();
-    const [smallScreen, setSmallScreen] = useState(false);
     const [firstThree, setFirstThree] = useState([]);
     const [restData, setRestData] = useState([]);   
+    const [pending, setPending] = useState(true);
     const moment = require('moment');
+    const navigate = useNavigate();
 
-    
+    const dateFormat = "YYYY MM DD, HH:mm";
     useEffect(() => {
-        setFirstThree(races.allHappenedRaces.slice(0, 3));
-        setRestData(races.allHappenedRaces.slice(3));
-    },[]);
+        if (!races || races.length === 0) return; 
+        const racesArray = Object.values(races.allHappenedRaces);
 
-    useEffect(() => {
-        if (window.innerWidth < 400) {
-            setSmallScreen(true);
-        }
-        else {
-            setSmallScreen(false);
-        }
-    }, [window.innerWidth]);
-
+        setFirstThree(racesArray.slice(0, 3));
+        setRestData(racesArray.slice(3));
+        setPending(false);
+    },[races]);
 
     const smallRaceCard = (race) => {
         return (
@@ -60,7 +52,7 @@ export default function PastRaces({races}) {
                     </Grid>
                         <Divider sx={{width: '100%', borderColor: 'black'}} />
                     <Grid item xs={12}sx={{display: 'flex',justifyContent: 'center', alignItems: 'center', marginTop: 0.3}}>
-                    <AccessTimeIcon sx={{marginRight: '10px'}} />{moment(race.raceScheduled).format("yyyy, MMMM d, HH:mm")}
+                    <AccessTimeIcon sx={{marginRight: '10px'}} />{moment(race.raceScheduled).format(dateFormat)}
                     </Grid>
                 </Hidden>
 
@@ -77,11 +69,21 @@ export default function PastRaces({races}) {
                         <Divider sx={{width: '100%', borderColor: 'black'}} />
                     </Hidden>
                     <Grid item xs={12} sm={6} sx={{display: 'flex', paddingRight: '10px', justifyContent: 'flex-end', alignItems: 'center', marginTop: 0.3}}>
-                    {moment(race.raceScheduled).format("yyyy, MMMM d, HH:mm")}
+                    {moment(race.raceScheduled).format(dateFormat)}
                     </Grid>
                 </Hidden>
             </Grid>
     )}
+
+    function smallSkeletons() {
+        const skeletons = [];
+        for (let i = 0; i < 3; i++) {
+            skeletons.push(
+            <Skeleton variant="rectangular" sx={{width: '100%', height: '90px', marginY:'0px', borderRadius:'50px'}} />
+            );
+        }
+        return skeletons;
+    }
 
     const bigRaceCard = (race) => {
         return (
@@ -107,7 +109,7 @@ export default function PastRaces({races}) {
             }}
             >
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-                {moment(race.raceScheduled).format("yyyy, MMMM d, HH:mm")}
+                {moment(race.raceScheduled).format("YYYY MM DD, HH:mm")}
                 </Grid>
                 <Divider orientation="vertical" flexItem color="black" />
                 <Grid item xs={3} sx={{fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -121,6 +123,15 @@ export default function PastRaces({races}) {
             </Grid>
     )}
 
+    function bigSkeletons() {
+        const skeletons = [];
+        for (let i = 0; i < 20; i++) {
+            skeletons.push(
+            <Skeleton variant="rectangular" sx={{width: '100%', height: '130px', margin:'none', borderRadius:'20px'}} />
+            );
+        }
+        return skeletons;
+    }
     return (
         <Stack direction={'column'} sx={{ paddingX: 1, width: '100%', display:'flex',justifyContent: 'center', alignItems: 'center'}} >
             <Stack sx={{
@@ -151,10 +162,13 @@ export default function PastRaces({races}) {
                 
             </Grid>
         </Hidden>
-
-            {firstThree.map((user) => (
-                smallRaceCard(user)
-            ))}
+            {pending ? 
+                    smallSkeletons() 
+                :
+                    firstThree.map((user) => (
+                    smallRaceCard(user)
+                    ))
+            }
             </Stack>
 
 
@@ -169,9 +183,13 @@ export default function PastRaces({races}) {
                 }} direction={'column'}>
                 <Typography variant='h4' sx={{fontWeight: '700'}}>All Past Races in register:</Typography>
                 <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center', paddingX: 2}}>
-                    {restData.map((user) => (
-                        bigRaceCard(user)
-                    ))}
+                    {pending ? 
+                        bigSkeletons() 
+                    :
+                        restData.map((user) => (
+                            bigRaceCard(user)
+                        ))
+                    }
                 </Grid>
             </Stack>
         </Stack>

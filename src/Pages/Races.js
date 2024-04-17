@@ -12,24 +12,7 @@ export default function RacesPage() {
     const [present, setPresent] = useState(true);
     const [allPastRaces, setAllPastRaces] = useState([]);
     const [allUpcomingRaces, setAllUpcomingRaces] = useState([]);
-
     useEffect(() => {
-        axios.get(`${apiUrl}Race/GetAllHappendRaces`)
-        .then((response) => {
-            setAllPastRaces(response.data);
-        })
-        .catch((error) => {
-
-            console.log(error);
-            
-            enqueueSnackbar("Error while requesting past races.", {
-              variant: 'error',
-              autoHideDuration: 3000,
-              TransitionComponent: Slide,
-            });
-
-        });
-
         axios.get(`${apiUrl}Race/GetAllFutureRaces`)
         .then((response) => {
 
@@ -47,6 +30,21 @@ export default function RacesPage() {
 
         });
 
+        axios.get(`${apiUrl}Race/GetAllHappendRaces`)
+        .then((response) => {
+            setAllPastRaces(response.data);
+        })
+        .catch((error) => {
+
+            console.log(error);
+            
+            enqueueSnackbar("Error while requesting past races.", {
+              variant: 'error',
+              autoHideDuration: 3000,
+              TransitionComponent: Slide,
+            });
+
+        });
     }, []);
 
 

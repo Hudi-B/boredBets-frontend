@@ -37,7 +37,7 @@ export default function HamburgerMenu({isAdmin}) {
     };
 
 const DrawerList = (
-    <Box sx={{ width: 180, height: '100%', backgroundColor: 'rgb(2, 40, 95)' }}onClick={toggleDrawer(false)}>
+    <Box sx={{ width: 180, height: '100%', backgroundColor: 'rgb(26,78,73)' }}onClick={toggleDrawer(false)}>
       <List sx={{ height:'100%' }}>
         {menuItems.map((item) => (
           <ListItem key={item.name} disablePadding>
