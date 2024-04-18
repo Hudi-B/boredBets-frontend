@@ -7,10 +7,15 @@ import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 import axios from 'axios';
 import { setCookieToken } from '../../../boredLocal';
+import {InputAdornment, IconButton} from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export default function Login({data, callback}) {
     const [alertOnLogin, setAlertOnLogin] = React.useState(false);
+    const [showPassword, setShowPassword] = React.useState(false);
     const [alertOnPass, setAlertOnPass] = React.useState(false);
+
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
 
@@ -67,6 +72,9 @@ export default function Login({data, callback}) {
         // another dialog in here asking for the users email, then sending a post request with that email to the api
     }
 
+
+
+
     return (
     <>
         <TextField 
@@ -90,13 +98,26 @@ export default function Login({data, callback}) {
                 id="loginPassword" 
                 label="Password" 
                 variant="outlined" 
-                type='password'
+                type={showPassword ? 'text' : 'password'}
                 name="password" 
                 onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
                 value={data.password} 
                 onChange={handleChange} 
                 sx={{ flexGrow: 1, marginRight: 1, '& p': { color: 'rgb(204, 2, 2)', fontWeight: 'bold', }  }}
                 helperText={alertOnPass ? 'Please enter your password' : ''}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={()=>setShowPassword(!showPassword)}
+                                onMouseDown={(event) => event.preventDefault()}
+                            >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                    ),
+                }}
             />
             <Button variant='contained' sx={{ height: 55, width: 55 }} onClick={handleLogin}>
                 Go

@@ -3,15 +3,19 @@ import { apiUrl } from '../../../boredLocal';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 import axios from 'axios';
-import { TextField, Box, Button, InputAdornment, Tooltip } from '@mui/material';
+import { TextField, Box, Button, InputAdornment, Tooltip, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 export default function Register({data, callback}) {
     const [alertOnEmail, setAlertOnEmail] = React.useState(false);
     const [alertOnUsername, setAlertOnUsername] = React.useState(false);
     const [alertOnPass, setAlertOnPass] = React.useState(false);
+    const [showPassword, setShowPassword] = React.useState(false);
     const usernameRef = useRef(null);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+    
     const handleChange = (event) => {
         callback(event);
     };
@@ -66,6 +70,9 @@ const handleRegister = async () => {
 };
 
 
+
+
+
     return (
     <>
         <TextField 
@@ -82,9 +89,9 @@ const handleRegister = async () => {
             helperText={alertOnUsername ? 'Please enter a valid Username' : ''}
             
             InputProps={{
-                endAdornment: (
+                startAdornment: (
                     alertOnUsername &&
-                  <InputAdornment position="end">
+                  <InputAdornment position="start">
                     <Tooltip placement="top" sx={{ cursor: 'default'  }} title="Your username must be at least 5 characters">
                         <InfoIcon sx={{ color: 'rgba(0, 0, 0, 0.3)' }}/>
                     </Tooltip>
@@ -114,7 +121,7 @@ const handleRegister = async () => {
                 id="registerPassword" 
                 label="Password" 
                 variant="outlined" 
-                type='password'
+                type={showPassword ? 'text' : 'password'}
                 name="password" 
                 onKeyDown={(e) => e.key === 'Enter' && handleRegister()}
                 value={data.password} 
@@ -124,13 +131,24 @@ const handleRegister = async () => {
                 helperText={alertOnPass ? 'Please enter a valid password' : ''}
 
                 InputProps={{
-                    endAdornment: (
+                    startAdornment: (
                         alertOnPass &&
-                      <InputAdornment position="end">
+                      <InputAdornment position="start">
                         <Tooltip placement="top" sx={{ cursor: 'default' }} title="Your password must be at least 5 characters">
                             <InfoIcon sx={{ color: 'rgba(0, 0, 0, 0.3)' }}/>
                         </Tooltip>
                       </InputAdornment>
+                    ),
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={()=>setShowPassword(!showPassword)}
+                                onMouseDown={(event) => event.preventDefault()}
+                            >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
                     ),
                 }}
             />
