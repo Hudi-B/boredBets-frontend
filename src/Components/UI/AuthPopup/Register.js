@@ -47,14 +47,22 @@ const handleRegister = async () => {
         return;
     }
 
-    await axios.post(`${apiUrl}User/UserRegister`, data)
+    axios.post(`${apiUrl}User/UserRegister`, data)
     .then(() => {
         enqueueSnackbar("Successful register, now try to Log in", {
             variant: 'success',
             autoHideDuration: 3000,
             TransitionComponent: Slide,
         });
-        })
+    })
+    .catch((error) => {
+        enqueueSnackbar(error.response.data, {
+            variant: 'error',
+            autoHideDuration: 3000,
+            TransitionComponent: Slide,
+        });
+    });
+
 };
 
 
