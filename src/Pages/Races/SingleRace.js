@@ -28,7 +28,6 @@ function App() {
       .then((response) => {
         
         checkDate(response.data.raceScheduled);
-        console.log(response);
         if (response.data === 0) {
           setNotFoundError(true);
           return;
@@ -56,16 +55,13 @@ if(notFoundError) {
   );
 }
   const checkDate = (raceSceduled) => {
-    console.log("called: "+raceSceduled);
     const dateToCompare = new Date(raceSceduled);
     const currentDate = new Date();
     const currentUTCDate = new Date(currentDate.getTime() + currentDate.getTimezoneOffset() * 60000);
 
     if (dateToCompare > currentDate) {
-      console.log("false");
         setPast(false);
     } else if (dateToCompare < currentUTCDate) {
-        console.log("true");
         setPast(true);
     }
   };
@@ -137,7 +133,6 @@ if(notFoundError) {
   const handleMapOpen = () => {
     if (!pending) {
       const searchString = `${race.track.name} ${race.track.address}`; // Replace with your desired string
-      console.log(searchString);
       const mapUrl = `https://www.google.com/maps/search/?q=${searchString}`;
       window.open(mapUrl, '_blank');
     }
