@@ -117,7 +117,7 @@ useEffect(() => {
 
   return (
     <Box sx={{width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-      <Accordion square='false'sx={{width: '90%',marginX: 'auto', backgroundColor: 'rgba(4, 88, 88, 0.7)', borderRadius:5 }}>
+      <Accordion square='false'sx={{width: '90%', maxWidth: '1000px', marginX: 'auto', backgroundColor: 'rgba(4, 88, 88, 0.7)', borderRadius:5 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon  />}
           aria-controls="panel1-content"
