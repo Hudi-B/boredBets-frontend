@@ -493,7 +493,7 @@ Search bar ↓
         <Grid item xs={12} sm={7}>
           
           <Box sx={{marginTop: 2, display: 'flex', flexDirection: 'column', gap: 2, justifyContent: 'center', alignItems: 'center'}}>
-            <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', }}>
+            <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
               <Pagination
                 page={pageNum}
                 onChange={handlePageChange}

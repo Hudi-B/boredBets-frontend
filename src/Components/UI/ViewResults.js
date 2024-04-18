@@ -39,7 +39,6 @@ useEffect(() => {
     participants.sort((a, b) => a.placement - b.placement);
     setFirstFive(participants.slice(0, 5));
   }, []);
-console.log(firstFive);
   function showHorses() {
     return (
       <Box sx={{display: 'flex', flexDirection: 'column', width: '100%', gap:1}}>

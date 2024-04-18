@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 import BetScrollDownMenu from '../../Components/UI/BetScrollDownMenu';
 import ViewResults from '../../Components/UI/ViewResults';
-
+import NotFound from '../NotFound';
 
 function App() {
   const [raceId, setRaceId] = useState(useLocation().pathname.split("/")[2]); //gets the id of the race asynchronously
@@ -20,36 +20,52 @@ function App() {
   const [pending, setPending] = useState(true);
   const [betAble, setBetAble] = useState(null);
   const [past, setPast] = useState(null);
+  const [notFoundError, setNotFoundError] = useState(false);
+
 
   useEffect(() => {
     axios.get(`${apiUrl}Race/GetByRaceId?Id=`+raceId)
       .then((response) => {
+        
+        checkDate(response.data.raceScheduled);
+        console.log(response);
+        if (response.data === 0) {
+          setNotFoundError(true);
+          return;
+        }
         setBetAble(response.data.betAble);
         setRace({
           raceId: response.data.raceId,
           rain: response.data.rain,
           raceSceduled: response.data.raceScheduled,
           track: response.data.track,
-        }); //calls the checkDate() function to check if the race is in the past or not
+        });
         setParticipants(response.data.participants);
       })
       .catch((error) => {
-        console.log(error);
+        setNotFoundError(true);
       })
       .finally(() => {
         setPending(false);
       });
   }, [raceId]);//on change of raceId calls the api for data on race
 
-
+if(notFoundError) {
+  return (
+    <NotFound />
+  );
+}
   const checkDate = (raceSceduled) => {
+    console.log("called: "+raceSceduled);
     const dateToCompare = new Date(raceSceduled);
     const currentDate = new Date();
     const currentUTCDate = new Date(currentDate.getTime() + currentDate.getTimezoneOffset() * 60000);
 
     if (dateToCompare > currentDate) {
+      console.log("false");
         setPast(false);
     } else if (dateToCompare < currentUTCDate) {
+        console.log("true");
         setPast(true);
     }
   };
@@ -243,8 +259,25 @@ function App() {
         (betAble?
         <BetScrollDownMenu raceId={race.raceId} participants={participants}/>
         :
-        <ViewResults participants={participants}/> 
+        past ? <ViewResults participants={participants}/> : 
+        <Box sx={{
+          marginX: 'auto', 
+          width: '90%', 
+          maxWidth: '1000px',
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: 'rgba(4, 88, 88, 0.7)',
+          borderRadius:'30px', 
+          paddingX: 3,
+          paddingY: 2,
+          }}>
+          <Typography variant="h5">Betting time is over</Typography>
+          <Typography> wait for the outcome, or find a new race to bet on.</Typography>
+        </Box>
       )}
+        
         
 
     </Box >

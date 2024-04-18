@@ -132,7 +132,7 @@ export default function UpcomingRaces({races}) {
         const skeletons = [];
         for (let i = 0; i < 20; i++) {
             skeletons.push(
-            <Skeleton variant="rectangular" sx={{width: '100%', height: '130px', margin:'none', borderRadius:'20px'}} />
+            <Skeleton variant="rectangular" sx={{width: '100%', height: '130px', margin:'none',marginBottom:1, borderRadius:'20px'}} />
             );
         }
         return skeletons;
