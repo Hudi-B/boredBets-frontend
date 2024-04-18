@@ -24,6 +24,8 @@ import ReportRoundedIcon from '@mui/icons-material/ReportRounded';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 
 const theme = createTheme({
@@ -43,6 +45,9 @@ export default function Discover() {
   const [pageNum, setPageNum] = useState(1);
   const [maxPage, setMaxPage] = useState(5);
   const { enqueueSnackbar } = useSnackbar();
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const [userActive, setUserActive] = useState(false);
   const [jockeyActive, setJockeyActive] = useState(false);
@@ -488,9 +493,18 @@ Search bar ↓
         <Grid item xs={12} sm={7}>
           
           <Box sx={{marginTop: 2, display: 'flex', flexDirection: 'column', gap: 2, justifyContent: 'center', alignItems: 'center'}}>
-            <ThemeProvider theme={theme}>
-              <Pagination page={pageNum} onChange={handlePageChange} color='primary' value={pageNum} count={maxPage} showFirstButton showLastButton/>
-            </ThemeProvider>
+            <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', }}>
+              <Pagination
+                page={pageNum}
+                onChange={handlePageChange}
+                color='primary'
+                value={pageNum}
+                count={maxPage}
+                showFirstButton
+                showLastButton
+                size={isSmallScreen ? 'small' : 'medium'}
+              />            
+            </Box>
             {serverError ? 
                 <Avatar className='preventSelect' variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "/images/server_error.png"} /> 
               : 
@@ -518,9 +532,18 @@ Search bar ↓
                 }
                 </Grid>
               }
-            <ThemeProvider theme={theme}>
-              <Pagination page={pageNum} onChange={handlePageChange} color='primary' value={pageNum} count={maxPage} showFirstButton showLastButton />
-            </ThemeProvider>
+            <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', }}>
+              <Pagination
+                page={pageNum}
+                onChange={handlePageChange}
+                color='primary'
+                value={pageNum}
+                count={maxPage}
+                showFirstButton
+                showLastButton
+                size={isSmallScreen ? 'small' : 'medium'}
+              />            
+            </Box>
           </Box>
         </Grid>
       </Grid>
