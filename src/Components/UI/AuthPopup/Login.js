@@ -90,6 +90,7 @@ export default function Login({data, callback}) {
                 id="loginPassword" 
                 label="Password" 
                 variant="outlined" 
+                type='password'
                 name="password" 
                 onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
                 value={data.password} 

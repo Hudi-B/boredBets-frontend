@@ -114,6 +114,7 @@ const handleRegister = async () => {
                 id="registerPassword" 
                 label="Password" 
                 variant="outlined" 
+                type='password'
                 name="password" 
                 onKeyDown={(e) => e.key === 'Enter' && handleRegister()}
                 value={data.password} 
