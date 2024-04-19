@@ -12,6 +12,7 @@ export default function RacesPage() {
     const [present, setPresent] = useState(true);
     const [allPastRaces, setAllPastRaces] = useState([]);
     const [allUpcomingRaces, setAllUpcomingRaces] = useState([]);
+    const [pastRacesPage,setPastRacesPage] = useState(1);
     useEffect(() => {
         axios.get(`${apiUrl}Race/GetAllFutureRaces`)
         .then((response) => {
@@ -29,8 +30,11 @@ export default function RacesPage() {
           });
 
         });
+    }, []);
 
-        axios.get(`${apiUrl}Race/GetAllHappendRaces`)
+    useEffect(() => {
+        console.log("ran");
+        axios.get(`${apiUrl}Race/GetAllHappendRaces?page=`+pastRacesPage)
         .then((response) => {
             setAllPastRaces(response.data);
         })
@@ -45,8 +49,7 @@ export default function RacesPage() {
             });
 
         });
-    }, []);
-
+    }, [pastRacesPage]);
 
 
 const switchButtons = (upcoming) => {
@@ -89,7 +92,7 @@ const switchButtons = (upcoming) => {
             {present?
                 <UpcomingRaces races={allUpcomingRaces}/>
                 :
-                <PastRaces races={allPastRaces}/>}
+                <PastRaces races={allPastRaces} pageNum={pastRacesPage} setPastRacesPage={setPastRacesPage}/>}
         </Stack>
     );
 }

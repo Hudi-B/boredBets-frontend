@@ -1,25 +1,34 @@
 import {useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
-import {Stack, Divider, Grid, Typography, Button, Hidden, Skeleton} from "@mui/material";
+import {Stack, Divider, Grid, Typography, Button, Hidden, Skeleton, Box, Pagination} from "@mui/material";
 import React  from 'react';
 
 import MapIcon from '@mui/icons-material/Map';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
-export default function PastRaces({races}) {
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+
+export default function PastRaces({races, pageNum, setPastRacesPage }) {
     const [firstThree, setFirstThree] = useState([]);
     const [restData, setRestData] = useState([]);   
     const [pending, setPending] = useState(true);
+    const [maxPage, setMaxPage] = useState(5);
     const moment = require('moment');
     const navigate = useNavigate();
-
     const dateFormat = "YYYY MM DD, HH:mm";
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+
     useEffect(() => {
         if (!races || races.length === 0) return; 
         const racesArray = Object.values(races.allHappenedRaces);
 
         setFirstThree(racesArray.slice(0, 3));
         setRestData(racesArray.slice(3));
+        setMaxPage(races.totalPage);
         setPending(false);
     },[races]);
 
@@ -132,6 +141,12 @@ export default function PastRaces({races}) {
         }
         return skeletons;
     }
+
+    const handlePageChange = (event, value) => {
+        setPastRacesPage(value);
+      };
+
+
     return (
         <Stack direction={'column'} sx={{ paddingX: 1, width: '100%', display:'flex',justifyContent: 'center', alignItems: 'center'}} >
             <Stack sx={{
@@ -182,6 +197,18 @@ export default function PastRaces({races}) {
                 borderTopLeftRadius: '40px',
                 }} direction={'column'}>
                 <Typography variant='h4' sx={{fontWeight: '700'}}>All Past Races in register:</Typography>
+                <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                    <Pagination
+                        page={pageNum}
+                        onChange={handlePageChange}
+                        color='primary'
+                        value={pageNum}
+                        count={maxPage}
+                        showFirstButton
+                        showLastButton
+                        size={isSmallScreen ? 'small' : 'medium'}
+                    />            
+                </Box>
                 <Grid container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center', paddingX: 2}}>
                     {pending ? 
                         bigSkeletons() 
@@ -191,6 +218,18 @@ export default function PastRaces({races}) {
                         ))
                     }
                 </Grid>
+                <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                    <Pagination
+                        page={pageNum}
+                        onChange={handlePageChange}
+                        color='primary'
+                        value={pageNum}
+                        count={maxPage}
+                        showFirstButton
+                        showLastButton
+                        size={isSmallScreen ? 'small' : 'medium'}
+                    />            
+                </Box>
             </Stack>
         </Stack>
     );
