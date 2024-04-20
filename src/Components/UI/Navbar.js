@@ -1,5 +1,5 @@
 import AuthPopup from './AuthPopup';
-import {Box, Button, AppBar, Chip, Stack, Hidden} from '@mui/material';
+import {Box, Button, AppBar, Chip, Stack, Hidden, IconButton} from '@mui/material';
 import { useSelector } from 'react-redux';
 import UserIcon from './UserIcon';
 import {Link} from 'react-router-dom';
@@ -9,6 +9,7 @@ import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 
 import HeadsUpButton from './HeadsUpButton';
+import Notifications from './notification';
 
 
 export default function Navbar( {background} ) {
@@ -21,7 +22,10 @@ const RightBoxContent = () => {
     } else if (userData.isLoggedIn) {
       return  (
         <Stack direction={'row'} spacing={1} alignItems={'center'}> 
-          <Chip label={userData.wallet} sx={{ color: 'white'}} />
+          <Hidden mdDown>
+            <Chip label={userData.wallet} sx={{ color: 'white'}} />
+          </Hidden>
+          <Notifications />
           <UserIcon />
         </Stack>
       );
@@ -75,7 +79,6 @@ const RightBoxContent = () => {
                 }
             </Hidden>
         </Box>
-        <HeadsUpButton/>
       {RightBoxContent()}
     </AppBar>
   );

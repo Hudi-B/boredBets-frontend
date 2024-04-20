@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {logout} from '../../auth/authSlice';
 import { clearCookies } from '../../boredLocal';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 export default function UserIcon() {
   const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
@@ -14,6 +15,8 @@ export default function UserIcon() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  
+  console.log(userData);
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -75,7 +78,6 @@ export default function UserIcon() {
               backgroundColor: 'rgb(54, 54, 54)',
               border: '3px solid rgb(54,54,54)',
               }}>
-                  <Typography variant='h6'>{userData.id}</Typography>
               <Button onClick={toUserPage} sx={{flexWrap: 'nowrap'}} variant='contained'>Go to my page</Button>
               <Button onClick={handleLogout} variant='outlined' color='warning'>Log out</Button>
         </Box>
