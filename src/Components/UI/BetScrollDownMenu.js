@@ -10,18 +10,20 @@ import AddIcon from '@mui/icons-material/Add';
 import { useSelector } from 'react-redux';
 import '../../styles/Main.css';
 
+import { useSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
+
 
 
 function PlaceBetPopup({ raceId, participants }) {
   const [selectedItems, setSelectedItems] = useState([]);
   const [restParticipants, setRestParticipants] = useState(participants);
   const [orderedBet, setOrderedBet] = useState(true);
-  const loggedIn = false;
   const [betAmount, setBetAmount] = useState();
   const [openDialog, setOpenDialog] = useState(false);
   const userData = useSelector((state) => state.auth);
   const [errorOnAmount, setErrorOnAmount] = useState(false);
-
+  const { enqueueSnackbar } = useSnackbar();
   const handleToggle = (horse) => () => {
     if (selectedItems.length < 5) {
       const currentIndex = selectedItems.indexOf(horse);
@@ -112,22 +114,34 @@ function PlaceBetPopup({ raceId, participants }) {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-  
   const handleConfirmBet = () => {
-    axios.post({apiUrl}+'UserBet/UserBetPost_XD', {
-      "userId": "userid",
-      "first": selectedItems[0],
-      "second": selectedItems[1],
-      "third": selectedItems[2],
-      "fourth": selectedItems[3],
-      "fifth": selectedItems[4],
-      "raceId": raceId,
-      "betAmount": betAmount,
-      "betTypeId": orderedBet ? 0 : 1
-    }).then((response) => {
+    setOpenDialog(false);
+    const bet = {
+      userId: userData.userId,
+      first: selectedItems[0].horseId,
+      second: selectedItems[1].horseId,
+      third: selectedItems[2].horseId,
+      fourth: selectedItems[3].horseId,
+      fifth: selectedItems[4].horseId,
+      raceId: raceId,
+      betAmount: betAmount,
+      betTypeId: orderedBet ? 0 : 1
+    };
+    console.log(bet);
+    axios.post(apiUrl+'UserBet/UserBetPost', bet )
+    .then((response) => {
       handleClear();
-    }).finally(() => {
-      setOpenDialog(false);
+      enqueueSnackbar("Bet Succesfully placed", {
+        variant: 'success',
+        autoHideDuration: 3000,
+        TransitionComponent: Slide,
+    });
+    }).catch((error) => {
+      enqueueSnackbar("An error occured. Please try again later!", {
+        variant: 'error',
+        autoHideDuration: 3000,
+        TransitionComponent: Slide,
+    });
     })
   };
   
@@ -320,19 +334,26 @@ function PlaceBetPopup({ raceId, participants }) {
                         onClose={handleCloseDialog}
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
+                        sx={{backgroundColor: 'rgba(0,0,0,0.5)'}}
+                        PaperProps={{
+                          sx: {
+                            backgroundColor: 'rgb(40, 120, 90)',
+                            color: 'white',
+                          },
+                        }}
                       >
                         <DialogTitle id="alert-dialog-title">{"Confirm Bet"}</DialogTitle>
                         <DialogContent>
-                          <DialogContentText id="alert-dialog-description">
-                            Are you sure you want to place this bet?
+                          <DialogContentText color={'white'} id="alert-dialog-description">
+                            Are you sure satisfied with this bet?
                           </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                          <Button onClick={handleCloseDialog} color="primary">
-                            Cancel
+                          <Button onClick={handleCloseDialog} color="primary" sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.2)'},textTransform: 'none', color: 'white'}}>
+                            Not yet
                           </Button>
-                          <Button onClick={handleConfirmBet} color="primary" autoFocus>
-                            Confirm
+                          <Button onClick={handleConfirmBet} color="primary" autoFocus sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.2)'},color: 'white'}}>
+                            Yes!
                           </Button>
                         </DialogActions>
                       </Dialog>
