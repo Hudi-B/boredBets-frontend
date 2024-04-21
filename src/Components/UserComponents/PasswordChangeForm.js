@@ -53,15 +53,23 @@ const PasswordChangeForm = ( {open, onClose} ) => {
         }
         setIsLoading(true);
         await axios.put(apiUrl+`User/UpdatePasswordByOldPassword?UserId=` + userId, { oldPassword: oldPassword, newPassword: newPassword })
-        .then((response) => {
-            if (response.status === 401) {
-                enqueueSnackbar('Invalid old password', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
-                return;
-            }
+        .then(() => {
             enqueueSnackbar('Password successfully changed', { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide });
             setTimeout(() => {
                 setIsLoading(false);
             }, 1000);
+            onClose();
+        })
+        .catch((error) => {
+            if (error.response.status === 401) {
+                enqueueSnackbar('Invalid old password', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
+                setIsLoading(false);
+                return;
+            }
+            else {
+                enqueueSnackbar('Something went wrong', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
+                setIsLoading(false);
+            }
         })
     }
 
