@@ -6,9 +6,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 
-import MaleIcon from '@mui/icons-material/Male';
-import FemaleIcon from '@mui/icons-material/Female';
-
 import { enqueueSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 
@@ -80,7 +77,7 @@ export default function App() {
     return formatedDate
   };
 
-
+console.log(data);
   return (
 <Box
       sx={{
@@ -113,7 +110,6 @@ export default function App() {
               }}>
                 <Box sx={{paddingTop: '20px', width: 'fill', display: 'flex', justifyContent: 'space-between'}}>
                   <Typography variant='h5'>{data.username}</Typography>
-                  <Typography variant='h5'>{data.male? <MaleIcon sx={{color: 'blue', fontSize: '40px'}}/> : <FemaleIcon sx={{color: 'blue', fontSize: '40px'}}/>}</Typography>
                 </Box>
                 <Box sx={{marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
                 <Stack sx={{alignItems:'center'}}>

@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, Chip, Grid, Avatar, Button, Divider} from '@mui/material';
+import { Box, Stack, Skeleton, Typography, Chip, Grid, Avatar, Button, Divider} from '@mui/material';
 import { useEffect } from 'react';
 import {useLocation, useNavigate, Link} from 'react-router-dom';
 import { apiUrl } from '../../boredLocal';
@@ -10,6 +10,7 @@ import FemaleIcon from '@mui/icons-material/Female';
 import { enqueueSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 import NotFound from '../NotFound';
+
 
 const Title = styled(Typography)(({ theme }) => ({
   width:'fill',
@@ -193,7 +194,11 @@ export default function App() {
                 marginX: '20px',
               }}>
                 <Box sx={{paddingTop: '20px', width: 'fill', display: 'flex', justifyContent: 'space-between'}}>
+                  {pending? 
+                  <Skeleton variant='rectangular' width={200} height={25} />
+                    : 
                   <Typography variant='h5'>{data.name}</Typography>
+                  }
                   <Typography variant='h5'>{data.isMale? <MaleIcon sx={{color: 'blue', fontSize: '40px'}}/> : <FemaleIcon sx={{color: 'pink', fontSize: '40px'}}/>}</Typography>
                 </Box>
                 <Box sx={{marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
@@ -223,31 +228,47 @@ export default function App() {
               marginTop: '30px'}}>
             <Title>Information:</Title>
               <Grid container spacing={2}>
-                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap', alignItems:'center'}}>
                       <BulletPoint>Age: </BulletPoint>
-                      <DataText>{data.age}y. old</DataText>
+                      {pending? 
+                        <Skeleton variant='rect' width={100} height={20} />
+                        : 
+                        <DataText>{data.age}y. old</DataText>
+                      }
                   </Grid>
-                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap', alignItems:'center'}}>
                       <BulletPoint>Gender:</BulletPoint>
-                      <DataText>{data.isMale? "Male" : "Female"}</DataText>
+                      {pending? 
+                        <Skeleton variant='rect' width={80} height={20} />
+                        : 
+                        <DataText>{data.isMale? "Male" : "Female"}</DataText>
+                      }
                   </Grid>
-                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap', alignItems:'center'}}>
                       <BulletPoint>Represents</BulletPoint>
-                      <DataText>{data.country}</DataText>
+                      {pending? 
+                        <Skeleton variant='rect' width={120} height={20} />
+                        : 
+                        <DataText>{data.country}</DataText>
+                      }
                   </Grid>
-                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap', alignItems:'center'}}>
                       <BulletPoint>{data.isMale?"His ":"Her "}Horse:</BulletPoint>
-                      <DataText 
-                      component={Link}
-                      to={`/Horse/${data.horseId}`}
-                      sx={{
-                        textDecoration: 'none',
-                        paddingX: '10px', 
-                        paddingY: '3px',
-                        cursor: 'pointer', 
-                        backgroundColor: 'rgba(0,0,0,0.15)', 
-                        borderRadius: '5px'}}>
-                        {data.horseName}</DataText>
+                      {pending? 
+                        <Skeleton variant='rect' width={120} height={20} />
+                        : 
+                        <DataText 
+                        component={Link}
+                        to={`/Horse/${data.horseId}`}
+                        sx={{
+                          textDecoration: 'none',
+                          paddingX: '10px', 
+                          paddingY: '3px',
+                          cursor: 'pointer', 
+                          backgroundColor: 'rgba(0,0,0,0.15)', 
+                          borderRadius: '5px'}}>
+                          {data.horseName}</DataText>
+                      }
                   </Grid>
               </Grid>
             

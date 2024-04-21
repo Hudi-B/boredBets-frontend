@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, Chip, Grid, Avatar, Button, Divider } from '@mui/material';
+import { Box, Stack, Skeleton, Typography, Chip, Grid, Avatar, Button, Divider } from '@mui/material';
 import { useEffect } from 'react';
 import {useLocation, useNavigate, Link} from 'react-router-dom';
 import { apiUrl } from '../../boredLocal';
@@ -195,7 +195,11 @@ export default function App() {
                 marginX: '20px',
               }}>
                 <Box sx={{paddingTop: '20px', width: 'fill', display: 'flex', justifyContent: 'space-between'}}>
-                  <Typography variant='h5'>{data.name}</Typography>
+                  {pending? 
+                    <Skeleton variant='rectangular' width={200} height={25} />
+                      : 
+                    <Typography variant='h5'>{data.name}</Typography>
+                  }
                   <Typography variant='h5'>{data.stallion? <MaleIcon sx={{color: 'blue', fontSize: '40px'}}/> : <FemaleIcon sx={{color: 'pink', fontSize: '40px'}}/>}</Typography>
                 </Box>
                 <Box sx={{marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
@@ -227,29 +231,45 @@ export default function App() {
               <Grid container spacing={2}>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                       <BulletPoint>Age: </BulletPoint>
-                      <DataText>{data.age}y. old</DataText>
+                      {pending? 
+                        <Skeleton variant='rect' width={100} height={20} />
+                        : 
+                        <DataText>{data.age}y. old</DataText>
+                      }
                   </Grid>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                       <BulletPoint>Gender:</BulletPoint>
-                      <DataText>{data.stallion? "Stallion" : "Mare"}</DataText>
+                      {pending? 
+                        <Skeleton variant='rect' width={80} height={20} />
+                        : 
+                        <DataText>{data.isMale? "Stallion" : "Mare"}</DataText>
+                      }
                   </Grid>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                       <BulletPoint>Represents</BulletPoint>
-                      <DataText>{data.country}</DataText>
+                      {pending? 
+                        <Skeleton variant='rect' width={120} height={20} />
+                        : 
+                        <DataText>{data.country}</DataText>
+                      }                  
                   </Grid>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                       <BulletPoint>{data.stallion?"His ":"Her "}Jockey:</BulletPoint>
-                      <DataText 
-                      component={Link}
-                      to={`/jockey/${data.jockeyId}`}
-                      sx={{
-                        textDecoration: 'none',
-                        paddingX: '10px', 
-                        paddingY: '3px',
-                        cursor: 'pointer', 
-                        backgroundColor: 'rgba(0,0,0,0.15)', 
-                        borderRadius: '5px'}}>
-                        {data.jockeyName}</DataText>
+                      {pending? 
+                        <Skeleton variant='rect' width={120} height={20} />
+                        : 
+                        <DataText 
+                        component={Link}
+                        to={`/jockey/${data.jockeyId}`}
+                        sx={{
+                          textDecoration: 'none',
+                          paddingX: '10px', 
+                          paddingY: '3px',
+                          cursor: 'pointer', 
+                          backgroundColor: 'rgba(0,0,0,0.15)', 
+                          borderRadius: '5px'}}>
+                          {data.jockeyName}</DataText>
+                      }
                   </Grid>
               </Grid>
             
