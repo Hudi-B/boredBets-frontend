@@ -22,13 +22,19 @@ const TilePaper = styled(Paper)(({ theme }) => ({
     color: 'white',
 }))
 
+const BackgroundBox = styled(Box)(({ theme }) => ({
+    backgroundColor: 'rgb(0, 93, 93)',
+    padding: theme.spacing(3),
+    borderRadius: '5px',
+}))
+
 export default function Cards() {
     const [cardData, setCardData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const userId = useSelector((state) => state.auth.userId);
     const wallet = useSelector((state) => state.auth.wallet);
     const [open, setOpen] = useState(false);
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState('');
     const [selectedCard, setSelectedCard] = useState('None');
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
@@ -90,6 +96,11 @@ export default function Cards() {
             console.log(error);
         })
     }
+
+    const handleDepositChange = (event) => {
+        setAmount(event.target.value);
+        //regex logic
+    }
     
     return (
         <Box sx={{ 
@@ -111,13 +122,16 @@ export default function Cards() {
                 </TilePaper>
                 <TilePaper sx={{ width: '98%' }}>
                     <Box sx={{ padding: '35px', justifyContent: 'center', display: 'flex', color: 'white' }}>
-                        <Stack direction={'row'} spacing={1} sx={{ width: '100%', alignItems: 'center' }}>
-                            <Typography>{wallet}</Typography>
+                        <Stack direction={'row'} spacing={4} sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+                            <BackgroundBox>
+                                <Typography variant="h2">${wallet}</Typography>
+                                <Typography variant="h6">profit placeholder</Typography>
+                            </BackgroundBox>
                             <Stack direction={'column'} spacing={1}>
-                                <Input value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Deposit Amount" startAdornment={<InputAdornment position="start">$</InputAdornment>} />
+                                <Input value={amount} onChange={handleDepositChange} placeholder="Deposit Amount" startAdornment={<InputAdornment position="start">$</InputAdornment>} />
                                 <FormControl>
                                     <Select value={selectedCard} onChange={(e) => setSelectedCard(e.target.value)}>
-                                        <MenuItem value={'None'}>None</MenuItem>
+                                        <MenuItem value={'None'}>Select a card</MenuItem>
                                         {cardData.map((card) => (
                                             <MenuItem key={card.creditcardNum.toString()} value={card.creditcardNum}>{card.cardName}</MenuItem>
                                         ))}
