@@ -1,6 +1,6 @@
-import { Box, Stack, Typography, Chip, Grid, Avatar } from '@mui/material';
+import { Box, Stack, Typography, Chip, Grid, Avatar, Button, Divider} from '@mui/material';
 import { useEffect } from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate, Link} from 'react-router-dom';
 import { apiUrl } from '../../boredLocal';
 import axios from 'axios';
 import { useState } from 'react';
@@ -39,16 +39,20 @@ const DataText = styled(Typography)(({ theme }) => ({
 }))
 
 export default function App() {
-  const [isPrivate, setIsPrivate] = useState(true);
-
   const id = useLocation().pathname.split("/")[2];
   const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
   const [data, setData] = useState({});
   const navigate = useNavigate();
+  const [pending, setPending] = useState(true);
+
+  const moment = require('moment');
+  const dateFormat = "YYYY, MMMM DD.";
+
   useEffect(() => {
     axios.get(`${apiUrl}Jockey/GetJockeyDetailByJockeyId?JockeyId=${id}`)
     .then((response) => {
         setData(response.data);
+        setPending(false);
     })
     .catch((error) => {
       enqueueSnackbar("Error while requesting this jockey's data.", {
@@ -60,19 +64,95 @@ export default function App() {
   }, []);
 
 
+  function showPastRaces() {
+    if(data.past3Races.length > 0){
+      return data.past3Races.map((race) => (
+        <Button key={race.raceId} component={Link} to={`/race/${race.id}`}variant="contained"
+        sx={{ 
+          marginY: '10px',
+          textTransform: 'none',
+          fontSize: '18px',
+          backgroundColor: 'rgba(50,50,50,0.3)',
+          '&:hover': {
+            backgroundColor: 'rgba(50,50,50,0.15)',
+          },
+          width: '95%',
+          boxShadow: '2px 3px 5px 0px rgba(0,0,0,0.5)',
+          
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+          
+          {race.track.name}
+          <Typography sx={{color:'white'}}>{moment(race.raceScheduled).format(dateFormat)}</Typography>
+        </Button>
+      ));
+    }else{
+      return (
+        <Box 
+        sx={{
+          color:'white',
+          paddingX:3,
+          marginY: 1,
+          borderRadius: 3,
+          height: '95%',
+          width: '95%',
+          display:'flex',
+          alignItems:'center',
+          backgroundColor: 'rgba(50,50,50,0.4)',
+        }}>This jockey has not yet participated in any races.
+        </Box>)
+    }
+    
+  }
 
+  function showUpcomingRaces() {
+    if(data.next3Races.length > 0){
+      return data.next3Races.map((race) => (
+          <Button key={race.raceId} component={Link} to={`/race/${race.id}`}variant="outlined"
+          sx={{ 
+            marginY: '10px',
+            textTransform: 'none',
+            borderColor: 'rgba(50,50,50,0.3)',
+            borderWidth: 2,
+            backgroundColor: 'rgba(50,50,50,0.1)',
+            fontSize: '18px',
+            color:'white',
+            width: '95%',
+            display: 'flex',
+            flexDirection: 'column',
+            '&:hover': {
+              backgroundColor: 'rgba(50,50,50,0.3)',
+              borderColor: 'rgba(50,50,50,0.2)',
+              borderWidth: 2,
+            },
+            boxShadow: '2px 3px 5px 0px rgba(0,0,0,0.5)',
+          }}>
+            {race.track.name}
+            <Typography sx={{color:'white'}}>{moment(race.raceScheduled).format(dateFormat)}</Typography>
+          </Button>
+      ));
+    }else{
+      return (
+      <Box 
+      sx={{
+        color:'white',
+        paddingY: 2,
+        paddingX:3,
+        marginY: 1,
+        borderRadius: 3,
+        height: '95%',
+        width: '95%',
+        display:'flex',
+        alignItems:'center',
+        backgroundColor: 'rgba(50,50,50,0.4)',
+      }}>This jockey does not participate in any races at the moment
+      </Box>)
+    }
+    
+  }
 
-  const CustomBulletPoint = styled(({ children, ...props }) => (
-    <BulletPoint {...props}>
-      {children[1]}{children[0]}
-    </BulletPoint>
-  ))`
-    font-weight: bold;
-  `;
-  
-
-      
-
+console.log(data);
   return (
     <Box
       sx={{
@@ -105,20 +185,20 @@ export default function App() {
               }}>
                 <Box sx={{paddingTop: '20px', width: 'fill', display: 'flex', justifyContent: 'space-between'}}>
                   <Typography variant='h5'>{data.name}</Typography>
-                  <Typography variant='h5'>{data.male? <MaleIcon sx={{color: 'blue', fontSize: '40px'}}/> : <FemaleIcon sx={{color: 'blue', fontSize: '40px'}}/>}</Typography>
+                  <Typography variant='h5'>{data.isMale? <MaleIcon sx={{color: 'blue', fontSize: '40px'}}/> : <FemaleIcon sx={{color: 'pink', fontSize: '40px'}}/>}</Typography>
                 </Box>
                 <Box sx={{marginY: 'auto',display: 'flex', justifyContent: 'space-between', paddingX: '20px'}}>
                 <Stack sx={{alignItems:'flex-end'}}>
                   <Typography>
                     Life time races:
                   </Typography>
-                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="123"/>
+                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label={data.raceParticipatedIn}/>
                 </Stack>
                 <Stack sx={{alignItems:'flex-end'}}>
                   <Typography>
                     Average placement:
                   </Typography>
-                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="456"/>
+                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label={data.avgPlacement}/>
                 </Stack>
                 </Box>
 
@@ -140,28 +220,57 @@ export default function App() {
                   </Grid>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                       <BulletPoint>Gender:</BulletPoint>
-                      <DataText>{data.male? "Male" : "Female"}</DataText>
+                      <DataText>{data.isMale? "Male" : "Female"}</DataText>
                   </Grid>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                       <BulletPoint>Represents</BulletPoint>
                       <DataText>{data.country}</DataText>
                   </Grid>
                   <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Horse name:</BulletPoint>
+                      <BulletPoint>{data.isMale?"His ":"Her "}Horse:</BulletPoint>
                       <DataText 
-                      onClick={() => navigate(`/Horse/${data.horseId}`)}
+                      component={Link}
+                      to={`/Horse/${data.horseId}`}
                       sx={{
+                        textDecoration: 'none',
                         paddingX: '10px', 
                         paddingY: '3px',
                         cursor: 'pointer', 
                         backgroundColor: 'rgba(0,0,0,0.15)', 
                         borderRadius: '5px'}}>
-                        csikóu</DataText>
+                        {data.horseName}</DataText>
                   </Grid>
               </Grid>
             
             <Title>History:</Title>
+            <Grid container sx={{width: '100%', paddingBottom: 3, gap: 1}}>
+              <Grid item xs={12} md={5.9} sx={{display:'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection:'column'}}>
+              <Box 
+              sx={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                paddingX: 3,
+                width: '100%',
+              }}
+              >Last 3 races:</Box>
+              <Divider color="black" sx={{ width: '95%'}} />
+                {pending? <></>:showPastRaces()}
+              </Grid>
 
+              <Grid item xs={12} md={5.9} sx={{display:'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection:'column'}}>
+                <Box 
+                sx={{
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  paddingX: 3,
+                  width: '100%',
+                }}
+                >Upcoming 3 races:</Box>
+                <Divider color="black" sx={{ width: '95%'}} />
+                {pending? <></>:showUpcomingRaces()}
+              </Grid>
+
+            </Grid>
           
           </Stack>
         </Stack>

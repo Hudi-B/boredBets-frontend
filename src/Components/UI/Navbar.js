@@ -79,6 +79,7 @@ const RightBoxContent = () => {
                 }
             </Hidden>
         </Box>
+        <HeadsUpButton />
       {RightBoxContent()}
     </AppBar>
   );
