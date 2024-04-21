@@ -349,10 +349,10 @@ function PlaceBetPopup({ raceId, participants }) {
                           </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                          <Button onClick={handleCloseDialog} color="primary" sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.2)'},textTransform: 'none', color: 'white'}}>
+                          <Button onClick={handleCloseDialog} color="primary" sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.1)',boxShadow: '0 0 10px rgb(4, 50,50)'},textTransform: 'none', color: 'white'}}>
                             Not yet
                           </Button>
-                          <Button onClick={handleConfirmBet} color="primary" autoFocus sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.2)'},color: 'white'}}>
+                          <Button onClick={handleConfirmBet} color="primary" autoFocus sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.1)',boxShadow: '0 0 10px rgb(4, 50,50)'},color: 'white'}}>
                             Yes!
                           </Button>
                         </DialogActions>
