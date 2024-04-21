@@ -88,7 +88,7 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
         const skeletons = [];
         for (let i = 0; i < 3; i++) {
             skeletons.push(
-            <Skeleton variant="rectangular" sx={{width: '100%', height: '90px', marginY:'0px', borderRadius:'50px'}} />
+            <Skeleton variant="rectangular" sx={{width: '100%', height: '75px', marginY:'0px', borderRadius:'50px'}} />
             );
         }
         return skeletons;

@@ -1,4 +1,4 @@
-import { Stack, Button} from "@mui/material";
+import { Stack, Box} from "@mui/material";
 import { useEffect, useState } from "react";
 import UpcomingRaces from "./Races/UpcomingRaces";
 import PastRaces from "./Races/PastRaces";
@@ -54,33 +54,35 @@ export default function RacesPage() {
 
 const switchButtons = (upcoming) => {
     return (
-        <Button variant="default" sx={{
+        <Box
+        variant="default"
+        sx={{
             paddingX: 5,
             paddingY: 1,
             paddingTop: 1.4,
             width: '100%', 
-            justifyContent: 'center',
-            alignItems: 'center',
+            textAlign: 'center',
+            fontSize: '20px',
+            textTransform: 'uppercase',
             fontWeight: 'bolder',
-            fontSize: '18px',
             letterSpacing: '3px',
             borderRadius: '0px',
             '&:hover': { //this is only required to keep the buttons color on hover
-                backgroundColor: present === upcoming
+            backgroundColor: present === upcoming
                 ? 'rgba(4, 88, 88, 0.7)'
-                : 'rgba(4, 112, 107, 0.3)'
+                : 'rgba(4, 112, 107, 0.3)',
+            transition: 'background-color 0.3s ease', // Transition effect
             },
-
-            backgroundColor: (present===upcoming?
-                'rgba(4, 88, 88, 0.7)':
-                'rgba(4, 112, 107, 0.3)'
+            backgroundColor: (present === upcoming
+            ? 'rgb(4, 88, 88)'
+            : 'rgb(4, 112, 107)'
             ),
-            }}
-            onClick={() => setPresent(upcoming)}
-            >
-            {upcoming? "Upcoming": "History"}
-        </Button>
-    )
+            transition: 'background-color 0.7s ease', // Transition effect
+        }}
+        onClick={() => setPresent(upcoming)}
+        >
+        {upcoming ? "Upcoming" : "History"}
+        </Box>)
 }
     return (
         <Stack 
@@ -92,7 +94,8 @@ const switchButtons = (upcoming) => {
             {present?
                 <UpcomingRaces races={allUpcomingRaces}/>
                 :
-                <PastRaces races={allPastRaces} pageNum={pastRacesPage} setPastRacesPage={setPastRacesPage}/>}
+                <PastRaces races={allPastRaces} pageNum={pastRacesPage} setPastRacesPage={setPastRacesPage}/>
+            }
         </Stack>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'; 
+import React, { useEffect, useState} from 'react'; 
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
 import {Stack, Tooltip, Paper, Grid, Box, Typography, Button, Hidden, Skeleton} from "@mui/material";
@@ -21,7 +21,6 @@ function App() {
   const [betAble, setBetAble] = useState(null);
   const [past, setPast] = useState(null);
   const [notFoundError, setNotFoundError] = useState(false);
-
 
   useEffect(() => {
     axios.get(`${apiUrl}Race/GetByRaceId?Id=`+raceId)
@@ -149,7 +148,7 @@ if(notFoundError) {
   }
 
   return (
-    <Box sx={{width: '100%', paddingBottom: 10}}>
+    <Box sx={{width: '100%', paddingBottom: 10}} >
       <Box 
         sx={{
           marginBottom: 2,

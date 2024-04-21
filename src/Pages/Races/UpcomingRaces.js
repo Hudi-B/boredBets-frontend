@@ -85,7 +85,7 @@ export default function UpcomingRaces({races}) {
         const skeletons = [];
         for (let i = 0; i < 3; i++) {
             skeletons.push(
-            <Skeleton variant="rectangular" sx={{width: '100%', height: '90px', marginY:'0px', borderRadius:'50px'}} />
+            <Skeleton variant="rectangular" sx={{width: '100%', height: '75px', marginY:'0px', borderRadius:'50px'}} />
             );
         }
         return skeletons;
@@ -190,6 +190,7 @@ export default function UpcomingRaces({races}) {
             marginTop:10,
             borderTopRightRadius: '40px',
             borderTopLeftRadius: '40px',
+            borderBottom: 'none',
             }} 
         direction={'column'}>
             <Typography key={'btc'} variant='h4' sx={{fontWeight: '700'}}>All coming races:</Typography>
