@@ -51,7 +51,7 @@ function App() {
 
 if(notFoundError) {
   return (
-    <NotFound />
+    <NotFound lookedFor={'race'} />
   );
 }
   const checkDate = (raceSceduled) => {

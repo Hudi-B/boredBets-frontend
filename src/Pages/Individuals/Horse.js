@@ -9,7 +9,7 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import { enqueueSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
-import shadows from '@mui/material/styles/shadows';
+import NotFound from '../NotFound';
 
 const Title = styled(Typography)(({ theme }) => ({
   width:'fill',
@@ -45,7 +45,7 @@ export default function App() {
   const [data, setData] = useState({});
   const navigate = useNavigate();
   const [pending, setPending] = useState(true);
-
+  const [notFound, setNotFound] = useState(false);
   const moment = require('moment');
   const dateFormat = "YYYY, MMMM DD.";
 
@@ -54,6 +54,9 @@ export default function App() {
     .then((response) => {
         setData(response.data);
         setPending(false);
+        if(response.data === 0){
+          setNotFound(true);
+        }
     })
     .catch((error) => {
         console.log(error);
@@ -62,6 +65,7 @@ export default function App() {
           autoHideDuration: 3000,
           TransitionComponent: Slide,
         });
+
     })
   }, []);
 
@@ -152,9 +156,14 @@ export default function App() {
       }}>This horse does not participate in any races at the moment
       </Box>)
     }
-    
   }
-      console.log(data);
+
+  if(notFound) {
+    return (
+      <NotFound lookedFor={'horse'} />
+    );
+  }
+
   return (
     <Box
       sx={{

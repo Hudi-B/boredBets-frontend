@@ -77,7 +77,7 @@ function App() {
               </Box>}>
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFound lookedFor={'page'} />} />
             <Route exact path="/discover" element={<Discover />} />
             <Route exact path="/user/:userId" element={<User />} />
             <Route exact path="/jockey/:jockeyId" element={<Jockey />} />

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-export default function NotFound() {
+export default function NotFound({lookedFor}) {
+  console.log(lookedFor);
     return (
         <Box sx={{
             width: '100%',
@@ -21,7 +22,7 @@ export default function NotFound() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center'}} className='preventSelect'>
-                  <Typography variant='h3' textAlign={'center'}>The page you’re looking for doesn’t exist.</Typography>
+                  <Typography variant='h3' textAlign={'center'}>The {lookedFor} you’re looking for doesn’t exist.</Typography>
                   <Typography variant='h2' textAlign={'center'} fontWeight={'800'}>Bet on boredBets</Typography>
               </Box>
         </Box>

@@ -46,6 +46,9 @@ export default function Discover() {
   const [maxPage, setMaxPage] = useState(5);
   const { enqueueSnackbar } = useSnackbar();
 
+
+  console.log(allData);
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
