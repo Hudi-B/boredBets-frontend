@@ -23,7 +23,7 @@ const RightBoxContent = () => {
       return  (
         <Stack direction={'row'} spacing={1} alignItems={'center'}> 
           <Hidden mdDown>
-            <Chip label={userData.wallet} sx={{ color: 'white'}} />
+            <Chip label={'$' + userData.wallet} sx={{ color: 'white'}} />
           </Hidden>
           <Notifications />
           <UserIcon />
