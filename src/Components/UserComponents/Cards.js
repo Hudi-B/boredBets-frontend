@@ -48,7 +48,11 @@ export default function Cards() {
         .catch((error) => {
             console.log(error);
         })
-    }
+    };
+
+    const formatCurrency = (value) => {
+        return value.toLocaleString('en-US', { style: 'currency', currency: 'EUR' });
+    };
 
     const handleOpen = () => {
         setOpen(true);
@@ -124,13 +128,13 @@ export default function Cards() {
                     <Box sx={{ padding: '35px', justifyContent: 'center', display: 'flex', color: 'white' }}>
                         <Stack direction={'row'} spacing={4} sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
                             <BackgroundBox>
-                                <Typography variant="h2">${wallet}</Typography>
+                                <Typography variant="h2">{formatCurrency(wallet)}</Typography>
                                 <Typography variant="h6">profit placeholder</Typography>
                             </BackgroundBox>
-                            <Stack direction={'column'} spacing={1}>
+                            <Stack direction={'column'} spacing={2}>
                                 <Input value={amount} onChange={handleDepositChange} placeholder="Deposit Amount" startAdornment={<InputAdornment position="start">$</InputAdornment>} />
                                 <FormControl>
-                                    <Select value={selectedCard} onChange={(e) => setSelectedCard(e.target.value)}>
+                                    <Select value={selectedCard} variant="standard" onChange={(e) => setSelectedCard(e.target.value)}>
                                         <MenuItem value={'None'}>Select a card</MenuItem>
                                         {cardData.map((card) => (
                                             <MenuItem key={card.creditcardNum.toString()} value={card.creditcardNum}>{card.cardName}</MenuItem>

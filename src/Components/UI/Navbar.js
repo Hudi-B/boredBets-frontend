@@ -15,6 +15,9 @@ import Notifications from './notification';
 export default function Navbar( {background} ) {
   const userData = useSelector((state) => state.auth);
 
+const formatCurrency = (value) => {
+  return value.toLocaleString('en-US', { style: 'currency', currency: 'EUR' });
+};
 
 const RightBoxContent = () => {
     if (userData.isLoggedIn === null) {
@@ -23,7 +26,7 @@ const RightBoxContent = () => {
       return  (
         <Stack direction={'row'} spacing={1} alignItems={'center'}> 
           <Hidden mdDown>
-            <Chip label={'$' + userData.wallet} sx={{ color: 'white'}} />
+            <Chip label={formatCurrency(userData.wallet)} sx={{ color: 'white'}} />
           </Hidden>
           <Notifications />
           <UserIcon />
