@@ -509,7 +509,7 @@ Search bar ↓
               />            
             </Box>
             {serverError ? 
-                <Avatar className='preventSelect' variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "/images/server_error.png"} /> 
+                <Avatar className='preventSelect' key={"btc1"} variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "/images/server_error.png"} /> 
               : 
                 <Grid container display={'flex'} spacing={1}>
                 {!fetching ? 

@@ -28,6 +28,7 @@ export default function UpcomingRaces({races}) {
         setPending(false);
     },[races]);
 
+    console.log(races);
 
     const smallRaceCard = (race) => {
         return (
@@ -85,7 +86,7 @@ export default function UpcomingRaces({races}) {
         const skeletons = [];
         for (let i = 0; i < 3; i++) {
             skeletons.push(
-            <Skeleton variant="rectangular" sx={{width: '100%', height: '75px', marginY:'0px', borderRadius:'50px'}} />
+            <Skeleton variant="rectangular" key={"btc"+i+0.2} sx={{width: '100%', height: '75px', marginY:'0px', borderRadius:'50px'}} />
             );
         }
         return skeletons;
@@ -93,6 +94,7 @@ export default function UpcomingRaces({races}) {
     const bigRaceCard = (race) => {
         return (
             <Grid container 
+            key={race.id}
             item
             lg={5.9}
             xs={12}
@@ -132,7 +134,7 @@ export default function UpcomingRaces({races}) {
         const skeletons = [];
         for (let i = 0; i < 20; i++) {
             skeletons.push(
-            <Skeleton variant="rectangular" sx={{width: '100%', height: '130px', margin:'none',marginBottom:1, borderRadius:'20px'}} />
+            <Skeleton variant="rectangular" key={"btc"+i+0.1} sx={{width: '100%', height: '130px', margin:'none',marginBottom:1, borderRadius:'20px'}} />
             );
         }
         return skeletons;
@@ -140,8 +142,8 @@ export default function UpcomingRaces({races}) {
 
 
     return (
-        <Stack direction={'column'} sx={{ paddingX: 1, width: '100%', display:'flex',justifyContent: 'center', alignItems: 'center'}} >
-            <Stack sx={{
+        <Stack direction={'column'} key={"btc"} sx={{ paddingX: 1, width: '100%', display:'flex',justifyContent: 'center', alignItems: 'center'}} >
+            <Stack key={"btc1"} sx={{
                 width: '85%', 
                 maxWidth: '750px',
                 backgroundColor: 'rgba(4, 88, 88, 0.4)',
@@ -151,10 +153,10 @@ export default function UpcomingRaces({races}) {
                 padding: 3,
                 borderRadius:'30px',
                 marginX: 5}} direction={'column'}>
-            <Typography variant='h4' sx={{fontWeight: '800', letterSpacing: '3px'}}>Upcoming:</Typography>
+            <Typography key={"btc2"} variant='h4' sx={{fontWeight: '800', letterSpacing: '3px'}}>Upcoming:</Typography>
         
-            <Hidden smDown>
-                <Grid container sx={{
+            <Hidden key={"btc3"} smDown>
+                <Grid key={"btc3.1"} container sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -180,7 +182,7 @@ export default function UpcomingRaces({races}) {
         </Stack>
 
 
-        <Stack 
+        <Stack key={"btc5"}
         sx={{
             width: '100%', 
             backgroundColor: 'rgba(4, 88, 88, 0.4)',
