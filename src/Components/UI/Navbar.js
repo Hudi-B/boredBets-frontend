@@ -1,5 +1,5 @@
 import AuthPopup from './AuthPopup';
-import {Box, Button, AppBar, Chip, Stack, Hidden, IconButton, Tooltip} from '@mui/material';
+import {Box, Button, AppBar, Chip, Stack, Hidden, Tooltip} from '@mui/material';
 import { useSelector } from 'react-redux';
 import UserIcon from './UserIcon';
 import {Link} from 'react-router-dom';
@@ -23,7 +23,7 @@ const RightBoxContent = () => {
     } else if (userData.isLoggedIn) {
       return  (
         <Stack direction={'row'} spacing={1} alignItems={'center'}> 
-          <Hidden mdDown>
+          <Hidden smDown>
             <Tooltip title={'Your wallet'}>
               <Chip label={'€' + formattedWallet} icon={<Wallet style={{color: 'white'}}/>} sx={{ color: 'white'}} />
             </Tooltip>

@@ -88,7 +88,7 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
         const skeletons = [];
         for (let i = 0; i < 3; i++) {
             skeletons.push(
-            <Skeleton variant="rectangular" sx={{width: '100%', height: '75px', marginY:'0px', borderRadius:'50px'}} />
+            <Skeleton variant="rectangular" key={"btc"+i+0.1} sx={{width: '100%', height: '75px', marginY:'0px', borderRadius:'50px'}} />
             );
         }
         return skeletons;
@@ -98,6 +98,7 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
         return (
             <Grid container 
             item
+            key={race.id}
             lg={5.9}
             xs={12}
             className='preventSelect'
@@ -136,7 +137,7 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
         const skeletons = [];
         for (let i = 0; i < 20; i++) {
             skeletons.push(
-            <Skeleton variant="rectangular" sx={{width: '100%', height: '130px', margin:'none', borderRadius:'20px'}} />
+            <Skeleton variant="rectangular" key={"btc"+i+0.2} sx={{width: '100%', height: '130px', margin:'none', borderRadius:'20px'}} />
             );
         }
         return skeletons;

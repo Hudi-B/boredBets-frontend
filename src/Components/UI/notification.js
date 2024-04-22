@@ -45,8 +45,8 @@ export default function Notifications() {
 
     return (
     <Box>
-        <IconButton color='inherit'>
-            <Badge badgeContent={notificationNumber} color="primary" onClick={handleOpen}>
+        <IconButton color='inherit' onClick={handleOpen}>
+            <Badge badgeContent={notificationNumber} color="primary">
                 <NotificationsIcon />
             </Badge>
         </IconButton>
