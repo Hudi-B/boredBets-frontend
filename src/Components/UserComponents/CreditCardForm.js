@@ -161,7 +161,7 @@ const CreditCardForm = ({ onClose, onSubmit }) => {
                                     fullWidth
                                     placeholder="My card"
                                     value={name}
-                                    inputProps={{ maxLength: 25 }}
+                                    inputProps={{ maxLength: 20 }}
                                     onChange={(event) => handleNameChange(event)}
                                     sx={{ color: 'white', fontSize: '17px', letterSpacing: '1.5px', caretColor: 'red' }}
                                 />

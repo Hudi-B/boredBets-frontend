@@ -40,6 +40,18 @@ export default function Cards() {
     const dispatch = useDispatch();
 
     const handleDeposit = () => {
+        if (amount <= 4) {
+            enqueueSnackbar("Minimum deposit amount is €5", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+            return;
+        }
+        if (selectedCard === 'None') {
+            enqueueSnackbar("Please select a card", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+            return;
+        }
+        if (amount > 1000) {
+            enqueueSnackbar("Maximum deposit amount is €1000", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+            return;
+        }
         axios.put(apiUrl+`User/UpdateWalletByUserId?UserId=` + userId, { wallet: amount })
         .then(() => {
             enqueueSnackbar("Deposit Successful", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
@@ -102,8 +114,8 @@ export default function Cards() {
     }
 
     const handleDepositChange = (event) => {
-        setAmount(event.target.value);
-        //regex logic
+        const formattedAmount = event.target.value.replace(/[^0-9.]/g, '');
+        setAmount(formattedAmount);
     }
     
     return (
@@ -132,9 +144,9 @@ export default function Cards() {
                                 <Typography variant="h6">profit placeholder</Typography>
                             </BackgroundBox>
                             <Stack direction={'column'} spacing={2}>
-                                <Input value={amount} onChange={handleDepositChange} placeholder="Deposit Amount" startAdornment={<InputAdornment position="start">$</InputAdornment>} />
+                                <Input value={amount} onChange={handleDepositChange} placeholder="Deposit Amount" startAdornment={<InputAdornment position="start" style={{ color: 'white' }}>€</InputAdornment>} sx={{ color: 'white' }}/>
                                 <FormControl>
-                                    <Select value={selectedCard} variant="standard" onChange={(e) => setSelectedCard(e.target.value)}>
+                                    <Select value={selectedCard} variant="standard" onChange={(e) => setSelectedCard(e.target.value)} sx={{ color: 'white' }}>
                                         <MenuItem value={'None'}>Select a card</MenuItem>
                                         {cardData.map((card) => (
                                             <MenuItem key={card.creditcardNum.toString()} value={card.creditcardNum}>{card.cardName}</MenuItem>
