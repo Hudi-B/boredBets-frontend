@@ -114,7 +114,7 @@ export default function Cards() {
     }
 
     const handleDepositChange = (event) => {
-        const formattedAmount = event.target.value.replace(/[^0-9.]/g, '');
+        const formattedAmount = event.target.value.replace(/[^0-9]/g, '');
         setAmount(formattedAmount);
     }
     
