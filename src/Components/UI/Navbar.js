@@ -1,5 +1,5 @@
 import AuthPopup from './AuthPopup';
-import {Box, Button, AppBar, Chip, Stack, Hidden, IconButton} from '@mui/material';
+import {Box, Button, AppBar, Chip, Stack, Hidden, IconButton, Tooltip} from '@mui/material';
 import { useSelector } from 'react-redux';
 import UserIcon from './UserIcon';
 import {Link} from 'react-router-dom';
@@ -7,26 +7,26 @@ import Hamburger from './HamburgerMenu';
 import StadiumRoundedIcon from '@mui/icons-material/StadiumRounded';
 import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
+import numeral from 'numeral';
 
 import HeadsUpButton from './HeadsUpButton';
 import Notifications from './notification';
-
+import { Wallet } from '@mui/icons-material';
 
 export default function Navbar( {background} ) {
   const userData = useSelector((state) => state.auth);
 
-const formatCurrency = (value) => {
-  return value.toLocaleString('en-US', { style: 'currency', currency: 'EUR' });
-};
-
 const RightBoxContent = () => {
+    const formattedWallet = (userData.wallet >= 1000) ? numeral(userData.wallet).format('0.0a') : numeral(userData.wallet).format('0,0');
     if (userData.isLoggedIn === null) {
       return null;
     } else if (userData.isLoggedIn) {
       return  (
         <Stack direction={'row'} spacing={1} alignItems={'center'}> 
           <Hidden mdDown>
-            <Chip label={formatCurrency(userData.wallet)} sx={{ color: 'white'}} />
+            <Tooltip title={'Your wallet'}>
+              <Chip label={'€' + formattedWallet} icon={<Wallet style={{color: 'white'}}/>} sx={{ color: 'white'}} />
+            </Tooltip>
           </Hidden>
           <Notifications />
           <UserIcon />
