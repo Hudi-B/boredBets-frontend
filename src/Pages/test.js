@@ -19,7 +19,7 @@ const ImageUploader = () => {
 
     const apiKey = '79e36beafc907dce47452c2429ca5592';
 
-    axios.post(`https://api.imgbb.com/1/upload?expiration=600&key=${apiKey}`, imageFormData)
+    axios.post(`https://api.imgbb.com/1/upload?&key=${apiKey}`, imageFormData)
       .then((response) => {
         setImage(response.data.data.display_url);
         console.log(response.data.data.display_url);
