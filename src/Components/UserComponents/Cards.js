@@ -34,25 +34,46 @@ export default function Cards() {
     const userId = useSelector((state) => state.auth.userId);
     const wallet = useSelector((state) => state.auth.wallet);
     const [open, setOpen] = useState(false);
-    const [amount, setAmount] = useState('');
-    const [selectedCard, setSelectedCard] = useState('None');
+    const [depositAmount, setDepositAmount] = useState('');
+    const [withdrawAmount, setWithdrawAmount] = useState('');
+    const [selectedDepositCard, setSelectedDepositCard] = useState('None');
+    const [selectedWithdrawCard, setSelectedWithdrawCard] = useState('None');
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
 
     const handleDeposit = () => {
-        if (amount <= 4) {
+        if (depositAmount <= 4) {
             enqueueSnackbar("Minimum deposit amount is €5", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
             return;
         }
-        if (selectedCard === 'None') {
-            enqueueSnackbar("Please select a card", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+        if (selectedDepositCard === 'None') {
+            enqueueSnackbar("Please select a card to deposit from", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
             return;
         }
-        if (amount > 1000) {
+        if (depositAmount > 1000) {
             enqueueSnackbar("Maximum deposit amount is €1000", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
             return;
         }
-        axios.put(apiUrl+`User/UpdateWalletByUserId?UserId=` + userId, { wallet: amount })
+        axios.put(apiUrl+`User/UpdateWalletByUserId?UserId=` + userId, { creditCard: selectedDepositCard, wallet: depositAmount })
+        .then(() => {
+            enqueueSnackbar("Deposit Successful", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
+            fetchWallet();
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    };
+
+    const handleWithdraw = () => {
+        if (selectedWithdrawCard === 'None') {
+            enqueueSnackbar("Please select a card to withdraw to", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+            return;
+        }
+        if (withdrawAmount > wallet) {
+            enqueueSnackbar("Not enough funds in wallet", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+            return;
+        }
+        axios.put(apiUrl+`User/UpdateWalletByUserId?UserId=` + userId, { creditCard: selectedWithdrawCard, wallet: -Math.abs(withdrawAmount) })
         .then(() => {
             enqueueSnackbar("Deposit Successful", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
             fetchWallet();
@@ -115,7 +136,12 @@ export default function Cards() {
 
     const handleDepositChange = (event) => {
         const formattedAmount = event.target.value.replace(/[^0-9]/g, '');
-        setAmount(formattedAmount);
+        setDepositAmount(formattedAmount);
+    }
+
+    const handleWithdrawChange = (event) => {
+        const formattedAmount = event.target.value.replace(/[^0-9]/g, '');
+        setWithdrawAmount(formattedAmount);
     }
     
     return (
@@ -130,10 +156,10 @@ export default function Cards() {
             overflowY: ''}}
         >
             <Stack direction={'column'} spacing={1} sx={{ width: '100%', alignItems: 'center' }}>
-                <TilePaper>
-                    <Stack direction={'row'} justifyContent={'space-between'}>
-                        <Typography variant="h5">Balance:</Typography>
-                        <Chip label="Finish" icon={<AddIcon style={{ color: 'white' }} />} style={{ color: 'white' }} onClick={() => {handleDeposit()}} />
+                <TilePaper sx={{ textAlign: 'left' }}>
+                    <Stack direction={'row'} spacing={0} sx={{ width: '100%', alignItems: 'center' }}>
+                        <AddIcon style={{ color: 'white' }} />
+                        <Typography variant="h5">Balance</Typography>
                     </Stack>
                 </TilePaper>
                 <TilePaper sx={{ width: '98%' }}>
@@ -143,24 +169,38 @@ export default function Cards() {
                                 <Typography variant="h2">{formatCurrency(wallet)}</Typography>
                                 <Typography variant="h6">profit placeholder</Typography>
                             </BackgroundBox>
-                            <Stack direction={'column'} spacing={2}>
-                                <Input value={amount} onChange={handleDepositChange} placeholder="Deposit Amount" startAdornment={<InputAdornment position="start" style={{ color: 'white' }}>€</InputAdornment>} sx={{ color: 'white' }}/>
-                                <FormControl>
-                                    <Select value={selectedCard} variant="standard" onChange={(e) => setSelectedCard(e.target.value)} sx={{ color: 'white' }}>
-                                        <MenuItem value={'None'}>Select a card</MenuItem>
-                                        {cardData.map((card) => (
-                                            <MenuItem key={card.creditcardNum.toString()} value={card.creditcardNum}>{card.cardName}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                                <Button variant="contained" onClick={() => handleDeposit()}>Deposit</Button>
+                            <Stack direction={'row'} spacing={3}>
+                                <Stack direction={'column'} spacing={3}>
+                                    <Input value={depositAmount} onChange={handleDepositChange} placeholder="Deposit Amount" startAdornment={<InputAdornment position="start" style={{ color: 'white' }}>€</InputAdornment>} sx={{ color: 'white' }} inputProps={{ maxLength: 4 }}/>
+                                    <FormControl>
+                                        <Select value={selectedDepositCard} variant="standard" onChange={(e) => setSelectedDepositCard(e.target.value)} sx={{ color: 'white' }}>
+                                            <MenuItem value={'None'}>Select a card</MenuItem>
+                                            {cardData.map((card) => (
+                                                <MenuItem key={card.creditcardNum.toString()} value={card.creditcardNum}>{card.cardName}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                    <Button variant="contained" onClick={() => handleDeposit()}>Deposit</Button>
+                                </Stack>
+                                <Stack direction={'column'} spacing={3}>
+                                <Input value={withdrawAmount} onChange={handleWithdrawChange} placeholder="Withdraw Amount" startAdornment={<InputAdornment position="start" style={{ color: 'white' }}>€</InputAdornment>} sx={{ color: 'white' }} inputProps={{ maxLength: 4 }}/>
+                                    <FormControl>
+                                        <Select value={selectedWithdrawCard} variant="standard" onChange={(e) => setSelectedWithdrawCard(e.target.value)} sx={{ color: 'white' }}>
+                                            <MenuItem value={'None'}>Select a card</MenuItem>
+                                            {cardData.map((card) => (
+                                                <MenuItem key={card.creditcardNum.toString()} value={card.creditcardNum}>{card.cardName}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                    <Button variant="contained" onClick={() => handleWithdraw()}>Withdraw</Button>
+                                </Stack>
                             </Stack>
                         </Stack>
                     </Box>
                 </TilePaper>
                 <TilePaper>
                     <Stack direction={'row'} justifyContent={'space-between'}>
-                        <Typography variant="h5">Manage your cards:</Typography>
+                        <Typography variant="h5">Manage your cards</Typography>
                         <Chip label="Add" icon={<AddIcon style={{ color: 'white' }} />} style={{ color: 'white' }} onClick={handleOpen} />
                     </Stack>
                 </TilePaper>
