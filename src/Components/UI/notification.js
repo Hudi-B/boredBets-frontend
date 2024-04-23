@@ -1,47 +1,109 @@
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { IconButton, Popover, Box, Badge, Typography, Divider } from '@mui/material';
+import { IconButton, Popover, Box, Paper, Badge, Typography, Divider } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { apiUrl } from '../../boredLocal';
+import axios from 'axios';
+
+import { enqueueSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 
 export default function Notifications() {
     const [anchorEl, setAnchorEl] = useState(null);
     const userData = useSelector((state) => state.auth);
     const [notifications, setNotifications] = useState([]);
     const [notificationNumber, setNotificationNumber] = useState(3);
+    const [seen, setSeen] = useState(false);
+    const [pending, setPending] = useState(true);
+
+    const notificationss = [
+        {
+          id: 'abc123',
+          userId: 'xyz789',
+          source: 'bet',
+          raceDate: '2024-05-01',
+          created: '2024-04-23T09:00:00'
+        },
+        {
+          id: 'def456',
+          userId: 'xyz789',
+          source: 'wallet',
+          created: '2024-04-23T10:30:00'
+        },
+        {
+          id: 'ghi789',
+          userId: 'abc456',
+          source: 'bet',
+          raceDate: '2024-05-03',
+          created: '2024-04-23T11:45:00'
+        }
+      ];
+
     useEffect(() => {
-        setNotifications([
-            {
-                id: 1,
-                title: 'Match concluded',
-                body: 'Your bet on "Match 1" has been concluded, click here to check out the results.',
-            },
-            {
-                id: 2,
-                title: 'Notification Title 2',
-                body: 'Notification Body 2',
-            },
-            {
-                id: 3,
-                title: 'Notification Title 3',
-                body: 'Notification Body 3',
-            },
-        ]);
-    },[])
-    const handleOpen = (event) => {
-        /*axios.get(apiUrl+`user/getUserNotifications?userId=` + userId)
+        axios.get(apiUrl+`user/getUserNotifications?userId=` + userData.id)
         .then(response => {
             setNotifications(response.data);
+            setNotificationNumber(response.data.length);
+            console.log(response.data);
+            setPending(false);
         }).catch(error => {
             console.log(error);
-        })*/
+            enqueueSnackbar("Error while accessing your notifications.", {
+                variant: 'error',
+                autoHideDuration: 3000,
+                TransitionComponent: Slide,
+              });
+        })
+    },[])
+    const handleOpen = (event) => {
         setAnchorEl(event.currentTarget);
       };
     
       const handleClose = () => {
-        setAnchorEl(null);
-        setNotificationNumber(0);
+        setAnchorEl(false);
+        setSeen(true);
       };
+useEffect(() => {
+  if (seen) {
+    setTimeout(() => {
+        setNotificationNumber(0);
+      }, 500);
+  }
+}, [anchorEl]);
+
+    const writeNotification = (notification) => {
+        switch (notification.source) {
+          case 'bet':
+            return (
+            <Box key={notification.id} sx={{textDecoration: 'none', color: 'white'}}>
+                <Typography sx={{fontWeight: '600'}} className='preventSelect'>
+                    Betting
+                </Typography>
+                <Typography className='preventSelect'>
+                    Your bet on {notification.raceDate} race has concluded. Check out the results in your profile's betting history.
+                </Typography>
+                <Divider color="white" />
+            </Box>)
+
+        case 'wallet':
+            return (
+                <Box key={notification.id} sx={{textDecoration: 'none', color: 'white'}}>
+                    <Typography sx={{fontWeight: '600'}} className='preventSelect'>
+                        Wallet
+                    </Typography>
+                    <Typography className='preventSelect'>
+                        Your wallet could use a refill! Why not add some funds to keep it happy?
+                    </Typography>
+                    <Divider color="white" />
+                </Box>)
+            
+          default:
+            console.log(notification);
+            break;
+        }
+    }
+
 
     return (
     <Box>
@@ -52,7 +114,7 @@ export default function Notifications() {
         </IconButton>
         <Popover
             open={Boolean(anchorEl)}
-            elevation={5}
+            elevation={20}
             anchorEl={anchorEl}
             onClose={handleClose}
             anchorOrigin={{
@@ -70,7 +132,7 @@ export default function Notifications() {
                 },
             }}
         >
-            <Box sx={{
+            <Paper sx={{
                 display: 'flex', 
                 flexDirection: 'column', 
                 padding: '10px',
@@ -80,18 +142,14 @@ export default function Notifications() {
                 backgroundColor: 'rgb(54, 54, 54)',
                 border: '3px solid rgb(54,54,54)',
               }}>
-                {notifications.map((notification) => (
-                    <Box key={notification.id} sx={{textDecoration: 'none', color: 'white'}} component={Link} to={`/myPage/bets/${notification.id}`}>
-                        <Typography sx={{fontWeight: '600'}} className='preventSelect'>
-                            {notification.title}
-                        </Typography>
-                        <Typography className='preventSelect'>
-                            {notification.body}
-                        </Typography>
-                    <Divider color="white" />
-                    </Box>
-                ))}
-            </Box>
+                {notificationNumber === 0 ? 
+                    <Typography sx={{color:'white', marginY:1, marginX:5}}>No new notifications.</Typography> 
+                    :
+                    notificationss.map((notification) => (
+                        writeNotification(notification)
+                    ))
+                }
+            </Paper>
       </Popover>
     </Box>
     );

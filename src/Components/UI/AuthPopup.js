@@ -74,6 +74,7 @@ export default function AuthPopup({itsALogin}) {
                     width: fullscreen? '100%' : '450px',
                     maxWidth: '100%',
                     height: fullscreen? '100%' : '600px',
+                    overflow: 'auto',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'flex-start',
