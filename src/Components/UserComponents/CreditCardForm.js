@@ -101,7 +101,7 @@ const CreditCardForm = ({ onClose, onSubmit }) => {
 
     const handleHolderChange = (event) => {
         const inputValue = event.target.value;
-        const formattedValue = inputValue.toUpperCase().replace(/[^A-Z\s]/g, '');
+        const formattedValue = inputValue.toUpperCase().replace(/[^A-Z\s\u00C0-\u02AF]/gi, '');
         setHolder(formattedValue);
     }
 
