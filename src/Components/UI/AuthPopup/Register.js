@@ -7,11 +7,14 @@ import { TextField, Box, Button, InputAdornment, Tooltip, IconButton } from '@mu
 import InfoIcon from '@mui/icons-material/Info';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CircularProgress from '@mui/material/CircularProgress';
+
 export default function Register({data, callback}) {
     const [alertOnEmail, setAlertOnEmail] = React.useState(false);
     const [alertOnUsername, setAlertOnUsername] = React.useState(false);
     const [alertOnPass, setAlertOnPass] = React.useState(false);
     const [showPassword, setShowPassword] = React.useState(false);
+    const [pending, setPending] = React.useState(false);
     const usernameRef = useRef(null);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
@@ -50,7 +53,7 @@ const handleRegister = async () => {
         passwordRef.current.focus();
         return;
     }
-
+    setPending(true);
     axios.post(`${apiUrl}User/UserRegister`, data)
     .then(() => {
         enqueueSnackbar("Successful register, now try to Log in", {
@@ -65,7 +68,9 @@ const handleRegister = async () => {
             autoHideDuration: 3000,
             TransitionComponent: Slide,
         });
-    });
+    }).finally(() => {
+        setPending(false);
+    })
 
 };
 
@@ -152,8 +157,8 @@ const handleRegister = async () => {
                     ),
                 }}
             />
-            <Button variant='contained' sx={{ height: 55, width: 55 }} className='doitButton' onClick={handleRegister}>
-                Go
+            <Button variant='contained' disabled={pending} sx={{ height: 55, width: 55 }} className='doitButton' onClick={handleRegister}>
+            {pending? <CircularProgress color="inherit" size={30} /> : 'Go'}
             </Button>
         </Box>
     </>

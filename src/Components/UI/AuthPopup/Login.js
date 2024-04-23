@@ -11,10 +11,13 @@ import {InputAdornment, IconButton} from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+import CircularProgress from '@mui/material/CircularProgress';
+
 export default function Login({data, callback}) {
     const [alertOnLogin, setAlertOnLogin] = React.useState(false);
     const [showPassword, setShowPassword] = React.useState(false);
     const [alertOnPass, setAlertOnPass] = React.useState(false);
+    const [pending, setPending] = React.useState(false);
 
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
@@ -41,7 +44,7 @@ export default function Login({data, callback}) {
         passwordRef.current.focus();
         return;
     }
-
+        setPending(true);
         try {
             const response = await axios.post(`${apiUrl}User/UserLogin`, {
                 emailOrUsername: temp,
@@ -62,6 +65,7 @@ export default function Login({data, callback}) {
                 TransitionComponent: Slide,
             });
         }
+        setPending(false);
     };
 
     const handleChange = (event) => {
@@ -119,8 +123,8 @@ export default function Login({data, callback}) {
                     ),
                 }}
             />
-            <Button variant='contained' sx={{ height: 55, width: 55 }} onClick={handleLogin}>
-                Go
+            <Button variant='contained' disabled={pending} sx={{ height: 55, width: 55 }} onClick={handleLogin}>
+                {pending? <CircularProgress color="inherit" size={30} /> : 'Go'}
             </Button>
         </Box>
         <Box display="flex" justifyContent="space-between">
