@@ -79,7 +79,7 @@ export default function First() {
                 justifyContent: 'center', 
                 display: 'flex',
                 alignItems: 'center'}}>
-                  <Avatar variant='square' sx={{width: '100%', height: 'auto', maxWidth: '500px' }} />
+                  <Avatar className='preventSelect' variant='square' src="https://i.ibb.co/Fm35JQP/papagh-j.jpg" sx={{width: '100%', height: 'auto', maxWidth: '500px', borderRadius:3 }} />
               </Grid>
 
               <Grid item xs={10} md={5} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -87,7 +87,6 @@ export default function First() {
                 elevation={10}
                 sx={{
                   width: '100%',
-                  backgroundColor: '',
                   height: 'fit-content',
                   display: 'flex', 
                   flexDirection: 'column', 
@@ -99,12 +98,11 @@ export default function First() {
                   maxWidth: '600px',
                   borderRadius: 4,
                   backgroundColor: 'rgba(0,0,0,0.3)'}}>
-                    <Typography sx={{width: '100%', textAlign: 'flex-start', color: 'rgb(220,220,220)', margin:0.5}} fontWeight={'800'}>Fictopia</Typography>
+                    <Typography sx={{width: '100%', textAlign: 'flex-start', color: 'rgb(220,220,220)', margin:0.5}} fontWeight={'800'}>Upcoming races:</Typography>
                   {comingRaces.map((race) => (
                     comingRaceBox(race)
                   ))}
                 </Paper>
-                  
               </Grid>
         </Grid>
     );

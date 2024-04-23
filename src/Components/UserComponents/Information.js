@@ -261,7 +261,7 @@ export default function Information() {
                             <Divider>
                                 <Chip label="Date of birth" size="small" sx={{color: 'white'}}/>
                             </Divider>
-                            <Typography variant="subtitle1">{ userData.birthDate }</Typography>
+                            <Typography variant="subtitle1">{ userData.birthDate.slice(0, userData.birthDate.indexOf("T")) }</Typography>
                             <Divider>
                                 <Chip label="Phone number" size="small" sx={{color: 'white'}}/>
                             </Divider>
