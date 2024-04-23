@@ -24,6 +24,7 @@ const NotFound = lazy(() => import('./Pages/NotFound'));
 const User = lazy(() => import('./Pages/Individuals/User'));
 const Jockey = lazy(() => import('./Pages/Individuals/Jockey'));
 const Horse = lazy(() => import('./Pages/Individuals/Horse'));
+const Test = lazy(() => import('./Pages/test'));
 
 
 function App() {
@@ -78,6 +79,9 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="*" element={<NotFound lookedFor={'page'} />} />
+
+            <Route exact path="/test" element={<Test />} />
+
             <Route exact path="/discover" element={<Discover />} />
             <Route exact path="/user/:userId" element={<User />} />
             <Route exact path="/jockey/:jockeyId" element={<Jockey />} />
