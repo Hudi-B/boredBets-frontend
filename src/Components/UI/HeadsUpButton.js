@@ -16,7 +16,7 @@ export default function HeadsUpButton() {
     
         try {
           //await axios.get(`https://localhost:7090/HeadsUp`);
-          await axios.get(`https://boredbetsapidev.azurewebsites.net/headsUp`);
+          await axios.get(`https://boredbetsapidev.azurewebsites.net/HeadsUp`);
         } 
         finally {
             setPending(false);

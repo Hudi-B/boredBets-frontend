@@ -16,7 +16,6 @@ const ImageUploader = () => {
     if (!imageFormData) {
       return;
     }
-
     const apiKey = '79e36beafc907dce47452c2429ca5592';
 
     axios.post(`https://api.imgbb.com/1/upload?&key=${apiKey}`, imageFormData)

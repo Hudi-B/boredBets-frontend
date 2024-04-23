@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Box,Dialog, Stack, Paper, Hidden } from '@mui/material';
+import { Button, Box,Dialog, Stack, Paper, Hidden, Avatar } from '@mui/material';
 import Login from './AuthPopup/Login';
 import Register from './AuthPopup/Register';
 import CloseIcon from '@mui/icons-material/Close';
@@ -97,22 +97,8 @@ export default function AuthPopup({itsALogin}) {
                             <CloseIcon sx={{fontSize: '50px', color: 'rgb(50, 50, 50)'}}/>
                         </Button>
                         }
-                        <Box sx={{
-                            display: 'flex', 
-                            justifyContent: 'center',
-                            alignItems: 'center', 
-                            backgroundColor: 'rgb(50, 50, 50)', 
-                            minHeight: '200px',
-                            color: 'white',
-                            fontSize: '60px',
-                            letterSpacing: '10px',
-                            fontWeight: 'bold',
-                            borderRadius: '30px',
-                            marginBottom: '10px',
-                            marginTop: fullscreen? '15vh' : '0px',
-                            }}>
-                            Logo
-                        </Box>
+                        <Avatar variant='rounded' sx={{width: '100%', height: 'auto', marginY:7, marginTop: fullscreen? '15vh' : 5,}} src={process.env.PUBLIC_URL + "/images/banner.png"} />
+
                         <Stack sx={{gap: 1}}>
                             <Box display="flex" justifyContent="center" gap={1} marginBottom={1}>
                                 
