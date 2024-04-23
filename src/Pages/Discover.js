@@ -431,6 +431,7 @@ Search bar ↓
               icon={<PersonIcon />} 
               label="Users" 
               onDelete={() => handleChipClick("User")}
+              onClick={() => handleChipClick("User")}
               deleteIcon={userActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
                 
             <Box sx={{ color: 'rgb(240, 240, 240)', display: 'flex', flexDirection: 'column', gap: 0}}>
@@ -448,6 +449,7 @@ Search bar ↓
               icon={<FontAwesomeIcon icon={faHorseHead} />} 
               label="Horses"
               onDelete={() => handleChipClick("Horse")}
+              onClick={() => handleChipClick("Horse")}
               deleteIcon={horseActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
 
             <Box color={'rgb(240, 240, 240)'} sx={{ display: 'flex', flexDirection: 'column', gap: 0, }}>
@@ -472,6 +474,7 @@ Search bar ↓
               icon={<FontAwesomeIcon icon={faHelmetSafety}/>} 
               label="Jockeys" 
               onDelete={() => handleChipClick("Jockey")}
+              onClick={() => handleChipClick("Jockey")}
               deleteIcon={jockeyActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
 
             <Box sx={{ color: 'rgb(240, 240, 240)', display: 'flex', flexDirection: 'column', gap: 0}}>
