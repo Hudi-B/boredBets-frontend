@@ -13,39 +13,19 @@ export default function Notifications() {
     const [anchorEl, setAnchorEl] = useState(null);
     const userData = useSelector((state) => state.auth);
     const [notifications, setNotifications] = useState([]);
-    const [notificationNumber, setNotificationNumber] = useState(3);
+    const [notificationNumber, setNotificationNumber] = useState(0);
     const [seen, setSeen] = useState(false);
     const [pending, setPending] = useState(true);
+    
+    const moment = require('moment');
+    const dateFormat = "MMMM DD. HH:mm";
 
-    const notificationss = [
-        {
-          id: 'abc123',
-          userId: 'xyz789',
-          source: 'bet',
-          raceDate: '2024-05-01',
-          created: '2024-04-23T09:00:00'
-        },
-        {
-          id: 'def456',
-          userId: 'xyz789',
-          source: 'wallet',
-          created: '2024-04-23T10:30:00'
-        },
-        {
-          id: 'ghi789',
-          userId: 'abc456',
-          source: 'bet',
-          raceDate: '2024-05-03',
-          created: '2024-04-23T11:45:00'
-        }
-      ];
 
     useEffect(() => {
-        axios.get(apiUrl+`user/getUserNotifications?userId=` + userData.id)
+        axios.get(apiUrl+`Notifications/GetAllUnseenNotificationsByUserId?UserId=` + userData.userId)
         .then(response => {
             setNotifications(response.data);
             setNotificationNumber(response.data.length);
-            console.log(response.data);
             setPending(false);
         }).catch(error => {
             console.log(error);
@@ -81,7 +61,7 @@ useEffect(() => {
                     Betting
                 </Typography>
                 <Typography className='preventSelect'>
-                    Your bet on {notification.raceDate} race has concluded. Check out the results in your profile's betting history.
+                    Your bet on {moment(notification.raceDate).format(dateFormat)} race has concluded.
                 </Typography>
                 <Divider color="white" />
             </Box>)
@@ -142,13 +122,10 @@ useEffect(() => {
                 backgroundColor: 'rgb(54, 54, 54)',
                 border: '3px solid rgb(54,54,54)',
               }}>
-                {notificationNumber === 0 ? 
-                    <Typography sx={{color:'white', marginY:1, marginX:5}}>No new notifications.</Typography> 
-                    :
-                    notificationss.map((notification) => (
-                        writeNotification(notification)
-                    ))
-                }
+                
+                {notifications.map((notification) => (
+                    writeNotification(notification)
+                ))}
             </Paper>
       </Popover>
     </Box>
