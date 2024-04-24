@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Divider, Input, Select, Dialog, DialogContent, InputAdornment } from '@mui/material';
+import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Divider, Input} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
@@ -16,6 +16,7 @@ import ChecklistIcon from '@mui/icons-material/Checklist';
 import PortraitIcon from '@mui/icons-material/Portrait';
 import EditIcon from '@mui/icons-material/Edit';
 import PasswordChangeForm from './PasswordChangeForm';
+import ChangeImage from './ChangeImage';
 
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '100%',
@@ -115,13 +116,53 @@ export default function Information() {
         margin: '0px', 
         overflowY: ''}}
         >
-            <Grid container spacing={2} sx={{width: '100%'}}>
-                <Grid item md={8}>
+            <Grid container spacing={2} sx={{width: '100%', justifyContent: 'center', flexDirection: 'row-reverse'}}>
+                <Grid item xs={12} sm={10} md={4}>
+                    <Stack direction="column" spacing={2}>
+
+                        <TilePaper centered sx={{alignItems: 'center', justifyContent: 'center'}}>
+                            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: '20px'}}>
+                                <Box sx={{width: '100px', height: '100px',position: 'relative'}}>
+                                    <Avatar sx={{width: '100%', height: '100%', fontSize: '100px'}} />
+                                    <ChangeImage userId={userId}/>
+                                </Box>
+                            </Box>
+                            <Typography variant="h6">UserID:</Typography>
+                            <Typography variant="subtitle1">{ userId }</Typography>
+                        </TilePaper>
+
+                        <TilePaper>
+                            <Typography variant="h6" sx={{ paddingBottom: '20px' }}>About you:</Typography>
+
+                            <Divider>
+                                <Chip label="Name" size="small" sx={{color: 'white'}}/>
+                            </Divider>
+                            <Typography variant="subtitle1">{ userData.fullName }</Typography>
+                            <Divider>
+                                <Chip label="Date of birth" size="small" sx={{color: 'white'}}/>
+                            </Divider>
+                            <Typography variant="subtitle1">{ userData.birthDate.slice(0, userData.birthDate.indexOf("T")) }</Typography>
+                            <Divider>
+                                <Chip label="Phone number" size="small" sx={{color: 'white'}}/>
+                            </Divider>
+                            <Typography variant="subtitle1">{ userData.phoneNumber }</Typography>
+                            <Divider>
+                                <Chip label="Address" size="small" sx={{color: 'white'}}/>
+                            </Divider>
+                            <Typography variant="subtitle1">{ userData.address }</Typography>
+                            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'end', justifyContent: 'end', paddingTop: '10px', paddingRight: '20px'}}>
+                                <Button variant="contained" onClick={() => {handleOpenDialog('aboutYouDialog')}}>Edit</Button>
+                            </Box>
+                        </TilePaper>
+
+                    </Stack>
+                </Grid>
+                <Grid item xs={12} sm={10} md={8}>
                     <Stack direction={'column'} spacing={2}>
                         <TilePaper> 
                             <Typography variant="h5" sx={{ paddingBottom: '20px' }}>Account Status</Typography>
                             <Grid container spacing={2}>
-                                <Grid item xs={6}>
+                                <Grid item xs={12} sm={6} md={12} lg={6}>
                                     <Stack direction={'column'} spacing={2} alignItems={'center'}>
                                         <Stack direction={'row'} spacing={2} alignItems="center">
                                             <Typography variant="h6" sx={{color: 'lightgrey'}}>Create an Account</Typography>
@@ -159,8 +200,8 @@ export default function Information() {
                                         </Stack>
                                     </Stack>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <Stack direction={'column'} spacing={2}>
+                                <Grid item xs={12} sm={6} md={12} lg={6}>
+                                    <Stack direction={'column'} spacing={2} alignItems={'center'}>
                                         <Stack direction={'row'} spacing={2} alignItems="center">
                                             <Typography variant="h6">Complete Account</Typography>
                                             <Box
@@ -205,16 +246,24 @@ export default function Information() {
                         <TilePaper>
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Details</Typography>
                             <Stack direction="column" spacing={2} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                <Stack direction="row" spacing={2} sx={{width: '100%'}}>
-                                    <Typography variant="h6">Username</Typography>
-                                    <Input placeholder={userData.username} value={tempUsername} onChange={(e) => setTempUsername(e.target.value)} sx={{width: '100%'}}/>
-                                    <Button variant="contained" onClick={() => {handleUsernameSubmit()}} sx={{width: '100%'}}>Edit</Button>
-                                </Stack>
-                                <Stack direction="row" spacing={2} sx={{width: '100%'}}>
-                                    <Typography variant="h6">Email</Typography>
-                                    <Input placeholder={userData.email} value={tempEmail} onChange={(e) => setTempEmail(e.target.value)} sx={{width: '100%'}}/>
-                                    <Button variant="contained" onClick={() => {handleEmailSubmit()}} sx={{width: '100%'}}>Edit</Button>
-                                </Stack>
+                                <Grid container direction="row" spacing={2} sx={{width: '100%', justifyContent:'center'}}>
+                                    <Grid item xs={12} sm={6} md={12} lg={6} display={'flex'} gap={1}>
+                                        <Typography variant="h6">Username</Typography>
+                                        <Input placeholder={userData.username} value={tempUsername} onChange={(e) => setTempUsername(e.target.value)} sx={{width: '100%'}}/>
+                                    </Grid>
+                                    <Grid item xs={8} sm={6} md={8} lg={6}>
+                                        <Button variant="contained" onClick={() => {handleUsernameSubmit()}} sx={{width: '100%' }}>Edit</Button>
+                                    </Grid>
+                                </Grid>
+                                <Grid container direction="row" spacing={2} sx={{width: '100%', justifyContent:'center'}}>
+                                    <Grid item xs={12} sm={6} md={12} lg={6} display={'flex'} gap={1}>
+                                        <Typography variant="h6">Email</Typography>
+                                        <Input placeholder={userData.email} value={tempEmail} onChange={(e) => setTempEmail(e.target.value)} sx={{width: '100%'}}/>
+                                    </Grid>
+                                    <Grid item xs={8} sm={6} md={8} lg={6}>
+                                        <Button variant="contained" onClick={() => {handleEmailSubmit()}} sx={{width: '100%'}}>Edit</Button>
+                                    </Grid>
+                                </Grid>
                             </Stack>
                         </TilePaper>
 
@@ -240,43 +289,7 @@ export default function Information() {
                     </Stack>
                 </Grid>
 
-                <Grid item xs={4}>
-                    <Stack direction="column" spacing={2}>
-
-                        <TilePaper centered sx={{alignItems: 'center', justifyContent: 'center'}}>
-                            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: '20px'}}>
-                                <Avatar sx={{width: '100px', height: '100px', fontSize: '50px'}}>A</Avatar>
-                            </Box>
-                            <Typography variant="h6">UserID:</Typography>
-                            <Typography variant="subtitle1">{ userId }</Typography>
-                        </TilePaper>
-
-                        <TilePaper>
-                            <Typography variant="h6" sx={{ paddingBottom: '20px' }}>About you:</Typography>
-
-                            <Divider>
-                                <Chip label="Name" size="small" sx={{color: 'white'}}/>
-                            </Divider>
-                            <Typography variant="subtitle1">{ userData.fullName }</Typography>
-                            <Divider>
-                                <Chip label="Date of birth" size="small" sx={{color: 'white'}}/>
-                            </Divider>
-                            <Typography variant="subtitle1">{ userData.birthDate.slice(0, userData.birthDate.indexOf("T")) }</Typography>
-                            <Divider>
-                                <Chip label="Phone number" size="small" sx={{color: 'white'}}/>
-                            </Divider>
-                            <Typography variant="subtitle1">{ userData.phoneNumber }</Typography>
-                            <Divider>
-                                <Chip label="Address" size="small" sx={{color: 'white'}}/>
-                            </Divider>
-                            <Typography variant="subtitle1">{ userData.address }</Typography>
-                            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'end', justifyContent: 'end', paddingTop: '10px', paddingRight: '20px'}}>
-                                <Button variant="contained" onClick={() => {handleOpenDialog('aboutYouDialog')}}>Edit</Button>
-                            </Box>
-                        </TilePaper>
-
-                    </Stack>
-                </Grid>
+                
             </Grid>
             <UserDetailForm open={openDialogs.aboutYouDialog} onClose={() => handleCloseDialog('aboutYouDialog')} onSubmit={() => {/* handle submit logic */}} />
             <PasswordChangeForm open={openDialogs.passwordChangeDialog} onClose={() => handleCloseDialog('passwordChangeDialog')} onSubmit={() => {/* handle submit logic */}}/>
