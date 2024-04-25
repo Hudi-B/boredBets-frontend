@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { apiUrl } from '../../boredLocal';
 import { useSelector } from 'react-redux';
+import TransactionCard from "./TransactionCard";
 
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '100%',
@@ -50,9 +51,7 @@ export default function History() {
                 </TilePaper>
                 {
                     historyData.map((transaction) => (
-                        <TilePaper sx={{ textAlign: 'left', width: '98%' }}>
-                            {transaction.created}
-                        </TilePaper>
+                        <TransactionCard key={transaction.id} amount={transaction.amount} type={transaction.transactionType} created={transaction.created} detail={transaction.detail}/>
                     ))
                 }
             </Stack>
