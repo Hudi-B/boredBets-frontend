@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { apiUrl } from '../../../boredLocal';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
@@ -9,12 +9,16 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CircularProgress from '@mui/material/CircularProgress';
 
+import VerificationPopup from '../VerificationPopup';
+
 export default function Register({data, callback}) {
     const [alertOnEmail, setAlertOnEmail] = React.useState(false);
     const [alertOnUsername, setAlertOnUsername] = React.useState(false);
     const [alertOnPass, setAlertOnPass] = React.useState(false);
     const [showPassword, setShowPassword] = React.useState(false);
     const [pending, setPending] = React.useState(false);
+    const [needVerification, setNeedVerification] = React.useState(false);
+
     const usernameRef = useRef(null);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
@@ -161,6 +165,8 @@ const handleRegister = async () => {
             {pending? <CircularProgress color="inherit" size={30} /> : 'Go'}
             </Button>
         </Box>
+        <Button onClick={() => setNeedVerification(true)}>VERIFICATIONSD</Button>
+        <VerificationPopup open={needVerification}/>
     </>
     )
 }

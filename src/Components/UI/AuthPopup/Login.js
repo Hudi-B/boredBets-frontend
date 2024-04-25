@@ -1,5 +1,5 @@
 import { Button, Box, TextField } from '@mui/material';
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import { apiUrl } from '../../../boredLocal';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../auth/authSlice';
@@ -12,15 +12,21 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import CircularProgress from '@mui/material/CircularProgress';
+import VerificationPopup from '../VerificationPopup';
 
 export default function Login({data, callback}) {
     const [alertOnLogin, setAlertOnLogin] = React.useState(false);
     const [showPassword, setShowPassword] = React.useState(false);
     const [alertOnPass, setAlertOnPass] = React.useState(false);
     const [pending, setPending] = React.useState(false);
+    const [needVerification, setNeedVerification] = React.useState(false);
 
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        setNeedVerification(true);
+    }, [])
 
     const loginRef = useRef(null);
     const passwordRef = useRef(null);
@@ -132,6 +138,7 @@ export default function Login({data, callback}) {
                 forgot password
             </Button>
         </Box>
+        <VerificationPopup open={needVerification}/>
     </>
     )
 }
