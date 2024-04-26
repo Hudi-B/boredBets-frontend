@@ -30,6 +30,7 @@ const TilePaper = styled(Paper)(({ theme }) => ({
 export default function Information() {
     const { enqueueSnackbar } = useSnackbar();
     const userId = useSelector((state) => state.auth.userId);
+    const userImage = useSelector((state) => state.auth.imageUrl);
     const [tempEmail, setTempEmail] = useState('');
     const [tempUsername, setTempUsername] = useState('');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -123,7 +124,7 @@ export default function Information() {
                         <TilePaper centered sx={{alignItems: 'center', justifyContent: 'center'}}>
                             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: '20px'}}>
                                 <Box sx={{width: '100px', height: '100px',position: 'relative'}}>
-                                    <Avatar sx={{width: '100%', height: '100%', fontSize: '100px'}} />
+                                    <Avatar sx={{width: '100%', height: '100%', fontSize: '100px'}} src='{userImage}'/>
                                     <ChangeImage userId={userId}/>
                                 </Box>
                             </Box>
