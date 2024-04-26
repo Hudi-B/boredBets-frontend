@@ -122,7 +122,7 @@ useEffect(() => {
                 backgroundColor: 'rgb(54, 54, 54)',
                 border: '3px solid rgb(54,54,54)',
               }}>
-                
+                {notifications.length === 0 && <Typography sx={{color: 'white', marginY:0.5, marginX:3}}>No notifications yet.</Typography>}
                 {notifications.map((notification) => (
                     writeNotification(notification)
                 ))}
