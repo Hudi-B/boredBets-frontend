@@ -4,8 +4,8 @@ const endpointUrl = 'https://boredbetsapidev.azurewebsites.net/headsUp';
 
 const makeApiCall = async () => {
     try {
-        const response = await axios.get(endpointUrl);
-        console.log('API call successful:', response.data);
+        await axios.get(endpointUrl);
+        console.log('API call successful');
     } catch (error) {
         console.error('Error making API call:', error.message);
     }
