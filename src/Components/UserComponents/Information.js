@@ -133,7 +133,6 @@ export default function Information() {
 
                         <TilePaper>
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>About you:</Typography>
-
                             <Divider>
                                 <Chip label="Name" size="small" sx={{color: 'white'}}/>
                             </Divider>
@@ -141,7 +140,7 @@ export default function Information() {
                             <Divider>
                                 <Chip label="Date of birth" size="small" sx={{color: 'white'}}/>
                             </Divider>
-                            <Typography variant="subtitle1">{ userData.birthDate.slice(0, userData.birthDate.indexOf("T")) }</Typography>
+                            <Typography variant="subtitle1">{ userData.birthDate === '2000-01-01T00:00:00' ? '-' : userData.birthDate.slice(0, userData.birthDate.indexOf("T")) }</Typography>
                             <Divider>
                                 <Chip label="Phone number" size="small" sx={{color: 'white'}}/>
                             </Divider>
@@ -283,13 +282,10 @@ export default function Information() {
                         <TilePaper>
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Preferences</Typography>
                             <Stack direction="column" spacing={1}>
-                            
                             </Stack>
                         </TilePaper>
                     </Stack>
                 </Grid>
-
-                
             </Grid>
             <UserDetailForm open={openDialogs.aboutYouDialog} onClose={() => handleCloseDialog('aboutYouDialog')} onSubmit={() => {/* handle submit logic */}} />
             <PasswordChangeForm open={openDialogs.passwordChangeDialog} onClose={() => handleCloseDialog('passwordChangeDialog')} onSubmit={() => {/* handle submit logic */}}/>

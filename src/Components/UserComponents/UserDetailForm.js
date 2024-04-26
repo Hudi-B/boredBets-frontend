@@ -5,10 +5,33 @@ import { Box, Button, Divider, Grid, Input, MenuItem, Select, Stack, Typography,
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 import { phonePrefixes } from '../../boredLocal';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+const customPhoneInputStyle = {
+    color: 'white',
+    backgroundColor: 'transparent',
+    border: 'none',
+    borderBottom: '1px solid black',
+    borderRadius: 0,
+  };
+
+const customDatePickerStyle = {
+    color: 'white',
+    backgroundColor: 'transparent',
+    border: 'none',
+    borderBottom: '1px solid black',
+    borderRadius: 0,
+};
 
 const UserDetailForm = ( {open, onClose, onSubmit} ) => {
     const { enqueueSnackbar } = useSnackbar();
-    const [phonePrefix, setPhonePrefix] = useState('+36');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [name, setName] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState(new Date());
+    const [address, setAddress] = useState('');
 
     return (
             <Dialog open={open} onClose={onClose}>
@@ -25,20 +48,12 @@ const UserDetailForm = ( {open, onClose, onSubmit} ) => {
                             </Stack>
                             <Stack spacing={1} direction={'column'} alignItems={'start'}>
                                 <Typography variant='subtitle2' sx={{ color: 'white' }}>Date of birth</Typography>
-                                <Input sx={{ width: '300px', color: 'white' }} placeholder='Date of birth' />
+                                <DatePicker {...customDatePickerStyle} style={{ width: '100%' }} selected={dateOfBirth} onChange={(date) => setDateOfBirth(date)} dateFormat="MM-dd-yyyy"/>
                             </Stack>
                             <Stack spacing={1} direction={'column'} alignItems={'start'}>
                                 <Typography variant='subtitle2' sx={{ color: 'white' }}>Phone number</Typography>
-                                <Stack direction={'row'}>
-                                    <FormControl>
-                                        <Select variant='standard' value={phonePrefix} onChange={(e) => setPhonePrefix(e.target.value)}>
-                                            {phonePrefixes.map((prefix) =>
-                                                <MenuItem key={prefix} value={prefix}>{prefix}</MenuItem>
-                                                )}
-                                        </Select>
-                                    </FormControl>
-                                    <Input sx={{ width: '300px', color: 'white' }} placeholder='Phone number' />
-                                </Stack>
+                                <PhoneInput country={'us'} disableDropdown inputStyle={customPhoneInputStyle} buttonStyle={customPhoneInputStyle} value={phoneNumber} onChange={(value) => setPhoneNumber(value)}
+                                />
                             </Stack>
                             <Stack spacing={1} direction={'column'} alignItems={'start'}>
                                 <Typography variant='subtitle2' sx={{ color: 'white' }}>Address</Typography>
