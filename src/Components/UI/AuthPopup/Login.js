@@ -79,6 +79,26 @@ export default function Login({data, callback}) {
 
     return (
     <>
+    {pending && (
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 9999,
+                    color: 'white',
+                    flexDirection: 'column',
+                }}
+            >
+                <CircularProgress color='inherit' />
+            </Box>
+        )}
         <TextField 
         inputRef={loginRef}
             id="loginUsername" 
@@ -132,7 +152,7 @@ export default function Login({data, callback}) {
             }}
         />
             <Button variant='contained' disabled={pending} sx={{ height: 55, width: 55 }} onClick={handleLogin}>
-                {pending? <CircularProgress color="inherit" size={30} /> : 'Go'}
+                Go
             </Button>
         </Box>
         <Box display="flex" justifyContent="space-between">

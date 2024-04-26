@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Popover, Button, Typography, Avatar } from '@mui/material';
+import { Box, Popover, Button, Typography, Avatar, Divider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {logout} from '../../auth/authSlice';
@@ -15,8 +15,6 @@ export default function UserIcon() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  
-  console.log(userData);
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -47,7 +45,7 @@ export default function UserIcon() {
               overflow: 'hidden',
             }}>
               {/*process.env.PUBLIC_URL + pfpImage*/}
-              <Avatar sx={{width: '100%', height: '100%'}} src={process.env.PUBLIC_URL + "images/" +pfpImage} />
+              <Avatar sx={{width: '100%', height: '100%'}} src={userData.imageUrl} />
         </Box>
         <Popover
           open={Boolean(anchorEl)}
@@ -72,14 +70,15 @@ export default function UserIcon() {
           <Box sx={{
               display: 'flex', 
               flexDirection: 'column', 
-              padding: '10px',
               gap: '7px', 
               background:'none',
               backgroundColor: 'rgb(54, 54, 54)',
-              border: '3px solid rgb(54,54,54)',
               }}>
-              <Button onClick={toUserPage} sx={{flexWrap: 'nowrap'}} variant='contained'>Go to my page</Button>
-              <Button onClick={handleLogout} variant='outlined' color='warning'>Log out</Button>
+              <Typography sx={{fontWeight: '600', color: 'white',paddingX:2, paddingTop:2, backgroundColor: 'rgba(200, 200, 200, 0.07)'}} className='preventSelect'>
+                {userData.username}
+              </Typography>
+              <Button onClick={toUserPage} sx={{flexWrap: 'nowrap', marginX:3}} variant='contained'>Go to my page</Button>
+              <Button onClick={handleLogout} variant='outlined' sx={{flexWrap: 'nowrap', marginX:3, marginBottom:1}} color='warning'>Log out</Button>
         </Box>
       </Popover>
     </>

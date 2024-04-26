@@ -13,8 +13,6 @@ import '../../styles/Main.css';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 
-
-
 function PlaceBetPopup({ raceId, participants }) {
   const [selectedItems, setSelectedItems] = useState([]);
   const [restParticipants, setRestParticipants] = useState(participants);

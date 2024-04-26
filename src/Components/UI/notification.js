@@ -21,21 +21,29 @@ export default function Notifications() {
     const dateFormat = "MMMM DD. HH:mm";
 
 
-    useEffect(() => {
-        axios.get(apiUrl+`Notifications/GetAllUnseenNotificationsByUserId?UserId=` + userData.userId)
-        .then(response => {
+    const fetchData = () => {
+        axios.get(apiUrl + `Notifications/GetAllUnseenNotificationsByUserId?UserId=` + userData.userId)
+          .then(response => {
             setNotifications(response.data);
             setNotificationNumber(response.data.length);
             setPending(false);
-        }).catch(error => {
+          }).catch(error => {
             console.log(error);
             enqueueSnackbar("Error while accessing your notifications.", {
-                variant: 'error',
-                autoHideDuration: 3000,
-                TransitionComponent: Slide,
-              });
-        })
-    },[])
+              variant: 'error',
+              autoHideDuration: 3000,
+              TransitionComponent: Slide,
+            });
+          });
+      };
+    
+      useEffect(() => {
+        fetchData();
+    
+        const intervalId = setInterval(fetchData, 5 * 60 * 1000);
+    
+        return () => clearInterval(intervalId);
+      }, []); // Empty 
     const handleOpen = (event) => {
         setAnchorEl(event.currentTarget);
       };
@@ -122,7 +130,7 @@ useEffect(() => {
                 backgroundColor: 'rgb(54, 54, 54)',
                 border: '3px solid rgb(54,54,54)',
               }}>
-                
+                {notifications.length === 0 && <Typography sx={{color: 'white', marginY:0.5, marginX:3}}>No notifications yet.</Typography>}
                 {notifications.map((notification) => (
                     writeNotification(notification)
                 ))}

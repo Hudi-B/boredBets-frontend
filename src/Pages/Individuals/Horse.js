@@ -100,9 +100,9 @@ export default function App() {
         sx={{
           color:'white',
           paddingX:3,
+          paddingY:3,
           marginY: 1,
           borderRadius: 3,
-          height: '95%',
           width: '95%',
           display:'flex',
           alignItems:'center',
@@ -141,18 +141,17 @@ export default function App() {
       ));
     }else{
       return (
-      <Box 
-      sx={{
-        color:'white',
-        paddingY: 2,
-        paddingX:3,
-        marginY: 1,
-        borderRadius: 3,
-        height: '95%',
-        width: '95%',
-        display:'flex',
-        alignItems:'center',
-        backgroundColor: 'rgba(50,50,50,0.4)',
+        <Box 
+        sx={{
+          color:'white',
+          paddingX:3,
+          paddingY:3,
+          marginY: 1,
+          borderRadius: 3,
+          width: '95%',
+          display:'flex',
+          alignItems:'center',
+          backgroundColor: 'rgba(50,50,50,0.4)',
       }}>This horse does not participate in any races at the moment
       </Box>)
     }
