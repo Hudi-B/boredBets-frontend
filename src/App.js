@@ -15,6 +15,8 @@ import { useDispatch } from 'react-redux';
 import Navbar from './Components/UI/Navbar'
 import Footer from './Components/UI/Footer';
 import Home from './Pages/Home';
+import Verification from './Pages/Verification';
+
 const Discover = lazy(() => import('./Pages/Discover'));
 const MyPage = lazy(() => import('./Pages/MyPage'));
 const Races = lazy(() => import('./Pages/Races'));
@@ -88,6 +90,9 @@ function App() {
             <Route exact path="/horse/:horseId" element={<Horse />} />
             <Route exact path="/races" element={<Races />} />
             <Route exact path="/race/:raceId" element={<SingleRace />} />
+
+            <Route exact path="/verification/:verificationCode/:userId" element={<Verification />} />
+
             {userData.isLoggedIn && <Route exact path="/mypage" element={<MyPage />} />}
             {userData.isAdmin && <Route exact path="/admin" element={<Admin />} />}
           </Routes>

@@ -12,21 +12,15 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import CircularProgress from '@mui/material/CircularProgress';
-import VerificationPopup from '../VerificationPopup';
 
 export default function Login({data, callback}) {
     const [alertOnLogin, setAlertOnLogin] = React.useState(false);
     const [showPassword, setShowPassword] = React.useState(false);
     const [alertOnPass, setAlertOnPass] = React.useState(false);
     const [pending, setPending] = React.useState(false);
-    const [needVerification, setNeedVerification] = React.useState(false);
 
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        setNeedVerification(true);
-    }, [])
 
     const loginRef = useRef(null);
     const passwordRef = useRef(null);
@@ -65,7 +59,7 @@ export default function Login({data, callback}) {
                 TransitionComponent: Slide,
             });
         } catch(error) {
-            enqueueSnackbar("Couldn't login. Something went wrong", {
+            enqueueSnackbar(error.response.data.detail.split('%')[0], {
                 variant: 'error',
                 autoHideDuration: 3000,
                 TransitionComponent: Slide,
@@ -74,6 +68,7 @@ export default function Login({data, callback}) {
         setPending(false);
     };
 
+
     const handleChange = (event) => {
         callback(event);
     };
@@ -81,9 +76,6 @@ export default function Login({data, callback}) {
     const ForgotPassword = () => {
         // another dialog in here asking for the users email, then sending a post request with that email to the api
     }
-
-
-
 
     return (
     <>
@@ -98,37 +90,47 @@ export default function Login({data, callback}) {
             sx={{ '& p': { color: 'rgb(204, 2, 2)', fontWeight: 'bold', } }}
             onKeyDown={(e) => e.key === "Enter" && passwordRef.current.focus()}
             fullWidth
+            autoFocus
+            autoComplete='off'
+            autoCapitalize='off'
             helperText={alertOnLogin ? 'Please enter a valid login identifier' : ''}
         />
         
         <Box display="flex" spacing={1} alignItems="flex-start" > 
-            <TextField 
-                inputRef={passwordRef}
-                className='popupPassword'
-                id="loginPassword" 
-                label="Password" 
-                variant="outlined" 
-                type={showPassword ? 'text' : 'password'}
-                name="password" 
-                onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
-                value={data.password} 
-                onChange={handleChange} 
-                sx={{ flexGrow: 1, marginRight: 1, '& p': { color: 'rgb(204, 2, 2)', fontWeight: 'bold', }  }}
-                helperText={alertOnPass ? 'Please enter your password' : ''}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={()=>setShowPassword(!showPassword)}
-                                onMouseDown={(event) => event.preventDefault()}
-                            >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                }}
-            />
+        <TextField 
+            inputRef={passwordRef}
+            className='popupPassword'
+            id="loginPassword" 
+            label="Password" 
+            variant="outlined" 
+            type={showPassword ? 'text' : 'password'}
+            name="password" 
+            onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+            value={data.password} 
+            onChange={handleChange} 
+            autoComplete='off'
+            autoCapitalize='off'
+            sx={{
+                flexGrow: 1,
+                marginRight: 1,
+                '& p': { color: 'rgb(204, 2, 2)', fontWeight: 'bold' },
+                '& input': { backgroundColor: 'transparent' } 
+            }}
+            helperText={alertOnPass ? 'Please enter your password' : ''}
+            InputProps={{
+                endAdornment: (
+                    <InputAdornment position="end">
+                        <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={()=>setShowPassword(!showPassword)}
+                            onMouseDown={(event) => event.preventDefault()}
+                        >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                    </InputAdornment>
+                ),
+            }}
+        />
             <Button variant='contained' disabled={pending} sx={{ height: 55, width: 55 }} onClick={handleLogin}>
                 {pending? <CircularProgress color="inherit" size={30} /> : 'Go'}
             </Button>
@@ -138,7 +140,6 @@ export default function Login({data, callback}) {
                 forgot password
             </Button>
         </Box>
-        <VerificationPopup open={needVerification}/>
     </>
     )
 }
