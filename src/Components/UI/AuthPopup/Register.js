@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { apiUrl } from '../../../boredLocal';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
@@ -9,16 +9,12 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import VerificationPopup from '../VerificationPopup';
-
 export default function Register({data, callback}) {
-    const [alertOnEmail, setAlertOnEmail] = React.useState(false);
-    const [alertOnUsername, setAlertOnUsername] = React.useState(false);
-    const [alertOnPass, setAlertOnPass] = React.useState(false);
-    const [showPassword, setShowPassword] = React.useState(false);
-    const [pending, setPending] = React.useState(false);
-    const [needVerification, setNeedVerification] = React.useState(false);
-
+    const [alertOnEmail, setAlertOnEmail] = useState(false);
+    const [alertOnUsername, setAlertOnUsername] = useState(false);
+    const [alertOnPass, setAlertOnPass] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [pending, setPending] = useState(false);
     const usernameRef = useRef(null);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
@@ -59,10 +55,11 @@ const handleRegister = async () => {
     }
     setPending(true);
     axios.post(`${apiUrl}User/UserRegister`, data)
-    .then(() => {
-        enqueueSnackbar("Successful register, now try to Log in", {
+    .then((response) => {
+        console.log(response.data);
+        enqueueSnackbar("Successful register! Before login you need to verify your account through email. Please check your inbox.", {
             variant: 'success',
-            autoHideDuration: 3000,
+            autoHideDuration: 5000,
             TransitionComponent: Slide,
         });
     })
@@ -74,11 +71,10 @@ const handleRegister = async () => {
         });
     }).finally(() => {
         setPending(false);
+        
     })
 
 };
-
-
 
 
 
@@ -90,6 +86,9 @@ const handleRegister = async () => {
             label="Username" 
             variant="outlined" 
             name="username" 
+            autoComplete='off'
+            autoFocus
+            autoCapitalize='off'
             value={data.username} 
             onChange={handleChange} 
             sx={{ '& p': { color: 'rgb(204, 2, 2)', fontWeight: 'bold', } }}
@@ -116,6 +115,8 @@ const handleRegister = async () => {
             variant="outlined" 
             name="email" 
             value={data.email} 
+            autoComplete='off'
+            autoCapitalize='off'
             onChange={handleChange}
             sx={{ '& p': { color: 'rgb(204, 2, 2)', fontWeight: 'bold', } }}
             onKeyDown={(e) => e.key === "Enter" && passwordRef.current.focus()}
@@ -129,6 +130,8 @@ const handleRegister = async () => {
                 className='popupPassword'
                 id="registerPassword" 
                 label="Password" 
+                autoComplete='off'
+                autoCapitalize='off'
                 variant="outlined" 
                 type={showPassword ? 'text' : 'password'}
                 name="password" 
@@ -165,8 +168,6 @@ const handleRegister = async () => {
             {pending? <CircularProgress color="inherit" size={30} /> : 'Go'}
             </Button>
         </Box>
-        <Button onClick={() => setNeedVerification(true)}>VERIFICATIONSD</Button>
-        <VerificationPopup open={needVerification}/>
     </>
     )
 }
