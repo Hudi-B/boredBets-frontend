@@ -14,7 +14,7 @@ import ViewResults from '../../Components/UI/ViewResults';
 import NotFound from '../NotFound';
 
 function App() {
-  const [raceId, setRaceId] = useState(useLocation().pathname.split("/")[2]); //gets the id of the race asynchronously
+  const raceId = useLocation().pathname.split("/")[2]; //gets the id of the race asynchronously
   const [race, setRace] = useState();
   const [participants, setParticipants] = useState([]);
   const [pending, setPending] = useState(true);
