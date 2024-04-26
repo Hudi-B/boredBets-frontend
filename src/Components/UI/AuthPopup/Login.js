@@ -59,7 +59,7 @@ export default function Login({data, callback}) {
                 TransitionComponent: Slide,
             });
         } catch(error) {
-            enqueueSnackbar(error.response.data.detail.split('%')[0], {
+            enqueueSnackbar("Failed login, try again later.", {
                 variant: 'error',
                 autoHideDuration: 3000,
                 TransitionComponent: Slide,

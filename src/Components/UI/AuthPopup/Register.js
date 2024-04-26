@@ -57,9 +57,9 @@ const handleRegister = async () => {
     axios.post(`${apiUrl}User/UserRegister`, data)
     .then((response) => {
         console.log(response.data);
-        enqueueSnackbar("Successful register, now try to Log in", {
+        enqueueSnackbar("Successful register! Before login you need to verify your account through email. Please check your inbox.", {
             variant: 'success',
-            autoHideDuration: 3000,
+            autoHideDuration: 5000,
             TransitionComponent: Slide,
         });
     })
