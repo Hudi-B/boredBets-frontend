@@ -69,6 +69,7 @@ export default function App() {
   }, []);
 
 
+  console.log(data.past3Races);
   function showPastRaces() {
     if(data.past3Races.length > 0){
       return data.past3Races.map((race) => (
@@ -94,13 +95,13 @@ export default function App() {
       ));
     }else{
       return (
-        <Box 
+        <Box key={0}
         sx={{
           color:'white',
           paddingX:3,
+          paddingY:3,
           marginY: 1,
           borderRadius: 3,
-          height: '95%',
           width: '95%',
           display:'flex',
           alignItems:'center',
@@ -139,18 +140,17 @@ export default function App() {
       ));
     }else{
       return (
-      <Box 
-      sx={{
-        color:'white',
-        paddingY: 2,
-        paddingX:3,
-        marginY: 1,
-        borderRadius: 3,
-        height: '95%',
-        width: '95%',
-        display:'flex',
-        alignItems:'center',
-        backgroundColor: 'rgba(50,50,50,0.4)',
+        <Box 
+        sx={{
+          color:'white',
+          paddingX:3,
+          paddingY:3,
+          marginY: 1,
+          borderRadius: 3,
+          width: '95%',
+          display:'flex',
+          alignItems:'center',
+          backgroundColor: 'rgba(50,50,50,0.4)',
       }}>This jockey does not participate in any races at the moment
       </Box>)
     }
