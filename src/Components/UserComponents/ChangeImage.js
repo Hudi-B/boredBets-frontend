@@ -77,9 +77,15 @@ export default function ChangeImage({userId}) {
             setImageDeleteUrl(response.data.data.delete_url);
             dispatch(updateProfilePicture(response.data.data.display_url));
 
-        axios.post(apiUrl+'User/UpdateImageByUserId?UserId='+userId, {
-            "imageLink": response.data.data.display_url,
-            "imageDeleteLink": response.data.data.delete_url
+
+            console.log({
+                imageLink: response.data.data.display_url,
+                imageDeleteLink: response.data.data.delete_url
+            });
+
+        axios.put(apiUrl+'User/UpdateImageByUserId?UserId='+userId, {
+            imageLink: response.data.data.display_url,
+            imageDeleteLink: response.data.data.delete_url
         })
         })
           .catch((error) => {

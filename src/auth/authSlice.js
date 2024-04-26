@@ -4,6 +4,7 @@ const initialState = {
     isLoggedIn: null,
     isAdmin: false,
     userId: null,
+    username: null,
     wallet: 0,
     imageUrl: null
 };
@@ -17,6 +18,7 @@ const authSlice = createSlice({
             state.isAdmin = action.payload.admin;
             state.userId = action.payload.id;
             state.wallet = action.payload.wallet;
+            state.username = action.payload.username
             state.imageUrl = action.payload.imageUrl
         },
         logout(state) {

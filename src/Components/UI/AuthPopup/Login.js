@@ -50,7 +50,6 @@ export default function Login({data, callback}) {
                 emailOrUsername: temp,
                 password: data.password
             });
-            console.log(response);
             setCookieToken(true, response.data.accessToken);
             setCookieToken(false, response.data.refreshToken);
             dispatch(login(response.data));               
