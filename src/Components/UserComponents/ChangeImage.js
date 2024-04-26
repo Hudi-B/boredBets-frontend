@@ -5,9 +5,12 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
+import { useDispatch } from 'react-redux';
+import { updateProfilePicture } from '../../auth/authSlice';
+import { useSelector } from 'react-redux';
 
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-export default function ChangeImage(userId) {
+export default function ChangeImage({userId}) {
     const [open, setOpen] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const [imageDeleteUrl, setImageDeleteUrl] = useState(null);
@@ -15,6 +18,10 @@ export default function ChangeImage(userId) {
     const [imageFormData, setImageFormData] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
+
+
+
 
     useEffect(() => {
         if (window.innerWidth < 500) {
@@ -53,7 +60,9 @@ export default function ChangeImage(userId) {
         setImageFormData(formData);
         setIsLoading(false);
       };
-    
+
+    console.log(userId);
+
       const handleSend = () => {
         
         if (!imageFormData) {
@@ -66,8 +75,13 @@ export default function ChangeImage(userId) {
           .then((response) => {
             setImageUrl(response.data.data.display_url);
             setImageDeleteUrl(response.data.data.delete_url);
-            //axios.post()
-          })
+            dispatch(updateProfilePicture(response.data.data.display_url));
+
+        axios.post(apiUrl+'User/UpdateImageByUserId?UserId='+userId, {
+            "imageLink": response.data.data.display_url,
+            "imageDeleteLink": response.data.data.delete_url
+        })
+        })
           .catch((error) => {
             console.error('Error uploading image:', error);
             //enque snackbar
