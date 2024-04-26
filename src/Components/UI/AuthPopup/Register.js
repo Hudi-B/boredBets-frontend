@@ -80,6 +80,27 @@ const handleRegister = async () => {
 
     return (
     <>
+        {pending && (
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 9999,
+                    color: 'white',
+                    flexDirection: 'column',
+                }}
+            >
+                <CircularProgress color='inherit' />
+            </Box>
+        )}
+
         <TextField 
             inputRef={usernameRef}
             id="registerUsername" 
@@ -165,7 +186,7 @@ const handleRegister = async () => {
                 }}
             />
             <Button variant='contained' disabled={pending} sx={{ height: 55, width: 55 }} className='doitButton' onClick={handleRegister}>
-            {pending? <CircularProgress color="inherit" size={30} /> : 'Go'}
+            Go
             </Button>
         </Box>
     </>
