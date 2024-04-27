@@ -1,4 +1,4 @@
-import { Stack, Box} from "@mui/material";
+import { Stack, Box, Typography} from "@mui/material";
 import { useEffect, useState } from "react";
 import UpcomingRaces from "./Races/UpcomingRaces";
 import PastRaces from "./Races/PastRaces";
@@ -81,7 +81,7 @@ const switchButtons = (upcoming) => {
         }}
         onClick={() => setPresent(upcoming)}
         >
-        {upcoming ? "Upcoming" : "History"}
+        <Typography>{upcoming ? "Upcoming" : "History"}</Typography>
         </Box>)
 }
     return (
