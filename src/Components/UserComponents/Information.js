@@ -35,6 +35,12 @@ export default function Information() {
     const [tempEmail, setTempEmail] = useState('');
     const [tempUsername, setTempUsername] = useState('');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const [userStatus, setUserStatus] = useState({
+        profilePic: userImage === '',
+        transaction: false,
+        completedProfile: false,
+
+    });
     const [userData, setUserData] = useState({
         username: '',
         email: '',
@@ -68,8 +74,31 @@ export default function Information() {
         })
     }
 
+    const transactionsCheck = async () => {
+        await axios.get(apiUrl+`UserDetail/GetAllTransactionsByUserId?UserId=` + userId)
+        .then((response) => {
+            console.log(response.data);
+            if (response.status !== 404) {
+                setUserStatus({ ...userStatus, transaction: true });
+            }
+            if (userStatus.transaction && userStatus.profilePic) {
+                setUserStatus({ ...userStatus, completedProfile: true });
+            }
+            console.log(userStatus);
+        })
+        .catch((error) => {
+            if (error.response.status === 404) {
+                setUserStatus({ ...userStatus, transaction: false });
+            }
+            else {
+                console.log(error);
+            }
+        })
+    }
+
     useEffect(() => {
         fetchData();
+        transactionsCheck();
     }, []);
 
     const handleEmailSubmit = async () => {
@@ -142,7 +171,7 @@ export default function Information() {
                             <Divider>
                                 <Chip label="Date of birth" size="small" sx={{color: 'white'}}/>
                             </Divider>
-                            <Typography variant="subtitle1">{ userData.birthDate === '2000-01-01T00:00:00' ? '-' : userData.birthDate.slice(0, userData.birthDate.indexOf("T")) }</Typography>
+                            <Typography variant="subtitle1">{ userData.birthDate === '1111-01-01T00:00:00' ? '-' : userData.birthDate.slice(0, userData.birthDate.indexOf("T")) }</Typography>
                             <Divider>
                                 <Chip label="Phone number" size="small" sx={{color: 'white'}}/>
                             </Divider>
@@ -172,7 +201,7 @@ export default function Information() {
                                             width: '50px',
                                             height: '50px',
                                             borderRadius: '50%',
-                                            backgroundColor: 'rgb(44, 252, 3)',
+                                            backgroundColor: 'limegreen',
                                             display: 'flex',
                                             justifyContent: 'center',
                                             alignItems: 'center',
@@ -182,7 +211,7 @@ export default function Information() {
                                             </Box>
                                         </Stack>
                                         <Stack direction="row" spacing={2} alignItems="center">
-                                            <Typography variant="h6">Add Profile Picture</Typography>
+                                            <Typography variant="h6" sx={{color: userStatus.profilePic ? 'white' : 'lightgrey'}}>Add Profile Picture</Typography>
                                             <Box
                                             sx={{
                                             width: '50px',
@@ -190,13 +219,14 @@ export default function Information() {
                                             borderRadius: '50%',
                                             borderStyle: 'solid',
                                             borderWidth: '2px',
-                                            borderColor: 'white',
+                                            borderColor: userStatus.profilePic ? 'white' : 'transparent',
                                             display: 'flex',
+                                            backgroundColor: userStatus.profilePic ? 'transparent' : 'limegreen',
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                             flex: 'none',}}
                                             >
-                                                <PortraitIcon sx={{color: 'white'}}/>
+                                                <PortraitIcon sx={{color: userStatus.profilePic ? 'white' : 'rgb(4, 112, 107)'}}/>
                                             </Box>
                                         </Stack>
                                     </Stack>
@@ -222,7 +252,7 @@ export default function Information() {
                                             </Box>
                                         </Stack>
                                         <Stack direction="row" spacing={2} alignItems="center">
-                                            <Typography variant="h6">Make Transaction</Typography>
+                                            <Typography variant="h6" sx={{color: userStatus.transaction ? 'white' : 'lightgrey'}}>Make Transaction</Typography>
                                             <Box
                                                 sx={{
                                                 width: '50px',
@@ -230,13 +260,14 @@ export default function Information() {
                                                 borderRadius: '50%',
                                                 borderStyle: 'solid',
                                                 borderWidth: '2px',
-                                                borderColor: 'white',
+                                                borderColor: userStatus.transaction ? 'white' : 'transparent',
+                                                backgroundColor: userStatus.transaction ? 'transparent' : 'limegreen',
                                                 display: 'flex',
                                                 justifyContent: 'center',
                                                 alignItems: 'center',
                                                 flex: 'none',}}
                                             >
-                                                <CreditCardIcon sx={{color: 'white'}}/>
+                                                <CreditCardIcon sx={{color: userStatus.transaction ? 'white' : 'rgb(4, 112, 107)'}}/>
                                             </Box>
                                         </Stack>
                                     </Stack>
