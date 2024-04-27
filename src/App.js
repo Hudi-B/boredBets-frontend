@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import CircularProgress from '@mui/material/CircularProgress';
 
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import './styles/Main.css';
 import { useEffect, lazy, Suspense } from 'react';
 import { jwtDecode } from 'jwt-decode';
@@ -28,8 +30,25 @@ const Jockey = lazy(() => import('./Pages/Individuals/Jockey'));
 const Horse = lazy(() => import('./Pages/Individuals/Horse'));
 const Test = lazy(() => import('./Pages/test'));
 
+const theme = createTheme({
+  typography: {
+    allVariants: {
+      color: "white"
+    },
+  },
+  palette: {
+    primary: {
+      main: 'rgba(75, 75, 75, 1)',
+      dark: 'rgba(200, 200, 200, 0.3)',
+    },
+    secondary: {
+      main: 'rgba(200, 200, 200, 0.8)',
+      dark: 'rgba(200, 200, 200, 0.3)',
+    },
+  },
+});
 
-function App() {
+export default function App() {
   const userData = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   
@@ -61,47 +80,48 @@ function App() {
       }
     }, []);
 
+
   return (
-  <Box sx={{
-    width: '100vw',
-    height: '100vh',
-    padding: 'none',
-    margin: 'none',
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: 'rgb(2, 145, 138)',
-    overflow: 'auto',
-    overflowX: 'hidden',
-  }}>
-    <Router>
-      <Navbar background={"rgba(50, 50, 50, 1)"} />
-      <Suspense fallback={
-              <Box sx={{ display: 'flex' ,width: '100vw', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
-                <CircularProgress sx={{color: 'black', height: '100px', width: '100px'}}/>
-              </Box>}>
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route path="*" element={<NotFound lookedFor={'page'} />} />
+    <ThemeProvider theme={theme}>
+      <Box sx={{
+        width: '100vw',
+        height: '100vh',
+        padding: 'none',
+        margin: 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: 'rgb(2, 145, 138)',
+        overflow: 'auto',
+        overflowX: 'hidden',
+      }}>
+        <Router>
+          <Navbar background={"rgba(50, 50, 50, 1)"} />
+          <Suspense fallback={
+                  <Box sx={{ display: 'flex' ,width: '100vw', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+                    <CircularProgress sx={{color: 'black', height: '100px', width: '100px'}}/>
+                  </Box>}>
+              <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route path="*" element={<NotFound lookedFor={'page'} />} />
 
-            <Route exact path="/test" element={<Test />} />
+                <Route exact path="/test" element={<Test />} />
 
-            <Route exact path="/discover" element={<Discover />} />
-            <Route exact path="/user/:userId" element={<User />} />
-            <Route exact path="/jockey/:jockeyId" element={<Jockey />} />
-            <Route exact path="/horse/:horseId" element={<Horse />} />
-            <Route exact path="/races" element={<Races />} />
-            <Route exact path="/race/:raceId" element={<SingleRace />} />
+                <Route exact path="/discover" element={<Discover />} />
+                <Route exact path="/user/:userId" element={<User />} />
+                <Route exact path="/jockey/:jockeyId" element={<Jockey />} />
+                <Route exact path="/horse/:horseId" element={<Horse />} />
+                <Route exact path="/races" element={<Races />} />
+                <Route exact path="/race/:raceId" element={<SingleRace />} />
 
-            <Route exact path="/verification/:verificationCode/:userId" element={<Verification />} />
+                <Route exact path="/verification/:verificationCode/:userId" element={<Verification />} />
 
-            {userData.isLoggedIn && <Route exact path="/mypage" element={<MyPage />} />}
-            {userData.isAdmin && <Route exact path="/admin" element={<Admin />} />}
-          </Routes>
-        </Suspense>
-    </Router>
-    <Footer />
-  </Box>
+                {userData.isLoggedIn && <Route exact path="/mypage" element={<MyPage />} />}
+                {userData.isAdmin && <Route exact path="/admin" element={<Admin />} />}
+              </Routes>
+            </Suspense>
+        </Router>
+        <Footer />
+      </Box>
+    </ThemeProvider>
   );
 }
-
-export default App;

@@ -77,7 +77,7 @@ export default function UserIcon() {
               <Typography sx={{fontWeight: '600', color: 'white',paddingX:2, paddingTop:2, backgroundColor: 'rgba(200, 200, 200, 0.07)'}} className='preventSelect'>
                 {userData.username}
               </Typography>
-              <Button onClick={toUserPage} sx={{flexWrap: 'nowrap', marginX:3}} variant='contained'>Go to my page</Button>
+              <Button onClick={toUserPage} sx={{flexWrap: 'nowrap', marginX:3}} color='secondary' variant='contained'>Go to my page</Button>
               <Button onClick={handleLogout} variant='outlined' sx={{flexWrap: 'nowrap', marginX:3, marginBottom:1}} color='warning'>Log out</Button>
         </Box>
       </Popover>

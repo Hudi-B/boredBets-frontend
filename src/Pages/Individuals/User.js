@@ -42,13 +42,14 @@ export default function App() {
 
   const id = useLocation().pathname.split("/")[2];
   const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
-
+const moment = require('moment');
   const [data, setData] = useState({});
 
   useEffect(() => {
     axios.get(`${apiUrl}User/GetUserDetailsByUserId?UserId=${id}`)
     .then((response) => {
         setData(response.data);
+        console.log(response.data);
     })
     .catch((error) => {
         console.log(error);
@@ -67,15 +68,7 @@ export default function App() {
     <BulletPoint {...props}>
       {children[1]}{children[0]}
     </BulletPoint>
-  ))`
-    font-weight: bold;
-  `;
-  
-  const convertDate = (date) => {
-    const rawDate = new Date(date);
-    const formatedDate = rawDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-    return formatedDate
-  };
+  ));
 
 console.log(data);
   return (
@@ -85,6 +78,7 @@ console.log(data);
         borderTopRightRadius: '20px',
         borderTopLeftRadius: '20px',
         width:'90%',
+        height: '100vh',
         maxWidth: '1000px',
         marginTop: '100px',
         marginLeft:'auto',
@@ -92,15 +86,13 @@ console.log(data);
       }}>
 
         <Stack direction="column">
-
-
           <Grid container className='preventSelect' direction="row" sx={{ justifyContent: 'center', marginTop: '20px', gap: 1 }}>
             <Grid item xs={12} sm={4} sx={{display:'flex', flexWrap:'nowrap',minWidth:'220px', justifyContent: 'center'}}>
             <Avatar sx={{
                 width: '200px',
                 height: '200px',
               }}
-              src={process.env.PUBLIC_URL + pfpImage}/>
+              src={data.profilePicture}/>
             </Grid>
             <Grid item xs={12} sm={7} sx={{display:'flex', flexWrap:'nowrap'}}>
               <Stack direction={"column"} sx={{
@@ -116,13 +108,13 @@ console.log(data);
                   <Typography>
                     Registered
                   </Typography>
-                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label={convertDate(data.created)}/>
+                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label={moment(data.created).format("MMMM D, YYYY")}/>
                 </Stack>
                 <Stack sx={{alignItems:'center'}}>
                   <Typography>
                     Profit:
                   </Typography>
-                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label="+132"/>
+                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label={data.profit}/>
                 </Stack>
                 </Box>
 
@@ -149,31 +141,31 @@ console.log(data);
               </Box>
                 ):(
               <Grid container spacing={2}>
-                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Born: </BulletPoint>
-                      <DataText>1918.12.44</DataText>
-                  </Grid>
-                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Gender:</BulletPoint>
-                      <DataText>the strongerGender</DataText>
-                  </Grid>
-                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Registered:</BulletPoint>
-                      <DataText>1920.12.44</DataText>
-                  </Grid>
-                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Phone:</BulletPoint>
-                      <DataText>21321321312</DataText>
-                  </Grid>
-                  <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
-                      <BulletPoint>Email:</BulletPoint>
-                      <DataText>gypsy@go.com</DataText>
-                  </Grid>
+                <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                    <BulletPoint>All time bet / Won bet:</BulletPoint>
+                    <DataText>{data.allTimeBets} / {data.wonBets}</DataText>
+                </Grid>
+                <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                    <BulletPoint>Current balance:</BulletPoint>
+                    <DataText>{data.wallet}</DataText>
+                </Grid>
+                <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                  <BulletPoint>Email:</BulletPoint>
+                  <DataText>{data.email}</DataText>
+                </Grid>
+                <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                  <BulletPoint>Born: </BulletPoint>
+                  <DataText>{moment(data.birthdate).format('YYYY MMMM DD')}</DataText>
+                </Grid>
+                <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                  <BulletPoint>Phone:</BulletPoint>
+                  <DataText>{data.phone}</DataText>
+                </Grid>
+                <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
+                  <BulletPoint>Address:</BulletPoint>
+                  <DataText>{data.address}</DataText>
+                </Grid>
               </Grid>)}
-            
-            <Title>History:</Title>
-
-          
           </Stack>
         </Stack>
     </Box>

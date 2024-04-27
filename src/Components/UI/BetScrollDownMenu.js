@@ -161,7 +161,7 @@ function PlaceBetPopup({ raceId, participants }) {
 
   return (
     <Box sx={{width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-      <Accordion square='false'sx={{width: '90%',marginX: 'auto', backgroundColor: 'rgba(4, 88, 88, 0.7)', borderRadius:5 }}>
+      <Accordion square={true} sx={{width: '90%',marginX: 'auto', backgroundColor: 'rgba(4, 88, 88, 0.7)', borderRadius:5 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon  />}
           aria-controls="panel1-content"
@@ -191,7 +191,8 @@ function PlaceBetPopup({ raceId, participants }) {
                 height: '200px'}}>
             <Typography sx={{
                 fontSize: '20px',
-                fontWeight: '600'}}>
+                fontWeight: '600',
+                color: 'rgb(200,200,200)'}}>
               To access betting, please log in.
             </Typography>
             <AuthPopup itsALogin={true} />

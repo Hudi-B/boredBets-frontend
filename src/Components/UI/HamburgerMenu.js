@@ -41,14 +41,14 @@ const DrawerList = (
       <List sx={{ height:'100%' }}>
         {menuItems.map((item) => (
           <ListItem key={item.name} disablePadding>
-            <Button component={Link} to={item.link} sx={{justifyContent: 'flex-start', marginTop: '10px', height: '50px', marginX: '5px', fontSize: '15px' }} variant="outlined" fullWidth>
+            <Button color='secondary' component={Link} to={item.link} sx={{justifyContent: 'flex-start', marginTop: '10px', height: '50px', marginX: '5px', fontSize: '15px' }} variant="outlined" fullWidth>
             {item.icon} {item.name}
             </Button>
         </ListItem>
         ))}
         {isAdmin && (
           <ListItem key="Admin" sx={{position: 'absolute', bottom: 20}} disablePadding>
-              <Button component={Link} to="/Admin" sx={{ justifyContent: 'flex-start', marginTop: '10px', height: '50px', marginX: '5px', fontSize: '15px' }} variant="outlined" fullWidth>
+              <Button color='secondary' component={Link} to="/Admin" sx={{ justifyContent: 'flex-start', marginTop: '10px', height: '50px', marginX: '5px', fontSize: '15px' }} variant="outlined" fullWidth>
                 <EngineeringRoundedIcon style={{marginRight: '5px'}} />ADMIN
               </Button>
           </ListItem>
@@ -62,6 +62,7 @@ return(
     <MenuTwoToneIcon onClick={toggleDrawer(true)}
         sx={{cursor: 'pointer',
         fontSize: '40px',
+        color: 'white',
         marginY: '10px'}}
     />
         <Drawer open={open} onClose={toggleDrawer(false)}>

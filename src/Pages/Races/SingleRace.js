@@ -1,13 +1,15 @@
 import React, { useEffect, useState} from 'react'; 
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
-import {Stack, Tooltip, Paper, Grid, Box, Typography, Button, Hidden, Skeleton} from "@mui/material";
+import {Stack, Tooltip, Paper, Grid, Box, Typography, Button, Hidden, Skeleton, ThemeProvider} from "@mui/material";
 import { useLocation } from 'react-router-dom';
 import CloudIcon from '@mui/icons-material/Cloud';
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { Link } from 'react-router-dom';
+
+import { useTheme } from '@mui/material/styles';
 
 import BetScrollDownMenu from '../../Components/UI/BetScrollDownMenu';
 import ViewResults from '../../Components/UI/ViewResults';
@@ -21,6 +23,8 @@ function App() {
   const [betAble, setBetAble] = useState(null);
   const [past, setPast] = useState(null);
   const [notFoundError, setNotFoundError] = useState(false);
+
+  const theme = useTheme();
 
   useEffect(() => {
     axios.get(`${apiUrl}Race/GetByRaceId?Id=`+raceId)
@@ -271,10 +275,7 @@ if(notFoundError) {
           <Typography> wait for the outcome, or find a new race to bet on.</Typography>
         </Box>
       )}
-        
-        
-
-    </Box >
+    </Box>
   );
 }
 

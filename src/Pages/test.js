@@ -1,5 +1,28 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Button } from '@mui/material';
+
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+const theme = createTheme({
+  palette: {
+    anger: {
+      main: '#F40B27',
+      dark: '#B3001B',
+    },
+    apple: {
+      main: '#5DBA40',
+      dark: '#3D8E2D',
+    },
+    steelBlue: {
+      main: '#5C76B7',
+      dark: '#3E4E7F',
+    },
+    violet: {
+      main: '#BC00A3',
+      dark: '#8A007A',
+    },
+  },
+});
 
 const ImageUploader = () => {
   const [imageFormData, setImageFormData] = useState(null);
@@ -29,12 +52,15 @@ const ImageUploader = () => {
   };
 
   return (
+    <ThemeProvider theme={theme}>
     <div>
         <h1>Upload Image to Server</h1>
         <input type="file" onChange={handleImageChange} accept="image/*" />
         <button onClick={handleSend}>Upload</button>
         <img src={image} alt="Preview" /> 
+        <Button variant="contained" color='steelBlue' sx={{backgroundColor: 'white'}} >GeciBogyó</Button>
     </div>
+    </ThemeProvider>
   );
 };
 
