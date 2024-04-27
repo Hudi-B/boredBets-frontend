@@ -33,6 +33,7 @@ export default function Cards() {
     const [isLoading, setIsLoading] = useState(true);
     const userId = useSelector((state) => state.auth.userId);
     const wallet = useSelector((state) => state.auth.wallet);
+    const [profit, setProfit] = useState(0);
     const [open, setOpen] = useState(false);
     const [depositAmount, setDepositAmount] = useState('');
     const [withdrawAmount, setWithdrawAmount] = useState('');
@@ -97,6 +98,7 @@ export default function Cards() {
 
     useEffect(() => {
         fetchData();
+        fetchWallet();
     }, []);
 
     const fetchData = async () => {
@@ -106,7 +108,7 @@ export default function Cards() {
             setCardData(response.data);
             setTimeout(() => {
                 setIsLoading(false);
-            }, 1000);
+            }, 500);
         })
         .catch((error) => {
             console.log(error);
@@ -117,6 +119,7 @@ export default function Cards() {
         await axios.get(apiUrl+`User/GetWalletByUserId?UserId=` + userId)
         .then((response) => {
             dispatch(updateWallet(response.data.wallet));
+            setProfit(response.data.profit);
         })
         .catch((error) => {
             console.log(error);
@@ -165,9 +168,12 @@ export default function Cards() {
                 <TilePaper sx={{ width: '98%' }}>
                     <Box sx={{ padding: '35px', justifyContent: 'center', display: 'flex', color: 'white' }}>
                         <Stack direction={'row'} spacing={4} sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-                            <BackgroundBox>
+                            <BackgroundBox sx={{ justifyItems: 'center' }}>
                                 <Typography variant="h2">{formatCurrency(wallet)}</Typography>
-                                <Typography variant="h6">profit placeholder</Typography>
+                                <Stack direction={'column'} spacing={0} sx={{ justifyItems: 'start' }}>
+                                    <Typography variant="subtitle2">Profit:</Typography>
+                                    <Typography variant="h6" sx={{ color: profit > 0 ? 'limegreen' : 'firebrick' }}>{formatCurrency(profit)}</Typography>
+                                </Stack>
                             </BackgroundBox>
                             <Stack direction={'row'} spacing={3}>
                                 <Stack direction={'column'} spacing={3}>
