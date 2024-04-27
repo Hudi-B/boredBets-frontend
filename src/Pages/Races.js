@@ -81,7 +81,7 @@ const switchButtons = (upcoming) => {
         }}
         onClick={() => setPresent(upcoming)}
         >
-        <Typography>{upcoming ? "Upcoming" : "History"}</Typography>
+        {upcoming ? "Upcoming" : "History"}
         </Box>)
 }
     return (

@@ -23,7 +23,7 @@ function App() {
   const [betAble, setBetAble] = useState(null);
   const [past, setPast] = useState(null);
   const [notFoundError, setNotFoundError] = useState(false);
-
+const moment = require('moment');
   const theme = useTheme();
 
   useEffect(() => {
@@ -183,8 +183,7 @@ if(notFoundError) {
                 {pending? 
                 <Skeleton width={"50%"} height={"50px"} animation="wave" />
                 : 
-                "Race held at: "+race.raceSceduled.replace("T"," ").replace("Z","").replaceAll("-", "/")
-                }
+                "Race held at: "+moment(race.raceSceduled).format("YYYY/MM/DD HH:mm")}
             </Box>
             <Stack
               direction="row"
@@ -235,7 +234,7 @@ if(notFoundError) {
         <Tooltip title="Show on map" placement='top'>
           <Button variant="string" onClick={handleMapOpen}
           sx={{width: 'fit-content'}}>
-            <FmdGoodIcon sx={{fontSize: '40px', margin:'none'}}/>
+            <FmdGoodIcon sx={{fontSize: '40px', margin:'none', color:'black'}}/>
           </Button>
         </Tooltip>
       </Stack>
