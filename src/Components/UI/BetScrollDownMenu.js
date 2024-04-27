@@ -9,6 +9,8 @@ import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
 import { useSelector } from 'react-redux';
 import '../../styles/Main.css';
+import { useDispatch } from 'react-redux';
+import { updateWallet } from '../../auth/authSlice';
 
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
@@ -112,6 +114,18 @@ function PlaceBetPopup({ raceId, participants }) {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
+  const dispatch = useDispatch();
+  const fetchWallet = async () => {
+    await axios.get(apiUrl+`User/GetWalletByUserId?UserId=` + userData.userId)
+    .then((response) => {
+        dispatch(updateWallet(response.data.wallet));
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+  }
+
   const handleConfirmBet = () => {
     setOpenDialog(false);
     const bet = {
@@ -134,6 +148,7 @@ function PlaceBetPopup({ raceId, participants }) {
         autoHideDuration: 3000,
         TransitionComponent: Slide,
     });
+    fetchWallet();
     }).catch((error) => {
       enqueueSnackbar("An error occured. Please try again later!", {
         variant: 'error',
