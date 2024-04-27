@@ -9,8 +9,11 @@ import Slide from '@mui/material/Slide';
 
 import First from '../Components/Home/First'
 
-export default function HomePage() {
+import Second from '../Components/Home/Second'
 
+import Third from '../Components/Home/Third'
+
+export default function HomePage() {
   return (
     <Box sx={{
       width: '100%',
@@ -19,7 +22,6 @@ export default function HomePage() {
       flexDirection: 'column',
       minHeight: '100vh',
       alignItems: 'center',
-      padding: '10px',
       margin: '0px',
       overflowY: 'auto',
       paddingTop: '30px',
@@ -27,10 +29,14 @@ export default function HomePage() {
 
         <First/>
         
+        <Second/>
+
+        <Third/>
         
         <Box sx={{
           marginTop: 25,
           marginBottom: 20,
+          paddingX: 5,
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
