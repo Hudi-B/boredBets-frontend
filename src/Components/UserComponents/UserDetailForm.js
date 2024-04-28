@@ -51,6 +51,7 @@ const UserDetailForm = ( {open, onClose} ) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        console.log(phoneNumber, name, dateOfBirth, address);
         if (phoneNumber === '' || name === '' || dateOfBirth === '' || address === '') {
             enqueueSnackbar('Please fill in all fields', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
             return;
@@ -64,7 +65,8 @@ const UserDetailForm = ( {open, onClose} ) => {
             setWarningShown(true);
             return;
         }
-        await axios.put(apiUrl+`User/UpdateUserByUserId?UserId=` + userId, { phoneNumber: phoneNumber, name: name, dateOfBirth: dateOfBirth, address: address })
+        const formattedDate = dateOfBirth.format('YYYY-MM-DD');
+        await axios.put(apiUrl+`UserDetail/UpdateUserDetailByUserId?UserId=` + userId, { fullname: name, address: address, phoneNum: phoneNumber, birthDate: formattedDate })
             .then(() => {
                 enqueueSnackbar('Details successfully updated', { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide });
                 onClose();
