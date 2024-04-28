@@ -9,7 +9,7 @@ import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import numeral from 'numeral';
 import Notifications from './notification';
-import { Wallet } from '@mui/icons-material';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 export default function Navbar( {background} ) {
   const userData = useSelector((state) => state.auth);
@@ -23,7 +23,7 @@ const RightBoxContent = () => {
         <Stack direction={'row'} spacing={1} alignItems={'center'}> 
           <Hidden smDown>
             <Tooltip title={'Your wallet'}>
-              <Chip label={'€' + formattedWallet} icon={<Wallet style={{color: 'white'}}/>} sx={{ color: 'white'}} />
+              <Chip label={'€' + formattedWallet} icon={<AccountBalanceWalletIcon style={{color: 'white'}}/>} sx={{ color: 'white'}} />
             </Tooltip>
           </Hidden>
           <Notifications />
@@ -63,8 +63,8 @@ const RightBoxContent = () => {
           gap: '15px'}}>
             <Hidden mdUp><Hamburger isAdmin={userData.isAdmin} /></Hidden>
             <Button style={{color: 'white', fontSize: '25px'}} component={Link} to="/">
-              <Hidden smDown><img src={process.env.PUBLIC_URL + "/images/banner.png"} alt="logo" height="40px" /></Hidden>
-              <Hidden smUp><img src={process.env.PUBLIC_URL + "/images/logo.png"} alt="logo" height="40px" /></Hidden>
+              <Hidden smDown><img src={process.env.PUBLIC_URL + "/images/longbannerlight.png"} alt="logo" height="60px" /></Hidden>
+              <Hidden smUp><img src={process.env.PUBLIC_URL + "/images/iconlight.png"} alt="logo" height="40px" /></Hidden>
             </Button>
             <Hidden mdDown>
                 <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/discover">

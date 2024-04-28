@@ -90,36 +90,34 @@ export default function App() {
         margin: 'none',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: 'rgb(2, 145, 138)',
+        backgroundColor: 'rgb(63, 85, 115)',
         overflow: 'auto',
         overflowX: 'hidden',
       }}>
-        <Router>
-          <Navbar background={"rgba(50, 50, 50, 1)"} />
-          <Suspense fallback={
-                  <Box sx={{ display: 'flex' ,width: '100vw', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
-                    <CircularProgress sx={{color: 'black', height: '100px', width: '100px'}}/>
-                  </Box>}>
-              <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route path="*" element={<NotFound lookedFor={'page'} />} />
-
-                <Route exact path="/test" element={<Test />} />
-
-                <Route exact path="/discover" element={<Discover />} />
-                <Route exact path="/user/:userId" element={<User />} />
-                <Route exact path="/jockey/:jockeyId" element={<Jockey />} />
-                <Route exact path="/horse/:horseId" element={<Horse />} />
-                <Route exact path="/races" element={<Races />} />
-                <Route exact path="/race/:raceId" element={<SingleRace />} />
-
-                <Route exact path="/verification/:verificationCode/:userId" element={<Verification />} />
-
-                {userData.isLoggedIn && <Route exact path="/mypage" element={<MyPage />} />}
-                {userData.isAdmin && <Route exact path="/admin" element={<Admin />} />}
-              </Routes>
-            </Suspense>
-        </Router>
+        <Box>
+          <Router>
+            <Navbar background={"rgba(50, 50, 50, 1)"} />
+            <Suspense fallback={
+                    <Box sx={{ display: 'flex' ,width: '100vw', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+                      <CircularProgress sx={{color: 'black', height: '100px', width: '100px'}}/>
+                    </Box>}>
+                <Routes>
+                  <Route exact path="/" element={<Home />} />
+                  <Route path="*" element={<NotFound lookedFor={'page'} />} />
+                  <Route exact path="/test" element={<Test />} />
+                  <Route exact path="/discover" element={<Discover />} />
+                  <Route exact path="/user/:userId" element={<User />} />
+                  <Route exact path="/jockey/:jockeyId" element={<Jockey />} />
+                  <Route exact path="/horse/:horseId" element={<Horse />} />
+                  <Route exact path="/races" element={<Races />} />
+                  <Route exact path="/race/:raceId" element={<SingleRace />} />
+                  <Route exact path="/verification/:verificationCode/:userId" element={<Verification />} />
+                  {userData.isLoggedIn && <Route exact path="/mypage" element={<MyPage />} />}
+                  {userData.isAdmin && <Route exact path="/admin" element={<Admin />} />}
+                </Routes>
+              </Suspense>
+          </Router>
+        </Box>
         <Footer />
       </Box>
     </ThemeProvider>

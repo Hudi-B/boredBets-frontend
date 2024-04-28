@@ -6,7 +6,9 @@ export default function Second() {
         <Grid container gap={2}  sx={{
             justifyContent: 'center',
             width: '100%',
-            backgroundColor: 'rgba(50,50,50,0.2)',
+            backgroundImage: 'url("/images/bg.png")',
+            backgroundRepeat: 'repeat',
+            backgroundSize: '10%',
             paddingY: 10,}}>
             <Hidden mdDown>
                 <Grid item xs={10} md={5} sx={{

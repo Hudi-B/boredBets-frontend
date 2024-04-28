@@ -25,7 +25,7 @@ export default function HomePage() {
       margin: '0px',
       overflowY: 'auto',
       paddingTop: '30px',
-      backgroundColor: 'rgb(2, 145, 138)'}} className="noScrollBar">
+      backgroundColor: 'rgb(63, 85, 115)'}} className="noScrollBar">
 
         <First/>
         
