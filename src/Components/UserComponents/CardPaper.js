@@ -39,8 +39,8 @@ export default function CardPaper({ cardName, cardNumber, expirationYear, expira
                         <CreditCard sx={{ color: 'white' }}/>
                 </Stack>
 
-                <Stack direction={'row'} spacing={10}>
-                    <Stack direction="column" alignItems="start">
+                <Stack direction={'row'}>
+                    <Stack direction="column" alignItems="start" sx={{ width: '100%'}}>
                         <CaptionText>Card number</CaptionText>
                         <BackgroundBox>
                             <Typography variant="h5">{cardNumber}</Typography>
