@@ -69,7 +69,7 @@ export default function ChangeImage({userId}) {
           return;
         }
         setIsLoading(true);
-        const apiKey = '79e36beafc907dce47452c2429ca5592'; //api key to save the images to MY account
+        const apiKey = '063f989f8cf5a570f7bb571df9db3708'; //api key to save the images to MY account
     
         axios.post(`https://api.imgbb.com/1/upload?&key=${apiKey}`, imageFormData)
           .then((response) => {
