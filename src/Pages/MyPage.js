@@ -1,7 +1,10 @@
 import React from 'react';
-import { Box, Chip, Divider, Stack, Typography, Paper, Hidden, createTheme } from '@mui/material';
+import { Box, Chip, Divider, Stack, Typography, Paper, Hidden, createTheme, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import HistoryIcon from '@mui/icons-material/History';
 
 import Information from '../Components/UserComponents/Information';
 import Cards from '../Components/UserComponents/Cards';
@@ -21,33 +24,50 @@ export default function UserPage() {
     }
 
     return (
-        <Box sx={{ 
-         padding: isSmallScreen ? 'none' : '35px', 
-
-         paddingTop: '50px'}}
-         >
-            <Grid container spacing={5} sx={{height: '100%'}}>
-                {!isSmallScreen &&
-                    <Grid item xs={3} minWidth={'250px'}>
-                        <Stack spacing={2} alignItems={'center'} className='preventSelect' sx={{ paddingTop: '10px' }}>
-                            <Paper elevation={ currentPage === 0 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(0) }} >
-                                <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >Account</Typography>
-                            </Paper>
-                            <Paper elevation={ currentPage === 1 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(1) }} >
-                                <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >Payment</Typography>
-                            </Paper>
-                            <Paper elevation={ currentPage === 2 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(2) }} >
-                                <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >History</Typography>
-                            </Paper>
-                        </Stack>
+        <>
+            <Box sx={{
+             padding: isSmallScreen ? 'none' : '35px',
+             paddingTop: '50px'}}
+             >
+                <Grid container spacing={5} sx={{height: '100%'}}>
+                    {!isSmallScreen &&
+                        <Grid item xs={3} minWidth={'250px'}>
+                            <Stack spacing={2} alignItems={'center'} className='preventSelect' sx={{ paddingTop: '10px' }}>
+                                <Paper elevation={ currentPage === 0 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(0) }} >
+                                    <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >Account</Typography>
+                                </Paper>
+                                <Paper elevation={ currentPage === 1 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(1) }} >
+                                    <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >Payment</Typography>
+                                </Paper>
+                                <Paper elevation={ currentPage === 2 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(2) }} >
+                                    <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >History</Typography>
+                                </Paper>
+                            </Stack>
+                        </Grid>
+                        }
+                    <Grid item xs={12} md={8} sx={{ paddingBottom: '100px'}}>
+                        {currentPage === 0 && <Information />}
+                        {currentPage === 1 && <Cards />}
+                        {currentPage === 2 && <History />}
                     </Grid>
-                    }
-                <Grid item xs={12} md={8} sx={{ paddingBottom: '100px'}}>
-                    {currentPage === 0 && <Information />}
-                    {currentPage === 1 && <Cards />}
-                    {currentPage === 2 && <History />}
                 </Grid>
-            </Grid>
-        </Box>
+            </Box>
+            {isSmallScreen &&
+                <Box sx={{ width: '100%', position: 'absolute', bottom: 0}}>
+                <BottomNavigation
+                    showLabels
+                    value={currentPage}
+                    onChange={(event, newValue) => {
+                        handleCompChange(newValue);
+                    }}
+                    sx={{ backgroundColor: 'rgb(50, 50, 50)'}}
+                >
+                    <BottomNavigationAction sx={{color: 'white'}} label="Account" icon={<AccountBoxIcon />} />
+                    <BottomNavigationAction sx={{color: 'white'}} label="Payment" icon={<AccountBalanceWalletIcon />} />
+                    <BottomNavigationAction sx={{color: 'white'}} label="History" icon={<HistoryIcon />} />
+                </BottomNavigation>
+            </Box>
+            }
+    </>
     )
 }
