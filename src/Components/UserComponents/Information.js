@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Divider, Input} from '@mui/material';
+import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Divider, Input, Switch, Select, FormControl, MenuItem} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
@@ -25,6 +25,12 @@ const TilePaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
     textAlign: 'center',
     color: 'white',
+}))
+
+const BackgroundBox = styled(Box)(({ theme }) => ({
+    backgroundColor: 'rgb(0, 93, 93)',
+    padding: theme.spacing(1),
+    borderRadius: '5px',
 }))
 
 export default function Information() {
@@ -67,7 +73,6 @@ export default function Information() {
         await axios.get(apiUrl+`UserDetail/GetUserDetailByUserId?UserId=` + userId)
         .then((response) => {
             setUserData(response.data);
-            console.log(response.data);
         })
         .catch((error) => {
             console.log(error);
@@ -77,22 +82,17 @@ export default function Information() {
     const transactionsCheck = async () => {
         await axios.get(apiUrl+`UserDetail/GetAllTransactionsByUserId?UserId=` + userId)
         .then((response) => {
-            console.log(response.data);
-            if (response.status !== 404) {
+            if (response.data.length > 0) {
                 setUserStatus({ ...userStatus, transaction: true });
             }
             if (userStatus.transaction && userStatus.profilePic) {
                 setUserStatus({ ...userStatus, completedProfile: true });
+                console.log(userStatus);
             }
             console.log(userStatus);
         })
-        .catch((error) => {
-            if (error.response.status === 404) {
-                setUserStatus({ ...userStatus, transaction: false });
-            }
-            else {
+        .catch((error) => {  
                 console.log(error);
-            }
         })
     }
 
@@ -159,7 +159,12 @@ export default function Information() {
                                 </Box>
                             </Box>
                             <Typography variant="h6">{username}</Typography>
-                            <Typography variant="subtitle1">{ userId }</Typography>
+                            <BackgroundBox>
+                                <Stack direction="column" spacing={0}>
+                                    <Typography variant="subtitle1">User ID:</Typography>
+                                    <Typography variant="subtitle1">{ userId }</Typography>
+                                </Stack>
+                            </BackgroundBox>
                         </TilePaper>
 
                         <TilePaper>
@@ -195,7 +200,7 @@ export default function Information() {
                                 <Grid item xs={12} sm={6} md={12} lg={6}>
                                     <Stack direction={'column'} spacing={2} alignItems={'center'}>
                                         <Stack direction={'row'} spacing={2} alignItems="center">
-                                            <Typography variant="h6" sx={{color: 'lightgrey'}}>Create an Account</Typography>
+                                            <Typography variant="h6" sx={{color: 'lightgrey'}}>Create Account</Typography>
                                             <Box
                                             sx={{
                                             width: '50px',
@@ -234,7 +239,7 @@ export default function Information() {
                                 <Grid item xs={12} sm={6} md={12} lg={6}>
                                     <Stack direction={'column'} spacing={2} alignItems={'center'}>
                                         <Stack direction={'row'} spacing={2} alignItems="center">
-                                            <Typography variant="h6">Complete Account</Typography>
+                                            <Typography variant="h6" sx={{color: userStatus.completedProfile ? 'lightgrey' : 'white'}}>Complete Account</Typography>
                                             <Box
                                             sx={{
                                             width: '50px',
@@ -242,17 +247,18 @@ export default function Information() {
                                             borderRadius: '50%',
                                             borderStyle: 'solid',
                                             borderWidth: '2px',
-                                            borderColor: 'white',
+                                            borderColor: userStatus.completedProfile ? 'transparent' : 'white',
+                                            backgroundColor: userStatus.completedProfile ? 'limegreen' : 'transparent',
                                             display: 'flex',
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                             flex: 'none',}}
                                             >
-                                                <ChecklistIcon sx={{color: 'white'}}/>
+                                                <ChecklistIcon sx={{color: userStatus.completedProfile ? 'rgb(4, 112, 107)' : 'white'}}/>
                                             </Box>
                                         </Stack>
                                         <Stack direction="row" spacing={2} alignItems="center">
-                                            <Typography variant="h6" sx={{color: userStatus.transaction ? 'white' : 'lightgrey'}}>Make Transaction</Typography>
+                                            <Typography variant="h6" sx={{color: userStatus.transaction ? 'lightgrey' : 'white'}}>Make Transaction</Typography>
                                             <Box
                                                 sx={{
                                                 width: '50px',
@@ -260,14 +266,14 @@ export default function Information() {
                                                 borderRadius: '50%',
                                                 borderStyle: 'solid',
                                                 borderWidth: '2px',
-                                                borderColor: userStatus.transaction ? 'white' : 'transparent',
-                                                backgroundColor: userStatus.transaction ? 'transparent' : 'limegreen',
+                                                borderColor: userStatus.transaction ? 'transparent' : 'white',
+                                                backgroundColor: userStatus.transaction ? 'limegreen' : 'transparent',
                                                 display: 'flex',
                                                 justifyContent: 'center',
                                                 alignItems: 'center',
                                                 flex: 'none',}}
                                             >
-                                                <CreditCardIcon sx={{color: userStatus.transaction ? 'white' : 'rgb(4, 112, 107)'}}/>
+                                                <CreditCardIcon sx={{color: userStatus.transaction ? 'rgb(4, 112, 107)' : 'white'}}/>
                                             </Box>
                                         </Stack>
                                     </Stack>
@@ -312,9 +318,26 @@ export default function Information() {
                             </Stack>
                         </TilePaper>
 
-                        <TilePaper>
+                        <TilePaper sx={{paddingX: '30px'}}>
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Preferences</Typography>
                             <Stack direction="column" spacing={1}>
+                                <Stack direction="row" justifyContent={'space-between'}>
+                                    <Typography variant="h6">Make profile public</Typography>
+                                    <Switch />
+                                </Stack>
+                                <Stack direction="row" justifyContent={'space-between'}>
+                                    <Typography variant="h6">Time zone</Typography>
+                                    <FormControl>
+                                        <Select variant='standard'>
+                                            <MenuItem value={10}>10</MenuItem>
+                                            <MenuItem value={20}>20</MenuItem>
+                                            <MenuItem value={30}>30</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Stack>
+                                <Box sx={{paddingTop: '20px'}}>
+                                    <Button variant="contained">Submit</Button>
+                                </Box>
                             </Stack>
                         </TilePaper>
                     </Stack>
