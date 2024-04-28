@@ -1,22 +1,32 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Avatar, Box, Grid, Typography, Stack } from '@mui/material';
 
 export default function Footer() {
     return (
         <footer>
             <Box sx={{
             width: '100%',
-            height: '100px',
             color: 'white',
-            backgroundColor: 'rgba(50, 50, 50, 1)',
             display: 'flex',
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
             bottom: 0,
-            position: 'relative',
-            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2)', }}
+            position: 'relative',}}
             >
-                <Typography>Footer</Typography>
+                <Grid container sx={{ width: '100%', backgroundColor: 'rgba(50, 50, 50, 1)', paddingX: '20vw', paddingY: 5 }}>
+                    <Grid item>
+                        <Typography>Contact: boredomserviceprovider@gmail.com</Typography>
+                    </Grid>
+                </Grid>
+                <Grid container sx={{ width: '100%', backgroundColor: 'rgba(66, 66, 66, 1)', paddingX: '20vw', paddingY: 5 }}>
+                    <Grid item>
+                        <Stack direction="row" spacing={2}>
+                            <Avatar variant='square' src={process.env.PUBLIC_URL + '/images/bannerlight.png'} sx={{width: 'auto', height: '120px' }}/>
+                            <Typography>© 2024 - BoreDom</Typography>
+                        </Stack>
+                    </Grid>
+                </Grid>
             </Box>
         </footer>
     );
