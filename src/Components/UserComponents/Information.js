@@ -16,19 +16,23 @@ import ChecklistIcon from '@mui/icons-material/Checklist';
 import PortraitIcon from '@mui/icons-material/Portrait';
 import EditIcon from '@mui/icons-material/Edit';
 import PasswordChangeForm from './PasswordChangeForm';
+import EmailChangeForm from './EmailChangeForm';
+import UsernameChangeForm from './UsernameChangeForm';
 import ChangeImage from './ChangeImage';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '100%',
     boxShadow: theme.shadows[4],
-    backgroundColor: 'rgb(4, 112, 107)',
+    backgroundColor: 'rgba(50, 50, 50, 0.2)',
     padding: theme.spacing(2),
     textAlign: 'center',
     color: 'white',
 }))
 
 const BackgroundBox = styled(Box)(({ theme }) => ({
-    backgroundColor: 'rgb(0, 93, 93)',
+    backgroundColor: 'rgb(50,71,101)',
     padding: theme.spacing(1),
     borderRadius: '5px',
 }))
@@ -38,14 +42,12 @@ export default function Information() {
     const username = useSelector((state) => state.auth.username);
     const userId = useSelector((state) => state.auth.userId);
     const userImage = useSelector((state) => state.auth.imageUrl);
-    const [tempEmail, setTempEmail] = useState('');
-    const [tempUsername, setTempUsername] = useState('');
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const [visibility, setVisibility] = useState(true);
+
     const [userStatus, setUserStatus] = useState({
-        profilePic: userImage === '',
+        profilePic: userImage !== '',
         transaction: false,
         completedProfile: false,
-
     });
     const [userData, setUserData] = useState({
         username: '',
@@ -59,6 +61,8 @@ export default function Information() {
     const [openDialogs, setOpenDialogs] = useState({
         aboutYouDialog: false,
         passwordChangeDialog: false,
+        usernameChangeDialog: false,
+        emailChangeDialog: false,
     });
     
     const handleOpenDialog = (dialogName) => {
@@ -67,6 +71,7 @@ export default function Information() {
     
     const handleCloseDialog = (dialogName) => {
         setOpenDialogs({ ...openDialogs, [dialogName]: false });
+        fetchData();
     };
 
     const fetchData = async () => {
@@ -85,11 +90,7 @@ export default function Information() {
             if (response.data.length > 0) {
                 setUserStatus({ ...userStatus, transaction: true });
             }
-            if (userStatus.transaction && userStatus.profilePic) {
-                setUserStatus({ ...userStatus, completedProfile: true });
-                console.log(userStatus);
-            }
-            console.log(userStatus);
+            console.log(response.data);
         })
         .catch((error) => {  
                 console.log(error);
@@ -101,39 +102,13 @@ export default function Information() {
         transactionsCheck();
     }, []);
 
-    const handleEmailSubmit = async () => {
-        if (!tempEmail.match(emailRegex)) {
-            enqueueSnackbar("Invalid email", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+    useEffect(() => {
+        if (userStatus.transaction && userStatus.profilePic) {
+            setUserStatus({ ...userStatus, completedProfile: true });
+            console.log(userStatus);
         }
-        else {
-            await axios.put(apiUrl+`User/UpdateEmailByUserId?UserId=` + userId, { email: tempEmail })
-            .then(() => {
-                setTempEmail('');
-                enqueueSnackbar("Email updated", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
-                fetchData();
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-        }
-    }
-
-    const handleUsernameSubmit = async () => {
-        if (tempUsername.length <= 4) {
-            enqueueSnackbar("Invalid username", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
-        }
-        else {
-            await axios.put(apiUrl+`User/UpdateUsernameByUserId?UserId=` + userId, { username: tempUsername })
-            .then(() => {
-                setTempUsername('');
-                enqueueSnackbar("Username updated", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
-                fetchData();
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-        }
-    }
+        console.log(userStatus);
+    }, [userStatus.transaction, userStatus.profilePic]);
 
     return (
         <Box 
@@ -159,7 +134,7 @@ export default function Information() {
                                 </Box>
                             </Box>
                             <Typography variant="h6">{username}</Typography>
-                            <BackgroundBox>
+                            <BackgroundBox sx>
                                 <Stack direction="column" spacing={0}>
                                     <Typography variant="subtitle1">User ID:</Typography>
                                     <Typography variant="subtitle1">{ userId }</Typography>
@@ -216,7 +191,7 @@ export default function Information() {
                                             </Box>
                                         </Stack>
                                         <Stack direction="row" spacing={2} alignItems="center">
-                                            <Typography variant="h6" sx={{color: userStatus.profilePic ? 'white' : 'lightgrey'}}>Add Profile Picture</Typography>
+                                            <Typography variant="h6" sx={{color: userStatus.profilePic ? 'lightgrey' : 'white'}}>Add Profile Picture</Typography>
                                             <Box
                                             sx={{
                                             width: '50px',
@@ -224,14 +199,14 @@ export default function Information() {
                                             borderRadius: '50%',
                                             borderStyle: 'solid',
                                             borderWidth: '2px',
-                                            borderColor: userStatus.profilePic ? 'white' : 'transparent',
+                                            borderColor: userStatus.profilePic ? 'transparent' : 'white',
                                             display: 'flex',
-                                            backgroundColor: userStatus.profilePic ? 'transparent' : 'limegreen',
+                                            backgroundColor: userStatus.profilePic ? 'limegreen' : 'transparent',
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                             flex: 'none',}}
                                             >
-                                                <PortraitIcon sx={{color: userStatus.profilePic ? 'white' : 'rgb(4, 112, 107)'}}/>
+                                                <PortraitIcon sx={{color: userStatus.profilePic ? 'rgb(4, 112, 107)' : 'white'}}/>
                                             </Box>
                                         </Stack>
                                     </Stack>
@@ -283,68 +258,45 @@ export default function Information() {
 
                         <TilePaper>
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Details</Typography>
-                            <Stack direction="column" spacing={2} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                <Grid container direction="row" spacing={2} sx={{width: '100%', justifyContent:'center'}}>
-                                    <Grid item xs={12} sm={6} md={12} lg={6} display={'flex'} gap={1}>
-                                        <Typography variant="h6">Username</Typography>
-                                        <Input placeholder={userData.username} value={tempUsername} onChange={(e) => setTempUsername(e.target.value)} sx={{width: '100%'}}/>
-                                    </Grid>
-                                    <Grid item xs={8} sm={6} md={8} lg={6}>
-                                        <Button variant="contained" onClick={() => {handleUsernameSubmit()}} sx={{width: '100%' }}>Edit</Button>
-                                    </Grid>
-                                </Grid>
-                                <Grid container direction="row" spacing={2} sx={{width: '100%', justifyContent:'center'}}>
-                                    <Grid item xs={12} sm={6} md={12} lg={6} display={'flex'} gap={1}>
-                                        <Typography variant="h6">Email</Typography>
-                                        <Input placeholder={userData.email} value={tempEmail} onChange={(e) => setTempEmail(e.target.value)} sx={{width: '100%'}}/>
-                                    </Grid>
-                                    <Grid item xs={8} sm={6} md={8} lg={6}>
-                                        <Button variant="contained" onClick={() => {handleEmailSubmit()}} sx={{width: '100%'}}>Edit</Button>
-                                    </Grid>
-                                </Grid>
-                            </Stack>
+                                <Stack container direction="column" spacing={1} sx={{paddingBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                    <Stack direction="row" alignItems="center" justifyContent="center" >
+                                        <LockOpenIcon sx={{ color: visibility ? 'grey' : 'white'}}/>
+                                        <Switch size='large' value={visibility} defaultChecked onChange={(event) => setVisibility(event.target.checked)}/>
+                                        <LockOutlinedIcon sx={{ color: visibility ? 'white' : 'grey' }}/>
+                                    </Stack>
+                                    <Typography variant="caption">Change profile visibility.</Typography>
+                                </Stack>
+                                <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.5)' }}/>
+                                <Stack direction="column" spacing={1} sx={{paddingY: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}} >
+                                    <Button variant="contained" sx={{width: '300px'}} onClick={() => {handleOpenDialog('usernameChangeDialog')}} >Change Username</Button>
+                                    <Typography variant="caption">Change your current username.</Typography>
+                                </Stack>
+                                <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.5)' }}/>
+                                <Stack direction="column" spacing={1} sx={{paddingTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                    <Button variant="contained" sx={{width: '300px'}} onClick={() => {handleOpenDialog('emailChangeDialog')}} >Change Email Address</Button>
+                                    <Typography variant="caption">Change your current email address.</Typography>
+                                </Stack>
                         </TilePaper>
 
                         <TilePaper>
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Password</Typography>
-                            <Stack direction="column" spacing={1} sx={{paddingBottom: '20px'}}>
-                                <Button variant="contained" onClick={() => {handleOpenDialog('passwordChangeDialog')}} sx={{width: '100%'}}>Change Password</Button>
+                            <Stack direction="column" spacing={1} sx={{paddingBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}} >
+                                <Button variant="contained" onClick={() => {handleOpenDialog('passwordChangeDialog')}} sx={{width: '300px'}} >Change Password</Button>
                                 <Typography variant="caption">Change password by entering your current one.</Typography>
                             </Stack>
                             <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.5)' }}/>
-                            <Stack direction="column" spacing={1} sx={{paddingTop: '20px'}}>
-                                <Button variant="contained" onClick={(event) => {event.preventDefault(); window.scrollTo(0, 0);}} sx={{width: '100%'}}>Reset Password</Button>
+                            <Stack direction="column" spacing={1} sx={{paddingTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                <Button variant="contained" onClick={(event) => {event.preventDefault(); window.scrollTo(0, 0);}} sx={{width: '300px'}} >Reset Password</Button>
                                 <Typography variant="caption">Reset password via email.</Typography>
-                            </Stack>
-                        </TilePaper>
-
-                        <TilePaper sx={{paddingX: '30px'}}>
-                            <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Preferences</Typography>
-                            <Stack direction="column" spacing={1}>
-                                <Stack direction="row" justifyContent={'space-between'}>
-                                    <Typography variant="h6">Make profile public</Typography>
-                                    <Switch />
-                                </Stack>
-                                <Stack direction="row" justifyContent={'space-between'}>
-                                    <Typography variant="h6">Time zone</Typography>
-                                    <FormControl>
-                                        <Select variant='standard'>
-                                            <MenuItem value={10}>10</MenuItem>
-                                            <MenuItem value={20}>20</MenuItem>
-                                            <MenuItem value={30}>30</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Stack>
-                                <Box sx={{paddingTop: '20px'}}>
-                                    <Button variant="contained">Submit</Button>
-                                </Box>
                             </Stack>
                         </TilePaper>
                     </Stack>
                 </Grid>
             </Grid>
-            <UserDetailForm open={openDialogs.aboutYouDialog} onClose={() => handleCloseDialog('aboutYouDialog')} onSubmit={() => {/* handle submit logic */}} />
-            <PasswordChangeForm open={openDialogs.passwordChangeDialog} onClose={() => handleCloseDialog('passwordChangeDialog')} onSubmit={() => {/* handle submit logic */}}/>
+            <UserDetailForm open={openDialogs.aboutYouDialog} onClose={() => handleCloseDialog('aboutYouDialog')} />
+            <PasswordChangeForm open={openDialogs.passwordChangeDialog} onClose={() => handleCloseDialog('passwordChangeDialog')} />
+            <EmailChangeForm open={openDialogs.emailChangeDialog} onClose={() => handleCloseDialog('emailChangeDialog')} />
+            <UsernameChangeForm open={openDialogs.usernameChangeDialog} onClose={() => handleCloseDialog('usernameChangeDialog')} />
         </Box>
     );
 }
