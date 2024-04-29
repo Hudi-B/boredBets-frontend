@@ -3,7 +3,7 @@ import { useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Box, Button, Divider, Grid, Input, MenuItem, Select, Stack, Typography, FormControl, Dialog, DialogContent, DialogContentText, TextField} from '@mui/material';
 import { useSnackbar } from 'notistack';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import Slide from '@mui/material/Slide';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -82,7 +82,7 @@ const UserDetailForm = ( {open, onClose} ) => {
                     <Box>
                         <ClearIcon style={{ color: 'white', position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }} onClick={onClose} />
                     </Box>
-                    <Box sx={{ padding: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', backgroundColor: 'rgb(4, 112, 107)' }}>
+                    <Box sx={{ padding: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', backgroundColor: 'rgb(63, 85, 115)' }}>
                         <Typography variant='h4' sx={{ color: 'white', paddingBottom: '40px' }}>About you</Typography>
                         <Stack spacing={2} alignItems={'center'} direction={'column'}>
                             <Stack spacing={1} direction={'column'} alignItems={'start'}>
@@ -92,7 +92,7 @@ const UserDetailForm = ( {open, onClose} ) => {
                             <Stack spacing={1} direction={'column'} alignItems={'start'}>
                                 <Typography variant='subtitle2' sx={{ color: 'white' }}>Date of birth</Typography>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker maxDate={maxDate} minDate={minDate} slotProps={{ textField: { variant: 'standard', style:{ width: '300px' }, inputProps: { style: { color: 'white', fontSize: '16px' }, } }}} slots={{ openPickerIcon: () => <CalendarMonthIcon style={{ fontSize: '16px', color: 'white' }} />,}} value={dateOfBirth} onChange={(newValue) => { setDateOfBirth(newValue) }} />
+                                    <DatePicker maxDate={maxDate} minDate={minDate} slotProps={{ textField: { variant: 'standard', style:{ width: '300px' }, inputProps: { style: { color: 'white', fontSize: '16px' }, } }}} slots={{ openPickerIcon: () => <CalendarMonthIcon style={{ fontSize: '16px', color: 'white' }} />,}} value={dateOfBirth} onChange={(newValue) => { setDateOfBirth(newValue) }} />
                                 </LocalizationProvider>
                             </Stack>
                             <Stack spacing={1} direction={'column'} alignItems={'start'}>
