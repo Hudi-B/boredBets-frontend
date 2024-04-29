@@ -10,7 +10,7 @@ import { updateProfilePicture } from '../../auth/authSlice';
 import { useSelector } from 'react-redux';
 
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-export default function ChangeImage({userId}) {
+export default function ChangeImage() {
     const [open, setOpen] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const [imageDeleteUrl, setImageDeleteUrl] = useState(null);
@@ -19,7 +19,7 @@ export default function ChangeImage({userId}) {
     const [previewImage, setPreviewImage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
-
+    const userData = useSelector((state) => state.auth);
 
 
 
@@ -61,8 +61,6 @@ export default function ChangeImage({userId}) {
         setIsLoading(false);
       };
 
-    console.log(userId);
-
       const handleSend = () => {
         
         if (!imageFormData) {
@@ -83,7 +81,7 @@ export default function ChangeImage({userId}) {
                 imageDeleteLink: response.data.data.delete_url
             });
 
-        axios.put(apiUrl+'User/UpdateImageByUserId?UserId='+userId, {
+        axios.put(apiUrl+'User/UpdateImageByUserId?UserId='+userData.userId, {
             imageLink: response.data.data.display_url,
             imageDeleteLink: response.data.data.delete_url
         })
@@ -175,7 +173,7 @@ export default function ChangeImage({userId}) {
                             onChange={handleImageChange}
                         />
                         <label htmlFor="contained-button-file">
-                        <Avatar sx={{width: '300px', height: '300px'}} src={previewImage} />
+                        <Avatar sx={{width: '300px', height: '300px'}} src={previewImage?previewImage:userData.imageUrl} />
                         </label>
                     </Box>
                     {previewImage &&
