@@ -96,7 +96,7 @@ export default function Discover() {
   const [jockeyFilter, setJockeyFilter] = useState(jockeyFilterDefault);
 
   const applyFilters = () => {
-    let errorOnFilter = false;
+    var errorOnFilter = false;
     setPageNum(1);
 
     if (horseActive) {

@@ -19,8 +19,12 @@ const EmailChangeForm = ( { open, onClose } ) => {
     const[isLoading, setIsLoading] = useState(false);
 
     const handleEmailSubmit = async () => {
-        if (!tempEmail.match(emailRegex)) {
+        if (!tempEmail.match(emailRegex) || tempEmail.length <= 4) {
             enqueueSnackbar("Invalid email", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+            return;
+        }
+        if (tempEmail === email) {
+            enqueueSnackbar("New email cannot be the same as old email", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
             return;
         }
         setIsLoading(true)
@@ -36,6 +40,20 @@ const EmailChangeForm = ( { open, onClose } ) => {
             return;
         })
     }
+
+    const fetchEmail = async () => {
+        axios.get(apiUrl+`User/GetByUserId?UserId=` + userId)
+        .then((response) => {
+            setEmail(response.data.email);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
+    useEffect(() => {
+        fetchEmail();
+    }, [])
 
     return(
         <Dialog open={open} onClose={onClose}>

@@ -7,7 +7,7 @@ import { CreditCard } from "@mui/icons-material";
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '98%',
     boxShadow: theme.shadows[4],
-    backgroundColor: 'rgb(4, 112, 107)',
+    backgroundColor: 'rgb(50, 50, 50, 0.2)',
     padding: theme.spacing(2),
     textAlign: 'center',
     color: 'white',
@@ -19,7 +19,7 @@ const CaptionText = styled(Typography)(({ theme }) => ({
 }))
 
 const BackgroundBox = styled(Box)(({ theme }) => ({
-    backgroundColor: 'rgb(0, 93, 93)',
+    backgroundColor: 'rgb(50,71,101)',
     padding: theme.spacing(1),
     borderRadius: '5px',
 }))

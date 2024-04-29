@@ -6,7 +6,7 @@ import { Paper, Stack, Typography } from '@mui/material/';
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '98%',
     boxShadow: theme.shadows[4],
-    backgroundColor: 'rgb(4, 112, 107)',
+    backgroundColor: 'rgb(50, 50, 50, 0.2)',
     padding: theme.spacing(2),
     textAlign: 'center',
     color: 'white',
@@ -26,7 +26,7 @@ const TransactionCard = ({ amount, created, type, detail }) => {
     const formatDate = (value) => {
         const rawDate = new Date(value);
         return rawDate.toLocaleTimeString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
-    }
+    };
 
     return (
         <TilePaper>
