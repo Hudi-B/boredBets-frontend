@@ -3,7 +3,7 @@ import { Button, Box,Dialog, Stack, Paper, Hidden, Avatar } from '@mui/material'
 import Login from './AuthPopup/Login';
 import Register from './AuthPopup/Register';
 import CloseIcon from '@mui/icons-material/Close';
-
+import { secondaryColor } from '../../boredLocal';
 export default function AuthPopup({itsALogin}) {
   const [open, setOpen] = React.useState(false); 
   const [onLogin, setOnLogin] = React.useState();
@@ -70,7 +70,7 @@ export default function AuthPopup({itsALogin}) {
             >
                 <Box 
                 sx={{
-                    backgroundColor: 'rgb(60, 150, 120)',
+                    backgroundColor: secondaryColor,
                     width: fullscreen? '100%' : '450px',
                     maxWidth: '100%',
                     height: fullscreen? '100%' : '600px',
