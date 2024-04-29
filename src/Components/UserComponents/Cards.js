@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Box, Typography,  Chip, Paper, Stack, Dialog, Grid, DialogContent, Input, InputAdornment, Select, Skeleton, FormControl, MenuItem, Button } from "@mui/material";
+import { Box, Typography,  Chip, Paper, Stack, Dialog, Grid, DialogContent, Input, InputAdornment, Select, Skeleton, FormControl, MenuItem, Button, Avatar } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CardPaper from "./CardPaper";
 import AddIcon from '@mui/icons-material/Add';
@@ -16,15 +16,15 @@ import { updateWallet } from '../../auth/authSlice';
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '100%',
     boxShadow: theme.shadows[4],
-    backgroundColor: 'rgb(4, 112, 107)',
+    backgroundColor: 'rgb(50, 50, 50, 0.2)',
     padding: theme.spacing(2),
     textAlign: 'center',
     color: 'white',
 }))
 
 const BackgroundBox = styled(Box)(({ theme }) => ({
-    backgroundColor: 'rgb(0, 93, 93)',
-    padding: theme.spacing(3),
+    backgroundColor: 'rgb(50,71,101)',
+    padding: theme.spacing(1),
     borderRadius: '5px',
 }))
 
@@ -160,10 +160,7 @@ export default function Cards() {
         >
             <Stack direction={'column'} spacing={1} sx={{ width: '100%', alignItems: 'center' }}>
                 <TilePaper sx={{ textAlign: 'left' }}>
-                    <Stack direction={'row'} spacing={0} sx={{ width: '100%', alignItems: 'center' }}>
-                        <AddIcon style={{ color: 'white' }} />
                         <Typography variant="h5">Balance</Typography>
-                    </Stack>
                 </TilePaper>
                 <TilePaper sx={{ width: '98%' }}>
                     <Box sx={{ padding: '15px', justifyContent: 'center', display: 'flex', color: 'white' }}>
@@ -179,25 +176,25 @@ export default function Cards() {
                             </Grid>
                             <Grid item xs={12} sm={6} md={12} lg={6} sx={{ display: 'flex', justifyContent: 'center' }}>
                                 <Stack direction={'row'} spacing={3}>
-                                    <Stack direction={'column'} spacing={3}>
-                                        <Input value={depositAmount} onChange={handleDepositChange} placeholder="Deposit Amount" startAdornment={<InputAdornment position="start" style={{ color: 'white' }}>€</InputAdornment>} sx={{ color: 'white' }} inputProps={{ maxLength: 4 }}/>
+                                    <Stack direction={'column'} spacing={3} >
+                                        <Input value={depositAmount} onChange={handleDepositChange} placeholder="Deposit Amount" startAdornment={<InputAdornment position="start"><Typography variant="caption1" sx={{ color: 'white' }}>€</Typography></InputAdornment>} sx={{ color: 'white' }} inputProps={{ maxLength: 4 }}/>
                                         <FormControl>
-                                            <Select value={selectedDepositCard} variant="standard" onChange={(e) => setSelectedDepositCard(e.target.value)} sx={{ color: 'white' }}>
-                                                <MenuItem value={'None'}>Select a card</MenuItem>
+                                            <Select value={selectedDepositCard} variant="standard" onChange={(e) => setSelectedDepositCard(e.target.value)} sx={{ color: 'white' }} >
+                                                <MenuItem sx={{ color: 'black' }} value={'None'}>Select a card</MenuItem>
                                                 {cardData.map((card) => (
-                                                    <MenuItem key={card.creditcardNum.toString()} value={card.creditcardNum}>{card.cardName}</MenuItem>
+                                                    <MenuItem sx={{ color: 'black' }} key={card.creditcardNum.toString()} value={card.creditcardNum}>{card.cardName}</MenuItem>
                                                 ))}
                                             </Select>
                                         </FormControl>
                                         <Button variant="contained" onClick={() => handleDeposit()}>Deposit</Button>
                                     </Stack>
                                     <Stack direction={'column'} spacing={3}>
-                                    <Input value={withdrawAmount} onChange={handleWithdrawChange} placeholder="Withdraw Amount" startAdornment={<InputAdornment position="start" style={{ color: 'white' }}>€</InputAdornment>} sx={{ color: 'white' }} inputProps={{ maxLength: 4 }}/>
+                                    <Input value={withdrawAmount} onChange={handleWithdrawChange} placeholder="Withdraw Amount" startAdornment={<InputAdornment position="start" ><Typography variant="caption1" sx={{ color: 'white' }}>€</Typography></InputAdornment>} sx={{ color: 'white' }} inputProps={{ maxLength: 4 }}/>
                                         <FormControl>
                                             <Select value={selectedWithdrawCard} variant="standard" onChange={(e) => setSelectedWithdrawCard(e.target.value)} sx={{ color: 'white' }}>
-                                                <MenuItem value={'None'}>Select a card</MenuItem>
+                                                <MenuItem sx={{ color: 'black' }} value={'None'}>Select a card</MenuItem>
                                                 {cardData.map((card) => (
-                                                    <MenuItem key={card.creditcardNum.toString()} value={card.creditcardNum}>{card.cardName}</MenuItem>
+                                                    <MenuItem sx={{ color: 'black' }} key={card.creditcardNum.toString()} value={card.creditcardNum}>{card.cardName}</MenuItem>
                                                 ))}
                                             </Select>
                                         </FormControl>
@@ -222,17 +219,25 @@ export default function Cards() {
                             <Skeleton variant="rounded" animation="wave" width={'98%'} height={250} />
                         </>
                     ) : (
-                        cardData.map((card) => (
-                            <CardPaper 
-                                key={card.creditcardNum.toString()}
-                                onDelete={() => handleDelete(card.creditcardNum)}
-                                cardName={card.cardName} 
-                                cardNumber={card.creditcardNum} 
-                                expirationYear={card.expYear} 
-                                expirationMonth={card.expMonth} 
-                                holderName={card.cardHoldername} 
-                                cvc={card.cvc} />
-                        ))
+                        cardData.length > 0 ? (
+                            cardData.map((card) => (
+                                <CardPaper 
+                                    key={card.creditcardNum.toString()}
+                                    onDelete={() => handleDelete(card.creditcardNum)}
+                                    cardName={card.cardName} 
+                                    cardNumber={card.creditcardNum} 
+                                    expirationYear={card.expYear} 
+                                    expirationMonth={card.expMonth} 
+                                    holderName={card.cardHoldername} 
+                                    cvc={card.cvc} />
+                            ))
+                        ) : (
+                                <Box sx={{ textAlign: 'center', padding: '50px', paddingBottom: '100px' }}>
+                                    <Typography variant="h2">No cards added yet.</Typography>
+                                    <Typography variant="h5">Add a card to add funds to your Wallet!</Typography>
+                                    <Avatar variant="square" src="images/errorcatlight.png" sx={{ width: 'auto', height: '300px' }} />
+                                </Box>
+                        )
                     ) 
                 }
             </Stack>
