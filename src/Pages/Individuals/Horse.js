@@ -10,18 +10,21 @@ import FemaleIcon from '@mui/icons-material/Female';
 import { enqueueSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 import NotFound from '../NotFound';
+import { secondaryColor } from '../../boredLocal';
+
+const fontColor = 'rgb(220,220,220)';
 
 const Title = styled(Typography)(({ theme }) => ({
   width:'fill',
   margin:'10px',
   borderBottom: '3px solid black',
-  color: 'black',
+  color: fontColor,
   fontSize: '25px',
   letterSpacing: '1px',
 }))
 const BulletPoint = styled(Typography)(({ theme }) => ({
   fontSize: "18px",
-  color: 'black',
+  color: fontColor,
   width: 'fit-content',
   marginLeft: '25px',
   letterSpacing: '2px',
@@ -32,7 +35,7 @@ const BulletPoint = styled(Typography)(({ theme }) => ({
 }))
 const DataText = styled(Typography)(({ theme }) => ({
   fontSize: "15px",
-  color: 'black',
+  color: fontColor,
   width: 'fit-content',
   paddingBottom: '0px',
   marginLeft: '10px',
@@ -72,16 +75,16 @@ export default function App() {
   
 
   function showPastRaces() {
-    if(data.past3Races.length > 0){
+    if(data.past3Races && data.past3Races.length > 0){
       return data.past3Races.map((race) => (
         <Button key={race.raceId} component={Link} to={`/race/${race.id}`}variant="contained"
         sx={{ 
           marginY: '10px',
           textTransform: 'none',
           fontSize: '18px',
-          backgroundColor: 'rgba(50,50,50,0.3)',
+          backgroundColor: 'rgba(40,40,40,0.3)',
           '&:hover': {
-            backgroundColor: 'rgba(50,50,50,0.15)',
+            backgroundColor: 'rgba(50,50,50,0.3)',
           },
           width: '95%',
           boxShadow: '2px 3px 5px 0px rgba(0,0,0,0.5)',
@@ -114,7 +117,7 @@ export default function App() {
   }
 
   function showUpcomingRaces() {
-    if(data.next3Races.length > 0){
+    if(data.next3Races && data.next3Races.length > 0){
       return data.next3Races.map((race) => (
           <Button key={race.raceId} component={Link} to={`/race/${race.id}`}variant="outlined"
           sx={{ 
@@ -122,14 +125,14 @@ export default function App() {
             textTransform: 'none',
             borderColor: 'rgba(50,50,50,0.3)',
             borderWidth: 2,
-            backgroundColor: 'rgba(50,50,50,0.1)',
+            backgroundColor: 'rgba(150,150,150,0.1)',
             fontSize: '18px',
             color:'white',
             width: '95%',
             display: 'flex',
             flexDirection: 'column',
             '&:hover': {
-              backgroundColor: 'rgba(50,50,50,0.3)',
+              backgroundColor: 'rgba(200,200,200,0.1)',
               borderColor: 'rgba(50,50,50,0.2)',
               borderWidth: 2,
             },
@@ -166,7 +169,7 @@ export default function App() {
   return (
     <Box
       sx={{
-        backgroundColor: 'rgb(4, 112, 107)',
+        backgroundColor: secondaryColor,
         borderTopRightRadius: '20px',
         borderTopLeftRadius: '20px',
         width:'90%',
@@ -177,8 +180,6 @@ export default function App() {
       }}>
 
         <Stack direction="column">
-
-
           <Grid container className='preventSelect' direction="row" sx={{ justifyContent: 'center', marginTop: '20px', gap: 1 }}>
             <Grid item xs={12} sm={4} sx={{display:'flex', flexWrap:'nowrap',minWidth:'220px', justifyContent: 'center'}}>
             <Avatar sx={{
@@ -206,13 +207,13 @@ export default function App() {
                   <Typography>
                     Life time races:
                   </Typography>
-                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label={data.raceParticipatedIn}/>
+                <Chip sx={{paddingX: '10px', fontSize: '15px', color: fontColor}} label={data.raceParticipatedIn}/>
                 </Stack>
                 <Stack sx={{alignItems:'flex-end'}}>
                   <Typography>
                     Average placement:
                   </Typography>
-                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label={data.avgPlacement}/>
+                <Chip sx={{paddingX: '10px', fontSize: '15px', color: fontColor}} label={data.avgPlacement}/>
                 </Stack>
                 </Box>
 
