@@ -1,4 +1,4 @@
-import { apiUrl } from '../boredLocal';
+import { apiUrl, fontColor,secondaryColor } from '../boredLocal';
 import {Skeleton, Tooltip, ThemeProvider, createTheme, Pagination, Typography, Grid, Box, FormControlLabel, TextField, Chip, Button, Divider, Avatar} from '@mui/material';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -21,8 +21,6 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import LockIcon from '@mui/icons-material/Lock';
 import ReportRoundedIcon from '@mui/icons-material/ReportRounded';
 
-import {secondaryColor} from '../boredLocal';
-
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 
@@ -36,30 +34,30 @@ const whiteInputTheme = createTheme({
           root: {
             '& .MuiOutlinedInput-root': {
               '& fieldset': {
-                borderColor: 'rgb(220, 220, 220)', // Set the border color to white
-                transition: 'border-color 0.3s ease-in-out', // Add this line
+                borderColor: fontColor, 
+                transition: 'border-color 0.3s ease-in-out', 
               },
               '&:hover fieldset': {
-                borderColor: 'rgb(100, 100, 100)', // Change the border color on hover
+                borderColor: 'rgb(100, 100, 100)',
               },
               '&.Mui-focused fieldset': {
-                borderColor: 'rgb(220, 220, 220)', // Set the border color to white when the TextField is focused
+                borderColor: fontColor, 
               },
             },
             '& .MuiInputBase-input': {
-              color: 'rgb(220, 220, 220)', // Set the font color to white
+              color: fontColor,
             },
           },
         },
       },
-      MuiInputLabel: { // Add this block
+      MuiInputLabel: {
         styleOverrides: {
           root: {
             '&.Mui-focused': {
-              color: 'rgb(180, 180, 180)', // Set the label color to white when the TextField is focused
+              color: fontColor, 
             },
             '&.MuiInputLabel-outlined': {
-              color: 'rgb(180, 180, 180)', // Set the label color to white
+              color: fontColor,
             },
           },
         },
@@ -267,7 +265,7 @@ export default function Discover() {
         sx={{ 
           fontWeight: 'bold', 
           fontSize: '22px', 
-          color: 'white', 
+          color: fontColor, 
           textAlign: 'center',
           position: 'absolute',
           bottom: 5,
@@ -281,7 +279,7 @@ export default function Discover() {
         sx={{ 
           fontWeight: 'bold', 
           fontSize: '22px', 
-          color: 'white', 
+          color: fontColor, 
           textAlign: 'center'}}
           > 
         {item.data.name}
@@ -324,10 +322,10 @@ export default function Discover() {
   const filterCheckBox = (label, disabled) => {
     return(
       <FormControlLabel disabled={!disabled} 
-      sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
+      sx={{color: fontColor, marginX: 1}}
         control={
           <Checkbox
-            size='small'sx={{color: 'white', '&.Mui-checked': {color: 'rgb(200, 200, 200)'}}}
+            size='small'sx={{color: fontColor, '&.Mui-checked': {color: fontColor}}}
             icon={< CircleOutlinedIcon/>}
             checkedIcon={<CheckCircleRoundedIcon />}
             checked={horseFilter[label.toLowerCase()] }
@@ -388,7 +386,7 @@ export default function Discover() {
               onClick={() => handleChipClick("User")}
               deleteIcon={userActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
                 
-            <Box sx={{ color: 'rgb(240, 240, 240)', display: 'flex', flexDirection: 'column', gap: 0}}>
+            <Box sx={{ color: fontColor, display: 'flex', flexDirection: 'column', gap: 0}}>
               
               <Typography sx={{ marginX: 1, color: !userActive && 'rgba(40, 40, 40,0.8)' }}>Privacy:</Typography>
               {filterCheckBox("Public", userActive)}
@@ -432,7 +430,7 @@ export default function Discover() {
               onClick={() => handleChipClick("Jockey")}
               deleteIcon={jockeyActive? <CircleIcon /> : <CircleOutlinedIcon />}/>
 
-            <Box sx={{ color: 'rgb(240, 240, 240)', display: 'flex', flexDirection: 'column', gap: 0}}>
+            <Box sx={{ color: fontColor, display: 'flex', flexDirection: 'column', gap: 0}}>
             
               <Typography sx={{ marginX: 1, color: !jockeyActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
               {filterCheckBox("Male", jockeyActive)}
@@ -460,13 +458,13 @@ export default function Discover() {
                 onChange={handlePageChange}
                 sx={{
                   '& .MuiPaginationItem-page': {
-                    color: 'white', // Set the color of the page numbers to white
+                    color: fontColor,
                   },
                   '& .MuiPaginationItem-ellipsis': {
-                    color: 'white', // Set the color of the ellipsis to white
+                    color: fontColor, 
                   },
                   '& .MuiPaginationItem-icon': {
-                    color: 'white', // Set the color of the icons to white
+                    color: fontColor,
                   },
                 }}
                 value={pageNum}
@@ -485,7 +483,7 @@ export default function Discover() {
                     </Grid>
                   ))
                 :
-                  Array.from({ length: 20 }).map((_, index) => (
+                  Array.from({ length: 60 }).map((_, index) => (
                     <Grid item xs>
                       <Skeleton key={index} variant="rectangular" 
                         sx={{
@@ -508,13 +506,13 @@ export default function Discover() {
                 color='primary'
                 sx={{
                   '& .MuiPaginationItem-page': {
-                    color: 'white', // Set the color of the page numbers to white
+                    color: fontColor,
                   },
                   '& .MuiPaginationItem-ellipsis': {
-                    color: 'white', // Set the color of the ellipsis to white
+                    color: fontColor,
                   },
                   '& .MuiPaginationItem-icon': {
-                    color: 'white', // Set the color of the icons to white
+                    color: fontColor,
                   },
                 }}
                 value={pageNum}

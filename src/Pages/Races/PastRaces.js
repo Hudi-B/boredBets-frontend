@@ -126,7 +126,7 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
                 {moment(race.raceScheduled).format("YYYY MM DD, HH:mm")}
                 </Grid>
-                    <Divider orientation="vertical" flexItem />
+                    <Divider orientation="vertical" flexItem color="black" />
                 <Grid item xs={3} sx={{fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 {race.name}
                 </Grid>

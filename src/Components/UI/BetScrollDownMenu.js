@@ -3,7 +3,7 @@ import {DialogActions, TextField,DialogTitle,DialogContent,DialogContentText,Inp
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import AuthPopup from './AuthPopup';
-import { apiUrl } from '../../boredLocal';
+import { apiUrl, secondaryColor, fontColor } from '../../boredLocal';
 import axios from 'axios';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
@@ -48,16 +48,17 @@ function PlaceBetPopup({ raceId, participants }) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'flex-start',
+                  color: fontColor,
                   width: '100%',
                   border: '3px solid rgba(50,50,50,0.3)',
                   borderRadius: 5,
                   textTransform: 'none',
                 }}>
                 <Box sx={{alignItems: 'center', display: 'flex', flexDirection: 'row'}}>
-                    <Typography sx={{fontWeight: '600'}} className='preventSelect'>
+                    <Typography sx={{fontWeight: '600', color:fontColor}} className='preventSelect'>
                       {horse.horseName}
                     </Typography> 
-                    <Typography className='preventSelect'>
+                    <Typography sx={{color:fontColor}} className='preventSelect'>
                     &nbsp;{"from "+horse.horseCountry}
                     </Typography> 
                 </Box>
@@ -108,6 +109,8 @@ function PlaceBetPopup({ raceId, participants }) {
       }else {
         setErrorOnAmount(true);
       }
+    }else {
+      setErrorOnAmount(true);
     }
   };
 
@@ -161,16 +164,16 @@ function PlaceBetPopup({ raceId, participants }) {
 
   return (
     <Box sx={{width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-      <Accordion square={true} sx={{width: '90%',marginX: 'auto', backgroundColor: 'rgba(4, 88, 88, 0.7)', borderRadius:5 }}>
+      <Accordion square={true} sx={{width: '90%',marginX: 'auto', backgroundColor: 'rgb(57,81,122)', borderRadius:5 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon  />}
           aria-controls="panel1-content"
           id="panel1-header"
           sx={{
-            backgroundColor: 'rgba(4, 88, 88, 0.7)',
+            backgroundColor: secondaryColor,
             fontSize: '20px',
             fontWeight: '500',
-            color: 'white',
+            color: fontColor,
             '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
               transform: 'rotate(90deg)',
             },
@@ -192,7 +195,7 @@ function PlaceBetPopup({ raceId, participants }) {
             <Typography sx={{
                 fontSize: '20px',
                 fontWeight: '600',
-                color: 'rgb(200,200,200)'}}>
+                color: fontColor}}>
               To access betting, please log in.
             </Typography>
             <AuthPopup itsALogin={true} />
@@ -230,7 +233,7 @@ function PlaceBetPopup({ raceId, participants }) {
                 }}>
                   {selectedItems.length !== 5 ? (
                     <Typography 
-                      sx={{margin:3, fontSize: '20px', fontWeight: '500', color: 'black'}}
+                      sx={{margin:3, fontSize: '20px', fontWeight: '500', color: fontColor}}
                     >
                       {selectedItems.length ?  
                         "Horses selected: " + selectedItems.length :
@@ -239,7 +242,7 @@ function PlaceBetPopup({ raceId, participants }) {
                     </Typography>
                   ): (
                     <Typography 
-                      sx={{marginTop:1, fontSize: '20px', fontWeight: '750', color: 'black', letterSpacing: '1px'}}
+                      sx={{marginTop:1, fontSize: '20px', fontWeight: '750', color: fontColor, letterSpacing: '1px'}}
                     >
                       Top 5 horses:
                     </Typography>
@@ -260,27 +263,28 @@ function PlaceBetPopup({ raceId, participants }) {
                                       sx={{
                                         display: 'flex',
                                         alignItems: 'center',
-                                        border: '3px solid rgba(50,50,50,0.3)',
+                                        border: '3px solid rgba(200,200,200,0.5)',
                                         borderRadius: 5,
+                                        backgroundColor: 'rgb(57,81,122)',
                                         justifyContent: 'space-between',
                                         marginY: 1,
                                       }}>
                                     <Box sx={{paddingLeft: 1, alignItems: 'center', display: 'flex', flexDirection: 'row'}}>
-                                        <Typography sx={{fontWeight: '600'}} className='preventSelect'>
+                                        <Typography sx={{fontWeight: '600', color: fontColor}} className='preventSelect'>
                                           {orderedBet? index+1+"."
                                           :
                                           "●"}
                                           &nbsp;
                                         </Typography> 
-                                        <Typography sx={{fontWeight: '600'}} className='preventSelect'>
+                                        <Typography sx={{fontWeight: '600', color: fontColor}} className='preventSelect'>
                                           {data.horseName}
                                         </Typography> 
-                                        <Typography className='preventSelect'>
+                                        <Typography className='preventSelect' sx={{color: fontColor}}>
                                         &nbsp;{"from "+data.horseCountry}
                                         </Typography> 
                                     </Box>
-                                    <IconButton sx={{padding: 0}} onClick={() => handleRemove(index)}>
-                                      <ClearIcon />
+                                    <IconButton sx={{padding: 0, color: fontColor}} onClick={() => handleRemove(index)}>
+                                      <ClearIcon/>
                                     </IconButton>
                                   </ListItem>
                                 )}
@@ -301,7 +305,7 @@ function PlaceBetPopup({ raceId, participants }) {
                         "Placing bets without order results in lower prizes, but higher winning chance."} 
                         >
                           <Button variant='contained' 
-                          color='success'
+                          color='primary'
                           sx={{width: '200px', marginY: 1, marginX: 1,textTransform: 'none', fontSize: '15px',}} 
                           onClick={() => setOrderedBet(!orderedBet)}>
                             {orderedBet?"Exact order": "Any order"}
@@ -337,7 +341,7 @@ function PlaceBetPopup({ raceId, participants }) {
 
                       <Button variant='contained' 
                       fullWidth
-                      color='success'
+                      color='primary'
                       sx={{width: '200px', marginY: 1, marginX: 1, textTransform: 'none', fontWeight: 'bold', fontSize: '20px', letterSpacing: '2px'}} 
                       onClick={handleOpenDialog}>
                         Place bet
@@ -351,22 +355,22 @@ function PlaceBetPopup({ raceId, participants }) {
                         sx={{backgroundColor: 'rgba(0,0,0,0.5)'}}
                         PaperProps={{
                           sx: {
-                            backgroundColor: 'rgb(40, 120, 90)',
-                            color: 'white',
+                            backgroundColor: secondaryColor,
+                            color: fontColor,
                           },
                         }}
                       >
                         <DialogTitle id="alert-dialog-title">{"Confirm Bet"}</DialogTitle>
                         <DialogContent>
-                          <DialogContentText color={'white'} id="alert-dialog-description">
+                          <DialogContentText color={fontColor} id="alert-dialog-description">
                             Are you sure satisfied with this bet?
                           </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                          <Button onClick={handleCloseDialog} color="primary" sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.1)',boxShadow: '0 0 10px rgb(4, 50,50)'},textTransform: 'none', color: 'white'}}>
+                          <Button onClick={handleCloseDialog} color="primary" sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.1)',boxShadow: '0 0 5px rgb(50, 50,50)'},textTransform: 'none', color: fontColor }}>
                             Not yet
                           </Button>
-                          <Button onClick={handleConfirmBet} color="primary" autoFocus sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.1)',boxShadow: '0 0 10px rgb(4, 50,50)'},color: 'white'}}>
+                          <Button onClick={handleConfirmBet} color="primary" autoFocus sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.1)',boxShadow: '0 0 5px rgb(50, 50,50)'},color: fontColor}}>
                             Yes!
                           </Button>
                         </DialogActions>

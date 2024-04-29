@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { apiUrl } from '../../boredLocal';
 import axios from 'axios';
+import { fontColor } from '../../boredLocal';
 
 import { enqueueSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
@@ -96,8 +97,8 @@ useEffect(() => {
     return (
     <Box>
         <IconButton color='inherit' onClick={handleOpen}>
-            <Badge badgeContent={notificationNumber} color="primary">
-                <NotificationsIcon />
+            <Badge badgeContent={notificationNumber}>
+                <NotificationsIcon sx={{color: fontColor}} />
             </Badge>
         </IconButton>
         <Popover
