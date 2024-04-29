@@ -14,7 +14,7 @@ import axios from 'axios';
 import { logout, login } from './auth/authSlice';
 import { useDispatch } from 'react-redux';
 
-import Navbar from './Components/UI/Navbar'
+import Navbar from './Components/UI/Navbar';
 import Footer from './Components/UI/Footer';
 import Home from './Pages/Home';
 import Verification from './Pages/Verification';
@@ -28,7 +28,6 @@ const NotFound = lazy(() => import('./Pages/NotFound'));
 const User = lazy(() => import('./Pages/Individuals/User'));
 const Jockey = lazy(() => import('./Pages/Individuals/Jockey'));
 const Horse = lazy(() => import('./Pages/Individuals/Horse'));
-const Test = lazy(() => import('./Pages/test'));
 
 const theme = createTheme({
   typography: {
@@ -104,7 +103,6 @@ export default function App() {
                 <Routes>
                   <Route exact path="/" element={<Home />} />
                   <Route path="*" element={<NotFound lookedFor={'page'} />} />
-                  <Route exact path="/test" element={<Test />} />
                   <Route exact path="/discover" element={<Discover />} />
                   <Route exact path="/user/:userId" element={<User />} />
                   <Route exact path="/jockey/:jockeyId" element={<Jockey />} />

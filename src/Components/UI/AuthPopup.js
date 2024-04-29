@@ -97,7 +97,7 @@ export default function AuthPopup({itsALogin}) {
                             <CloseIcon sx={{fontSize: '50px', color: 'rgb(50, 50, 50)'}}/>
                         </Button>
                         }
-                        <Avatar variant='rounded' sx={{width: '100%', height: 'auto', marginY:7, marginTop: fullscreen? '15vh' : 5,}} src={process.env.PUBLIC_URL + "/images/banner.png"} />
+                        <Avatar variant='rounded' sx={{width: '100%', height: 'auto', marginY:7, marginTop: fullscreen? '15vh' : 5,}} src={process.env.PUBLIC_URL + "/images/bannerlight.png"} />
 
                         <Stack sx={{gap: 1}}>
                             <Box display="flex" justifyContent="center" gap={1} marginBottom={1}>
