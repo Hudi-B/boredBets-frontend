@@ -21,7 +21,7 @@ export default function Notifications() {
     const dateFormat = "MMMM DD. HH:mm";
 
 
-    const fetchData = () => {
+    const getNotifications = () => {
         axios.get(apiUrl + `Notifications/GetAllUnseenNotificationsByUserId?UserId=` + userData.userId)
           .then(response => {
             setNotifications(response.data);
@@ -38,9 +38,9 @@ export default function Notifications() {
       };
     
       useEffect(() => {
-        fetchData();
+        getNotifications();
     
-        const intervalId = setInterval(fetchData, 5 * 60 * 1000);
+        const intervalId = setInterval(getNotifications, 5 * 60 * 1000);
     
         return () => clearInterval(intervalId);
       }, []); // Empty 

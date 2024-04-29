@@ -97,7 +97,7 @@ const PasswordChangeForm = ( {open, onClose} ) => {
                 <Box>
                     <ClearIcon style={{ color: 'white', position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }} onClick={onClose} />
                 </Box>
-                <Box sx={{ padding: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', backgroundColor: 'rgb(4, 112, 107)' }}>
+                <Box sx={{ padding: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', backgroundColor: 'rgb(63, 85, 115)' }}>
                     <Typography variant='h4' sx={{ color: 'white', paddingBottom: '40px' }}>Change password</Typography>
                     <Stack spacing={2} alignItems={'center'} direction={'column'}>
                         <Stack spacing={1} direction={'column'} alignItems={'start'}>
@@ -112,6 +112,7 @@ const PasswordChangeForm = ( {open, onClose} ) => {
                             <Typography variant='subtitle2' sx={{ color: 'white' }}>Confirm new password</Typography>
                             <StyledInput placeholder='Confirm new password' onChange={(e) => setConfirmPassword(e.target.value)} disabled={isLoading} />
                         </Stack>
+                        <Typography variant='caption' >Password must be at least 5 characters long</Typography>
                         <Button variant='contained' onClick={handlePasswordChange} disabled={isLoading} >Submit</Button>
                     </Stack>
                 </Box>

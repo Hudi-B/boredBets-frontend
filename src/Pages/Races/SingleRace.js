@@ -8,6 +8,7 @@ import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { Link } from 'react-router-dom';
+import {secondaryColor} from '../../boredLocal';
 
 import { useTheme } from '@mui/material/styles';
 
