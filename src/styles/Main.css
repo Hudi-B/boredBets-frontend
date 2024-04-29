@@ -1,12 +1,13 @@
 
 ::selection {
   background: rgb(25, 25, 25);
-  color: rgb(255, 255, 255);+
+  color: rgb(255, 255, 255);
+}
+
 .preventSelect {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none; 
-}
 }
 
 .noScrollBar {
