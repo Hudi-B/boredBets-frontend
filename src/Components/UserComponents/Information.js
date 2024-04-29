@@ -35,6 +35,7 @@ const BackgroundBox = styled(Box)(({ theme }) => ({
     backgroundColor: 'rgb(50,71,101)',
     padding: theme.spacing(1),
     borderRadius: '5px',
+    boxShadow: 'inset 0px 0px 5px rgba(0, 0, 0, 0.5)',
 }))
 
 export default function Information() {
@@ -42,7 +43,7 @@ export default function Information() {
     const username = useSelector((state) => state.auth.username);
     const userId = useSelector((state) => state.auth.userId);
     const userImage = useSelector((state) => state.auth.imageUrl);
-    const [visibility, setVisibility] = useState(true);
+    const [isPrivate, setIsPrivate] = useState(true);
 
     const [userStatus, setUserStatus] = useState({
         profilePic: userImage !== '',
@@ -110,6 +111,17 @@ export default function Information() {
         console.log(userStatus);
     }, [userStatus.transaction, userStatus.profilePic]);
 
+    const handleisPrivateChange = async (checked) => {
+        setIsPrivate(checked);
+        await axios.put(apiUrl+`UserDetail/Preferences?UserId=` + userId + '&isPrivate=' + !isPrivate)
+        .then(() => {
+            enqueueSnackbar('Privacy updated successfully', { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide });
+        })
+        .catch(() => {
+            enqueueSnackbar('Something went wrong', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
+        })
+    }
+
     return (
         <Box 
         sx={{ 
@@ -133,10 +145,10 @@ export default function Information() {
                                     <ChangeImage userId={userId}/>
                                 </Box>
                             </Box>
-                            <Typography variant="h6">{username}</Typography>
+                            <Typography variant="h4">{username}</Typography>
+                            <Typography variant="caption1">UUID:</Typography>
                             <BackgroundBox sx>
                                 <Stack direction="column" spacing={0}>
-                                    <Typography variant="subtitle1">User ID:</Typography>
                                     <Typography variant="subtitle1">{ userId }</Typography>
                                 </Stack>
                             </BackgroundBox>
@@ -260,9 +272,9 @@ export default function Information() {
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Details</Typography>
                                 <Stack container direction="column" spacing={1} sx={{paddingBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                                     <Stack direction="row" alignItems="center" justifyContent="center" >
-                                        <LockOpenIcon sx={{ color: visibility ? 'grey' : 'white'}}/>
-                                        <Switch size='large' value={visibility} defaultChecked onChange={(event) => setVisibility(event.target.checked)}/>
-                                        <LockOutlinedIcon sx={{ color: visibility ? 'white' : 'grey' }}/>
+                                        <LockOpenIcon sx={{ color: isPrivate ? 'grey' : 'white'}}/>
+                                        <Switch size='large' checked={isPrivate} onChange={(e) => handleisPrivateChange(e.target.checked)}/>
+                                        <LockOutlinedIcon sx={{ color: isPrivate ? 'white' : 'grey' }}/>
                                     </Stack>
                                     <Typography variant="caption">Change profile visibility.</Typography>
                                 </Stack>
