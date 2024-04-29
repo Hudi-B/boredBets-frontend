@@ -2,7 +2,8 @@ import Cookies from 'js-cookie';
 
 export const apiUrl = 'https://boredbetsapidev.azurewebsites.net/api/';
 //export const apiUrl = 'https://localhost:7090/api/';
-
+ 
+export const secondaryColor = 'rgb(50,71,101)';
 
 export function setCookieToken(type, token) {
     const inOneHour = new Date( new Date().getTime() + 60 * 60 * 1000 );

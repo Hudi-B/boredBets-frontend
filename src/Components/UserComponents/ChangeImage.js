@@ -9,8 +9,13 @@ import { useDispatch } from 'react-redux';
 import { updateProfilePicture } from '../../auth/authSlice';
 import { useSelector } from 'react-redux';
 
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-export default function ChangeImage({userId}) {
+import { enqueueSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
+
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+
+export default function ChangeImage() {
     const [open, setOpen] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const [imageDeleteUrl, setImageDeleteUrl] = useState(null);
@@ -19,7 +24,7 @@ export default function ChangeImage({userId}) {
     const [previewImage, setPreviewImage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
-
+    const userData = useSelector((state) => state.auth);
 
 
 
@@ -61,10 +66,7 @@ export default function ChangeImage({userId}) {
         setIsLoading(false);
       };
 
-    console.log(userId);
-
       const handleSend = () => {
-        
         if (!imageFormData) {
           return;
         }
@@ -76,29 +78,68 @@ export default function ChangeImage({userId}) {
             setImageUrl(response.data.data.display_url);
             setImageDeleteUrl(response.data.data.delete_url);
             dispatch(updateProfilePicture(response.data.data.display_url));
-
-
-            console.log({
-                imageLink: response.data.data.display_url,
-                imageDeleteLink: response.data.data.delete_url
-            });
-
-        axios.put(apiUrl+'User/UpdateImageByUserId?UserId='+userId, {
-            imageLink: response.data.data.display_url,
-            imageDeleteLink: response.data.data.delete_url
-        })
+            handleServerUpload(response.data.data.display_url,response.data.data.delete_url);
         })
           .catch((error) => {
             console.error('Error uploading image:', error);
-            //enque snackbar
+            enqueueSnackbar("An error occured while uploading your profile picture. Please try again later", {
+                variant: 'error',
+                autoHideDuration: 3000,
+                TransitionComponent: Slide,
+            });
+          })
+      };
+      const handleServerUpload = (display_url, delete_url) => {
+          
+        axios.put(apiUrl+'User/UpdateImageByUserId?UserId='+userData.userId, {
+            imageLink: display_url,
+            imageDeleteLink: delete_url
+        })
+        .then((response) => {
+            enqueueSnackbar("Profile picture succesfully uploaded!", {
+                variant: 'success',
+                autoHideDuration: 3000,
+                TransitionComponent: Slide,
+            });
+        }).catch((error) => {
+            console.error('Error uploading image:', error);
+            enqueueSnackbar("An error occured while uploading your profile picture to our server. Please try again later", {
+                variant: 'error',
+                autoHideDuration: 3000,
+                TransitionComponent: Slide,
+            })
+        }).finally(() => {
+            setIsLoading(false);
+            handleClose();
+        })
+      }
+      const handleClear = () => {
+        setIsLoading(true);
+        axios.put(apiUrl+'User/UpdateImageByUserId?UserId='+userData.userId, {
+            imageLink: "",
+            imageDeleteLink: ""
+        })
+        .then((response) => {
+            dispatch(updateProfilePicture(""));
+            enqueueSnackbar("Profile picture succesfully cleared!", {
+                variant: 'success',
+                autoHideDuration: 3000,
+                TransitionComponent: Slide,
+            });
+        })
+        .catch((error) => {
+            console.error('Error uploading image:', error);
+            enqueueSnackbar("An error occured while deleting your profile picture. Please try again later", {
+                variant: 'error',
+                autoHideDuration: 3000,
+                TransitionComponent: Slide,
+            });
           }).finally(() => {
             setIsLoading(false);
             handleClose();
-            //set userdata.imageurl
-            //enque snackbar
           });
-
       };
+      
 
     return (
         <>
@@ -164,8 +205,9 @@ export default function ChangeImage({userId}) {
                             <CloseIcon sx={{fontSize: '50px', color: 'rgb(50, 50, 50)'}}/>
                         </Button>
                     }
-                    <Box sx={{ marginY:3, marginTop: fullscreen? '15vh' : 5,display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                       {!previewImage && <Typography sx={{fontWeight: '600', width: '100%', textAlign: 'center'}}>Click on the picture to select your profile picture</Typography>} 
+                    <Box sx={{ marginY:3, marginTop: fullscreen? '15vh' : 1.5, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                        <Typography sx={{fontWeight: '600', width: '100%', textAlign: 'center', fontSize: 20}}>boredBets</Typography>
+                       <Typography sx={{fontWeight: '600', width: '100%', textAlign: 'center', fontSize: 30, marginBottom: 2}}>Profile Picture</Typography>
                         <input
                             accept="image/*"
                             style={{ display: 'none' }}
@@ -174,66 +216,65 @@ export default function ChangeImage({userId}) {
                             type="file"
                             onChange={handleImageChange}
                         />
-                        <label htmlFor="contained-button-file">
-                        <Avatar sx={{width: '300px', height: '300px'}} src={previewImage} />
+                        <label htmlFor="contained-button-file" style={{overflow: 'hidden'}}>
+                            <Box sx={{width: '300px', height: '300px', overflow: 'hidden', borderRadius: '50%', position: 'relative'}}>
+                                <Avatar sx={{width: '100%', height: '100%'}} src={previewImage?previewImage:userData.imageUrl} />
+                                {!previewImage && 
+                                <Typography sx={{
+                                    fontWeight: '600',
+                                    textAlign: 'center',
+                                    width: '100%',
+                                    fontSize: 15,
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    paddingY: 1.5,
+                                    transform: 'translate(-50%, -50%)',
+                                    backgroundColor: 'rgba(0, 0, 0, 0.7)'}}>Click here to change image</Typography>
+                                }
+                            </Box>
                         </label>
                     </Box>
-                    {previewImage &&
-                    <>
-                        <Typography 
+                    <Box sx={{display: 'flex', justifyContent: 'space-around', width: '100%', marginTop: 1}}>
+                        <Paper elevation={5}   
+                        onClick={handleSend}
                         sx={{
-                            fontWeight: '600', 
-                            width: '100%', 
-                            marginTop: 3,
-                            textAlign: 'center'}}>
-                                Are you satisfied with your image?
-                        </Typography>
-                        <Box sx={{display: 'flex', justifyContent: 'space-around', width: '100%', marginTop: 1}}>
-                            <Paper elevation={5}   
-                            onClick={handleSend}
-                            sx={{
-                                paddingY: 1,
-                                paddingX:3,
-                                borderRadius: 3,
-                                backgroundColor: "rgba(200, 200, 200, 0.05)",
-                                '&:hover': {
-                                    backgroundColor: 'rgba(50, 50, 50, 0.11)',
-                                    },
-                                    '&:active': {
-                                        backgroundColor: 'rgba(50, 50, 50, 0.08)',
-                                    },
-                                fontWeight: 'bold',
-                            }}>
-                            Yes!
-                            </Paper>
-                            <input
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                            id="contained-button-file"
-                            multiple
-                            type="file"
-                            onChange={handleImageChange}
-                            />
-                            <label htmlFor="contained-button-file">
-                                <Paper elevation={2}
-                                sx={{
-                                    paddingY: 1,
-                                    paddingX:2,
-                                    borderRadius: 3,
-                                    backgroundColor: "rgba(200, 200, 200, 0.05)",
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(50, 50, 50, 0.11)',
-                                        },
-                                        '&:active': {
-                                            backgroundColor: 'rgba(50, 50, 50, 0.08)',
-                                        },
-                                    fontWeight: 'bold',
-                                }}>
-                                    No <SentimentDissatisfiedIcon />
-                                </Paper>
-                            </label>
-                        </Box>
-                    </>}
+                            paddingY: 1,
+                            paddingX:3,
+                            color: 'white',
+                            letterSpacing: 0.7,
+                            borderRadius: 3,
+                            backgroundColor: "rgba(200, 200, 200, 0.05)",
+                            '&:hover': {
+                                backgroundColor: 'rgba(50, 50, 50, 0.11)',
+                                },
+                                '&:active': {
+                                    backgroundColor: 'rgba(50, 50, 50, 0.08)',
+                                },
+                            fontWeight: 'bold',
+                        }}>
+                        Change <EditIcon />
+                        </Paper>
+                        <Paper onClick={handleClear}
+                        sx={{
+                            paddingY: 1,
+                            color: 'white',
+                            letterSpacing: 0.7,
+                            paddingX:2,
+                            borderRadius: 3,
+                            border: '2px solid white',
+                            backgroundColor: "rgba(200, 200, 200, 0)",
+                            '&:hover': {
+                                backgroundColor: 'rgba(50, 50, 50, 0.11)',
+                                },
+                                '&:active': {
+                                    backgroundColor: 'rgba(50, 50, 50, 0.08)',
+                                },
+                            fontWeight: 'bold',
+                        }}>
+                            Clear <DeleteForeverIcon />
+                        </Paper>
+                    </Box>
                 </Box>
             </Dialog>
         </>

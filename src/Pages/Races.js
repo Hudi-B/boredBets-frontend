@@ -1,9 +1,11 @@
-import { Stack, Box, Typography} from "@mui/material";
+import { Stack, Box, Typography, Paper} from "@mui/material";
 import { useEffect, useState } from "react";
 import UpcomingRaces from "./Races/UpcomingRaces";
 import PastRaces from "./Races/PastRaces";
 import axios from 'axios';
 import { apiUrl } from '../boredLocal';
+
+import {secondaryColor} from '../boredLocal';
 
 import { enqueueSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
@@ -66,31 +68,31 @@ const switchButtons = (upcoming) => {
             textTransform: 'uppercase',
             fontWeight: 'bolder',
             letterSpacing: '3px',
+            color: present === upcoming ? 'rgb(240,240,240)' : 'rgba(200,200,200,0.5)',
             borderRadius: '0px',
             '&:hover': { //this is only required to keep the buttons color on hover
             backgroundColor: present === upcoming
-                ? 'rgba(4, 88, 88, 0.7)'
-                : 'rgba(4, 112, 107, 0.3)',
+                ? 'transparent'
+                : 'rgba(200,200,200,0.05)',
             transition: 'background-color 0.3s ease', // Transition effect
             },
-            backgroundColor: (present === upcoming
-            ? 'rgb(4, 88, 88)'
-            : 'rgb(4, 112, 107)'
-            ),
+            backgroundColor: present === upcoming
+            ? 'rgba(200,200,200,0.1)'
+            : 'transparent',
             transition: 'background-color 0.7s ease', // Transition effect
         }}
         onClick={() => setPresent(upcoming)}
         >
-        {upcoming ? "Upcoming" : "History"}
+        {upcoming ? "Upcoming" : "Passed"}
         </Box>)
 }
     return (
         <Stack 
         direction={"column"} spacing={2}>
-            <Stack sx={{backgroundColor: 'rgba(4, 112, 107, 0.5)',borderBottom: '3px solid rgba(0,0,0,0.5)'}} direction={"row"} justifyContent={"space-around"}>
+            <Paper elevation={5} sx={{backgroundColor: secondaryColor, display: 'flex'}}>
                 {switchButtons(true)}
                 {switchButtons(false)}
-            </Stack>
+            </Paper>
             {present?
                 <UpcomingRaces races={allUpcomingRaces}/>
                 :

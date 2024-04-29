@@ -120,43 +120,42 @@ export default function Login({data, callback}) {
         <TextField 
             inputRef={passwordRef}
             className='popupPassword'
-            id="loginPassword" 
-            label="Password" 
-            variant="outlined" 
+            id="outlined-basic"
+            variant="outlined"
+            label="Password"
             type={showPassword ? 'text' : 'password'}
             name="password" 
             onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
             value={data.password} 
             onChange={handleChange} 
-            autoComplete='off'
-            autoCapitalize='off'
+            autoComplete="off"
+            autoCapitalize="off"
+      
             sx={{
                 flexGrow: 1,
                 marginRight: 1,
-                '& p': { color: 'rgb(204, 2, 2)', fontWeight: 'bold' },
-                '& input': { backgroundColor: 'transparent' } 
             }}
             helperText={alertOnPass ? 'Please enter your password' : ''}
             InputProps={{
                 endAdornment: (
                     <InputAdornment position="end">
-                        <IconButton
+                        <IconButton 
                             aria-label="toggle password visibility"
                             onClick={()=>setShowPassword(!showPassword)}
                             onMouseDown={(event) => event.preventDefault()}
                         >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                            {showPassword ? <VisibilityOff sx={{ color: 'rgb(220, 220, 220)'}} /> : <Visibility sx={{ color: 'rgb(220, 220, 220)'}} />}
                         </IconButton>
                     </InputAdornment>
                 ),
             }}
         />
-            <Button variant='contained' disabled={pending} sx={{ height: 55, width: 55 }} onClick={handleLogin}>
+            <Button variant='contained' color='primary' disabled={pending} sx={{ height: 55, width: 55 }} onClick={handleLogin}>
                 Go
             </Button>
         </Box>
         <Box display="flex" justifyContent="space-between">
-            <Button variant='string' onClick={ForgotPassword} size='small' sx={{maxWidth: '50%', textTransform: 'none', position: 'absolute', right: 35 }}>
+            <Button variant='string' onClick={ForgotPassword} size='small' sx={{maxWidth: '50%', textTransform: 'none', position: 'absolute', right: 35, color: 'rgb(240,240,240)' }}>
                 forgot password
             </Button>
         </Box>

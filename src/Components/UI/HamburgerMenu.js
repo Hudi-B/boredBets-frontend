@@ -10,7 +10,7 @@ import StadiumRoundedIcon from '@mui/icons-material/StadiumRounded';
 import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import { Link } from 'react-router-dom';
-
+import { secondaryColor } from '../../boredLocal';
 export default function HamburgerMenu({isAdmin}) {
     const [open, setOpen] = React.useState(false);
     const menuItems = [
@@ -35,13 +35,22 @@ export default function HamburgerMenu({isAdmin}) {
     const toggleDrawer = (newOpen) => () => {
       setOpen(newOpen);
     };
-
 const DrawerList = (
-    <Box sx={{ width: 180, height: '100%', backgroundColor: 'rgb(26,78,73)' }}onClick={toggleDrawer(false)}>
-      <List sx={{ height:'100%' }}>
+    <Box sx={{ width: 180, height: '100%', backgroundColor: secondaryColor }}onClick={toggleDrawer(false)}>
+      <List sx={{ height:'100%', paddingTop: 5 }}>
         {menuItems.map((item) => (
           <ListItem key={item.name} disablePadding>
-            <Button color='secondary' component={Link} to={item.link} sx={{justifyContent: 'flex-start', marginTop: '10px', height: '50px', marginX: '5px', fontSize: '15px' }} variant="outlined" fullWidth>
+            <Button 
+            fullWidth
+            color='secondary' 
+            variant="string" 
+            component={Link} 
+            to={item.link} 
+            sx={{
+              justifyContent: 'flex-start', 
+              height: '60px', 
+              fontSize: '15px',
+              '&:hover': { backgroundImage: 'linear-gradient(to right, #3f5573, #3c516f, #384e6c, #354a68, #324765)'} }} >
             {item.icon} {item.name}
             </Button>
         </ListItem>

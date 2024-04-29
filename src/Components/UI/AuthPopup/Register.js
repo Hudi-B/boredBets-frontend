@@ -122,7 +122,7 @@ const handleRegister = async () => {
                     alertOnUsername &&
                   <InputAdornment position="start">
                     <Tooltip placement="top" sx={{ cursor: 'default'  }} title="Your username must be at least 5 characters">
-                        <InfoIcon sx={{ color: 'rgba(0, 0, 0, 0.3)' }}/>
+                        <InfoIcon sx={{ color: 'rgb(220,220,220)' }}/>
                     </Tooltip>
                   </InputAdornment>
                 ),
@@ -168,7 +168,7 @@ const handleRegister = async () => {
                         alertOnPass &&
                       <InputAdornment position="start">
                         <Tooltip placement="top" sx={{ cursor: 'default' }} title="Your password must be at least 5 characters">
-                            <InfoIcon sx={{ color: 'rgba(0, 0, 0, 0.3)' }}/>
+                            <InfoIcon sx={{ color: 'rgb(220,220,220)' }}/>
                         </Tooltip>
                       </InputAdornment>
                     ),
@@ -179,13 +179,13 @@ const handleRegister = async () => {
                                 onClick={()=>setShowPassword(!showPassword)}
                                 onMouseDown={(event) => event.preventDefault()}
                             >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                {showPassword ? <VisibilityOff sx={{ color: 'rgb(220, 220, 220)'}} /> : <Visibility sx={{ color: 'rgb(220, 220, 220)'}} />}
                             </IconButton>
                         </InputAdornment>
                     ),
                 }}
             />
-            <Button variant='contained' disabled={pending} sx={{ height: 55, width: 55 }} className='doitButton' onClick={handleRegister}>
+            <Button variant='contained' color='primary' disabled={pending} sx={{ height: 55, width: 55 }} className='doitButton' onClick={handleRegister}>
             Go
             </Button>
         </Box>

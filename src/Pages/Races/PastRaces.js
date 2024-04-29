@@ -6,6 +6,8 @@ import React  from 'react';
 import MapIcon from '@mui/icons-material/Map';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
+import {secondaryColor} from '../../boredLocal';
+
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
@@ -67,18 +69,21 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
 
                 <Hidden smDown>{/*big screen */}
                     <Grid item xs={12} sx={{marginY: 0.3,paddingLeft: '10px', fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
-                        
-                {race.name}
+                        {race.name}
                     </Grid>
+
                         <Divider sx={{width: '100%', borderColor: 'black'}} />
+
                     <Grid item sm={6} sx={{paddingLeft: '15px',display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginY: 0.3}}>
                         {race.country}
                     </Grid>
+
                     <Hidden smUp>
                         <Divider sx={{width: '100%', borderColor: 'black'}} />
                     </Hidden>
+
                     <Grid item xs={12} sm={6} sx={{display: 'flex', paddingRight: '10px', justifyContent: 'flex-end', alignItems: 'center', marginTop: 0.3}}>
-                    {moment(race.raceScheduled).format(dateFormat)}
+                        {moment(race.raceScheduled).format(dateFormat)}
                     </Grid>
                 </Hidden>
             </Grid>
@@ -121,7 +126,7 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
                 {moment(race.raceScheduled).format("YYYY MM DD, HH:mm")}
                 </Grid>
-                <Divider orientation="vertical" flexItem color="black" />
+                    <Divider orientation="vertical" flexItem />
                 <Grid item xs={3} sx={{fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 {race.name}
                 </Grid>
@@ -153,7 +158,7 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
             <Stack sx={{
                 width: '85%', 
                 maxWidth: '750px',
-                backgroundColor: 'rgba(4, 88, 88, 0.7)',
+                backgroundColor: secondaryColor,
                 gap: 1,
                 marginTop: 10,
                 padding: 3,
@@ -169,12 +174,12 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
                 paddingX: 2}}
                 >
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-                <MapIcon /></Grid>
+                <MapIcon color='secondary' /></Grid>
 
                 <Grid item xs={3} ></Grid>
 
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <AccessTimeIcon /></Grid>
+                <AccessTimeIcon color='secondary' /></Grid>
                 
             </Grid>
         </Hidden>
@@ -190,7 +195,8 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
 
             <Stack sx={{
                 width: '100%', 
-                backgroundColor: 'rgba(4, 88, 88, 0.7)',
+                backgroundColor: secondaryColor,
+                maxWidth: '1400px',
                 gap: 1,
                 padding: 3,
                 marginTop:10,
@@ -203,6 +209,17 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
                         page={pageNum}
                         onChange={handlePageChange}
                         color='primary'
+                        sx={{
+                        '& .MuiPaginationItem-page': {
+                            color: 'white', // Set the color of the page numbers to white
+                        },
+                        '& .MuiPaginationItem-ellipsis': {
+                            color: 'white', // Set the color of the ellipsis to white
+                        },
+                        '& .MuiPaginationItem-icon': {
+                            color: 'white', // Set the color of the icons to white
+                        },
+                        }}
                         value={pageNum}
                         count={maxPage}
                         showFirstButton
@@ -225,6 +242,17 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
                         onChange={handlePageChange}
                         color='primary'
                         value={pageNum}
+                        sx={{
+                        '& .MuiPaginationItem-page': {
+                            color: 'white', // Set the color of the page numbers to white
+                        },
+                        '& .MuiPaginationItem-ellipsis': {
+                            color: 'white', // Set the color of the ellipsis to white
+                        },
+                        '& .MuiPaginationItem-icon': {
+                            color: 'white', // Set the color of the icons to white
+                        },
+                        }}
                         count={maxPage}
                         showFirstButton
                         showLastButton

@@ -21,21 +21,35 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import LockIcon from '@mui/icons-material/Lock';
 import ReportRoundedIcon from '@mui/icons-material/ReportRounded';
 
+import {secondaryColor} from '../boredLocal';
+
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: 'rgb(4, 112, 107)', // Set your desired font color here
+const horseAgeInputTheme = createTheme({
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'white', // Set the border color to white
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: 'white', // Set the border color to white when the TextField is focused
+            },
+          },
+          '& .MuiInputBase-input': {
+            color: 'white', // Set the font color to white
+          },
+        },
+      },
     },
   },
 });
-
 
 
 export default function Discover() {
@@ -45,7 +59,6 @@ export default function Discover() {
   const [pageNum, setPageNum] = useState(1);
   const [maxPage, setMaxPage] = useState(5);
   const { enqueueSnackbar } = useSnackbar();
-
 
   console.log(allData);
 
@@ -184,25 +197,6 @@ export default function Discover() {
           })
       }
     }
-
-/*
-    const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(`${apiUrl}SearchBar?searchTerm=${searchTerm}`);
-          setSearchResults(response.data.search);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-  
-      if (searchTerm.trim() !== '') {
-        fetchData();
-      }
-    }, [searchTerm]);*/
-
   const handleChipClick = (sender) => {
     switch (sender) {
       case "Horse":
@@ -244,12 +238,12 @@ export default function Discover() {
         width: '100%',
         minWidth: '175px',
         height: '125px',
-        backgroundColor: 'rgb(4, 112, 107)', 
+        backgroundColor: secondaryColor, 
         borderRadius: '10px',
         marginInline: 'auto',
         '&:hover': {
-          backgroundColor: 'rgb(4, 112, 107)',
-          boxShadow: '0 0 30px rgb(4, 50,50)',
+          backgroundColor: 'rgb(51, 68, 92)',//slightly lighter than secondaryColor
+          boxShadow: '0 0 15px rgb(50, 50,50)',
         }
       }}
     >
@@ -317,8 +311,7 @@ export default function Discover() {
       sx={{color: 'rgb(240, 240, 240)', marginX: 1}}
         control={
           <Checkbox
-            size='small'
-            color='default'
+            size='small'sx={{color: 'white', '&.Mui-checked': {color: 'rgb(200, 200, 200)'}}}
             icon={< CircleOutlinedIcon/>}
             checkedIcon={<CheckCircleRoundedIcon />}
             checked={horseFilter[label.toLowerCase()] }
@@ -347,87 +340,32 @@ export default function Discover() {
 
   return (
     <Box sx={{ py: 15, px: 5,display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center', width: '100%', gap: 2 }}>
-
-{/*
-Search bar ↓
-
-          <Autocomplete
-            sx={{ width: '80%', maxWidth: '1200px', marginX: 'auto','& .MuiAutocomplete-inputRoot': {paddingX: '20px', borderRadius: '50px'} }}
-            disabled={fetching}
-            onChange={(event, newValue) => {
-                console.log(newValue);
-            }}
-            freeSolo
-            selectOnFocus
-            handleHomeEndKeys
-            options={searchResults}
-            getOptionLabel={(option) => option.data.name}
-            renderOption={(option) => (
-              <Link to={`/details/{option.data.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <Box>
-                {option.type === "Horse" ? <FontAwesomeIcon icon={faHorseHead} /> : 
-                option.type === "Jockey" ? <FontAwesomeIcon icon={faHelmetSafety} /> : 
-                option.type === "User" && <PersonIcon sx={{fontSize: 35}}/> }
-        <Typography>{option.data && option.data.name ? option.data.name : 'Unknown Name'}</Typography>
-                </Box>
-              </Link>
-            )}
-            renderInput={(params) => (
-              <TextField {...params}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "50px",
-      
-                  legend: {
-                    marginLeft: "30px"
-                  }
-                },
-                "& .MuiAutocomplete-inputRoot": {
-                  paddingLeft: "20px !important",
-                  borderRadius: "50px"
-                },
-                "& .MuiInputLabel-outlined": {
-                  paddingLeft: "35px",
-                  fontSize: "18px",
-                },
-              }}
-
-              onChange={(event) => setSearchTerm(event.target.value)}
-
-    
-              label="Search" />
-            )}>
-          </Autocomplete>
-
-*/}   
-
-    
       <Grid container gap={1} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
   {/*
   Filters ↓
   */}
         <Grid item xs={12} sm={2}
           sx={{
-            minWidth: '180px',
+            minWidth: '200px',
             maxWidth: '300px',
-            backgroundColor: 'rgba(4, 112, 107, 0.5)',
-            borderRadius: '10px', 
-            padding: 1}}>
-          <Button variant='contained' onClick={() => applyFilters()} sx={{width: '100%', marginY: 1}} color='success'>Apply Filters</Button>
+            backgroundColor: secondaryColor,
+            borderRadius: '10px',
+            padding: 1.5,
+            paddingX: 1}}>
+          <Button variant='contained' onClick={() => applyFilters()} sx={{width: '100%', marginY: 1}} color='primary'>Apply Filters</Button>
           <Box sx={{
             height: '100%',
             borderRadius: '8px', 
             width: 'fill',
-            backgroundColor: 'rgb(4, 112, 107)',
+            backgroundColor: 'rgba(63, 85, 115,0.7)',
             display: 'flex',
             flexDirection: 'column', 
             gap: 1,
             padding: 1
           }}>
-
             <Chip 
               variant='filled' 
-              color="success" 
+              color='primary'
               icon={<PersonIcon />} 
               label="Users" 
               onDelete={() => handleChipClick("User")}
@@ -445,7 +383,7 @@ Search bar ↓
 
             <Chip 
               variant='filled' 
-              color="success" 
+              color='primary'
               icon={<FontAwesomeIcon icon={faHorseHead} />} 
               label="Horses"
               onDelete={() => handleChipClick("Horse")}
@@ -456,11 +394,12 @@ Search bar ↓
                   
             <Typography sx={{ marginX: 2, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Age&nbsp;range:  1&nbsp;-&nbsp;6 </Typography>
             <Box sx={{ marginBottom: 1, marginX: 1, display: 'flex', flexDirection: 'row', gap: 0, }}>
-              <TextField onChange={(e) => setHorseFilter({ ...horseFilter, minAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='min' />
-              <TextField onChange={(e) => setHorseFilter({ ...horseFilter, maxAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='max' />
-            
+              <ThemeProvider theme={horseAgeInputTheme}>
+                <TextField onChange={(e) => setHorseFilter({ ...horseFilter, minAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='min' />
+                <TextField onChange={(e) => setHorseFilter({ ...horseFilter, maxAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='max' />
+              </ThemeProvider>
             </Box>
-              <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
+              <Divider color={horseActive?'white':'black'} sx={{marginY: 1}}/>
                   
               <Typography sx={{ marginX: 1, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Gender:</Typography>
               {filterCheckBox("Stallion", horseActive)}
@@ -469,7 +408,7 @@ Search bar ↓
 
             <Chip 
               variant='filled' 
-              color="success" 
+              color='primary'
               width="100%"
               icon={<FontAwesomeIcon icon={faHelmetSafety}/>} 
               label="Jockeys" 
@@ -483,7 +422,7 @@ Search bar ↓
               {filterCheckBox("Male", jockeyActive)}
               {filterCheckBox("Female", jockeyActive)}
 
-              <Divider color={'rgb(0, 0, 0)'} sx={{marginY: 1}}/>
+              <Divider color={jockeyActive?'white':'black'} sx={{marginY: 1}}/>
 
               <Typography sx={{ marginX: 1, color: !jockeyActive && 'rgba(40, 40, 40,0.8)' }}>Status:</Typography>
               {filterCheckBox("Has horse", jockeyActive)}
@@ -503,11 +442,19 @@ Search bar ↓
               <Pagination
                 page={pageNum}
                 onChange={handlePageChange}
-                color='primary'
+                sx={{
+                  '& .MuiPaginationItem-page': {
+                    color: 'white', // Set the color of the page numbers to white
+                  },
+                  '& .MuiPaginationItem-ellipsis': {
+                    color: 'white', // Set the color of the ellipsis to white
+                  },
+                  '& .MuiPaginationItem-icon': {
+                    color: 'white', // Set the color of the icons to white
+                  },
+                }}
                 value={pageNum}
                 count={maxPage}
-                showFirstButton
-                showLastButton
                 size={isSmallScreen ? 'small' : 'medium'}
               />            
             </Box>
@@ -543,6 +490,17 @@ Search bar ↓
                 page={pageNum}
                 onChange={handlePageChange}
                 color='primary'
+                sx={{
+                  '& .MuiPaginationItem-page': {
+                    color: 'white', // Set the color of the page numbers to white
+                  },
+                  '& .MuiPaginationItem-ellipsis': {
+                    color: 'white', // Set the color of the ellipsis to white
+                  },
+                  '& .MuiPaginationItem-icon': {
+                    color: 'white', // Set the color of the icons to white
+                  },
+                }}
                 value={pageNum}
                 count={maxPage}
                 showFirstButton

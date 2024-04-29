@@ -8,6 +8,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { createTheme } from '@mui/material/styles';
 
+import {secondaryColor} from '../../boredLocal';
 
 
 export default function UpcomingRaces({races}) {
@@ -45,7 +46,7 @@ export default function UpcomingRaces({races}) {
                     alignItems: 'center',
                     paddingX: 2,
                     paddingY:1,
-                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    backgroundColor: 'rgba(200,200,200,0.1)',
                     borderRadius: '50px',
                 }}
             >
@@ -110,7 +111,7 @@ export default function UpcomingRaces({races}) {
                 height: '80px',
                 paddingX: 2,
                 paddingY:1,
-                backgroundColor: 'rgba(255,255,255,0.1)',
+                backgroundColor: 'rgba(200,200,200,0.1)',
                 borderRadius: '20px',
                 marginBottom: '10px',
             }}
@@ -143,11 +144,10 @@ export default function UpcomingRaces({races}) {
 
     return (
         <Stack direction={'column'} key={"btc"} sx={{ paddingX: 1, width: '100%', display:'flex',justifyContent: 'center', alignItems: 'center'}} >
-            <Stack key={"btc1"} sx={{
+            <Stack sx={{
                 width: '85%', 
                 maxWidth: '750px',
-                backgroundColor: 'rgba(4, 88, 88, 0.4)',
-                border: '3px solid rgba(4, 88, 88, 0.7)',
+                boxShadow: ' 0 0 30px '+secondaryColor,
                 gap: 1,
                 marginTop: 10,
                 padding: 3,
@@ -185,10 +185,11 @@ export default function UpcomingRaces({races}) {
         <Stack key={"btc5"}
         sx={{
             width: '100%', 
-            backgroundColor: 'rgba(4, 88, 88, 0.4)',
-            border: '4px solid rgba(4, 88, 88, 0.7)',
+            backgroundColor: 'rgba(63, 85, 115,0.7)',
+            boxShadow: ' 0 0 30px '+secondaryColor,
             gap: 1,
             padding: 3,
+            maxWidth: '1400px',
             marginTop:10,
             borderTopRightRadius: '40px',
             borderTopLeftRadius: '40px',

@@ -1,5 +1,5 @@
 
-import { Typography, Grid, Avatar, Paper, Divider, Button, Hidden } from '@mui/material';
+import { Typography, Grid, Avatar, Hidden } from '@mui/material';
 export default function Second() {
 
     return (
@@ -21,7 +21,7 @@ export default function Second() {
             <Grid item xs={10} md={5} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <Typography variant='h3' textAlign={'center'} fontWeight={'400'}>
                 <span style={{ fontWeight: 'bold'}}>boredBets</span>
-                &nbsp;is a place where betting isnt about luck, but the numbers
+                &nbsp;is a place where betting isn't about luck, but the numbers.
                 </Typography>
             </Grid>
         </Grid>
