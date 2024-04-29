@@ -29,26 +29,42 @@ import Slide from '@mui/material/Slide';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
-const horseAgeInputTheme = createTheme({
+const whiteInputTheme = createTheme({
   components: {
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-              borderColor: 'white', // Set the border color to white
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: 'rgb(220, 220, 220)', // Set the border color to white
+                transition: 'border-color 0.3s ease-in-out', // Add this line
+              },
+              '&:hover fieldset': {
+                borderColor: 'rgb(100, 100, 100)', // Change the border color on hover
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: 'rgb(220, 220, 220)', // Set the border color to white when the TextField is focused
+              },
             },
-            '&.Mui-focused fieldset': {
-              borderColor: 'white', // Set the border color to white when the TextField is focused
+            '& .MuiInputBase-input': {
+              color: 'rgb(220, 220, 220)', // Set the font color to white
             },
           },
-          '& .MuiInputBase-input': {
-            color: 'white', // Set the font color to white
+        },
+      },
+      MuiInputLabel: { // Add this block
+        styleOverrides: {
+          root: {
+            '&.Mui-focused': {
+              color: 'rgb(180, 180, 180)', // Set the label color to white when the TextField is focused
+            },
+            '&.MuiInputLabel-outlined': {
+              color: 'rgb(180, 180, 180)', // Set the label color to white
+            },
           },
         },
       },
     },
-  },
 });
 
 
@@ -394,7 +410,7 @@ export default function Discover() {
                   
             <Typography sx={{ marginX: 2, color: !horseActive && 'rgba(40, 40, 40,0.8)' }}>Age&nbsp;range:  1&nbsp;-&nbsp;6 </Typography>
             <Box sx={{ marginBottom: 1, marginX: 1, display: 'flex', flexDirection: 'row', gap: 0, }}>
-              <ThemeProvider theme={horseAgeInputTheme}>
+              <ThemeProvider theme={whiteInputTheme}>
                 <TextField onChange={(e) => setHorseFilter({ ...horseFilter, minAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='min' />
                 <TextField onChange={(e) => setHorseFilter({ ...horseFilter, maxAge: Number(e.target.value) })} disabled={!horseActive} size='small' placeholder='max' />
               </ThemeProvider>

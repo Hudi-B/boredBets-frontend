@@ -12,7 +12,6 @@ import Slide from '@mui/material/Slide';
 import NotFound from '../NotFound';
 
 import { secondaryColor } from '../../boredLocal';
-
 const fontColor = 'rgb(220,220,220)';
 
 const Title = styled(Typography)(({ theme }) => ({
