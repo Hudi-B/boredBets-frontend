@@ -33,9 +33,12 @@ const authSlice = createSlice({
         },
         updateProfilePicture(state, action) {
             state.imageUrl = action.payload;
+        },
+        updateUsername(state, action) {
+            state.username = action.payload;
         }
     },
 });
 
-export const { login, logout, updateWallet, updateProfilePicture } = authSlice.actions;
+export const { login, logout, updateWallet, updateProfilePicture, updateUsername } = authSlice.actions;
 export default authSlice.reducer;
