@@ -1,7 +1,7 @@
 
 import { Typography, Grid, Avatar, Paper, Divider, Button, Hidden, Slide } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { apiUrl } from '../../boredLocal';
+import { apiUrl, secondaryColor } from '../../boredLocal';
 import  axios  from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -71,7 +71,7 @@ export default function First() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: 'rgba(200,200,200,0.3)',
+              backgroundColor: 'rgba(200,200,200,0.2)',
               borderRadius: 2,
               padding: 1,
               margin: 0.5,
@@ -133,7 +133,7 @@ export default function First() {
                   paddingBottom: 1,
                   maxWidth: '600px',
                   borderRadius: 4,
-                  backgroundColor: 'rgba(0,0,0,0.3)'}}>
+                  backgroundColor: secondaryColor}}>
                     <Typography sx={{width: '100%', textAlign: 'flex-start', color: 'rgb(220,220,220)', margin:0.5}} fontWeight={'800'}>Upcoming races:</Typography>
                   {comingRaces.map((race) => (
                     comingRaceBox(race)

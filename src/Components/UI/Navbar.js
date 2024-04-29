@@ -60,24 +60,27 @@ const RightBoxContent = () => {
       minHeight: '65px'}} className='preventSelect'>
         <Box sx={{
           display: 'flex',
+          alignItems: 'center',
           gap: '15px'}}>
             <Hidden mdUp><Hamburger isAdmin={userData.isAdmin} /></Hidden>
             <Button style={{color: 'white', fontSize: '25px'}} component={Link} to="/">
-              <Hidden smDown><img src={process.env.PUBLIC_URL + "/images/longbannerlight.png"} alt="logo" height="60px" /></Hidden>
-              <Hidden smUp><img src={process.env.PUBLIC_URL + "/images/iconlight.png"} alt="logo" height="40px" /></Hidden>
+              <Hidden smDown><img src={process.env.PUBLIC_URL + "/images/longbannerlight.png"} alt="logo" height="50px" /></Hidden>
+              <Hidden smUp><img src={process.env.PUBLIC_URL + "/images/iconlight.png"} alt="logo" height="50px" /></Hidden>
             </Button>
             <Hidden mdDown>
-                <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/discover">
+              <Box sx={{color:'rgb(240,240,240)', fontSize: "14px", paddingTop:0.75}}>
+                <Button sx={{color:'inherit', fontSize: "inherit"}} component={Link} to="/discover">
                   <PeopleRoundedIcon sx={{marginRight: '3px'}}/>Discover
                 </Button>
-                <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/races">
+                <Button sx={{color:'inherit', fontSize: "inherit"}} component={Link} to="/races">
                   <StadiumRoundedIcon sx={{marginRight: '3px'}}/>Races
                 </Button>
                 {userData.isAdmin &&
-                <Button style={{color: 'white', fontSize: '13px'}} component={Link} to="/admin">
+                <Button sx={{color:'inherit', fontSize: "inherit"}} component={Link} to="/admin">
                   <EngineeringRoundedIcon sx={{marginRight: '3px'}}/>Admin
                 </Button>
                 }
+              </Box>
             </Hidden>
         </Box>
       {RightBoxContent()}
