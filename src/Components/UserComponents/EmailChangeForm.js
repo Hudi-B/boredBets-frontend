@@ -83,7 +83,7 @@ const EmailChangeForm = ( { open, onClose } ) => {
                     <Stack spacing={2} alignItems={'center'} direction={'column'}>
                         <Stack spacing={1} direction={'column'} alignItems={'start'}>
                             <Typography variant='subtitle2' >New email</Typography>
-                            <Input variant='standard' sx={{ color: 'white', width: '300px', marginBottom: '10px' }} placeholder={email} value={tempEmail} onChange={(e) => setTempEmail(e.target.value)} />
+                            <Input variant='standard' sx={{ color: 'white', width: '300px', marginBottom: '10px' }} placeholder={email} onKeyDown={(e) => e.key === 'Enter' && handleEmailSubmit()} value={tempEmail} onChange={(e) => setTempEmail(e.target.value)} />
                         </Stack>
                         <Typography variant='caption' >Email must follow this format: example@example.com</Typography>
                         <Button variant='contained' onClick={handleEmailSubmit} >Submit</Button>
