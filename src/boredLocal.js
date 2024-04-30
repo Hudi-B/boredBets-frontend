@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import moment from 'moment';
 
-export const apiUrl = 'https://boredbetsapidev.azurewebsites.net/api/';
+export const apiUrl = 'https://boredbetsapi.azurewebsites.net/api/';
 //export const apiUrl = 'https://localhost:7090/api/';
  
 export const secondaryColor = 'rgb(50,71,101)';
