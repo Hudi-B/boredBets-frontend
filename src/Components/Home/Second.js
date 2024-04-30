@@ -15,7 +15,19 @@ export default function Second() {
                     justifyContent: 'center', 
                     display: 'flex',
                     alignItems: 'center'}}>
-                  <Avatar className='preventSelect' variant='square' src="https://i.ibb.co/Hz0KFv9/kopi.jpg" sx={{width: '80%', height: 'auto', maxWidth: '300px', borderRadius:3 }} />
+                <Avatar
+                    className='preventSelect'
+                    variant='square'
+                    src={process.env.PUBLIC_URL + '/images/paintedhorsebanner.png'}
+                    sx={{
+                        width: '80%',
+                        height: 'auto',
+                        maxWidth: '300px',
+                        borderRadius: 3,
+                        backgroundColor: 'rgba(200, 200, 200, 0.95)',
+                        boxShadow: ' 0 0 30px rgba(200,200,200, 1)'
+                    }}
+                    />                
                 </Grid>
             </Hidden>
             <Grid item xs={10} md={5} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
