@@ -8,6 +8,9 @@ import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { Link } from 'react-router-dom';
+import {secondaryColor, fontColor, FormatDate} from '../../boredLocal';
+
+
 import {secondaryColor, fontColor} from '../../boredLocal';
 import { useTheme } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
@@ -237,7 +240,7 @@ const forceSimulate = () => {
                 {pending? 
                 <Skeleton width={"50%"} height={"50px"} animation="wave" />
                 : 
-                "Race held at: "+moment(race.raceSceduled).format("YYYY/MM/DD HH:mm")}
+                "Race held at: "+FormatDate(race.raceSceduled)}
             </Box>
             <Stack
               direction="row"

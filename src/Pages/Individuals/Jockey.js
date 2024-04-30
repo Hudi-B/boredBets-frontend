@@ -11,8 +11,7 @@ import { enqueueSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 import NotFound from '../NotFound';
 
-import { secondaryColor } from '../../boredLocal';
-const fontColor = 'rgb(220,220,220)';
+import { secondaryColor, FormatDate, fontColor } from '../../boredLocal';
 
 const Title = styled(Typography)(({ theme }) => ({
   width:'fill',
@@ -49,8 +48,6 @@ export default function App() {
   const navigate = useNavigate();
   const [pending, setPending] = useState(true);
   const [notFound, setNotFound] = useState(false);
-  const moment = require('moment');
-  const dateFormat = "YYYY, MMMM DD.";
 
   useEffect(() => {
     axios.get(`${apiUrl}Jockey/GetJockeyDetailByJockeyId?JockeyId=${id}`)
@@ -92,7 +89,7 @@ export default function App() {
         }}>
           
           {race.track.name}
-          <Typography sx={{color:'white'}}>{moment(race.raceScheduled).format(dateFormat)}</Typography>
+          <Typography sx={{color:'white'}}>{FormatDate(race.raceScheduled)}</Typography>
         </Button>
       ));
     }else{
@@ -137,7 +134,7 @@ export default function App() {
             boxShadow: '2px 3px 5px 0px rgba(0,0,0,0.5)',
           }}>
             {race.track.name}
-            <Typography sx={{color:'white'}}>{moment(race.raceScheduled).format(dateFormat)}</Typography>
+            <Typography sx={{color:'white'}}>{FormatDate(race.raceScheduled)}</Typography>
           </Button>
       ));
     }else{

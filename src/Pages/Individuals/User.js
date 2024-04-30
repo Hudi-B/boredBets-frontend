@@ -9,8 +9,7 @@ import { styled } from '@mui/material/styles';
 import { enqueueSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 
-import { secondaryColor } from '../../boredLocal';
-const fontColor = 'rgb(220,220,220)';
+import { secondaryColor, FormatDate, fontColor } from '../../boredLocal';
 
 const Title = styled(Typography)(({ theme }) => ({
   width:'fill',
@@ -45,7 +44,6 @@ export default function App() {
 
   const id = useLocation().pathname.split("/")[2];
   const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
-const moment = require('moment');
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -111,7 +109,7 @@ console.log(data);
                   <Typography>
                     Registered
                   </Typography>
-                <Chip sx={{paddingX: '10px', fontSize: '15px', color: fontColor}} label={moment(data.created).format("MMMM D, YYYY")}/>
+                <Chip sx={{paddingX: '10px', fontSize: '15px', color: fontColor}} label={FormatDate(data.created)}/>
                 </Stack>
                 <Stack sx={{alignItems:'center'}}>
                   <Typography>
@@ -158,7 +156,7 @@ console.log(data);
                 </Grid>
                 <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                   <BulletPoint>Born: </BulletPoint>
-                  <DataText>{moment(data.birthdate).format('YYYY MMMM DD')}</DataText>
+                  <DataText>{FormatDate(data.birthdate)}</DataText>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                   <BulletPoint>Phone:</BulletPoint>

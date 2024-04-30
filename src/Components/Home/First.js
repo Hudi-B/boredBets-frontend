@@ -1,14 +1,13 @@
 
 import { Typography, Grid, Avatar, Paper, Divider, Button, Hidden, Slide } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { apiUrl, secondaryColor } from '../../boredLocal';
+import { FormatDate, apiUrl, secondaryColor,fontColor } from '../../boredLocal';
 import  axios  from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { updateWallet } from '../../auth/authSlice';
 import { enqueueSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
-import { fontColor } from '../../boredLocal';
 
 export default function First() {
   const [comingRaces, setComingRaces] = useState([]);
@@ -97,7 +96,7 @@ export default function First() {
                 </Grid>
                 <Divider sx={{width: '90%', borderColor: 'black'}} />
                 <Grid item sm={12} sx={{justifyContent: 'center', display: 'flex', color:fontColor}}>
-                  {pending ? 'Date': race.raceScheduled}
+                  {pending ? 'Date': FormatDate(race.raceScheduled)}
                 </Grid>
               </Grid>
           </Paper>
