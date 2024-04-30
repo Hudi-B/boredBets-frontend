@@ -9,10 +9,6 @@ import StraightenIcon from '@mui/icons-material/Straighten';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { Link } from 'react-router-dom';
 import {secondaryColor, fontColor, FormatDate} from '../../boredLocal';
-
-
-import {secondaryColor, fontColor} from '../../boredLocal';
-import { useTheme } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import BetScrollDownMenu from '../../Components/UI/BetScrollDownMenu';
 import ViewResults from '../../Components/UI/ViewResults';
@@ -29,8 +25,6 @@ function App() {
   const [notFoundError, setNotFoundError] = useState(false);
   const [loadingText, setLoadingText] = useState('');
   const userData = useSelector((state) => state.auth);
-  const moment = require('moment');
-  const theme = useTheme();
 
   useEffect(() => {
     axios.get(`${apiUrl}Race/GetByRaceId?Id=`+raceId)

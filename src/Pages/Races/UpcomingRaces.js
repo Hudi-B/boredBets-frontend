@@ -8,7 +8,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { createTheme } from '@mui/material/styles';
 
-import {secondaryColor, FormatDate} from '../../boredLocal';
+import {secondaryColor, FormatDate, fontColor} from '../../boredLocal';
 
 
 export default function UpcomingRaces({races}) {
