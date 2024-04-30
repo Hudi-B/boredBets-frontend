@@ -114,7 +114,7 @@ export default function First() {
                 justifyContent: 'center', 
                 display: 'flex',
                 alignItems: 'center'}}>
-                  <Avatar className='preventSelect' variant='square' src="https://i.ibb.co/Fm35JQP/papagh-j.jpg" onClick={bonusClaimCheck} sx={{width: '100%', height: 'auto', maxWidth: '500px', borderRadius:3 }} />
+                  <Avatar className='preventSelect' variant='square' src={process.env.PUBLIC_URL + '/images/horsepromotionbanner.png'} onClick={bonusClaimCheck} sx={{width: '100%', height: 'auto', maxWidth: '500px', borderRadius:3 }} />
               </Grid>
 
               <Grid item xs={10} md={5} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>

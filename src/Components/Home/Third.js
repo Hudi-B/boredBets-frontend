@@ -16,8 +16,8 @@ export default function Second() {
                 </Typography>
             </Grid>
             <Grid item xs={10} md={5} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 5}}>
-                <Typography variant='h3' textAlign={'center'}  sx={{color: 'rgb(220,220,220)'}}>
-                    9 out of 10 dentist would approve
+                <Typography variant='h5' textAlign={'center'}  sx={{ fontStyle: 'italic', color: 'rgb(220,220,220)'}}>
+                Immerse yourself in the ultimate betting simulation experience, all in the spirit of fun and excitement!
                 </Typography>
             </Grid>
             
