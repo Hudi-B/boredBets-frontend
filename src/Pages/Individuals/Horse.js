@@ -181,10 +181,11 @@ export default function App() {
           <Grid container className='preventSelect' direction="row" sx={{ justifyContent: 'center', marginTop: '20px', gap: 1 }}>
             <Grid item xs={12} sm={4} sx={{display:'flex', flexWrap:'nowrap',minWidth:'220px', justifyContent: 'center'}}>
             <Avatar sx={{
-                width: '200px',
+                width: 'auto',
                 height: '200px',
               }}
-              src={process.env.PUBLIC_URL + pfpImage}/>
+              variant='square'
+              src={process.env.PUBLIC_URL + `/images/Horse.png`}/>
             </Grid>
             <Grid item xs={12} sm={7} sx={{display:'flex', flexWrap:'nowrap'}}>
               <Stack direction={"column"} sx={{
