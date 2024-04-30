@@ -4,7 +4,7 @@ import { Button, Box,Dialog, Paper,CircularProgress, Avatar,IconButton, Typograp
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
-import { apiUrl } from '../../boredLocal';
+import { apiUrl, secondaryColor } from '../../boredLocal';
 import { useDispatch } from 'react-redux';
 import { updateProfilePicture } from '../../auth/authSlice';
 import { useSelector } from 'react-redux';
@@ -177,7 +177,7 @@ export default function ChangeImage() {
                 )}
                 <Box 
                 sx={{
-                    backgroundColor: 'rgb(60, 150, 120)',
+                    backgroundColor: secondaryColor,
                     width: fullscreen? '100%' : '450px',
                     maxWidth: '100%',
                     height: fullscreen? '100%' : '600px',

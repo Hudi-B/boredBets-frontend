@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { apiUrl } from '../../../boredLocal';
+import { apiUrl, fontColor } from '../../../boredLocal';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 import axios from 'axios';
-import { TextField, Box, Button, InputAdornment, Tooltip, IconButton } from '@mui/material';
+import { TextField, Box, Button, InputAdornment, Tooltip, IconButton, FormControlLabel, Checkbox } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -15,9 +15,12 @@ export default function Register({data, callback}) {
     const [alertOnPass, setAlertOnPass] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [pending, setPending] = useState(false);
+    const [oldEnough, setOldEnough] = useState(false);
+    const [alertOnAge, setAlertOnAge] = useState(false);
     const usernameRef = useRef(null);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+    console.log(oldEnough);
     
     const handleChange = (event) => {
         callback(event);
@@ -34,10 +37,12 @@ const handleRegister = async () => {
         email: !emailRegex.test(email),
         username: username.length <= 4,
         password: password.length <= 4,
+        age: !oldEnough
     };
     setAlertOnUsername(alerts.username);
     setAlertOnEmail(alerts.email);
     setAlertOnPass(alerts.password);
+    setAlertOnAge(alerts.age);
     if(alerts.username) //set Focus for inputs if there is an error
     {
         usernameRef.current.focus();
@@ -53,6 +58,16 @@ const handleRegister = async () => {
         passwordRef.current.focus();
         return;
     }
+    if(alerts.age)
+    {
+        enqueueSnackbar("You must be at least 18 years old to register.", {
+            variant: 'error',
+            autoHideDuration: 3000,
+            TransitionComponent: Slide,
+        });
+        return;
+    }
+
     setPending(true);
     axios.post(`${apiUrl}User/UserRegister`, data)
     .then((response) => {
@@ -188,6 +203,15 @@ const handleRegister = async () => {
             <Button variant='contained' color='primary' disabled={pending} sx={{ height: 55, width: 55 }} className='doitButton' onClick={handleRegister}>
             Go
             </Button>
+        </Box>
+        <Box sx={{width:'100%', display:'flex', justifyContent:'flex-end'}}>
+            <FormControlLabel
+            control={<Checkbox checked={oldEnough} onChange={(event) => setOldEnough(event.target.checked)} style={{ color: 'rgb(220,220,220)' }} />}
+            label="I'm over the age of 18"
+            style={{ color: fontColor }}
+            labelPlacement='start'
+            color={alertOnAge && 'error' }
+        />
         </Box>
     </>
     )
