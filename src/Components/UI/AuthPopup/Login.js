@@ -10,7 +10,7 @@ import { setCookieToken } from '../../../boredLocal';
 import {InputAdornment, IconButton} from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import ForgotPassword from './ForgotPassword';
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Login({data, callback}) {
@@ -72,10 +72,6 @@ export default function Login({data, callback}) {
     const handleChange = (event) => {
         callback(event);
     };
-
-    const ForgotPassword = () => {
-        // another dialog in here asking for the users email, then sending a post request with that email to the api
-    }
 
     return (
     <>
@@ -154,10 +150,8 @@ export default function Login({data, callback}) {
                 Go
             </Button>
         </Box>
-        <Box display="flex" justifyContent="space-between">
-            <Button variant='string' onClick={ForgotPassword} size='small' sx={{maxWidth: '50%', textTransform: 'none', position: 'absolute', right: 35, color: 'rgb(240,240,240)' }}>
-                forgot password
-            </Button>
+        <Box display="flex" justifyContent="flex-end">
+            <ForgotPassword />
         </Box>
     </>
     )
