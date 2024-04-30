@@ -14,8 +14,7 @@ export default function NotFound({lookedFor}) {
             padding: '10px',
             margin: '0px',
             overflowY: 'auto',
-            paddingY: '50px',
-            backgroundColor: 'rgb(63, 85, 115)'}}>
+            paddingY: '50px'}}>
               <Box sx={{
                 width: '100%',
                 display: 'flex',
