@@ -58,6 +58,7 @@ const switchButtons = (upcoming) => {
     return (
         <Box
         variant="default"
+        className="preventSelect"
         sx={{
             paddingX: 5,
             paddingY: 1,
