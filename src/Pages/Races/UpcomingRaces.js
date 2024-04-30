@@ -8,7 +8,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { createTheme } from '@mui/material/styles';
 
-import {secondaryColor} from '../../boredLocal';
+import {secondaryColor, fontColor} from '../../boredLocal';
 
 
 export default function UpcomingRaces({races}) {
@@ -52,7 +52,7 @@ export default function UpcomingRaces({races}) {
             >
                 <Hidden smUp> {/*Small screen */}
                     <Grid item xs={12} sx={{display: 'flex',  justifyContent: 'center', alignItems: 'center', marginY: 0.3, fontWeight:'750', letterSpacing: '1px'}}>
-                    <MapIcon sx={{marginRight: '10px'}} /> {race.name}
+                        <MapIcon sx={{marginRight: '10px'}}/> {race.name}
                     </Grid>
                         <Divider sx={{width: '100%', borderColor: 'black'}} />
                     <Grid item xs={12} sx={{display: 'flex',  justifyContent: 'center', alignItems: 'center', marginY: 0.3}}>
@@ -60,7 +60,7 @@ export default function UpcomingRaces({races}) {
                     </Grid>
                         <Divider sx={{width: '100%', borderColor: 'black'}} />
                     <Grid item xs={12}sx={{display: 'flex',justifyContent: 'center', alignItems: 'center', marginTop: 0.3}}>
-                    <AccessTimeIcon sx={{marginRight: '10px'}} />{moment(race.raceScheduled).format(dateFormat)}
+                        <AccessTimeIcon sx={{marginRight: '10px'}}/>{moment(race.raceScheduled).format(dateFormat)}
                     </Grid>
                 </Hidden>
 
@@ -163,12 +163,12 @@ export default function UpcomingRaces({races}) {
                     paddingX: 2}}
                     >
                     <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-                    <MapIcon /></Grid>
+                    <MapIcon color='secondary' /></Grid>
 
                     <Grid item xs={3} ></Grid>
 
                     <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <AccessTimeIcon /></Grid>
+                    <AccessTimeIcon color='secondary' /></Grid>
                     
                 </Grid>
             </Hidden>
