@@ -1,11 +1,12 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Divider, Input, Switch, Select, FormControl, MenuItem} from '@mui/material';
+import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Divider, Input, Switch, Select, FormControl, MenuItem, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 import UserDetailForm from './UserDetailForm';
@@ -21,6 +22,8 @@ import UsernameChangeForm from './UsernameChangeForm';
 import ChangeImage from './ChangeImage';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { logout } from '../../auth/authSlice';
+import ResetPassword from './ResetPassword';
 
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '100%',
@@ -44,6 +47,8 @@ export default function Information() {
     const userId = useSelector((state) => state.auth.userId);
     const userImage = useSelector((state) => state.auth.imageUrl);
     const [isPrivate, setIsPrivate] = useState(true);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [userStatus, setUserStatus] = useState({
         profilePic: userImage !== '',
@@ -64,6 +69,7 @@ export default function Information() {
         passwordChangeDialog: false,
         usernameChangeDialog: false,
         emailChangeDialog: false,
+        deleteUserDialog: false,
     });
     
     const handleOpenDialog = (dialogName) => {
@@ -131,8 +137,21 @@ export default function Information() {
         })
     }
 
+    const handleUserDelete = async () => {
+        await axios.delete(apiUrl+`User/DeleteUserById?UserId=` + userId)
+        .then(() => {
+            enqueueSnackbar('User successfully deleted', { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide });
+            navigate('/');
+            dispatch(logout());
+        })
+        .catch(() => {
+            console.log(userId)
+            enqueueSnackbar('Something went wrong', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
+        })
+    }
+
     return (
-        <Box 
+        <Box
         sx={{ 
         width: '100%',
         display: 'flex', 
@@ -278,15 +297,6 @@ export default function Information() {
 
                         <TilePaper>
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Details</Typography>
-                                <Stack container direction="column" spacing={1} sx={{paddingBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                    <Stack direction="row" alignItems="center" justifyContent="center" >
-                                        <LockOpenIcon sx={{ color: isPrivate ? 'grey' : 'white'}}/>
-                                        <Switch size='large' checked={isPrivate} onChange={(e) => handleisPrivateChange(e.target.checked)}/>
-                                        <LockOutlinedIcon sx={{ color: isPrivate ? 'white' : 'grey' }}/>
-                                    </Stack>
-                                    <Typography variant="caption">Change profile visibility.</Typography>
-                                </Stack>
-                                <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.5)' }}/>
                                 <Stack direction="column" spacing={1} sx={{paddingY: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}} >
                                     <Button variant="contained" sx={{width: '300px'}} onClick={() => {handleOpenDialog('usernameChangeDialog')}} >Change Username</Button>
                                     <Typography variant="caption">Change your current username.</Typography>
@@ -306,13 +316,58 @@ export default function Information() {
                             </Stack>
                             <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.5)' }}/>
                             <Stack direction="column" spacing={1} sx={{paddingTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                <Button variant="contained" onClick={(event) => {event.preventDefault(); window.scrollTo(0, 0);}} sx={{width: '300px'}} >Reset Password</Button>
+                                <ResetPassword />
                                 <Typography variant="caption">Reset password via email.</Typography>
+                            </Stack>
+                        </TilePaper>
+                        
+                        <TilePaper>
+                            <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Manage</Typography>
+                            <Stack container direction="column" spacing={1} sx={{paddingBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                <Stack direction="row" alignItems="center" justifyContent="center" >
+                                    <LockOpenIcon sx={{ color: isPrivate ? 'grey' : 'white'}}/>
+                                    <Switch size='large' checked={isPrivate} onChange={(e) => handleisPrivateChange(e.target.checked)}/>
+                                    <LockOutlinedIcon sx={{ color: isPrivate ? 'white' : 'grey' }}/>
+                                </Stack>
+                                <Typography variant="caption">Change profile visibility.</Typography>
+                            </Stack>
+                            <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.5)' }}/>
+                            <Stack direction="column" spacing={1} sx={{ paddingTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                <Button variant="contained" color='error' onClick={() => {handleOpenDialog('deleteUserDialog')}} sx={{width: '300px'}} >Delete account</Button>
+                                <Typography variant="caption">Permanently delete your account.</Typography>
                             </Stack>
                         </TilePaper>
                     </Stack>
                 </Grid>
             </Grid>
+            <Dialog
+                open={openDialogs.deleteUserDialog}
+                onClose={() => handleCloseDialog('deleteUserDialog')}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                sx={{backgroundColor: 'rgba(0,0,0,0.5)'}}
+                PaperProps={{
+                    sx: {
+                    backgroundColor: 'rgb(50,71,101)',
+                    color: 'white',
+                    },
+                }}
+                >
+                <DialogTitle id="alert-dialog-title">{"Delete Account"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText color={'white'} id="alert-dialog-description">
+                    Are you sure you want to delete your account?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions sx={{justifyContent: 'space-between'}}>
+                    <Button onClick={handleCloseDialog} color="primary" sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.1)',boxShadow: '0 0 5px rgb(50, 50,50)'},textTransform: 'none', color: 'white' }}>
+                    CANCEL
+                    </Button>
+                    <Button onClick={handleUserDelete} color="primary" autoFocus sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.1)',boxShadow: '0 0 5px rgb(50, 50,50)'},color: 'white'}}>
+                    Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <UserDetailForm open={openDialogs.aboutYouDialog} onClose={() => handleCloseDialog('aboutYouDialog')} />
             <PasswordChangeForm open={openDialogs.passwordChangeDialog} onClose={() => handleCloseDialog('passwordChangeDialog')} />
             <EmailChangeForm open={openDialogs.emailChangeDialog} onClose={() => handleCloseDialog('emailChangeDialog')} />

@@ -24,7 +24,8 @@ const AdminUsers = () => {
         justifyContent: 'center', 
         padding: '10px', 
         margin: '0px', 
-        overflowY: ''}}
+        overflowY: '',
+        paddingBottom: '50px'}}
         >
             <Stack direction={'column'} spacing={2}>
                 <TilePaper>
