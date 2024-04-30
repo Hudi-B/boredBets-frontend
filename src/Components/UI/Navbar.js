@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import UserIcon from './UserIcon';
 import {Link} from 'react-router-dom';
 import Hamburger from './HamburgerMenu';
+import { fontColor } from '../../boredLocal';
 import StadiumRoundedIcon from '@mui/icons-material/StadiumRounded';
 import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
@@ -23,10 +24,10 @@ const RightBoxContent = () => {
         <Stack direction={'row'} spacing={1} alignItems={'center'}> 
           <Hidden smDown>
             <Tooltip title={'Your wallet'}>
-              <Chip label={'€' + formattedWallet} icon={<AccountBalanceWalletIcon style={{color: 'white'}}/>} sx={{ color: 'white'}} />
+              <Chip label={'€' + formattedWallet} icon={<AccountBalanceWalletIcon style={{color: fontColor}}/>} sx={{ color: fontColor}} />
             </Tooltip>
           </Hidden>
-          <Notifications />
+          <Notifications sx={{color: fontColor}}/>
           <UserIcon />
         </Stack>
       );
@@ -63,12 +64,12 @@ const RightBoxContent = () => {
           alignItems: 'center',
           gap: '15px'}}>
             <Hidden mdUp><Hamburger isAdmin={userData.isAdmin} /></Hidden>
-            <Button style={{color: 'white', fontSize: '25px'}} component={Link} to="/">
+            <Button style={{color: fontColor, fontSize: '25px'}} component={Link} to="/">
               <Hidden smDown><img src={process.env.PUBLIC_URL + "/images/longbannerlight.png"} alt="logo" height="50px" /></Hidden>
               <Hidden smUp><img src={process.env.PUBLIC_URL + "/images/iconlight.png"} alt="logo" height="50px" /></Hidden>
             </Button>
             <Hidden mdDown>
-              <Box sx={{color:'rgb(240,240,240)', fontSize: "14px", paddingTop:0.75}}>
+              <Box sx={{color:fontColor, fontSize: "14px", paddingTop:0.75}}>
                 <Button sx={{color:'inherit', fontSize: "inherit"}} component={Link} to="/discover">
                   <PeopleRoundedIcon sx={{marginRight: '3px'}}/>Discover
                 </Button>

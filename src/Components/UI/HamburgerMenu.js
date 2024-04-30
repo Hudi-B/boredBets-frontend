@@ -56,7 +56,7 @@ const DrawerList = (
         ))}
         {isAdmin && (
           <ListItem key="Admin" sx={{position: 'absolute', bottom: 20}} disablePadding>
-              <Button component={Link} to="/Admin" sx={{ justifyContent: 'flex-start', marginTop: '10px', height: '50px', marginX: '5px', fontSize: '15px' }} variant="outlined" fullWidth>
+              <Button color='primary' component={Link} to="/Admin" sx={{ justifyContent: 'flex-start', marginTop: '10px', height: '50px', marginX: '5px', fontSize: '15px' }} variant="contained" fullWidth>
                 <EngineeringRoundedIcon style={{marginRight: '5px'}} />ADMIN
               </Button>
           </ListItem>

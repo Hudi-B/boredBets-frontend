@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { updateWallet } from '../../auth/authSlice';
 import { enqueueSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
-
+import { fontColor } from '../../boredLocal';
 
 export default function First() {
   const [comingRaces, setComingRaces] = useState([]);
@@ -86,17 +86,17 @@ export default function First() {
                 display: 'flex', 
                 justifyContent: 'center', 
                 alignItems: 'center'}}>
-                <Grid item sm={5} xs={12} sx={{justifyContent: 'center', display: 'flex', marginRight: 1}}>
+                <Grid item sm={5} xs={12} sx={{justifyContent: 'center', display: 'flex', marginRight: 1, color:fontColor}}>
                   {pending? 'RaceName': race.track_Name}
                 </Grid>
                 <Hidden smUp>
                   <Divider sx={{width: '90%', borderColor: 'black'}} />
                 </Hidden>
-                <Grid item sm={5} xs={12} sx={{justifyContent: 'center', display: 'flex'}}>
+                <Grid item sm={5} xs={12} sx={{justifyContent: 'center', display: 'flex', color:fontColor}}>
                   {pending? 'Country': race.country}
                 </Grid>
                 <Divider sx={{width: '90%', borderColor: 'black'}} />
-                <Grid item sm={12} sx={{justifyContent: 'center', display: 'flex'}}>
+                <Grid item sm={12} sx={{justifyContent: 'center', display: 'flex', color:fontColor}}>
                   {pending ? 'Date': race.raceScheduled}
                 </Grid>
               </Grid>
