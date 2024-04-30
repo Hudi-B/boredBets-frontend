@@ -1,14 +1,13 @@
 
 import { Typography, Grid, Avatar, Paper, Divider, Button, Hidden, Slide } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { FormatDate, apiUrl, secondaryColor } from '../../boredLocal';
+import { FormatDate, apiUrl, secondaryColor,fontColor } from '../../boredLocal';
 import  axios  from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { updateWallet } from '../../auth/authSlice';
 import { enqueueSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
-import { fontColor, FormatDate } from '../../boredLocal';
 
 export default function First() {
   const [comingRaces, setComingRaces] = useState([]);
