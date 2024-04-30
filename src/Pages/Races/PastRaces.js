@@ -6,7 +6,7 @@ import React  from 'react';
 import MapIcon from '@mui/icons-material/Map';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
-import {secondaryColor} from '../../boredLocal';
+import {FormatDate, secondaryColor} from '../../boredLocal';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -16,9 +16,7 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
     const [restData, setRestData] = useState([]);   
     const [pending, setPending] = useState(true);
     const [maxPage, setMaxPage] = useState(5);
-    const moment = require('moment');
     const navigate = useNavigate();
-    const dateFormat = "YYYY MM DD, HH:mm";
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -63,7 +61,7 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
                     </Grid>
                         <Divider sx={{width: '100%', borderColor: 'black'}} />
                     <Grid item xs={12}sx={{display: 'flex',justifyContent: 'center', alignItems: 'center', marginTop: 0.3}}>
-                    <AccessTimeIcon sx={{marginRight: '10px'}} />{moment(race.raceScheduled).format(dateFormat)}
+                    <AccessTimeIcon sx={{marginRight: '10px'}} />{FormatDate(race.raceScheduled)}
                     </Grid>
                 </Hidden>
 
@@ -83,7 +81,7 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
                     </Hidden>
 
                     <Grid item xs={12} sm={6} sx={{display: 'flex', paddingRight: '10px', justifyContent: 'flex-end', alignItems: 'center', marginTop: 0.3}}>
-                        {moment(race.raceScheduled).format(dateFormat)}
+                        {FormatDate(race.raceScheduled)}
                     </Grid>
                 </Hidden>
             </Grid>
@@ -124,9 +122,9 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
             }}
             >
                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-                {moment(race.raceScheduled).format("YYYY MM DD, HH:mm")}
+                {FormatDate(race.raceScheduled)}
                 </Grid>
-                    <Divider orientation="vertical" flexItem />
+                    <Divider orientation="vertical" flexItem color="black" />
                 <Grid item xs={3} sx={{fontWeight:'750', letterSpacing: '1px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 {race.name}
                 </Grid>

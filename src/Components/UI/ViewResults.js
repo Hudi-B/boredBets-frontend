@@ -5,7 +5,7 @@ import AuthPopup from './AuthPopup';
 import { useSelector } from 'react-redux';
 import '../../styles/Main.css';
 import { Link } from 'react-router-dom';
-
+import { secondaryColor, fontColor } from '../../boredLocal';
 
 export default function ViewResults({participants }) {
   const [firstFive, setFirstFive] = useState();
@@ -44,7 +44,7 @@ useEffect(() => {
       <Box sx={{display: 'flex', flexDirection: 'column', width: '100%', gap:1}}>
         {firstFive && firstFive.map((participant) => (
             <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-              <Avatar sx={{marginRight:2, boxShadow: '-5px -5px 10px rgba(200,200,200,0.2), 5px 5px 10px rgba(50,50,50,0.5);', marginLeft: 1, backgroundColor: 'rgb(0,139,139)'}}>{participant.placement}</Avatar>
+              <Avatar sx={{marginRight:2, boxShadow: '-5px -5px 10px rgba(200,200,200,0.2), 5px 5px 10px rgba(50,50,50,0.5);', marginLeft: 1, backgroundColor: 'rgb(57,81,122)'}}>{participant.placement}</Avatar>
               <Grid container sx={{
                 borderRadius: 3, 
                 overflow: 'hidden', 
@@ -60,7 +60,7 @@ useEffect(() => {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  color: 'white',
+                  color: fontColor,
                   textTransform: 'none',
                   textDecoration: 'none',
                   paddingTop: 1,
@@ -79,16 +79,16 @@ useEffect(() => {
                         {participant.horseName}&nbsp;
                         <Hidden mdDown>
                           {participant.horseAge}
-                          <Typography variant="caption" >yo&nbsp; </Typography>
+                          <Typography variant="caption" color={fontColor}>yo&nbsp; </Typography>
                           {participant.horseStallion?"Stallion":"Mare"}&nbsp;
                         </Hidden>
                         <Hidden smUp>
                           {participant.horseAge}
-                          <Typography variant="caption" >yo&nbsp; </Typography>
+                          <Typography variant="caption" color={fontColor} >yo&nbsp; </Typography>
                           {participant.horseStallion?"Stallion":"Mare"}&nbsp;
                         </Hidden>
                       </Box>
-                        <Typography variant="caption">from {participant.horseCountry}</Typography>
+                        <Typography variant="caption" color={fontColor}>from {participant.horseCountry}</Typography>
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={6}
@@ -99,7 +99,7 @@ useEffect(() => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    color: 'white',
+                    color: fontColor,
                     textTransform: 'none',
                     textDecoration: 'none',
                     paddingY:1,
@@ -117,16 +117,16 @@ useEffect(() => {
 
   return (
     <Box sx={{width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-      <Accordion square='false'sx={{width: '90%', maxWidth: '1000px', marginX: 'auto', backgroundColor: 'rgba(4, 88, 88, 0.7)', borderRadius:5 }}>
+      <Accordion square='false'sx={{width: '90%', maxWidth: '1000px', marginX: 'auto', backgroundColor: 'rgb(57,81,122)', borderRadius:5 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon  />}
           aria-controls="panel1-content"
           id="panel1-header"
           sx={{
-            backgroundColor: 'rgba(4, 88, 88, 0.7)',
+            backgroundColor: secondaryColor,
             fontSize: '20px',
             fontWeight: '500',
-            color: 'white',
+            color: fontColor,
             '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
               transform: 'rotate(90deg)',
             },

@@ -1,14 +1,15 @@
 import React, { useEffect, useState} from 'react'; 
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
-import {Stack, Tooltip, Paper, Grid, Box, Typography, Button, Hidden, Skeleton, ThemeProvider} from "@mui/material";
+import {Stack, Tooltip, Paper, Grid, Box, Typography, Button, Hidden, Skeleton, ThemeProvider, Divider} from "@mui/material";
 import { useLocation } from 'react-router-dom';
 import CloudIcon from '@mui/icons-material/Cloud';
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { Link } from 'react-router-dom';
-import {secondaryColor} from '../../boredLocal';
+import {secondaryColor, fontColor, FormatDate} from '../../boredLocal';
+
 
 import { useTheme } from '@mui/material/styles';
 
@@ -24,7 +25,6 @@ function App() {
   const [betAble, setBetAble] = useState(null);
   const [past, setPast] = useState(null);
   const [notFoundError, setNotFoundError] = useState(false);
-const moment = require('moment');
   const theme = useTheme();
 
   useEffect(() => {
@@ -81,11 +81,11 @@ if(notFoundError) {
               component={Link}
               to={`/Horse/${participant.horseId}`}
               sx={{
-                backgroundImage: `linear-gradient(to right, #00463f, #00574f, #00695f, #007b70, #008e81)`,
+                backgroundColor: secondaryColor,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: 'white',
+                color: fontColor,
                 textTransform: 'none',
                 textDecoration: 'none',
                 height: '70px',
@@ -99,32 +99,33 @@ if(notFoundError) {
                   justifyContent: 'center',
                   flexDirection: 'column',
                   }}>
-                    <Box sx={{textAlign: 'center'}}>
+                    <Box sx={{textAlign: 'center', }}>
                       {participant.horseName}&nbsp;
                       <Hidden mdDown>
                         {participant.horseAge}
-                        <Typography variant="caption" >yo&nbsp; </Typography>
+                        <Typography variant="caption" color={fontColor} >yo&nbsp; </Typography>
                         {participant.horseStallion?"Stallion":"Mare"}&nbsp;
                       </Hidden>
                       <Hidden smUp>
                         {participant.horseAge}
-                        <Typography variant="caption" >yo&nbsp; </Typography>
+                        <Typography variant="caption" color={fontColor} >yo&nbsp; </Typography>
                         {participant.horseStallion?"Stallion":"Mare"}&nbsp;
                       </Hidden>
                     </Box>
-                      <Typography variant="caption">from {participant.horseCountry}</Typography>
+                      <Typography variant="caption" color={fontColor}>from {participant.horseCountry}</Typography>
                       
                 </Box>
               </Grid>
+              <Divider orientation="vertical" flexItem sx={{height: '90%'}} />
               <Grid item xs={6}
                 component={Link}
                 to={`/Jockey/${participant.jockeyId}`}
                 sx={{
-                  backgroundImage: `linear-gradient(to left, #00463f, #00574f, #00695f, #007b70, #008e81)`,
+                  backgroundColor: secondaryColor,
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  color: 'white',
+                  color: fontColor,
                   textTransform: 'none',
                   textDecoration: 'none',
                   height: '70px',
@@ -159,13 +160,15 @@ if(notFoundError) {
           marginBottom: 2,
           justifyContent: 'center',
           paddingTop: 10,
-          backgroundColor: 'rgba(50,50,50,0.3)'}}>
+          paddingBottom: 2,
+          backgroundColor: secondaryColor}}>
             <Box
             sx={{
               display: 'flex',
               textAlign: 'center',
               justifyContent: 'center',
               alignItems: 'center',
+              color:fontColor,
               fontSize: 'calc(1.5rem + 1.5vw)',
               letterSpacing: '0.1em',
               fontWeight: '700'}}>
@@ -178,13 +181,14 @@ if(notFoundError) {
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
+                color:fontColor,
                 alignItems: 'center',
                 fontSize: 'calc(0.8rem + 2vw)',
                 whiteSpace: 'nowrap'}}>
                 {pending? 
                 <Skeleton width={"50%"} height={"50px"} animation="wave" />
                 : 
-                "Race held at: "+moment(race.raceSceduled).format("YYYY/MM/DD HH:mm")}
+                "Race held at: "+FormatDate(race.raceSceduled)}
             </Box>
             <Stack
               direction="row"
@@ -192,6 +196,7 @@ if(notFoundError) {
               width: '100%',  
               fontSize: 'calc(0.9rem + 1.5vw)',
               whiteSpace: 'nowrap',
+              color:fontColor,
               justifyContent: 'space-between',
               alignItems: 'space-between',
               letterSpacing: '0.1em',    
@@ -226,6 +231,7 @@ if(notFoundError) {
         fontSize: '13px',
         justifyContent: 'flex-end',
         alignItems: 'center',
+        color:fontColor,
         letterSpacing: '0.1em',    
         paddingX:1 }}>
           {pending? 
@@ -235,12 +241,12 @@ if(notFoundError) {
         <Tooltip title="Show on map" placement='top'>
           <Button variant="string" onClick={handleMapOpen}
           sx={{width: 'fit-content'}}>
-            <FmdGoodIcon sx={{fontSize: '40px', margin:'none', color:'black'}}/>
+            <FmdGoodIcon sx={{fontSize: '40px', margin:'none', color:fontColor}}/>
           </Button>
         </Tooltip>
       </Stack>
 
-      <Typography sx={{marginLeft: 2}} variant="h5">In the competition:</Typography>
+      <Typography sx={{marginLeft: 2}} variant="h5" color={fontColor}>In the competition:</Typography>
       <Stack key={"btc"} direction="column" gap={1} sx={{paddingX: 2}}>
         <Grid key={"btc1"} container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
           {pending? 
@@ -266,7 +272,7 @@ if(notFoundError) {
           alignItems: 'center', 
           display: 'flex',
           flexDirection: 'column',
-          backgroundColor: 'rgba(4, 88, 88, 0.7)',
+          backgroundColor: secondaryColor,
           borderRadius:'30px', 
           paddingX: 3,
           paddingY: 2,

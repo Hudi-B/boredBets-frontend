@@ -9,17 +9,19 @@ import { styled } from '@mui/material/styles';
 import { enqueueSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 
+import { secondaryColor, FormatDate, fontColor } from '../../boredLocal';
+
 const Title = styled(Typography)(({ theme }) => ({
   width:'fill',
   margin:'10px',
   borderBottom: '3px solid black',
-  color: 'black',
+  color: fontColor,
   fontSize: '25px',
   letterSpacing: '1px',
 }))
 const BulletPoint = styled(Typography)(({ theme }) => ({
   fontSize: "18px",
-  color: 'black',
+  color: fontColor,
   width: 'fit-content',
   marginLeft: '25px',
   letterSpacing: '2px',
@@ -30,7 +32,7 @@ const BulletPoint = styled(Typography)(({ theme }) => ({
 }))
 const DataText = styled(Typography)(({ theme }) => ({
   fontSize: "15px",
-  color: 'black',
+  color: fontColor,
   width: 'fit-content',
   paddingBottom: '0px',
   marginLeft: '10px',
@@ -42,11 +44,10 @@ export default function App() {
 
   const id = useLocation().pathname.split("/")[2];
   const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
-const moment = require('moment');
   const [data, setData] = useState({});
 
   useEffect(() => {
-    axios.get(`${apiUrl}User/GetUserDetailsByUserId?UserId=${id}`)
+    axios.get(`${apiUrl}User/UserSinglePage?UserId=${id}`)
     .then((response) => {
         setData(response.data);
         console.log(response.data);
@@ -74,11 +75,11 @@ console.log(data);
   return (
 <Box
       sx={{
-        backgroundColor: 'rgb(4, 112, 107)',
+        backgroundColor: secondaryColor,
         borderTopRightRadius: '20px',
         borderTopLeftRadius: '20px',
         width:'90%',
-        height: '100vh',
+        paddingBottom: '50px',
         maxWidth: '1000px',
         marginTop: '100px',
         marginLeft:'auto',
@@ -108,13 +109,13 @@ console.log(data);
                   <Typography>
                     Registered
                   </Typography>
-                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label={moment(data.created).format("MMMM D, YYYY")}/>
+                <Chip sx={{paddingX: '10px', fontSize: '15px', color: fontColor}} label={FormatDate(data.created)}/>
                 </Stack>
                 <Stack sx={{alignItems:'center'}}>
                   <Typography>
                     Profit:
                   </Typography>
-                <Chip sx={{paddingX: '10px', fontSize: '15px'}} label={data.profit}/>
+                <Chip sx={{paddingX: '10px', fontSize: '15px', color: fontColor}} label={data.profit}/>
                 </Stack>
                 </Box>
 
@@ -155,7 +156,7 @@ console.log(data);
                 </Grid>
                 <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                   <BulletPoint>Born: </BulletPoint>
-                  <DataText>{moment(data.birthdate).format('YYYY MMMM DD')}</DataText>
+                  <DataText>{FormatDate(data.birthdate)}</DataText>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{display:'flex', flexWrap:'nowrap'}}>
                   <BulletPoint>Phone:</BulletPoint>
