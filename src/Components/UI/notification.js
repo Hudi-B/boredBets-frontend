@@ -21,7 +21,6 @@ export default function Notifications() {
     const moment = require('moment');
     const dateFormat = "MMMM DD. HH:mm";
 
-
     const getNotifications = () => {
         axios.get(apiUrl + `Notifications/GetAllUnseenNotificationsByUserId?UserId=` + userData.userId)
           .then(response => {
