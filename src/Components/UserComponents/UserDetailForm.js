@@ -13,6 +13,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
 import { useSelector } from 'react-redux';
+import { createMuiTheme, ThemeProvider } from '@mui/material/styles';
 
 const CustomInput = styled(TextField)({
     input: {
@@ -21,6 +22,8 @@ const CustomInput = styled(TextField)({
       width: '300px',
     },
   });
+
+const defaultTheme = createMuiTheme();
 
 const UserDetailForm = ( {open, onClose} ) => {
     const { enqueueSnackbar } = useSnackbar();
@@ -87,21 +90,23 @@ const UserDetailForm = ( {open, onClose} ) => {
                         <Stack spacing={2} alignItems={'center'} direction={'column'}>
                             <Stack spacing={1} direction={'column'} alignItems={'start'}>
                                 <Typography variant='subtitle2' sx={{ color: 'white' }}>Name</Typography>
-                                <CustomInput variant='standard' value={name} onChange={handleNameChange} placeholder='John Doe' inputProps={{ maxLength: 60 }} />
+                                <CustomInput variant='standard' onKeyDown={(e) => e.key === 'Enter' && handleSubmit()} value={name} onChange={handleNameChange} placeholder='John Doe' inputProps={{ maxLength: 60 }} />
                             </Stack>
                             <Stack spacing={1} direction={'column'} alignItems={'start'}>
                                 <Typography variant='subtitle2' sx={{ color: 'white' }}>Date of birth</Typography>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker maxDate={maxDate} minDate={minDate} slotProps={{ textField: { variant: 'standard', style:{ width: '300px' }, inputProps: { style: { color: 'white', fontSize: '16px' }, } }}} slots={{ openPickerIcon: () => <CalendarMonthIcon style={{ fontSize: '16px', color: 'white' }} />,}} value={dateOfBirth} onChange={(newValue) => { setDateOfBirth(newValue) }} />
-                                </LocalizationProvider>
+                                <ThemeProvider theme={defaultTheme}>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker maxDate={maxDate} minDate={minDate} slotProps={{ textField: { variant: 'standard', style:{ width: '300px' }, inputProps: { style: { color: 'white', fontSize: '16px' }, } }}} slots={{ openPickerIcon: () => <CalendarMonthIcon style={{ fontSize: '16px', color: 'white' }} />,}} value={dateOfBirth} onChange={(newValue) => { setDateOfBirth(newValue) }} />
+                                    </LocalizationProvider>
+                                </ThemeProvider>
                             </Stack>
                             <Stack spacing={1} direction={'column'} alignItems={'start'}>
                                 <Typography variant='subtitle2' sx={{ color: 'white' }}>Phone number</Typography>
-                                <CustomInput variant='standard' value={phoneNumber} onChange={handlePhoneNumberChange} placeholder='+36012345678' inputProps={{ maxLength: 13 }} />
+                                <CustomInput variant='standard' onKeyDown={(e) => e.key === 'Enter' && handleSubmit()} value={phoneNumber} onChange={handlePhoneNumberChange} placeholder='+36012345678' inputProps={{ maxLength: 13 }} />
                             </Stack>
                             <Stack spacing={1} direction={'column'} alignItems={'start'}>
                                 <Typography variant='subtitle2' sx={{ color: 'white' }}>Address</Typography>
-                                <CustomInput variant='standard' placeholder='Palóczy László utca 3, 3525' value={address} onChange={hanndleAddressChange} inputProps={{ maxLength: 60 }} />
+                                <CustomInput variant='standard' onKeyDown={(e) => e.key === 'Enter' && handleSubmit()} placeholder='Palóczy László utca 3, 3525' value={address} onChange={hanndleAddressChange} inputProps={{ maxLength: 60 }} />
                             </Stack>
                             <Button variant='contained' sx={{ padding: '10px', color: 'white' }} onClick={handleSubmit}>Submit</Button>
                         </Stack>

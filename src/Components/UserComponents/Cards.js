@@ -109,6 +109,7 @@ export default function Cards() {
             setTimeout(() => {
                 setIsLoading(false);
             }, 500);
+            console.log(response.data);
         })
         .catch((error) => {
             console.log(error);
@@ -214,9 +215,9 @@ export default function Cards() {
                 {
                     isLoading ? (
                         <>
-                            <Skeleton variant="rounded" animation="wave" width={'98%'} height={250} />
-                            <Skeleton variant="rounded" animation="wave" width={'98%'} height={250} />
-                            <Skeleton variant="rounded" animation="wave" width={'98%'} height={250} />
+                            {Array.from({ length: 10 }).map((_, index) => (
+                            <Skeleton key={index} variant="rounded" animation="wave" width={'98%'} height={250} />
+                        ))}
                         </>
                     ) : (
                         cardData.length > 0 ? (
@@ -235,7 +236,7 @@ export default function Cards() {
                                 <Box sx={{ textAlign: 'center', padding: '50px', paddingBottom: '100px' }}>
                                     <Typography variant="h2">No cards added yet.</Typography>
                                     <Typography variant="h5">Add a card to add funds to your Wallet!</Typography>
-                                    <Avatar variant="square" src="images/errorcatlight.png" sx={{ width: 'auto', height: '300px' }} />
+                                    <Avatar variant="square" src={process.env.PUBLIC_URL + "images/errorcatlight.png"} sx={{ width: 'auto', height: '300px' }} />
                                 </Box>
                         )
                     ) 

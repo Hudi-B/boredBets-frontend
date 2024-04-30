@@ -1,6 +1,8 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Paper, Stack, Typography } from '@mui/material/';
+import { Paper, Stack, Typography, Button, Grid} from '@mui/material/';
+import moment from 'moment';
+import {Link} from 'react-router-dom';
 
 
 const TilePaper = styled(Paper)(({ theme }) => ({
@@ -23,31 +25,34 @@ const TransactionCard = ({ amount, created, type, detail }) => {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'EUR' });
     };
 
-    const formatDate = (value) => {
-        const rawDate = new Date(value);
-        return rawDate.toLocaleTimeString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
-    };
-
     return (
         <TilePaper>
-            <Stack direction="row" spacing={2}>
-                <Stack direction="column" spacing={1} alignItems={'start'}>
+            <Grid container direction="row">
+                <Grid item sm={3} xs={6} direction="column" spacing={1} alignItems={'start'}>
                     <CaptionText>Type</CaptionText>
                     <Typography variant="h5">{type}</Typography>
-                </Stack>
-                <Stack direction="column" spacing={1} alignItems={'start'}>
+                </Grid>
+                <Grid item sm={3} xs={6} direction="column" spacing={1} alignItems={'center'}>
                     <CaptionText>Time</CaptionText>
-                    <Typography variant="h5">{formatDate(created)}</Typography>
-                </Stack>
-                <Stack direction="column" spacing={1} alignItems={'start'}>
-                    <CaptionText>From</CaptionText>
-                    <Typography variant="h5">{detail}</Typography>
-                </Stack>
-                <Stack direction="column" spacing={1} alignItems={'start'}>
+                    <Typography variant="h5">{moment.utc(created).local().format('YYYY-MM-DD HH:mm')}</Typography>
+                </Grid>
+                {type === 'Bet' || type === 'OutCome' ? (
+                    <Grid item sm={3} xs={6} direction="column" spacing={1} alignItems={'center'}>
+                        <CaptionText>Race</CaptionText>
+                        <Button variant="contained" component={Link} to={`/race/${detail}`} >Go to race</Button>
+                    </Grid>
+                ) : (
+                    <Grid item sm={3} xs={6} direction="column" spacing={1} alignItems={'center'}>
+                        <CaptionText>Card</CaptionText>
+                        <Typography variant="h5">{detail}</Typography>
+                    </Grid>
+                )
+                }
+                <Grid item sm={3} xs={6} direction="column" spacing={1} alignItems={'end'}>
                     <CaptionText>Amount</CaptionText>
-                    <Typography variant="h5" sx={{ color: amount > 0 ? 'limegreen' : 'firebrick' }} >{ amount > 0 && '+'  }{formatCurrency(amount)}</Typography>
-                </Stack>
-            </Stack>
+                    <Typography variant="h5" sx={{ color: amount > 0 ? 'limegreen' : 'firebrick' }} >{formatCurrency(amount)}</Typography>
+                </Grid>
+            </Grid>
         </TilePaper>
   );
 };

@@ -102,15 +102,15 @@ const PasswordChangeForm = ( {open, onClose} ) => {
                     <Stack spacing={2} alignItems={'center'} direction={'column'}>
                         <Stack spacing={1} direction={'column'} alignItems={'start'}>
                             <Typography variant='subtitle2' sx={{ color: 'white' }}>Old password</Typography>
-                            <StyledInput placeholder='Old password' onChange={(e) => setOldPassword(e.target.value)} disabled={isLoading} />
+                            <StyledInput placeholder='Old password' onKeyDown={(e) => e.key === 'Enter' && handlePasswordChange()} onChange={(e) => setOldPassword(e.target.value)} disabled={isLoading} />
                         </Stack>
                         <Stack spacing={1} direction={'column'} alignItems={'start'}>
                             <Typography variant='subtitle2' sx={{ color: 'white' }}>New password</Typography>
-                            <StyledInput placeholder='New password' onChange={(e) => setNewPassword(e.target.value)} disabled={isLoading} />
+                            <StyledInput placeholder='New password' onKeyDown={(e) => e.key === 'Enter' && handlePasswordChange()} onChange={(e) => setNewPassword(e.target.value)} disabled={isLoading} />
                         </Stack>
                         <Stack spacing={1} direction={'column'} alignItems={'start'}>
                             <Typography variant='subtitle2' sx={{ color: 'white' }}>Confirm new password</Typography>
-                            <StyledInput placeholder='Confirm new password' onChange={(e) => setConfirmPassword(e.target.value)} disabled={isLoading} />
+                            <StyledInput placeholder='Confirm new password' onKeyDown={(e) => e.key === 'Enter' && handlePasswordChange()} onChange={(e) => setConfirmPassword(e.target.value)} disabled={isLoading} />
                         </Stack>
                         <Typography variant='caption' >Password must be at least 5 characters long</Typography>
                         <Button variant='contained' onClick={handlePasswordChange} disabled={isLoading} >Submit</Button>

@@ -72,7 +72,7 @@ const UsernameChangeForm = ( { open, onClose } ) => {
                     <Stack spacing={2} alignItems={'center'} direction={'column'}>
                         <Stack spacing={1} direction={'column'} alignItems={'start'}>
                             <Typography variant='subtitle2' >New username</Typography>
-                            <Input variant='standard' sx={{ color: 'white', width: '300px', marginBottom: '10px' }} placeholder={username} value={tempUsername} onChange={(e) => setTempUsername(e.target.value)} />
+                            <Input variant='standard' sx={{ color: 'white', width: '300px', marginBottom: '10px' }} placeholder={username} onKeyDown={(e) => e.key === 'Enter' && handleUsernameSubmit()} value={tempUsername} onChange={(e) => setTempUsername(e.target.value)} />
                         </Stack>
                         <Typography variant='caption' >Username must be at least 5 characters long</Typography>
                         <Button variant='contained' onClick={handleUsernameSubmit} >Submit</Button>
