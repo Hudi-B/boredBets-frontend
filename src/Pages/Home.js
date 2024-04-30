@@ -17,7 +17,6 @@ export default function HomePage() {
   return (
     <Box sx={{
       width: '100%',
-      height: '100%',
       display: 'flex',
       flexDirection: 'column',
       minHeight: '100vh',
@@ -34,9 +33,8 @@ export default function HomePage() {
         <Third/>
         
         <Box sx={{
-          marginTop: 25,
-          marginBottom: 20,
           paddingX: 5,
+          paddingY: 20,
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
@@ -45,11 +43,6 @@ export default function HomePage() {
             <Typography variant='h3' textAlign={'center'}>Don’t let boredom get you down.</Typography>
             <Typography variant='h2' textAlign={'center'} fontWeight={'800'}>Bet on boredBets</Typography>
         </Box>
-
-          <Grid container sx={{
-            width: '100%'}}>
-              
-          </Grid>
 
     </Box>
   );
