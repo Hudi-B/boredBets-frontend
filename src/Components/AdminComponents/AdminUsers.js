@@ -1,8 +1,8 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Paper, Box, Typography } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import HorsesGrid from './HorsesGrid';
+import { Paper, Box, Typography, Stack } from '@mui/material';
+import UsersGrid from './UsersGrid';
+
 
 const TilePaper = styled(Paper)(({ theme }) => ({
     width: '100%',
@@ -26,10 +26,14 @@ const AdminUsers = () => {
         margin: '0px', 
         overflowY: ''}}
         >
-            <TilePaper>
-                <Typography variant='h5'>All users</Typography>
-                <HorsesGrid/>
-            </TilePaper>
+            <Stack direction={'column'} spacing={2}>
+                <TilePaper>
+                    <Typography variant='h5'>All users</Typography>
+                </TilePaper>
+                <TilePaper>
+                    <UsersGrid/>
+                </TilePaper>
+            </Stack>
         </Box>
     );
 };

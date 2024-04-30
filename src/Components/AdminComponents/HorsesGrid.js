@@ -45,7 +45,7 @@ export default function HorsesGrid() {
   const handleDelete = async (horseId) => {
       await axios.delete(apiUrl+`Horse/DeleteHorseById?Id=` + horseId)
       .then(() => {
-          enqueueSnackbar("Horse Deleted", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
+          enqueueSnackbar("Horse successfully deleted", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
           fetchData();
       })
       .catch((error) => {
@@ -70,7 +70,7 @@ export default function HorsesGrid() {
             <TableRow>
               {columns.map((column) => (
                 <TableCell
-                  key={column.id}
+                  key={column.id.toString()}
                   style={{ minWidth: column.minWidth }}
                   sx={{ backgroundColor: 'rgb(50, 50, 50)', color: 'white' }}
                 >

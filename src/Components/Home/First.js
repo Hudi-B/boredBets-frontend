@@ -59,6 +59,7 @@ export default function First() {
       const comingRaceBox = (race) => {
         return (
           <Paper
+          key={race.id.toString()}
           elevation={4}
           className='preventSelect'
           component={Button}

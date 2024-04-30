@@ -4,8 +4,9 @@ const endpointUrl = 'https://boredbetsapidev.azurewebsites.net/api/HeadsUp/Heads
 
 const makeApiCall = async () => {
     try {
+        const currentTime = new Date().toLocaleString();
         await axios.get(endpointUrl);
-        console.log('HeadsUp call successful');
+        console.log(`[${currentTime}] HeadsUp call successful`);
     } catch (error) {
         console.error('Error making API call:', error.message);
     }

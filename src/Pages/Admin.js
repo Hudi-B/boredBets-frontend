@@ -3,9 +3,8 @@ import { Box, Chip, Divider, Stack, Typography, Paper, Hidden, createTheme, Bott
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import HistoryIcon from '@mui/icons-material/History';
-import faHorseHead from '@fortawesome/free-solid-svg-icons/faHorseHead';
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+import StadiumRoundedIcon from '@mui/icons-material/StadiumRounded';
 
 import AdminParticipants from '../Components/AdminComponents/AdminParticipants';
 import AdminRaces from '../Components/AdminComponents/AdminRaces';
@@ -38,14 +37,23 @@ export default function Admin() {
                     {!isSmallScreen &&
                         <Grid item xs={3} minWidth={'250px'}>
                             <Stack spacing={2} alignItems={'center'} className='preventSelect' sx={{ paddingTop: '10px' }}>
-                                <Paper elevation={ currentPage === 0 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(0) }} >
-                                    <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >Users</Typography>
+                            <Paper elevation={ currentPage === 0 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(0) }} >
+                                    <Stack direction={'row'} spacing={1} alignItems={'center'}>
+                                        <PeopleRoundedIcon sx={{ color: currentPage === 0 ? 'white' : 'gray' }} />
+                                        <Typography sx={{ color: currentPage === 0 ? 'white' : 'gray', paddingLeft: '10px' }} variant='h5' >Users</Typography>
+                                    </Stack>
                                 </Paper>
                                 <Paper elevation={ currentPage === 1 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(1) }} >
-                                    <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >Races</Typography>
+                                    <Stack direction={'row'} spacing={1} alignItems={'center'}>
+                                        <StadiumRoundedIcon sx={{ color: currentPage === 1 ? 'white' : 'gray' }} />
+                                        <Typography sx={{ color: currentPage === 1 ? 'white' : 'gray', paddingLeft: '10px' }} variant='h5' >Races</Typography>
+                                    </Stack>
                                 </Paper>
                                 <Paper elevation={ currentPage === 2 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(2) }} >
-                                    <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >Participants</Typography>
+                                    <Stack direction={'row'} spacing={1} alignItems={'center'}>
+                                        <DirectionsRunIcon sx={{ color: currentPage === 2 ? 'white' : 'gray' }} />
+                                        <Typography sx={{ color: currentPage === 2 ? 'white' : 'gray', paddingLeft: '10px' }} variant='h5' >Participants</Typography>
+                                    </Stack>
                                 </Paper>
                             </Stack>
                         </Grid>
@@ -63,8 +71,8 @@ export default function Admin() {
                     sx={{ backgroundColor: 'rgb(50, 50, 50)'}}
                 >
                     <BottomNavigationAction sx={{color: 'white'}} label="Account" icon={<PeopleRoundedIcon />} />
-                    <BottomNavigationAction sx={{color: 'white'}} label="Payment" icon={<AccountBalanceWalletIcon />} />
-                    <BottomNavigationAction sx={{color: 'white'}} label="History" icon={<HistoryIcon />} />
+                    <BottomNavigationAction sx={{color: 'white'}} label="Payment" icon={<StadiumRoundedIcon />} />
+                    <BottomNavigationAction sx={{color: 'white'}} label="History" icon={<DirectionsRunIcon />} />
                 </BottomNavigation>
             </Box>
             }
