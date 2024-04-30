@@ -13,6 +13,8 @@ import { useSelector } from 'react-redux';
 import BetScrollDownMenu from '../../Components/UI/BetScrollDownMenu';
 import ViewResults from '../../Components/UI/ViewResults';
 import NotFound from '../NotFound';
+import { enqueueSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 
 function App() {
   const raceId = useLocation().pathname.split("/")[2]; //gets the id of the race asynchronously
@@ -89,10 +91,10 @@ const forceSimulate = () => {
   setTimeout(() => {
     axios.get(apiUrl+"Race/ForceStartRaceByRaceId?RaceId="+raceId)
     .then((response) => {
-      console.log(response);
+      enqueueSnackbar("Successfully simulated race", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
     })
     .catch((error) => {
-      // handle the error here
+      enqueueSnackbar("Failed to simulate race", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
     }).finally(() => {
       window.location.reload();
     });
@@ -102,7 +104,7 @@ const forceSimulate = () => {
   
   function participantCard(participant) {
     return(
-      <Grid item xs={12} sm={5.9} sx={{marginBottom: 1}}>
+      <Grid key={participant.horseId.toString()} item xs={12} sm={5.9} sx={{marginBottom: 1}}>
       <Paper sx={{borderRadius: 3, overflow: 'hidden', background:'none', display: 'flex', }} elevation={10}>
               <Grid item  xs={6}
               component={Link}

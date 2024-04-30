@@ -2,6 +2,10 @@ import {useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import {Stack, Divider, Grid, Typography, Button, Hidden, Skeleton, Box, Pagination} from "@mui/material";
 import React  from 'react';
+import { enqueueSnackbar, useSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
+import axios from 'axios';
+import { apiUrl } from '../../boredLocal';
 
 import MapIcon from '@mui/icons-material/Map';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -22,12 +26,23 @@ export default function PastRaces({races, pageNum, setPastRacesPage }) {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
 
+    const fetchLastFiveRaces = async () => {
+        axios.get(apiUrl+`Race/GetFivePreviousRaces`)
+        .then((response) => {
+            setFirstThree(response.data.slice(0, 3));
+        })
+        .catch((error) => {
+            enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+        })
+    }
+
     useEffect(() => {
         if (!races || races.length === 0) return; 
         const racesArray = Object.values(races.allHappenedRaces);
 
-        setFirstThree(racesArray.slice(0, 3));
-        setRestData(racesArray.slice(3));
+        fetchLastFiveRaces();
+
+        setRestData(racesArray);
         setMaxPage(races.totalPage);
         setPending(false);
     },[races]);

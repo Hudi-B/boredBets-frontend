@@ -2,7 +2,6 @@ import React from 'react';
 import { Avatar, Box, Typography } from '@mui/material';
 
 export default function NotFound({lookedFor}) {
-  console.log(lookedFor);
     return (
         <Box sx={{
             width: '100%',

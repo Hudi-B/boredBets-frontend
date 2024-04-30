@@ -1,5 +1,5 @@
 
-import { Typography, Grid, Avatar, Paper, Divider, Button, Hidden } from '@mui/material';
+import { Typography, Grid } from '@mui/material';
 export default function Second() {
 
     return (

@@ -47,7 +47,7 @@ const EmailChangeForm = ( { open, onClose } ) => {
             setEmail(response.data.email);
         })
         .catch((error) => {
-            console.log(error);
+            enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
         })
     }
 

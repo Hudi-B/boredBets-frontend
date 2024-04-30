@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const endpointUrl = 'https://boredbetsapidev.azurewebsites.net/api/HeadsUp/HeadsUp';
+const endpointUrl = 'https://boredbetsapi.azurewebsites.net/api/HeadsUp/HeadsUp';
 
 const makeApiCall = async () => {
     try {

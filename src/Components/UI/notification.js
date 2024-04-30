@@ -2,7 +2,6 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { IconButton, Popover, Box, Paper, Badge, Typography, Divider } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { apiUrl } from '../../boredLocal';
 import axios from 'axios';
 import { fontColor } from '../../boredLocal';
@@ -16,7 +15,6 @@ export default function Notifications() {
     const [notifications, setNotifications] = useState([]);
     const [notificationNumber, setNotificationNumber] = useState(0);
     const [seen, setSeen] = useState(false);
-    const [pending, setPending] = useState(true);
     
     const moment = require('moment');
     const dateFormat = "MMMM DD. HH:mm";
@@ -26,9 +24,7 @@ export default function Notifications() {
           .then(response => {
             setNotifications(oldNotifications => [...oldNotifications, ...response.data]); //if there are multiple notifications, append them together
             setNotificationNumber(oldNumber => oldNumber + response.data.length);
-            setPending(false);
           }).catch(error => {
-            console.log(error);
             enqueueSnackbar("Error while accessing your notifications.", {
               variant: 'error',
               autoHideDuration: 3000,
@@ -87,7 +83,6 @@ useEffect(() => {
                 </Box>)
             
           default:
-            console.log(notification);
             break;
         }
     }

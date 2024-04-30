@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {DialogActions, TextField,DialogTitle,DialogContent,DialogContentText,InputAdornment,Paper, Tooltip,Input,IconButton ,Accordion,List, ListItem, AccordionSummary, AccordionDetails,Button, Typography, Grid, Box, Dialog} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -125,7 +125,7 @@ function PlaceBetPopup({ raceId, participants }) {
         dispatch(updateWallet(response.data.wallet));
     })
     .catch((error) => {
-        console.log(error);
+        enqueueSnackbar("Failed to fetch wallet", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
     })
   }
 
@@ -142,7 +142,6 @@ function PlaceBetPopup({ raceId, participants }) {
       betAmount: betAmount,
       betTypeId: orderedBet ? 0 : 1
     };
-    console.log(bet);
     axios.post(apiUrl+'UserBet/UserBetPost', bet )
     .then((response) => {
       handleClear();

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Box, Grid, Chip, Paper, Stack, Typography, Avatar, Skeleton } from "@mui/material";
+import { Box, Paper, Stack, Typography, Avatar, Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { apiUrl } from '../../boredLocal';

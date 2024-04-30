@@ -40,7 +40,7 @@ export default function UsersGrid() {
           setRows(response.data)
       })
       .catch((error) => {
-          console.log(error)
+          enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
       })
   }
 
@@ -49,7 +49,7 @@ export default function UsersGrid() {
   }, []);
 
   const handleDelete = async (userId) => {
-      await axios.delete(apiUrl+`Horse/User/GetAllUsers`)
+      await axios.delete(apiUrl+`User/DeleteUserById?UserId=` + userId)
       .then(() => {
           enqueueSnackbar("User successfully deleted", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
           fetchData();
@@ -87,7 +87,7 @@ export default function UsersGrid() {
             <TableRow>
               {columns.map((column) => (
                 <TableCell
-                  key={column.id}
+                  key={column.id.toString()}
                   style={{ minWidth: column.minWidth }}
                   sx={{ backgroundColor: 'rgb(50, 50, 50)', color: 'white' }}
                 >
@@ -101,7 +101,7 @@ export default function UsersGrid() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       let value = row[column.id];
                       if (column.id === 'created') {
@@ -111,10 +111,15 @@ export default function UsersGrid() {
                         value = row['admin'] ? <CheckIcon /> : <CloseIcon />;
                       }
                       if (column.id === 'actionB' && row['username'] !== userName) {
+                        const adminButton = (
+                          <Button variant="contained" color={row['admin'] ? 'error' : 'success'} onClick={() => handleAdmin(row.id, row['admin'])}>Admin</Button>
+                        )
                         value = 
                         <Stack direction="column" spacing={1}>
                           <Button variant="contained" color='error' onClick={() => handleDelete(row.id)}>Delete</Button>
-                          <Tooltip title={row['admin'] ? 'Revoke admin' : 'Grant admin'}><Button variant="contained" color={row['admin'] ? 'error' : 'success'} onClick={() => handleAdmin(row.id, row['admin'])}>Admin</Button></Tooltip>
+                          <Tooltip title={row['admin'] ? 'Revoke admin' : 'Grant admin'}>
+                            {adminButton} 
+                          </Tooltip>
                         </Stack>;
                       }
                       return (

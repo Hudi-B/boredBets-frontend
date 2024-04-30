@@ -54,8 +54,7 @@ const CreditCardForm = ({ onClose, onSubmit }) => {
                 onSubmit();
             })
             .catch((error) => {
-                console.log(error);
-                console.log(formData);
+                enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
             });
     }
 

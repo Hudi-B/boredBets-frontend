@@ -35,7 +35,7 @@ export default function RacesGrid() {
           setRows(response.data)
       })
       .catch((error) => {
-          console.log(error)
+          enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
       })
   }
 
@@ -85,7 +85,7 @@ export default function RacesGrid() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       let value = row[column.id];
                       if (column.id === 'raceScheduled') {

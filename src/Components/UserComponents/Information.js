@@ -2,20 +2,17 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Divider, Input, Switch, Select, FormControl, MenuItem, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
+import { Avatar, Box, Paper, Stack, Typography, Chip, Button, Divider, Switch, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Grid } from '@mui/material';
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
 import UserDetailForm from './UserDetailForm';
-import CheckIcon from '@mui/icons-material/Check';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import AddIcon from '@mui/icons-material/Add';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import PortraitIcon from '@mui/icons-material/Portrait';
-import EditIcon from '@mui/icons-material/Edit';
 import PasswordChangeForm from './PasswordChangeForm';
 import EmailChangeForm from './EmailChangeForm';
 import UsernameChangeForm from './UsernameChangeForm';
@@ -87,7 +84,7 @@ export default function Information() {
             setUserData(response.data);
         })
         .catch((error) => {
-            console.log(error);
+            enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
         })
     }
 
@@ -99,7 +96,7 @@ export default function Information() {
             }
         })
         .catch((error) => {  
-                console.log(error);
+            enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
         })
     }
 
@@ -109,7 +106,7 @@ export default function Information() {
             setIsPrivate(response.data);
         })
         .catch((error) => {
-            console.log(error);
+            enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
         })
     }
 
@@ -123,7 +120,6 @@ export default function Information() {
         if (userStatus.transaction && userStatus.profilePic) {
             setUserStatus({ ...userStatus, completedProfile: true });
         }
-        console.log(userStatus);
     }, [userStatus.transaction, userStatus.profilePic]);
 
     const handleisPrivateChange = async (checked) => {
@@ -145,7 +141,6 @@ export default function Information() {
             dispatch(logout());
         })
         .catch(() => {
-            console.log(userId)
             enqueueSnackbar('Something went wrong', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
         })
     }
@@ -323,7 +318,7 @@ export default function Information() {
                         
                         <TilePaper>
                             <Typography variant="h6" sx={{ paddingBottom: '20px' }}>Manage</Typography>
-                            <Stack container direction="column" spacing={1} sx={{paddingBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                            <Stack direction="column" spacing={1} sx={{paddingBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                                 <Stack direction="row" alignItems="center" justifyContent="center" >
                                     <LockOpenIcon sx={{ color: isPrivate ? 'grey' : 'white'}}/>
                                     <Switch size='large' checked={isPrivate} onChange={(e) => handleisPrivateChange(e.target.checked)}/>
@@ -360,7 +355,7 @@ export default function Information() {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions sx={{justifyContent: 'space-between'}}>
-                    <Button onClick={handleCloseDialog} color="primary" sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.1)',boxShadow: '0 0 5px rgb(50, 50,50)'},textTransform: 'none', color: 'white' }}>
+                    <Button onClick={() => handleCloseDialog('deleteUserDialog')} color="primary" sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.1)',boxShadow: '0 0 5px rgb(50, 50,50)'},textTransform: 'none', color: 'white' }}>
                     CANCEL
                     </Button>
                     <Button onClick={handleUserDelete} color="primary" autoFocus sx={{'&:hover': {backgroundColor: 'rgba(50,50,50,0.1)',boxShadow: '0 0 5px rgb(50, 50,50)'},color: 'white'}}>

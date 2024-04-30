@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Button } from '@mui/material';
 import axios from 'axios';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -26,14 +25,15 @@ export default function JockeysGrid() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rows, setRows] = React.useState([]);
+  const { enqueueSnackbar } = useSnackbar();
 
   const fetchData = async () => {
       axios.get(apiUrl+`Jockey/GetAllJockeys`)
       .then((response) => {
           setRows(response.data)
       })
-      .catch((error) => {
-          console.log(error)
+      .catch(() => {
+          enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
       })
   }
 
@@ -72,7 +72,7 @@ export default function JockeysGrid() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       let value = row[column.id];
                       if (column.id === 'male') {

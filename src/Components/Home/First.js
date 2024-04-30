@@ -21,7 +21,7 @@ export default function First() {
       .then((response) => {
         setComingRaces(response.data);
       }).catch((error) => {
-        console.log(error);
+        enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
       }).finally(() => {
         setPending(false);
       });
@@ -33,6 +33,7 @@ export default function First() {
       .then((response) => {
           if(response.data){
             enqueueSnackbar("Bonus has been claimed", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
+            fetchWallet();
           }
           else
           {
@@ -51,7 +52,7 @@ export default function First() {
           dispatch(updateWallet(response.data.wallet));
       })
       .catch((error) => {
-          console.log(error);
+        enqueueSnackbar("Failed to fetch wallet", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
       })
   }
 

@@ -61,7 +61,7 @@ export default function Cards() {
             fetchWallet();
         })
         .catch((error) => {
-            console.log(error);
+            enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
         })
     };
 
@@ -80,7 +80,7 @@ export default function Cards() {
             fetchWallet();
         })
         .catch((error) => {
-            console.log(error);
+            enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
         })
     };
 
@@ -109,10 +109,9 @@ export default function Cards() {
             setTimeout(() => {
                 setIsLoading(false);
             }, 500);
-            console.log(response.data);
         })
         .catch((error) => {
-            console.log(error);
+            enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
         })
     }
 
@@ -123,7 +122,7 @@ export default function Cards() {
             setProfit(response.data.profit);
         })
         .catch((error) => {
-            console.log(error);
+            enqueueSnackbar("Failed to fetch wallet", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
         })
     }
 
@@ -134,7 +133,7 @@ export default function Cards() {
             fetchData();
         })
         .catch((error) => {
-            console.log(error);
+            enqueueSnackbar("Failed to delete card", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
         })
     }
 

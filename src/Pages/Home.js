@@ -1,11 +1,5 @@
-import {useState, useEffect} from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { apiUrl } from '../boredLocal';
 import Box from '@mui/material/Box';
-import { Typography, Grid, Paper, Divider, Button } from '@mui/material';
-import { useSnackbar } from 'notistack';
-import Slide from '@mui/material/Slide';
+import { Typography } from '@mui/material';
 
 import First from '../Components/Home/First'
 

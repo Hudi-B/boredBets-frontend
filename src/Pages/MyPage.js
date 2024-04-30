@@ -1,7 +1,5 @@
 import React from 'react';
-import { Box, Chip, Divider, Stack, Typography, Paper, Hidden, createTheme, BottomNavigation, BottomNavigationAction } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Unstable_Grid2';
+import { Box, Stack, Typography, Paper, createTheme, BottomNavigation, BottomNavigationAction, Grid } from '@mui/material';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import HistoryIcon from '@mui/icons-material/History';
@@ -11,7 +9,6 @@ import Cards from '../Components/UserComponents/Cards';
 import History from '../Components/UserComponents/History';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 const theme = createTheme({});
 
 export default function UserPage() {

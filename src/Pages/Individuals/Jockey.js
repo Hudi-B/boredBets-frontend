@@ -1,6 +1,6 @@
 import { Box, Stack, Skeleton, Typography, Chip, Grid, Avatar, Button, Divider} from '@mui/material';
 import { useEffect } from 'react';
-import {useLocation, useNavigate, Link} from 'react-router-dom';
+import {useLocation, Link} from 'react-router-dom';
 import { apiUrl } from '../../boredLocal';
 import axios from 'axios';
 import { useState } from 'react';
@@ -43,9 +43,7 @@ const DataText = styled(Typography)(({ theme }) => ({
 
 export default function App() {
   const id = useLocation().pathname.split("/")[2];
-  const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
   const [data, setData] = useState({});
-  const navigate = useNavigate();
   const [pending, setPending] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
@@ -67,12 +65,10 @@ export default function App() {
     })
   }, []);
 
-
-  console.log(data.past3Races);
   function showPastRaces() {
     if(data.past3Races && data.past3Races.length > 0){
       return data.past3Races.map((race) => (
-        <Button key={race.raceId} component={Link} to={`/race/${race.id}`}variant="contained"
+        <Button key={race.id} component={Link} to={`/race/${race.id}`}variant="contained"
         sx={{ 
           marginY: '10px',
           textTransform: 'none',
@@ -114,7 +110,7 @@ export default function App() {
   function showUpcomingRaces() {
     if(data.next3Races && data.next3Races.length > 0){
       return data.next3Races.map((race) => (
-          <Button key={race.raceId} component={Link} to={`/race/${race.id}`}variant="outlined"
+          <Button key={race.id} component={Link} to={`/race/${race.id}`}variant="outlined"
           sx={{ 
             marginY: '10px',
             textTransform: 'none',

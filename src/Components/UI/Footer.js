@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Box, Grid, Typography, Stack, Divider } from '@mui/material';
+import { Avatar, Box, Grid, Typography, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import EmailIcon from '@mui/icons-material/Email';

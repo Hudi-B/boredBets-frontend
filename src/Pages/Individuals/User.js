@@ -40,20 +40,15 @@ const DataText = styled(Typography)(({ theme }) => ({
 }))
 
 export default function App() {
-  const [isPrivate, setIsPrivate] = useState(true);
-
   const id = useLocation().pathname.split("/")[2];
-  const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
   const [data, setData] = useState({});
 
   useEffect(() => {
     axios.get(`${apiUrl}User/UserSinglePage?UserId=${id}`)
     .then((response) => {
         setData(response.data);
-        console.log(response.data);
     })
     .catch((error) => {
-        console.log(error);
         enqueueSnackbar("Error while requesting this users data.", {
           variant: 'error',
           autoHideDuration: 3000,
@@ -62,16 +57,6 @@ export default function App() {
     })
   }, []);
 
-
-
-
-  const CustomBulletPoint = styled(({ children, ...props }) => (
-    <BulletPoint {...props}>
-      {children[1]}{children[0]}
-    </BulletPoint>
-  ));
-
-console.log(data);
   return (
 <Box
       sx={{

@@ -17,8 +17,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export default function ChangeImage() {
     const [open, setOpen] = useState(false);
-    const [imageUrl, setImageUrl] = useState(null);
-    const [imageDeleteUrl, setImageDeleteUrl] = useState(null);
     const [fullscreen, setFullscreen] = useState(false);
     const [imageFormData, setImageFormData] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
@@ -43,12 +41,8 @@ export default function ChangeImage() {
     const handleClose = () => {
         setOpen(false);
         setPreviewImage(null);
-        setImageUrl(null);
-        setImageDeleteUrl(null);
         setImageFormData(null);
     };
-    
-    console.log(open);
     
     const handleImageChange = (e) => {
         setIsLoading(true);
@@ -75,8 +69,6 @@ export default function ChangeImage() {
     
         axios.post(`https://api.imgbb.com/1/upload?&key=${apiKey}`, imageFormData)
           .then((response) => {
-            setImageUrl(response.data.data.display_url);
-            setImageDeleteUrl(response.data.data.delete_url);
             dispatch(updateProfilePicture(response.data.data.display_url));
             handleServerUpload(response.data.data.display_url,response.data.data.delete_url);
         })

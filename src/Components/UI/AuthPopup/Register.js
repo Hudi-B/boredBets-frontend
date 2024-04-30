@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { apiUrl, fontColor } from '../../../boredLocal';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
@@ -20,7 +20,6 @@ export default function Register({data, callback}) {
     const usernameRef = useRef(null);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
-    console.log(oldEnough);
     
     const handleChange = (event) => {
         callback(event);
@@ -71,7 +70,6 @@ const handleRegister = async () => {
     setPending(true);
     axios.post(`${apiUrl}User/UserRegister`, data)
     .then((response) => {
-        console.log(response.data);
         enqueueSnackbar("Successful register! Before login you need to verify your account through email. Please check your inbox.", {
             variant: 'success',
             autoHideDuration: 5000,
@@ -79,7 +77,7 @@ const handleRegister = async () => {
         });
     })
     .catch((error) => {
-        enqueueSnackbar(error.response.data, {
+        enqueueSnackbar(error.response, {
             variant: 'error',
             autoHideDuration: 3000,
             TransitionComponent: Slide,
@@ -210,7 +208,6 @@ const handleRegister = async () => {
             label="I'm over the age of 18"
             style={{ color: fontColor }}
             labelPlacement='start'
-            color={alertOnAge && 'error' }
         />
         </Box>
     </>

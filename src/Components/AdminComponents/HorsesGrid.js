@@ -33,8 +33,8 @@ export default function HorsesGrid() {
       .then((response) => {
           setRows(response.data)
       })
-      .catch((error) => {
-          console.log(error)
+      .catch(() => {
+          enqueueSnackbar("Something went wrong", { variant: 'or', autoHideDuration: 3000, TransitionComponent: Slide, });
       })
   }
 
@@ -48,8 +48,8 @@ export default function HorsesGrid() {
           enqueueSnackbar("Horse successfully deleted", { variant: 'success', autoHideDuration: 3000, TransitionComponent: Slide, });
           fetchData();
       })
-      .catch((error) => {
-          enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
+      .catch((or) => {
+          enqueueSnackbar("Something went wrong", { variant: 'or', autoHideDuration: 3000, TransitionComponent: Slide, });
       })
   }
 
@@ -70,7 +70,7 @@ export default function HorsesGrid() {
             <TableRow>
               {columns.map((column) => (
                 <TableCell
-                  key={column.id.toString()}
+                  key={column.id}
                   style={{ minWidth: column.minWidth }}
                   sx={{ backgroundColor: 'rgb(50, 50, 50)', color: 'white' }}
                 >
@@ -84,7 +84,7 @@ export default function HorsesGrid() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       let value = row[column.id];
                       if (column.id === 'stallion') {

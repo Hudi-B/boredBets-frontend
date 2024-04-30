@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Popover, Button, Typography, Avatar, Divider } from '@mui/material';
+import { Box, Popover, Button, Typography, Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {logout} from '../../auth/authSlice';
 import { clearCookies } from '../../boredLocal';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 
 export default function UserIcon() {
-  const [pfpImage, setPfpImage] = useState('./stock_pfp.png'); //should also pull the user's pfp, and only set it to default if it doesn't exist
   const userData = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = useState(null);
   

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
-import { Box, Button, Divider, Grid, Input, MenuItem, Select, Stack, Typography, FormControl, Dialog, DialogContent, DialogContentText, TextField} from '@mui/material';
+import { Box, Button, Stack, Typography, Dialog, TextField} from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { styled } from '@mui/system';
 import Slide from '@mui/material/Slide';
@@ -13,7 +13,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
 import { useSelector } from 'react-redux';
-import { createMuiTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const CustomInput = styled(TextField)({
     input: {
@@ -23,7 +23,7 @@ const CustomInput = styled(TextField)({
     },
   });
 
-const defaultTheme = createMuiTheme();
+const defaultTheme = createTheme();
 
 const UserDetailForm = ( {open, onClose} ) => {
     const { enqueueSnackbar } = useSnackbar();
@@ -54,7 +54,6 @@ const UserDetailForm = ( {open, onClose} ) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(phoneNumber, name, dateOfBirth, address);
         if (phoneNumber === '' || name === '' || dateOfBirth === '' || address === '') {
             enqueueSnackbar('Please fill in all fields', { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide });
             return;
@@ -75,7 +74,7 @@ const UserDetailForm = ( {open, onClose} ) => {
                 onClose();
             })
             .catch((error) => {
-                console.log(error);
+                enqueueSnackbar("Failed to update details", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
             })
     }
 

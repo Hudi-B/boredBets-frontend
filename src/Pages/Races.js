@@ -1,4 +1,4 @@
-import { Stack, Box, Typography, Paper} from "@mui/material";
+import { Stack, Box, Paper} from "@mui/material";
 import { useEffect, useState } from "react";
 import UpcomingRaces from "./Races/UpcomingRaces";
 import PastRaces from "./Races/PastRaces";
@@ -22,9 +22,6 @@ export default function RacesPage() {
             setAllUpcomingRaces(response.data);
         })
         .catch((error) => {
-
-            console.log(error);
-    
         enqueueSnackbar("Error while requesting upcoming races.", {
             variant: 'error',
             autoHideDuration: 3000,
@@ -35,15 +32,11 @@ export default function RacesPage() {
     }, []);
 
     useEffect(() => {
-        console.log("ran");
         axios.get(`${apiUrl}Race/GetAllHappendRaces?page=`+pastRacesPage)
         .then((response) => {
             setAllPastRaces(response.data);
         })
         .catch((error) => {
-
-            console.log(error);
-            
             enqueueSnackbar("Error while requesting past races.", {
               variant: 'error',
               autoHideDuration: 3000,

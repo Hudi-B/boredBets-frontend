@@ -3,7 +3,6 @@ import {Skeleton, Tooltip, ThemeProvider, createTheme, Pagination, Typography, G
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
 
 import Checkbox from '@mui/material/Checkbox';
 
@@ -11,8 +10,6 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import { faHorseHead, faHelmetSafety } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { InputAdornment } from '@mui/material';
-import SearchIcon from "@mui/icons-material/Search";
 
 import PersonIcon from '@mui/icons-material/Person';
 import CircleIcon from '@mui/icons-material/Circle';
@@ -73,8 +70,6 @@ export default function Discover() {
   const [pageNum, setPageNum] = useState(1);
   const [maxPage, setMaxPage] = useState(5);
   const { enqueueSnackbar } = useSnackbar();
-
-  console.log(allData);
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -192,7 +187,7 @@ export default function Discover() {
             setServerError(false);
             setFetching(false);
         }).catch((error) => {
-            console.log(error);
+            enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
             setFetching(false);
             setServerError(true);
         })
@@ -205,7 +200,7 @@ export default function Discover() {
               setServerError(false);
               setFetching(false);
           }).catch((error) => {
-              console.log(error);
+              enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
               setFetching(false);
               setServerError(true);
           })
@@ -388,7 +383,7 @@ export default function Discover() {
                 
             <Box sx={{ color: fontColor, display: 'flex', flexDirection: 'column', gap: 0}}>
               
-              <Typography sx={{ marginX: 1, color: !userActive && 'rgba(40, 40, 40,0.8)' }}>Privacy:</Typography>
+              <Typography sx={{ marginX: 1, color: !userActive ? 'rgba(40, 40, 40,0.8)' : undefined }}>Privacy:</Typography>
               {filterCheckBox("Public", userActive)}
               {filterCheckBox("Private", userActive)}
 
@@ -473,19 +468,23 @@ export default function Discover() {
               />            
             </Box>
             {serverError ? 
-                <Avatar className='preventSelect' key={"btc1"} variant='square' style={{width: '90%', maxWidth: '400px', height:'auto'}} src={process.env.PUBLIC_URL + "/images/server_error.png"} /> 
+                <Box sx={{ textAlign: 'center', padding: '50px' }}>
+                 <Typography variant="h2">An error occured on the server.</Typography>
+                 <Typography variant="h5">Please try again later.</Typography>
+                 <Avatar variant="square" src={process.env.PUBLIC_URL + "images/errorcatlight.png"} sx={{ height: 'auto', width: 'auto' }} />
+                </Box>
               : 
                 <Grid container display={'flex'} spacing={1}>
                 {!fetching ? 
                   allData.map((item) => (
-                    <Grid item xs key={item.id}>
+                    <Grid item xs key={item.data.id}>
                       {Cube(item)}
                     </Grid>
                   ))
                 :
                   Array.from({ length: 60 }).map((_, index) => (
-                    <Grid item xs>
-                      <Skeleton key={index} variant="rectangular" 
+                    <Grid item xs key={index}>
+                      <Skeleton variant="rectangular" 
                         sx={{
                           backgroundColor: 'rgba(0, 0, 0, 0.15)',
                           width: '100%',

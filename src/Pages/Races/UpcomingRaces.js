@@ -6,9 +6,7 @@ import React  from 'react';
 import MapIcon from '@mui/icons-material/Map';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
-import { createTheme } from '@mui/material/styles';
-
-import {secondaryColor, FormatDate, fontColor} from '../../boredLocal';
+import {secondaryColor, FormatDate } from '../../boredLocal';
 
 
 export default function UpcomingRaces({races}) {
@@ -26,8 +24,6 @@ export default function UpcomingRaces({races}) {
         setRestData(racesArray.slice(3));
         setPending(false);
     },[races]);
-
-    console.log(races);
 
     const smallRaceCard = (race) => {
         return (

@@ -3,6 +3,8 @@ import { Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import CircularProgress from '@mui/material/CircularProgress';
+import { enqueueSnackbar } from 'notistack';
+import Slide from '@mui/material/Slide';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -59,7 +61,7 @@ export default function App() {
       await axios.get(apiUrl+`User/GetByUserId?UserId=${userId}`)
           .then((response) => {
             const user = response.data;
-            console.log(response.data);
+            enqueueSnackbar("Something went wrong", { variant: 'error', autoHideDuration: 3000, TransitionComponent: Slide, });
             dispatch(login(user));
           })
     }

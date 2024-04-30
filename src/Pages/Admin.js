@@ -1,7 +1,5 @@
 import React from 'react';
-import { Box, Chip, Divider, Stack, Typography, Paper, Hidden, createTheme, BottomNavigation, BottomNavigationAction } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Unstable_Grid2';
+import { Box, Stack, Typography, Paper, createTheme, BottomNavigation, BottomNavigationAction, Grid } from '@mui/material';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import StadiumRoundedIcon from '@mui/icons-material/StadiumRounded';

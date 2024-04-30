@@ -1,5 +1,5 @@
 import { Button, Box, TextField } from '@mui/material';
-import React, {useEffect, useRef} from 'react';
+import React, { useRef } from 'react';
 import { apiUrl } from '../../../boredLocal';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../auth/authSlice';
