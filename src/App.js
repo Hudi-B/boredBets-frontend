@@ -114,9 +114,10 @@ export default function App() {
                   {userData.isAdmin && <Route exact path="/admin" element={<Admin />} />}
                 </Routes>
               </Suspense>
+              <Footer />
           </Router>
         </Box>
-        <Footer />
+        
       </Box>
     </ThemeProvider>
   );
