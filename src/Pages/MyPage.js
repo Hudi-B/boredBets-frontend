@@ -34,13 +34,22 @@ export default function UserPage() {
                         <Grid item xs={3} minWidth={'250px'}>
                             <Stack spacing={2} alignItems={'center'} className='preventSelect' sx={{ paddingTop: '10px' }}>
                                 <Paper elevation={ currentPage === 0 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(0) }} >
-                                    <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >Account</Typography>
+                                    <Stack direction={'row'} spacing={1} alignItems={'center'}>
+                                        <AccountBoxIcon sx={{ color: currentPage === 0 ? 'white' : 'gray' }} />
+                                        <Typography sx={{ color: currentPage === 0 ? 'white' : 'gray', paddingLeft: '10px' }} variant='h5' >Account</Typography>
+                                    </Stack>
                                 </Paper>
                                 <Paper elevation={ currentPage === 1 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(1) }} >
-                                    <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >Payment</Typography>
+                                    <Stack direction={'row'} spacing={1} alignItems={'center'}>
+                                        <AccountBalanceWalletIcon sx={{ color: currentPage === 1 ? 'white' : 'gray' }} />
+                                        <Typography sx={{ color: currentPage === 1 ? 'white' : 'gray', paddingLeft: '10px' }} variant='h5' >Payment</Typography>
+                                    </Stack>
                                 </Paper>
                                 <Paper elevation={ currentPage === 2 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(2) }} >
-                                    <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >History</Typography>
+                                    <Stack direction={'row'} spacing={1} alignItems={'center'}>
+                                        <HistoryIcon sx={{ color: currentPage === 2 ? 'white' : 'gray' }} />
+                                        <Typography sx={{ color: currentPage === 2 ? 'white' : 'gray', paddingLeft: '10px' }} variant='h5' >History</Typography>
+                                    </Stack>
                                 </Paper>
                             </Stack>
                         </Grid>

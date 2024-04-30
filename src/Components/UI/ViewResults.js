@@ -117,77 +117,80 @@ useEffect(() => {
 
   return (
     <Box sx={{width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-      <Accordion square='false'sx={{width: '90%', maxWidth: '1000px', marginX: 'auto', backgroundColor: 'rgb(57,81,122)', borderRadius:5 }}>
+      <Paper elevation={10} sx={{width: '90%', maxWidth: '1000px', marginX: 'auto', borderRadius: 5, background:'none'}}>
+        <Accordion square='false'sx={{width: '100%', backgroundColor: 'rgb(57,81,122)', borderRadius: 5}}>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon  />}
-          aria-controls="panel1-content"
-          id="panel1-header"
-          sx={{
-            backgroundColor: secondaryColor,
-            fontSize: '20px',
-            fontWeight: '500',
-            color: fontColor,
-            '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-              transform: 'rotate(90deg)',
-            },
-            borderRadius:5,
-            paddingX: 3,
-        }}
-        >
-        View results
-        </AccordionSummary>
-        <AccordionDetails>
-          {!userData.isLoggedIn? (
-            <Box sx={{
-              justifyContent: 'center',
-               alignItems: 'center',
-                display: 'flex', 
-                flexDirection:'column',
-                gap: 1,
-                height: '200px'}}>
-            <Typography sx={{
-                fontSize: '20px',
-                fontWeight: '600'}}>
-              To access the results, please log in.
-            </Typography>
-            <AuthPopup itsALogin={true} />
-            </Box>
-          ): (
-            participants[0].placement ===0 ?
-                <Box sx={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                    display: 'flex', 
-                    flexDirection:'column',
-                    gap: 1,
-                    height: '200px'}}>
-                <Typography sx={{
-                    fontSize: '20px',
-                    fontWeight: '600'}}>
-                  Seems like this race is in progress.
-                </Typography>
-                 <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                  <Typography sx={{
-                    fontSize: '20px',
-                    marginX: 'auto',
-                    fontWeight: '600',
-                    color: 'transparent'
-                  }}>{dots}</Typography>
+            expandIcon={<ExpandMoreIcon  />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+            sx={{
+              backgroundColor: secondaryColor,
+              fontSize: '20px',
+              height: '70px',
+              fontWeight: '500',
+              color: fontColor,
+              '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+                transform: 'rotate(90deg)',
+              },
+              borderRadius:3,
+              paddingX: 3,
+          }}
+          >
+          View results
+          </AccordionSummary>
+          <AccordionDetails>
+            {!userData.isLoggedIn? (
+              <Box sx={{
+                justifyContent: 'center',
+                 alignItems: 'center',
+                  display: 'flex',
+                  flexDirection:'column',
+                  gap: 1,
+                  height: '200px'}}>
+              <Typography sx={{
+                  fontSize: '20px',
+                  fontWeight: '600'}}>
+                To access the results, please log in.
+              </Typography>
+              <AuthPopup itsALogin={true} />
+              </Box>
+            ): (
+              participants[0].placement ===0 ?
+                  <Box sx={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                      display: 'flex',
+                      flexDirection:'column',
+                      gap: 1,
+                      height: '200px'}}>
                   <Typography sx={{
                       fontSize: '20px',
-                      marginX: 'auto',
                       fontWeight: '600'}}>
-                    Please wait patiently{dots}
+                    Seems like this race is in progress.
                   </Typography>
-                </Box>
-                </Box>
-              :
-            <Grid container sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>                 
-              {showHorses()}
-            </Grid>
-        )}
-      </AccordionDetails>
-    </Accordion>
+                   <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                    <Typography sx={{
+                      fontSize: '20px',
+                      marginX: 'auto',
+                      fontWeight: '600',
+                      color: 'transparent'
+                    }}>{dots}</Typography>
+                    <Typography sx={{
+                        fontSize: '20px',
+                        marginX: 'auto',
+                        fontWeight: '600'}}>
+                      Please wait patiently{dots}
+                    </Typography>
+                  </Box>
+                  </Box>
+                :
+              <Grid container sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                {showHorses()}
+              </Grid>
+          )}
+          </AccordionDetails>
+        </Accordion>
+      </Paper>
   </Box>
   );
 }

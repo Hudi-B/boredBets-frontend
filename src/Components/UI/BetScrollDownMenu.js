@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {DialogActions, TextField,DialogTitle,DialogContent,DialogContentText,InputAdornment,Tooltip,Input,IconButton ,Accordion,List, ListItem, AccordionSummary, AccordionDetails,Button, Typography, Grid, Box, Dialog} from '@mui/material';
+import {DialogActions, TextField,DialogTitle,DialogContent,DialogContentText,InputAdornment,Paper, Tooltip,Input,IconButton ,Accordion,List, ListItem, AccordionSummary, AccordionDetails,Button, Typography, Grid, Box, Dialog} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import AuthPopup from './AuthPopup';
@@ -163,8 +163,9 @@ function PlaceBetPopup({ raceId, participants }) {
   
 
   return (
-    <Box sx={{width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-      <Accordion square={true} sx={{width: '90%',marginX: 'auto', backgroundColor: 'rgb(57,81,122)', borderRadius:5 }}>
+    <Box sx={{width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>      
+    <Paper elevation={10} sx={{width: '90%', maxWidth: '1000px', marginX: 'auto', borderRadius: 5, background:'none'}}>
+    <Accordion square='false'sx={{width: '100%', backgroundColor: 'rgb(57,81,122)', borderRadius: 5}}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon  />}
           aria-controls="panel1-content"
@@ -172,12 +173,13 @@ function PlaceBetPopup({ raceId, participants }) {
           sx={{
             backgroundColor: secondaryColor,
             fontSize: '20px',
+            height: '70px',
             fontWeight: '500',
             color: fontColor,
             '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
               transform: 'rotate(90deg)',
             },
-            borderRadius:5,
+            borderRadius:3,
             paddingX: 3,
         }}
         >
@@ -383,6 +385,7 @@ function PlaceBetPopup({ raceId, participants }) {
         )}
       </AccordionDetails>
     </Accordion>
+    </Paper>
   </Box>
   );
 }

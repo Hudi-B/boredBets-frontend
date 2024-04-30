@@ -25,8 +25,8 @@ export default function Notifications() {
     const getNotifications = () => {
         axios.get(apiUrl + `Notifications/GetAllUnseenNotificationsByUserId?UserId=` + userData.userId)
           .then(response => {
-            setNotifications(response.data);
-            setNotificationNumber(response.data.length);
+            setNotifications(oldNotifications => [...oldNotifications, ...response.data]); //if there are multiple notifications, append them together
+            setNotificationNumber(oldNumber => oldNumber + response.data.length);
             setPending(false);
           }).catch(error => {
             console.log(error);
@@ -41,7 +41,7 @@ export default function Notifications() {
       useEffect(() => {
         getNotifications();
     
-        const intervalId = setInterval(getNotifications, 5 * 60 * 1000);
+        const intervalId = setInterval(getNotifications, 2 * 60 * 1000);
     
         return () => clearInterval(intervalId);
       }, []); // Empty 
@@ -97,7 +97,7 @@ useEffect(() => {
     return (
     <Box>
         <IconButton color='inherit' onClick={handleOpen}>
-            <Badge badgeContent={notificationNumber}>
+            <Badge badgeContent={notificationNumber} color="success">
                 <NotificationsIcon sx={{color: fontColor}} />
             </Badge>
         </IconButton>

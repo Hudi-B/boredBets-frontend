@@ -91,22 +91,31 @@ export default function Information() {
             if (response.data.length > 0) {
                 setUserStatus({ ...userStatus, transaction: true });
             }
-            console.log(response.data);
         })
         .catch((error) => {  
                 console.log(error);
         })
     }
 
+    const privacyCheck = async () => {
+        await axios.get(apiUrl+`UserDetail/GetIsPrivateByUserId?UserId=` + userId)
+        .then((response) => {
+            setIsPrivate(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
     useEffect(() => {
         fetchData();
         transactionsCheck();
+        privacyCheck();
     }, []);
 
     useEffect(() => {
         if (userStatus.transaction && userStatus.profilePic) {
             setUserStatus({ ...userStatus, completedProfile: true });
-            console.log(userStatus);
         }
         console.log(userStatus);
     }, [userStatus.transaction, userStatus.profilePic]);
@@ -137,8 +146,7 @@ export default function Information() {
             <Grid container spacing={2} sx={{width: '100%', justifyContent: 'center', flexDirection: 'row-reverse'}}>
                 <Grid item xs={12} sm={10} md={4}>
                     <Stack direction="column" spacing={2}>
-
-                        <TilePaper centered sx={{alignItems: 'center', justifyContent: 'center'}}>
+                        <TilePaper sx={{alignItems: 'center', justifyContent: 'center'}}>
                             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: '20px'}}>
                                 <Box sx={{width: '100px', height: '100px',position: 'relative'}}>
                                     <Avatar sx={{width: '100%', height: '100%', fontSize: '100px'}} src={userImage} />
@@ -163,7 +171,7 @@ export default function Information() {
                             <Divider>
                                 <Chip label="Date of birth" size="small" sx={{color: 'white'}}/>
                             </Divider>
-                            <Typography variant="subtitle1">{ userData.birthDate === '1111-01-01T00:00:00' ? '-' : userData.birthDate.slice(0, userData.birthDate.indexOf("T")) }</Typography>
+                            <Typography variant="subtitle1">{ userData.birthDate === '1111-01-01' ? '-' : userData.birthDate }</Typography>
                             <Divider>
                                 <Chip label="Phone number" size="small" sx={{color: 'white'}}/>
                             </Divider>

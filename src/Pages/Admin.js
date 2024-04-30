@@ -1,93 +1,73 @@
-import * as React from 'react';
-import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
+import React from 'react';
+import { Box, Chip, Divider, Stack, Typography, Paper, Hidden, createTheme, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Grid from '@mui/material/Unstable_Grid2';
+import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import HistoryIcon from '@mui/icons-material/History';
+import faHorseHead from '@fortawesome/free-solid-svg-icons/faHorseHead';
 
-import NewHorse from '../Components/AdminComponents/Manual/NewHorse';
-import NewJockey from '../Components/AdminComponents/Manual/NewJockey';
-import NewTrack from '../Components/AdminComponents/Manual/NewTrack';
-//import NewRace from '../Components/AdminComponents/Manual/NewRace';
+import AdminParticipants from '../Components/AdminComponents/AdminParticipants';
+import AdminRaces from '../Components/AdminComponents/AdminRaces';
+import AdminUsers from '../Components/AdminComponents/AdminUsers';
 
-import GenerateHorse from '../Components/AdminComponents/Generate/GenerateHorse';
-import GenerateJockey from '../Components/AdminComponents/Generate/GenerateJockey';
-import GenerateRace from '../Components/AdminComponents/Generate/GenerateRace';
+import useMediaQuery from '@mui/material/useMediaQuery';
+const theme = createTheme({});
 
+export default function Admin() {
 
-const Panel = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    backgroundColor: theme.palette.grey[300], 
+    const [currentPage, setCurrentPage] = React.useState(0);
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-    padding: theme.spacing(2),
-    textAlign: 'flex-start',
-    color: theme.palette.text.secondary,
-    maxWidth: '800px',
-    width: '100%',
-  }));
+    const handleCompChange = (component) => {
+        setCurrentPage(component);
+    }
 
-const Title = styled(Box)(({ theme }) => ({
-    ...theme.typography.body2,
-    backgroundColor: theme.palette.grey[300], 
-    fontSize: 40,
-    fontWeight: 800,
-    marginBottom: '10px',
-    borderBottom: '5px solid rgb(113, 113, 113)'
-  }));
-
-export default function AdminPage() {
-  const [horseManual, setHorseManual] = React.useState(true);
-  const [jockeyManual, setJockeyManual] = React.useState(true);
-  const [trackManual, setTrackManual] = React.useState(true);
-  const [raceManual, setRaceManual] = React.useState(true);
-  
     return (
-        <Stack className='Container' direction="column" justifyContent="flex-start" alignItems="center" spacing={2}>
-              <Panel> 
-                <Title>New horse</Title> 
-                <Box display="flex" justifyContent="space-between" margin="normal" paddingBottom={'10px'}>
-                  <Button variant={horseManual ? 'contained' : 'outlined'} onClick={() => setHorseManual(true)}>Add manually</Button>
-                  <Button variant={!horseManual ? 'contained' : 'outlined'} onClick={() => setHorseManual(false)}>Generate data</Button>
-                </Box>
-                { horseManual ? 
-                  <NewHorse /> 
-                  : 
-                  < GenerateHorse/>
-                }
-              </Panel>
-              <Panel> 
-                <Title className='title'>New jockey</Title> 
-                <Box display="flex" justifyContent="space-between" margin="normal" paddingBottom={'10px'}>
-                  <Button variant={jockeyManual ? 'contained' : 'outlined'} onClick={() => setJockeyManual(true)}>Add manually</Button>
-                  <Button variant={!jockeyManual ? 'contained' : 'outlined'} onClick={() => setJockeyManual(false)}>Generate data</Button>
-                </Box>
-                { jockeyManual ? 
-                  <NewJockey /> 
-                  : 
-                  < GenerateJockey/>
-                } 
-              </Panel>
-              <Panel> 
-                <Title className='title'>New track</Title>
-               <NewTrack />
-              </Panel>
-              <Panel> 
-                <Title className='title'>New Race</Title>
-                <Box display="flex" justifyContent="space-between" margin="normal" paddingBottom={'10px'}>
-                  <Button variant={raceManual ? 'contained' : 'outlined'} onClick={() => setRaceManual(true)}>Add manually</Button>
-                  <Button variant={!raceManual ? 'contained' : 'outlined'} onClick={() => setRaceManual(false)}>Generate data</Button>
-                </Box>
-                { raceManual ? 
-                  <>
-                    {/*<NewRace />*/}
-                    < GenerateRace/>
-                  </>
-                  : 
-                  < GenerateRace/>
-                }
-              </Panel>
-        </Stack>
-    );
-  }
-  
-  
+        <>
+            <Box sx={{
+             padding: isSmallScreen ? 'none' : '35px',
+             paddingTop: '50px'}}
+             >
+                <Grid container spacing={5} sx={{height: '100%'}}>
+                    <Grid item xs={12} md={8} sx={{ paddingBottom: '100px'}}>
+                        {currentPage === 0 && <AdminUsers />}
+                        {currentPage === 1 && <AdminRaces />}
+                        {currentPage === 2 && <AdminParticipants />}
+                    </Grid>
+                    {!isSmallScreen &&
+                        <Grid item xs={3} minWidth={'250px'}>
+                            <Stack spacing={2} alignItems={'center'} className='preventSelect' sx={{ paddingTop: '10px' }}>
+                                <Paper elevation={ currentPage === 0 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(0) }} >
+                                    <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >Users</Typography>
+                                </Paper>
+                                <Paper elevation={ currentPage === 1 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(1) }} >
+                                    <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >Races</Typography>
+                                </Paper>
+                                <Paper elevation={ currentPage === 2 ? 5 : 0} square sx={{ padding: '10px', backgroundColor: 'transparent', minWidth: '250px'}} onClick={() => { handleCompChange(2) }} >
+                                    <Typography sx={{ color: 'white', paddingLeft: '10px' }} variant='h5' >Participants</Typography>
+                                </Paper>
+                            </Stack>
+                        </Grid>
+                        }
+                </Grid>
+            </Box>
+            {isSmallScreen &&
+                <Box sx={{ width: '100%', position: 'absolute', bottom: 0}}>
+                <BottomNavigation
+                    showLabels
+                    value={currentPage}
+                    onChange={(event, newValue) => {
+                        handleCompChange(newValue);
+                    }}
+                    sx={{ backgroundColor: 'rgb(50, 50, 50)'}}
+                >
+                    <BottomNavigationAction sx={{color: 'white'}} label="Account" icon={<PeopleRoundedIcon />} />
+                    <BottomNavigationAction sx={{color: 'white'}} label="Payment" icon={<AccountBalanceWalletIcon />} />
+                    <BottomNavigationAction sx={{color: 'white'}} label="History" icon={<HistoryIcon />} />
+                </BottomNavigation>
+            </Box>
+            }
+    </>
+    )
+}

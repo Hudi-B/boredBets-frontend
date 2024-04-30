@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from 'react'; 
 import axios from 'axios';
 import { apiUrl } from '../../boredLocal';
-import {Stack, Tooltip, Paper, Grid, Box, Typography, Button, Hidden, Skeleton, ThemeProvider, Divider} from "@mui/material";
+import {Stack, Tooltip, Paper, Grid, Box, Typography, Button, Hidden, Skeleton, Divider, CircularProgress} from "@mui/material";
 import { useLocation } from 'react-router-dom';
 import CloudIcon from '@mui/icons-material/Cloud';
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
@@ -9,10 +9,7 @@ import StraightenIcon from '@mui/icons-material/Straighten';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { Link } from 'react-router-dom';
 import {secondaryColor, fontColor, FormatDate} from '../../boredLocal';
-
-
-import { useTheme } from '@mui/material/styles';
-
+import { useSelector } from 'react-redux';
 import BetScrollDownMenu from '../../Components/UI/BetScrollDownMenu';
 import ViewResults from '../../Components/UI/ViewResults';
 import NotFound from '../NotFound';
@@ -22,10 +19,12 @@ function App() {
   const [race, setRace] = useState();
   const [participants, setParticipants] = useState([]);
   const [pending, setPending] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [betAble, setBetAble] = useState(null);
   const [past, setPast] = useState(null);
   const [notFoundError, setNotFoundError] = useState(false);
-  const theme = useTheme();
+  const [loadingText, setLoadingText] = useState('');
+  const userData = useSelector((state) => state.auth);
 
   useEffect(() => {
     axios.get(`${apiUrl}Race/GetByRaceId?Id=`+raceId)
@@ -58,6 +57,7 @@ if(notFoundError) {
     <NotFound lookedFor={'race'} />
   );
 }
+
   const checkDate = (raceSceduled) => {
     const dateToCompare = new Date(raceSceduled);
     const currentDate = new Date();
@@ -70,7 +70,34 @@ if(notFoundError) {
     }
   };
 
-
+const forceSimulate = () => {
+  setLoading(true);
+  setLoadingText("Checking horses...");
+  
+  setTimeout(() => {
+    setLoadingText("Preparing track...");
+  }, 1500);
+  
+  setTimeout(() => {
+    setLoadingText("Racers on standby...");
+  }, 3000);
+  
+  setTimeout(() => {
+    setLoadingText("Almost there...");
+  }, 4000);
+  
+  setTimeout(() => {
+    axios.get(apiUrl+"Race/ForceStartRaceByRaceId?RaceId="+raceId)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      // handle the error here
+    }).finally(() => {
+      window.location.reload();
+    });
+  }, 5500);
+}
 
   
   function participantCard(participant) {
@@ -142,7 +169,6 @@ if(notFoundError) {
       window.open(mapUrl, '_blank');
     }
   };
-
   function showSkeletons() {
     const items = [];
     for (let index = 0; index < 20; index++) {
@@ -154,7 +180,27 @@ if(notFoundError) {
   }
 
   return (
-    <Box sx={{width: '100%', paddingBottom: 10}} >
+    <Box sx={{width: '100%', paddingBottom: 10}}>
+      {loading &&  
+      <Box
+          sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 9999,
+              color: 'white',
+              flexDirection: 'column',
+          }}
+      >
+          {loadingText}
+          <CircularProgress color='inherit' />
+      </Box>}
       <Box 
         sx={{
           marginBottom: 2,
@@ -202,15 +248,17 @@ if(notFoundError) {
               letterSpacing: '0.1em',    
               paddingX:2
                 }}>
-                <Box sx={{display: 'flex', alignItems: 'center'}}>
+                <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     Weather: 
                     {pending? 
                       <Skeleton width={"30px"} height={"40px"} animation="wave" /> 
                       :
                       race.rain?
-                        <CloudIcon/> 
-                          : 
-                        <WbSunnyRoundedIcon/>}  
+                      <Tooltip title="Rainy weather expected" aria-label="add">
+                        <CloudIcon />
+                      </Tooltip>
+                      : 
+                        <Tooltip title="Clean weather expected" aria-label="add"><WbSunnyRoundedIcon/></Tooltip>}  
                  </Box>
                 
                  <Box sx={{display: 'flex', alignItems: 'center'}}>
@@ -221,7 +269,6 @@ if(notFoundError) {
                     race.track.length}km
                   </Box>
             </Stack>
-
       </Box>
 
       <Stack
@@ -245,9 +292,8 @@ if(notFoundError) {
           </Button>
         </Tooltip>
       </Stack>
-
       <Typography sx={{marginLeft: 2}} variant="h5" color={fontColor}>In the competition:</Typography>
-      <Stack key={"btc"} direction="column" gap={1} sx={{paddingX: 2}}>
+      <Stack key={"btc"} direction="column" gap={1} sx={{paddingX: 2, marginBottom: 3}}>
         <Grid key={"btc1"} container sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
           {pending? 
         showSkeletons()
@@ -281,6 +327,14 @@ if(notFoundError) {
           <Typography> wait for the outcome, or find a new race to bet on.</Typography>
         </Box>
       )}
+
+      {(userData.isAdmin && betAble) &&
+      <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', marginTop: 3}}>
+        <Button variant="contained" sx={{margin: 1, paddingX:8, paddingY:1.5}} onClick={forceSimulate}>
+          Force Simulate
+        </Button>
+      </Box>
+    }
     </Box>
   );
 }
