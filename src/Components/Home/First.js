@@ -88,7 +88,7 @@ export default function First() {
                 justifyContent: 'center', 
                 alignItems: 'center'}}>
                 <Grid item sm={5} xs={12} sx={{justifyContent: 'center', display: 'flex', marginRight: 1, color:fontColor}}>
-                  {pending? 'RaceName': race.track_Name}
+                  {pending? 'RaceName': race.name}
                 </Grid>
                 <Hidden smUp>
                   <Divider sx={{width: '90%', borderColor: 'black'}} />
